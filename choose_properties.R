@@ -1,3 +1,6 @@
+#' @description Normalize amino acid properties, add properties from Wozniak 2014, 
+#' create a list of traits for encodings
+
 library(seqinr)
 library(dplyr)
 
@@ -16,7 +19,7 @@ colnames(aa_nprop) <- a(colnames(aa_nprop))
 #properties below are hydrophobicity scale that should be reversed
 aa_nprop[c(252, 519, 543, 544), ] <- 1 - aa_nprop[c(252, 519, 543, 544), ]
 
-#key for selecting properties - new (younger than XX years properties)
+#key for selecting properties - new (younger than 1990 years properties)
 
 traits <- list(size = 515,
                hydroph = c(494, 529, 528),
