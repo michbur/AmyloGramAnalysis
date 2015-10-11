@@ -13,8 +13,8 @@ all_traits_combn_list <- lapply(1L:5, function(i)
   t(combn(vtraits, i)))
 
 
-aa_groups <- lapply(3L:6, function(single_k)
-  lapply(all_traits_combn_list, function(all_traits_combn)
+aa_groups <- lapply(3L:6, function(single_k) {
+  res <- lapply(all_traits_combn_list, function(all_traits_combn)
     lapply(1L:nrow(all_traits_combn), function(single_trait_combn) {
       cl <- t(aa_nprop[unlist(all_traits_combn[single_trait_combn, , drop = FALSE]), , drop = FALSE]) %>%
         dist %>%
@@ -25,7 +25,12 @@ aa_groups <- lapply(3L:6, function(single_k)
       agg_gr <- lapply(unique(gr), function(single_group) names(gr[gr == single_group]))
       names(agg_gr) <- 1L:length(agg_gr)
       agg_gr
-    })) %>% unlist(recursive = FALSE))
+    })) %>% unlist(recursive = FALSE) 
+  names(res) <- paste0("ID", 1L:length(res))
+  res
+  })
+
+
 
 aa_id <- lapply(aa_groups, function(j) {
   sort_gr <- lapply(j, function(i) {
