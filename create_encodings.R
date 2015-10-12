@@ -26,11 +26,9 @@ aa_groups <- lapply(3L:6, function(single_k) {
       names(agg_gr) <- 1L:length(agg_gr)
       agg_gr
     })) %>% unlist(recursive = FALSE) 
-  names(res) <- paste0("ID", 1L:length(res))
+  names(res) <- paste0("ID", 1L:length(res), "K", single_k)
   res
-  })
-
-
+})
 
 aa_id <- lapply(aa_groups, function(j) {
   sort_gr <- lapply(j, function(i) {
