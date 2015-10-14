@@ -1,5 +1,6 @@
 library(seqinr)
 library(dplyr)
+library(pbapply)
 
 source("choose_properties.R")
 
@@ -9,11 +10,11 @@ grouping_properties <- aa_nprop[unlist(traits), ]
 vtraits <- unlist(traits)
 
 #all combinations of traits
-all_traits_combn_list <- lapply(1L:15, function(i)
+all_traits_combn_list <- pblapply(1L:length(vtraits), function(i)
   t(combn(vtraits, i)))
 
 #create encodings
-all_aa_groups <- lapply(3L:6, function(single_k) {
+all_aa_groups <- pblapply(3L:6, function(single_k) {
   res <- lapply(all_traits_combn_list, function(all_traits_combn)
     lapply(1L:nrow(all_traits_combn), function(single_trait_combn) {
       cl <- t(aa_nprop[unlist(all_traits_combn[single_trait_combn, , drop = FALSE]), , drop = FALSE]) %>%
