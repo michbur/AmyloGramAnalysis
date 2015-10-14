@@ -42,7 +42,7 @@ aa_groups <- unlist(lapply(1L:length(aa_id), function(i) {
   aa_groups[[i]][aa_id[[i]]]
 }), recursive = FALSE)
 
-
+#benchmark - two typical encodings from literature
 aa1 = list(`1` = c("g", "a", "p", "v", "l", "i", "m"), 
            `2` = c("k", "r", "h"), 
            `3` = c("d", "e"), 
@@ -54,4 +54,4 @@ aa2 = list(`1` = c("g", "a", "p", "v", "l", "i", "m", "f"),
            `4` = c("s", "t", "c", "n", "q", "y", "w"))
 
 
-aa_groups <- c(list(aa2), list(aa1), aa_groups)
+aa_groups <- c(aa1 = list(aa1), aa2 = list(aa2), aa_groups)
