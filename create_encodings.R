@@ -13,6 +13,7 @@ vtraits <- unlist(traits)
 #all combinations of traits
 all_traits_combn_list <- pblapply(1L:length(vtraits), function(i)
   t(combn(vtraits, i)))
+# number of combinations: sum(sapply(all_traits_combn_list, nrow))
 
 #create encodings
 all_aa_groups <- pblapply(3L:6, function(single_k) {
