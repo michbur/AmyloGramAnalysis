@@ -15,7 +15,7 @@ all_traits_combn_list <- pblapply(1L:length(vtraits), function(i)
   t(combn(vtraits, i)))
 
 #create encodings
-all_aa_groups <- pblapply(3L:4, function(single_k) {
+all_aa_groups <- pblapply(3L:6, function(single_k) {
   res <- lapply(all_traits_combn_list, function(all_traits_combn)
     mclapply(1L:nrow(all_traits_combn), function(single_trait_combn) {
       cl <- t(aa_nprop[unlist(all_traits_combn[single_trait_combn, , drop = FALSE]), , drop = FALSE]) %>%
