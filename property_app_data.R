@@ -56,6 +56,8 @@ ggplot(data.frame(pca_res[["scores"]]), aes(x = Comp.1, y = Comp.2, colour = Com
 
 #correlation plot
 
+
+tmp <- 1L:26
 nms <- names(plot_id)[as.numeric(tmp)]
 br_nms <- sapply(nms, function(single_nm) {
   len <- nchar(single_nm)
@@ -73,3 +75,11 @@ corm[["value_fac"]] <- round(corm[["value"]], 4)
 ggplot(data = corm, aes(x=Var1, y=Var2, fill=value, label = value_fac)) + 
   geom_tile() +
   geom_text()
+
+corm <- melt(cor(plot_values[, as.numeric(tmp)]))
+nms <- names(plot_id)[as.numeric(tmp)]
+corm[["Var1"]] <- factor(corm[["Var1"]], labels = nms)
+corm[["Var2"]] <- factor(corm[["Var2"]], labels = nms)
+
+lapply(levels(corm[["Var1"]]), function(i)
+  corm[corm[["Var1"]] == i & corm[["Var2"]] != i & abs(corm[["value"]]) > 0.8, ])
