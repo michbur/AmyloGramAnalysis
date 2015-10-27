@@ -26,6 +26,6 @@ years <- prop_MK %>% select(name) %>% unlist %>% as.character %>% sapply(functio
   strsplit(last(strsplit(i, ", ")[[1]]), ")", fixed = TRUE)[[1]][1]) %>%
   as.numeric
 
-prop_MK <- cbind(prop_MK, years = years) %>% filter(years > 1980)
+prop_MK <- cbind(prop_MK, years = years) %>% filter(years >= 1980)
 
 traits <- c(prop_MK[["X"]], 545:550)
