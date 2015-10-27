@@ -2,7 +2,12 @@ library(shiny)
 library(reshape2)
 load("properties.RData")
 
-
+props_order <- c(1, 6, 10, 13, 16, 17, 18, 19, 20, #hydroph
+                 3, 9, #polarity
+                 2, 5, 8, 14, 21:26, #contact
+                 4, 7, 11, #beta prob 
+                 12, #stability
+                 15) #size
 
 shinyUI(fluidPage(
   
