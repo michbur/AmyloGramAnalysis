@@ -1,14 +1,13 @@
 library(seqinr)
 library(dplyr)
 library(pbapply)
-library(parallel)
 
 source("choose_properties.R")
 
-grouping_properties <- aa_nprop[unlist(traits), ]
+grouping_properties <- aa_nprop[unlist(ftraits), ]
 
 #vector of traits
-vtraits <- unlist(traits)
+vtraits <- unlist(ftraits)
 
 #all combinations of traits
 all_traits_combn_list <- pblapply(1L:length(vtraits), function(i)
@@ -18,7 +17,7 @@ all_traits_combn_list <- pblapply(1L:length(vtraits), function(i)
 #create encodings
 all_aa_groups <- pblapply(3L:6, function(single_k) {
   res <- lapply(all_traits_combn_list, function(all_traits_combn)
-    mclapply(1L:nrow(all_traits_combn), function(single_trait_combn) {
+    lapply(1L:nrow(all_traits_combn), function(single_trait_combn) {
       cl <- t(aa_nprop[unlist(all_traits_combn[single_trait_combn, , drop = FALSE]), , drop = FALSE]) %>%
         dist %>%
         hclust(method = "ward.D2")
@@ -31,7 +30,7 @@ all_aa_groups <- pblapply(3L:6, function(single_k) {
       agg_gr <- lapply(agg_gr, sort)
       #groups are sorted by their length
       agg_gr[order(lengths(agg_gr))]
-    }, mc.cores = 2)) %>% unlist(recursive = FALSE) 
+    })) %>% unlist(recursive = FALSE) 
   names(res) <- paste0("ID", 1L:length(res), "K", single_k)
   res
 })

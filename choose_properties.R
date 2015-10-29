@@ -9,6 +9,15 @@ data("aaindex")
 aa_props <- sapply(aaindex, function(i) i[["I"]])
 tableA <- read.table("tableA.csv", sep = ";", dec = ".", head = TRUE)
 
+#names for additional properties
+add_names <- c("Values of Wc in proteins from class Beta, cutoff 6 A, separation 5 (Wozniak-Kotulska, 2014)",
+               "Values of Wc in proteins from class Beta, cutoff 8 A, separation 5 (Wozniak-Kotulska, 2014)",
+               "Values of Wc in proteins from class Beta, cutoff 12 A, separation 5 (Wozniak-Kotulska, 2014)",
+               "Values of Wc in proteins from class Beta, cutoff 6 A, separation 15 (Wozniak-Kotulska, 2014)",
+               "Values of Wc in proteins from class Beta, cutoff 8 A, separation 15 (Wozniak-Kotulska, 2014)",
+               "Values of Wc in proteins from class Beta, cutoff 12 A, separation 15 (Wozniak-Kotulska, 2014)")
+
+
 aa_nprop <- t(apply(cbind(aa_props, tableA[tableA[["X"]] %>% as.character %>% aaa %>% order, 2L:7]), 2, function(i) {
   res <- i - min(i, na.rm = TRUE)
   res/max(res, na.rm = TRUE)
@@ -29,3 +38,8 @@ years <- prop_MK %>% select(name) %>% unlist %>% as.character %>% sapply(functio
 prop_MK <- cbind(prop_MK, years = years) %>% filter(years >= 1980)
 
 traits <- c(prop_MK[["X"]], 545:550)
+
+traits_names <- c(sapply(prop_MK[["X"]], function(i) aaindex[[i]][["D"]]), 
+                  add_names)
+#final traits
+ftraits <- traits[-c(6, 13, 18, 19, 20, 21, 22, 24, 25)]

@@ -15,13 +15,6 @@ mplot_values <- melt(plot_values)
 colnames(mplot_values) <- c("aa", "id", "value")
 mplot_values[["id"]] <- as.factor(mplot_values[["id"]])
 
-#names for additional properties
-add_names <- c("Values of Wc in proteins from class Beta, cutoff 6 A, separation 5 (Wozniak-Kotulska, 2014)",
-               "Values of Wc in proteins from class Beta, cutoff 8 A, separation 5 (Wozniak-Kotulska, 2014)",
-               "Values of Wc in proteins from class Beta, cutoff 12 A, separation 5 (Wozniak-Kotulska, 2014)",
-               "Values of Wc in proteins from class Beta, cutoff 6 A, separation 15 (Wozniak-Kotulska, 2014)",
-               "Values of Wc in proteins from class Beta, cutoff 8 A, separation 15 (Wozniak-Kotulska, 2014)",
-               "Values of Wc in proteins from class Beta, cutoff 12 A, separation 15 (Wozniak-Kotulska, 2014)")
 
 plot_names <- prop_MK %>% select(name) %>% unlist %>% as.character %>% c(., add_names)
 plot_id <- 1L:length(plot_names)
