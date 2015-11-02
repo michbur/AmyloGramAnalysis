@@ -56,6 +56,6 @@ aa2 = list(`1` = c("g", "a", "p", "v", "l", "i", "m", "f"),
            `3` = c("d", "e"), 
            `4` = c("s", "t", "c", "n", "q", "y", "w"))
 
-aa_groups <- c(aa1 = paste_enc(aa1), paste_enc = list(aa2), aa_groups)
+aa_groups <- c(aa1 = paste_enc(aa1), aa2 = paste_enc(aa2), aa_groups)
 
 save(aa_groups, file = "aa_groups.RData")
