@@ -2,6 +2,9 @@ library(seqinr)
 library(dplyr)
 library(pbapply)
 
+paste_enc <- function(x)
+  paste0(sapply(x, paste0, collapse = ""), collapse = "_")
+
 source("choose_properties.R")
 
 grouping_properties <- aa_nprop[unlist(ftraits), ]
@@ -16,8 +19,8 @@ all_traits_combn_list <- pblapply(1L:length(vtraits), function(i)
 
 #create encodings
 all_aa_groups <- pblapply(3L:6, function(single_k) {
-  res <- lapply(all_traits_combn_list, function(all_traits_combn)
-    lapply(1L:nrow(all_traits_combn), function(single_trait_combn) {
+  res <- unlist(lapply(all_traits_combn_list, function(all_traits_combn)
+    vapply(1L:nrow(all_traits_combn), function(single_trait_combn) {
       cl <- t(aa_nprop[unlist(all_traits_combn[single_trait_combn, , drop = FALSE]), , drop = FALSE]) %>%
         dist %>%
         hclust(method = "ward.D2")
@@ -25,18 +28,17 @@ all_aa_groups <- pblapply(3L:6, function(single_k) {
       gr <- cutree(cl, k = single_k)
       names(gr) <- tolower(names(gr))
       agg_gr <- lapply(unique(gr), function(single_group) names(gr[gr == single_group]))
-      names(agg_gr) <- 1L:length(agg_gr)
       #inside encodings, amino acids are ordered alphabetically
       agg_gr <- lapply(agg_gr, sort)
       #groups are sorted by their length
-      agg_gr[order(lengths(agg_gr))]
-    })) %>% unlist(recursive = FALSE) 
+      paste_enc(agg_gr[order(lengths(agg_gr))])
+    }, "a")))
   names(res) <- paste0("ID", 1L:length(res), "K", single_k)
   res
 })
 
 #get indices of unique encodings
-aa_id <- lapply(all_aa_groups, function(i) !duplicated(t(sapply(i, unlist))))
+aa_id <- lapply(all_aa_groups, function(i) !duplicated(i))
 
 #remove from aa_groups redundant encodings
 aa_groups <- unlist(lapply(1L:length(aa_id), function(i) {
@@ -54,6 +56,6 @@ aa2 = list(`1` = c("g", "a", "p", "v", "l", "i", "m", "f"),
            `3` = c("d", "e"), 
            `4` = c("s", "t", "c", "n", "q", "y", "w"))
 
-aa_groups <- c(aa1 = list(aa1), aa2 = list(aa2), aa_groups)
+aa_groups <- c(aa1 = paste_enc(aa1), paste_enc = list(aa2), aa_groups)
 
-save(aa_groups, file = "aa_groupds.RData")
+save(aa_groups, file = "aa_groups.RData")
