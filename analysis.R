@@ -1,5 +1,5 @@
-source("choose_properties.R")
-source("create_encodings.R")
+source("./functions/choose_properties.R")
+source("./functions/create_encodings.R")
 
 ftraits <- choode_properties()
 aa_groups <- create_encodings(ftraits)

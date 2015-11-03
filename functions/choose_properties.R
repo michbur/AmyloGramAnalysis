@@ -1,7 +1,11 @@
-#' @description Normalize amino acid properties, add properties from Wozniak 2014, 
+#' Add 1-grams
+#'
+#' Normalize amino acid properties, add properties from Wozniak 2014, 
 #' create a list of traits for encodings
+#'
+#' @return a vector of trait indices in the expanded aaindex table
 
-choode_properties <- function() {
+choose_properties <- function() {
   require(seqinr)
   require(dplyr)
   
@@ -43,5 +47,7 @@ choode_properties <- function() {
   traits_names <- c(sapply(prop_MK[["X"]], function(i) aaindex[[i]][["D"]]), 
                     add_names)
   #final traits
+  #removed redundant hydrophobicities and interactivities. Left interactivities and hydrophobicities
+  #with the highest correlation with other parameters
   traits[-c(6, 13, 18, 19, 20, 21, 22, 24, 25)]
 }
