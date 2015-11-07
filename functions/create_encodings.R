@@ -1,4 +1,11 @@
-
+#' Create encodings
+#'
+#' Creates encodings (3-6 groups long) from list of traits.
+#' @param vtraits a vector of trait indices in the expanded aaindex table
+#' create by \code{\link{choose_properties}}.
+#'
+#' @return a named vector of encodings (for example 
+#' \code{iknty_degpqrs_acfhlmvw})
 
 create_encodings <- function(vtraits) {
   require(seqinr)

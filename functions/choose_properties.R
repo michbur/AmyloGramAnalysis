@@ -1,7 +1,7 @@
-#' Add 1-grams
+#' Choose properties
 #'
-#' Normalize amino acid properties, add properties from Wozniak 2014, 
-#' create a list of traits for encodings
+#' Normalizes amino acid properties from AAIndex, adds properties 
+#' from Wozniak 2014, creates a list of traits for encodings
 #'
 #' @return a vector of trait indices in the expanded aaindex table
 
