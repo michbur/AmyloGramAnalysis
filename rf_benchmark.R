@@ -4,6 +4,7 @@ library(seqinr)
 #library(bigrf) #windows only
 library(biogram)
 library(microbenchmark)
+library(pbapply)
 
 create_data <- function(n_seq = 500, n = 2) {
   n_seq <- 500
@@ -21,7 +22,7 @@ do_benchmark <- function(dat)
 
 nn <- expand.grid(n_seq = c(100, 500, 1000, 2000, 5000), n = 1L:4)
 
-rf_benchmark <- lapply(1L:nrow(nn), function(i) {
+rf_benchmark <- pblapply(1L:nrow(nn), function(i) {
   do_benchmark(create_data(nn[i, 1], nn[i, 2]))
 })
 
