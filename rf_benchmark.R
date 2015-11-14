@@ -17,7 +17,7 @@ do_benchmark <- function(dat)
   microbenchmark(randomForest::randomForest(tar ~ ., dat),
                  party::cforest(tar ~ ., dat),
                  ranger::ranger(tar ~ ., dat), 
-                 bigrf::bigrfc(dat[, -ncol(dat)], dat[ncol(dat)]),
+                 bigrf::bigrfc(dat[, -ncol(dat)], dat[, ncol(dat)]),
                  unit = "s")
 
 nn <- expand.grid(n_seq = c(100, 500, 1000, 2000, 5000), n = 1L:4)
