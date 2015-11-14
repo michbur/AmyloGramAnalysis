@@ -16,7 +16,7 @@ create_data <- function(n_seq = 500, n = 2) {
 do_benchmark <- function(dat)
   microbenchmark(randomForest::randomForest(tar ~ ., dat),
                  party::cforest(tar ~ ., dat),
-                 ranger::ranger(tar ~ ., dat)), 
+                 ranger::ranger(tar ~ ., dat), 
                  #bigrf::bigrfc(dat[, -ncol(dat)], dat[, ncol(dat)]),
                  unit = "s")
 
