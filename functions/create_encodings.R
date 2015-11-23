@@ -12,6 +12,8 @@ create_encodings <- function(vtraits) {
   paste_enc <- function(x)
     paste0(sapply(x, paste0, collapse = ""), collapse = "_")
   
+  aa_nprop <- normalize_properties()
+  
   grouping_properties <- aa_nprop[unlist(ftraits), ]
   
   #vector of traits

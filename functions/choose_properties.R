@@ -11,14 +11,15 @@ normalize_properties <- function() {
   aa_props <- sapply(aaindex, function(i) i[["I"]])
   tableA <- read.table("tableA.csv", sep = ";", dec = ".", head = TRUE)
   
-  #names for additional properties
-  add_names <- c("Values of Wc in proteins from class Beta, cutoff 6 A, separation 5 (Wozniak-Kotulska, 2014)",
-                 "Values of Wc in proteins from class Beta, cutoff 8 A, separation 5 (Wozniak-Kotulska, 2014)",
-                 "Values of Wc in proteins from class Beta, cutoff 12 A, separation 5 (Wozniak-Kotulska, 2014)",
-                 "Values of Wc in proteins from class Beta, cutoff 6 A, separation 15 (Wozniak-Kotulska, 2014)",
-                 "Values of Wc in proteins from class Beta, cutoff 8 A, separation 15 (Wozniak-Kotulska, 2014)",
-                 "Values of Wc in proteins from class Beta, cutoff 12 A, separation 15 (Wozniak-Kotulska, 2014)")
-  
+  #names for additional properties, all names commented out
+#   add_names <- c("Values of Wc in proteins from class Beta, cutoff 6 A, separation 5 (Wozniak-Kotulska, 2014)",
+#                  "Values of Wc in proteins from class Beta, cutoff 8 A, separation 5 (Wozniak-Kotulska, 2014)",
+#                  "Values of Wc in proteins from class Beta, cutoff 12 A, separation 5 (Wozniak-Kotulska, 2014)",
+#                  "Values of Wc in proteins from class Beta, cutoff 6 A, separation 15 (Wozniak-Kotulska, 2014)",
+#                  "Values of Wc in proteins from class Beta, cutoff 8 A, separation 15 (Wozniak-Kotulska, 2014)",
+#                  "Values of Wc in proteins from class Beta, cutoff 12 A, separation 15 (Wozniak-Kotulska, 2014)")
+#   traits_names <- c(sapply(prop_MK[["X"]], function(i) aaindex[[i]][["D"]]), 
+#                     add_names)
   
   aa_nprop <- t(apply(cbind(aa_props, tableA[tableA[["X"]] %>% as.character %>% aaa %>% order, 2L:7]), 2, function(i) {
     res <- i - min(i, na.rm = TRUE)
@@ -35,36 +36,13 @@ normalize_properties <- function() {
 
 #' Choose properties
 #'
-#' Normalizes amino acid properties from AAIndex, adds properties 
-#' from Wozniak 2014, creates a list of traits for encodings
+#' Creates a list of traits for encodings
 #'
 #' @return a vector of trait indices in the expanded aaindex table
 
 choose_properties <- function() {
   
-  data("aaindex")
-  
-  aa_props <- sapply(aaindex, function(i) i[["I"]])
-  tableA <- read.table("tableA.csv", sep = ";", dec = ".", head = TRUE)
-  
-  #names for additional properties
-  add_names <- c("Values of Wc in proteins from class Beta, cutoff 6 A, separation 5 (Wozniak-Kotulska, 2014)",
-                 "Values of Wc in proteins from class Beta, cutoff 8 A, separation 5 (Wozniak-Kotulska, 2014)",
-                 "Values of Wc in proteins from class Beta, cutoff 12 A, separation 5 (Wozniak-Kotulska, 2014)",
-                 "Values of Wc in proteins from class Beta, cutoff 6 A, separation 15 (Wozniak-Kotulska, 2014)",
-                 "Values of Wc in proteins from class Beta, cutoff 8 A, separation 15 (Wozniak-Kotulska, 2014)",
-                 "Values of Wc in proteins from class Beta, cutoff 12 A, separation 15 (Wozniak-Kotulska, 2014)")
-  
-  
-  aa_nprop <- t(apply(cbind(aa_props, tableA[tableA[["X"]] %>% as.character %>% aaa %>% order, 2L:7]), 2, function(i) {
-    res <- i - min(i, na.rm = TRUE)
-    res/max(res, na.rm = TRUE)
-  }))
-  
-  colnames(aa_nprop) <- a(colnames(aa_nprop))
-  
-  #properties below are hydrophobicity scales that should be reversed
-  aa_nprop[c(252, 519, 543, 544), ] <- 1 - aa_nprop[c(252, 519, 543, 544), ]
+  aa_nprop <- normalize_properties()
   
   #key for selecting properties - new (younger than 1980 years properties)
   prop_MK <- read.csv2("AA_index_mk2.csv") %>% filter(!is.na(chosen))
@@ -77,8 +55,6 @@ choose_properties <- function() {
   
   traits <- c(prop_MK[["X"]], 545:550)
   
-  traits_names <- c(sapply(prop_MK[["X"]], function(i) aaindex[[i]][["D"]]), 
-                    add_names)
   #final traits
   #removed redundant hydrophobicities and interactivities. Left interactivities and hydrophobicities
   #with the highest correlation with other parameters
