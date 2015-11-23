@@ -5,9 +5,7 @@
 #'
 #' @return a 550 x 20 matrix of normalized properties.
 
-
 normalize_properties <- function() {
-  
   data("aaindex")
   
   aa_props <- sapply(aaindex, function(i) i[["I"]])
