@@ -1,3 +1,40 @@
+#' Normalize properties
+#'
+#' Normalizes amino acid properties from AAIndex and adds properties 
+#' from Wozniak 2014 (also normalized)
+#'
+#' @return a 550 x 20 matrix of normalized properties.
+
+
+normalize_properties <- function() {
+  
+  data("aaindex")
+  
+  aa_props <- sapply(aaindex, function(i) i[["I"]])
+  tableA <- read.table("tableA.csv", sep = ";", dec = ".", head = TRUE)
+  
+  #names for additional properties
+  add_names <- c("Values of Wc in proteins from class Beta, cutoff 6 A, separation 5 (Wozniak-Kotulska, 2014)",
+                 "Values of Wc in proteins from class Beta, cutoff 8 A, separation 5 (Wozniak-Kotulska, 2014)",
+                 "Values of Wc in proteins from class Beta, cutoff 12 A, separation 5 (Wozniak-Kotulska, 2014)",
+                 "Values of Wc in proteins from class Beta, cutoff 6 A, separation 15 (Wozniak-Kotulska, 2014)",
+                 "Values of Wc in proteins from class Beta, cutoff 8 A, separation 15 (Wozniak-Kotulska, 2014)",
+                 "Values of Wc in proteins from class Beta, cutoff 12 A, separation 15 (Wozniak-Kotulska, 2014)")
+  
+  
+  aa_nprop <- t(apply(cbind(aa_props, tableA[tableA[["X"]] %>% as.character %>% aaa %>% order, 2L:7]), 2, function(i) {
+    res <- i - min(i, na.rm = TRUE)
+    res/max(res, na.rm = TRUE)
+  }))
+  
+  colnames(aa_nprop) <- a(colnames(aa_nprop))
+  
+  #properties below are hydrophobicity scales that should be reversed
+  aa_nprop[c(252, 519, 543, 544), ] <- 1 - aa_nprop[c(252, 519, 543, 544), ]
+  
+  aa_nprop
+}
+
 #' Choose properties
 #'
 #' Normalizes amino acid properties from AAIndex, adds properties 
@@ -6,8 +43,6 @@
 #' @return a vector of trait indices in the expanded aaindex table
 
 choose_properties <- function() {
-  require(seqinr)
-  require(dplyr)
   
   data("aaindex")
   

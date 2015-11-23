@@ -8,10 +8,7 @@
 #' \code{iknty_degpqrs_acfhlmvw})
 
 create_encodings <- function(vtraits) {
-  require(seqinr)
-  require(dplyr)
-  require(pbapply)
-  
+
   paste_enc <- function(x)
     paste0(sapply(x, paste0, collapse = ""), collapse = "_")
   
@@ -67,4 +64,3 @@ create_encodings <- function(vtraits) {
   c(aa1 = paste_enc(aa1), aa2 = paste_enc(aa2), aa_groups)
 }
 
-save(aa_groups, file = "aa_groups.RData")

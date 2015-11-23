@@ -1,4 +1,4 @@
-source("choose_properties.R")
+source("./functions/choose_properties.R")
 
 library(dplyr)
 library(reshape2)

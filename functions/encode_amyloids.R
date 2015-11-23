@@ -1,6 +1,5 @@
 #recover encoding from the string
 vector2list <- function(x){
-  require(dplyr)
   lapply(x, function(i) {
     pasted_group <- strsplit(i, "_", fixed = TRUE)
     lapply(pasted_group, function(j) strsplit(j, ""))
@@ -10,8 +9,6 @@ vector2list <- function(x){
 
 
 extract_ngrams <- function(seq, aa_groups) {
-  require(biogram)
-  
   gl <- lapply(1L:nrow(seq), function(i) {
     res <- do.call(rbind, strsplit(decode_ngrams(seq2ngrams(seq[i, ][!is.na(seq[i, ])], 6, a()[-1])), ""))
     cbind(res, id = paste0("P", rep(i, nrow(res))))
@@ -34,6 +31,5 @@ extract_ngrams <- function(seq, aa_groups) {
 
 
 
-pos_gl <- extract_ngrams(pos_data)
-neg_gl <- extract_ngrams(neg_data)
+
 
