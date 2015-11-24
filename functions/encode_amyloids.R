@@ -28,6 +28,7 @@ extract_ngrams <- function(seq, aa_groups) {
     cbind(res, id = paste0("P", rep(i, nrow(res))))
   })
   
+  #very time consuming
   pblapply(aa_groups, function(single_group) 
     lapply(gl, function(single_protein) {
       bitrigrams <- as.matrix(count_multigrams(ns = c(1, rep(2, 4), rep(3, 3)), 
