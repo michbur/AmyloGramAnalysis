@@ -1,3 +1,4 @@
+# this script probably does not longer work because of the changes in choose_properties.R
 source("./functions/choose_properties.R")
 
 library(dplyr)
