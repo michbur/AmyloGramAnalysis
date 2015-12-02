@@ -16,9 +16,13 @@ ftraits <- choose_properties()
 load("aa_groups.RData")
 aa_groups <- string2list(aa_groups)
 
-seqs_list <- c(read.fasta("./data/amyloid_pos_full.fasta",seqtype = "AA"),
+raw_seqs_list <- c(read.fasta("./data/amyloid_pos_full.fasta",seqtype = "AA"),
                read.fasta("./data/amyloid_neg_full.fasta",seqtype = "AA"))
-seqs_list <- seqs_list[lengths(seqs_list) > 5]
+seqs_list <- raw_seqs_list[lengths(raw_seqs_list) > 5]
+
+ets <- c(rep(1, length(read.fasta("./data/amyloid_pos_full.fasta",seqtype = "AA"))),
+         rep(0, length(read.fasta("./data/amyloid_neg_full.fasta",seqtype = "AA"))))
+ets <- ets[lengths(raw_seqs_list) > 5]
 
 seqs_m <- tolower(t(sapply(seqs_list, function(i)
   c(i, rep(NA, max(lengths(seqs_list)) - length(i))))))
