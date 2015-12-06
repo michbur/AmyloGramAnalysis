@@ -6,6 +6,7 @@ require(seqinr)
 require(dplyr)
 require(pbapply)
 require(biogram)
+require(ranger)
 
 
 ftraits <- choose_properties()
@@ -23,6 +24,7 @@ seqs_list <- raw_seqs_list[lengths(raw_seqs_list) > 5]
 ets <- c(rep(1, length(read.fasta("./data/amyloid_pos_full.fasta",seqtype = "AA"))),
          rep(0, length(read.fasta("./data/amyloid_neg_full.fasta",seqtype = "AA"))))
 ets <- ets[lengths(raw_seqs_list) > 5]
+seq_lengths <- unname(lengths(seqs_list))
 
 seqs_m <- tolower(t(sapply(seqs_list, function(i)
   c(i, rep(NA, max(lengths(seqs_list)) - length(i))))))
