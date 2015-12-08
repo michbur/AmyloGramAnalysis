@@ -5,15 +5,22 @@ fold_res <- lapply(c(6, 10, 15), function(constant) {
   pos_train <- which(ets == 1 & seq_lengths < 7)
   neg_train <- which(ets == 0 & seq_lengths < 16)
   
+  fold_list_train <- lapply(list(pos_train, neg_train), function(single_n) {
+    folded <- cvFolds(length(single_n), K = 5)
+    data.frame(id = single_n[folded[["subsets"]]], which = folded[["which"]])
+  })
   
-  pos_constant <- apply(pos_data, 1, function(i) length(i) - sum(is.na(i))) <= constant
-  neg_constant <- apply(neg_data, 1, function(i) length(i) - sum(is.na(i))) > constant
+  pos_test <- which(ets == 1 & seq_lengths >= 7)
+  neg_test <- which(ets == 0 & seq_lengths >= 16)
+
+  #test only splitted in four
+  fold_list_test <- lapply(list(pos_test, neg_test), function(single_n) {
+    folded <- cvFolds(length(single_n), K = 4)
+    data.frame(id = single_n[folded[["subsets"]]], which = folded[["which"]])
+  })
   
   lapply(1L:8, function(dummy) {
-    fold_list <- lapply(list(pos_constant, !pos_constant, neg_constant, !neg_constant), function(single_n) {
-      folded <- cvFolds(sum(single_n), K = 5)
-      cbind(id = which(single_n)[folded[["subsets"]]], which = folded[["which"]])
-    })
+
     
     lapply(1L:5, function(fold) {
       lapply(1L:length(aa_groups), function(group_id) {
