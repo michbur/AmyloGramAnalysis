@@ -6,6 +6,9 @@
 #' @param ets a vector of etiquettes (0 or 1).
 #' @param ets a vector of lengths of sequences.
 #' 
+#' @note The classifier of choice is the \code{\link{[ranger]ranger}} implementation of 
+#' random forests algorithm.
+#' 
 #' @return List of length equal to the number of repetitions of cross-validation.
 #' Each element of the list is a list with the number of elements equal to the number 
 #' of encodings. Each element of this list contains a list with two elements:
@@ -13,13 +16,14 @@
 #' b) list of important n-grams as found by \code{\link[biogram]{test_features}}.
 
 do_cv <- function(extracted_ngrams, ets, seq_lengths) {
-  fold_res <- lapply(1L:10, function(dummy) {
-    
-    pos_train <- which(ets == 1 & seq_lengths < 7)
-    neg_train <- which(ets == 0 & seq_lengths < 16)
-    
-    pos_test <- which(ets == 1 & seq_lengths >= 7)
-    neg_test <- which(ets == 0 & seq_lengths >= 16)
+  
+  pos_train <- which(ets == 1 & seq_lengths < 7)
+  neg_train <- which(ets == 0 & seq_lengths < 16)
+  
+  pos_test <- which(ets == 1 & seq_lengths >= 7)
+  neg_test <- which(ets == 0 & seq_lengths >= 16)
+  
+  lapply(1L:2, function(dummy) {
     
     fold_list <- lapply(list(pos_train, pos_test, neg_train, neg_test), function(single_n) {
       folded <- cvFolds(length(single_n), K = 5)

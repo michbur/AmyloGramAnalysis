@@ -32,6 +32,5 @@ seqs_m <- tolower(t(sapply(seqs_list, function(i)
 
 #for single aa_group around 85 sec
 extracted_ngrams <- extract_ngrams(seqs_m, aa_groups)
-#extracted_ngrams1_2500 <- extract_ngrams(seqs_m, aa_groups[1L:2500])
-#save(extracted_ngrams1_2500, file = "extracted_ngrams1_2500.RData")
-#cat("Dobra robota", file = "/home/michal/Dropbox/done.txt")
+
+cv_results <- do_cv(extracted_ngrams, ets, seq_lengths)
