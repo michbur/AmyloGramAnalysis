@@ -1,6 +1,6 @@
 #' Convert encoding from string to list
 #'
-#' Conversts encodings from string format to list.
+#' Converts encodings from string format to list.
 #' @param x vector of encodings in the string format.
 #' 
 #' @return List of encodings in the list format.

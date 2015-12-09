@@ -6,6 +6,7 @@ require(seqinr)
 require(dplyr)
 require(pbapply)
 require(biogram)
+require(cvTools)
 require(ranger)
 
 
