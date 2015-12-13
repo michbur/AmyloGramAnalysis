@@ -1,3 +1,25 @@
+#' Create all combinations of traits
+#'
+#' Creates all combinations of input traits.
+#' @param vtraits a vector of trait indices in the expanded aaindex table
+#' create by \code{\link{choose_properties}}.
+#'
+#' @return a list of traits combinations of given length (from single trait to
+#' all traits).
+
+
+create_traits_combination <- function(ftraits) {
+  #vector of traits
+  vtraits <- unlist(ftraits)
+  
+  #all combinations of traits
+  #number of combinations: sum(sapply(all_traits_combn_list, nrow))
+  pblapply(1L:length(vtraits), function(i)
+    t(combn(vtraits, i)))
+}
+
+
+
 #' Create encodings
 #'
 #' Creates encodings (3-6 groups long) from list of traits.
@@ -7,8 +29,8 @@
 #' @return a named vector of encodings (for example 
 #' \code{iknty_degpqrs_acfhlmvw})
 
-create_encodings <- function(vtraits) {
-
+create_encodings <- function(ftraits) {
+  
   paste_enc <- function(x)
     paste0(sapply(x, paste0, collapse = ""), collapse = "_")
   
@@ -16,13 +38,7 @@ create_encodings <- function(vtraits) {
   
   grouping_properties <- aa_nprop[unlist(ftraits), ]
   
-  #vector of traits
-  vtraits <- unlist(ftraits)
-  
-  #all combinations of traits
-  all_traits_combn_list <- pblapply(1L:length(vtraits), function(i)
-    t(combn(vtraits, i)))
-  # number of combinations: sum(sapply(all_traits_combn_list, nrow))
+  all_traits_combn_list <- create_traits_combination(vtraits)
   
   #create encodings
   all_aa_groups <- pblapply(3L:6, function(single_k) {
