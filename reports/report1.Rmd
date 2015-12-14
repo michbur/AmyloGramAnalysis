@@ -1,0 +1,32 @@
+---
+title: "Encodings and cross-validation"
+author: "Michal Burdukiewicz, Piotr Sobczyk"
+output: html_document
+bibliography: amyloids.bib
+---
+
+```{r, echo = FALSE, message = FALSE, results='asis'}
+source("./functions/report_functions.R")
+```
+
+Date: `r Sys.Date()`
+
+# Encodings of amino acids
+
+The amylodogenicity of given peptide may not depend on the exact sequence of amino acids, but on its more general properties. To verify this hypothesis, we created 18 537 reduced amino acid alphabets with different lengths (from three to six letters).
+
+## Physicochemical properties
+
+We created the reduced alphabet of amino acids using Ward's clusterization on the selected physicochemical properties. We picked several measures belonging to more general categories important in process of amylodogenicity as size, hydrophobicity, solvent surface area, frequency in $\beta$-sheets and contactivity. As the rule of thumb, we limited ourselves to properties introduced after 1980 when, thanks to the technological advancements, the measurements were more accurate.
+
+We further reduced the number of properties to 17, by selecting measures uncorrelated with others (with the Pearson's correlation coefficient for normalized values larger than 0.95 or smaller than 0.05) since they would create very similar encodings.
+
+```{r, echo = FALSE, message = FALSE, results='asis'}
+choose_properties() %>%
+  format_property_table %>%
+  kable(format = "pandoc")
+```
+
+## Encoding distance
+
+The encoding distance between two encodings is defined
