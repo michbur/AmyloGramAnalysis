@@ -29,4 +29,6 @@ choose_properties() %>%
 
 ## Encoding distance
 
-The encoding distance between two encodings is defined
+The encoding distance between **a** and **b** is defined as the minimum number of amino acids that have to be moved between subgroups of encoding to make **a** identical to **b** (the order of subgroups in the encoding and amino acids in a group is unimportant).
+
+The encoding distance may be further scaled by a factor which is equal to the

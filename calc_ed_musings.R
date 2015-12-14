@@ -1,5 +1,5 @@
 bi <- 50
-ai <- 5000
+ai <- 25
 b <- aa_groups[[bi]]
 a <- aa_groups[[ai]]
 
