@@ -34,11 +34,11 @@ coords_b <- lapply(b, function(single_subgroup) rowMeans(a_prop[, single_subgrou
 
 # finished - distance as the minimum difference in properties between groups
 # how to deal with encodings with the unequal number of groups
-sum(sapply(coords_a, function(single_coords_a) {
+sapply(coords_a, function(single_coords_a) {
   distances <- sapply(coords_b, function(single_coords_b) 
     #vector of distances between groups
     sqrt(sum((single_coords_a - single_coords_b)^2))
   )
   #c(dist = min(distances), id = unname(which.min(distances)))
   min(distances)
-}))
+})
