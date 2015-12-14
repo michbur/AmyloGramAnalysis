@@ -1,4 +1,5 @@
 library(rmarkdown)
+library(knitr)
 
 if(Sys.info()["nodename"] == "phobos" )
   pathway <- "/home/michal/Dokumenty/gits/amyloid_ngram2/"
@@ -6,4 +7,3 @@ if(Sys.info()["nodename"] == "phobos" )
 opts_knit$set(root.dir = pathway)
 
 render("./reports/report1.Rmd")
-
