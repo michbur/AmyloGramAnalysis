@@ -18,8 +18,6 @@ id_length_table <- names(aa_groups) %>%
   apply(2, as.numeric) 
 
 
-traits_table[5000, ]
-
 aa_nprop <- normalize_properties()
 
 a_prop <- aa_nprop[na.omit(traits_table[ai, ]), , drop = FALSE]
@@ -42,3 +40,21 @@ sapply(coords_a, function(single_coords_a) {
   #c(dist = min(distances), id = unname(which.min(distances)))
   min(distances)
 })
+
+dat_a <- data.frame(enc = "a", do.call(rbind, coords_a))
+dat_b <- data.frame(enc = "b", do.call(rbind, coords_b))
+
+dat <- data.frame(do.call(rbind, lapply(1L:nrow(dat_a), function(id) 
+  data.frame(id = id, rbind(do.call(rbind, lapply(1L:3, function(dummy) 
+    dat_a[id, , drop = FALSE])),
+    dat_b)))), pair = c(letters[1L:3], letters[1L:3]))
+
+colnames(dat) <- c("id", "enc", "f1", "f2", "pair")
+
+
+
+library(ggplot2)
+ggplot(dat, aes(x = f1, y = f2, colour = enc)) +
+  geom_point(size = 10) + 
+  geom_line(aes(x = f1, y = f2, colour = pair)) +
+  facet_wrap(~ id)
