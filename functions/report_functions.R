@@ -41,3 +41,9 @@ format_property_table <- function(ftraits) {
   
   data.frame(Category = prop_category, Property = unname(traits_names[ftraits])[prop_id])
 }
+
+group2df <- function(group_list, caption = NULL, label = NULL) {
+  data.frame(ID = 1L:length(group_list), 
+             Groups = sapply(group_list, function(i)
+    paste0(toupper(sort(i)), collapse = ", ")))
+}
