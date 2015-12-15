@@ -1,6 +1,7 @@
 source("./functions/choose_properties.R")
 source("./functions/create_encodings.R")
 source("./functions/encode_amyloids.R")
+source("./functions/cv.R")
 
 require(seqinr)
 require(dplyr)

@@ -22,8 +22,8 @@ do_cv <- function(extracted_ngrams, ets, seq_lengths) {
   lapply(c(6, 10, 15), function(constant_pos) {
     lapply(c(6, 10, 15), function(constant_neg) {
       
-      pos_train <- which(ets == 1 & seq_lengths < constant_pos)
-      neg_train <- which(ets == 0 & seq_lengths < constant_neg)
+      pos_train <- which(ets == 1 & seq_lengths <= constant_pos)
+      neg_train <- which(ets == 0 & seq_lengths <= constant_neg)
       
       pos_test <- which(ets == 1 & seq_lengths >= constant_pos)
       neg_test <- which(ets == 0 & seq_lengths >= constant_neg)
