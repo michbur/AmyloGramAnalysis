@@ -76,21 +76,23 @@ colnames(a_prop) <- tolower(colnames(a_prop))
 coords_a <- lapply(a, function(single_subgroup) rowMeans(a_prop[, single_subgroup, drop = FALSE]))
 coords_b <- lapply(b, function(single_subgroup) rowMeans(a_prop[, single_subgroup, drop = FALSE]))
 
-dat_a <- data.frame(enc = "a", do.call(rbind, coords_a))
-dat_b <- data.frame(enc = "b", do.call(rbind, coords_b))
+dat_a <- data.frame(enc = "a", do.call(rbind, coords_a), label = paste0("A", 1L:3))
+dat_b <- data.frame(enc = "b", do.call(rbind, coords_b), label = paste0("B", 1L:3))
 
 dat <- data.frame(do.call(rbind, lapply(1L:nrow(dat_a), function(id) 
   data.frame(id = id, rbind(do.call(rbind, lapply(1L:3, function(dummy) 
     dat_a[id, , drop = FALSE])),
     dat_b)))), pair = c(paste0("d", 1L:3), paste0("d", 1L:3)))
 
-colnames(dat) <- c("id", "enc", "f1", "f2", "pair")
+colnames(dat) <- c("id", "enc", "f1", "f2", "label", "pair")
 dat[["id"]] <- paste0("Encoding a, subgroup ", dat[["id"]])
 
-ggplot(dat, aes(x = f1, y = f2, colour = pair)) +
+
+ggplot(dat, aes(x = f1, y = f2, colour = pair, label = label)) +
   geom_line() +
   geom_point(aes(x = f1, y = f2, colour = enc), size = 4) + 
   facet_wrap(~ id) + 
+  geom_text(aes(x = f1, y = f2, colour = enc, label = label), vjust = 1, size = 5) + 
   scale_color_brewer(palette="Dark2", guide = "none") +
   my_theme
 ```
@@ -113,15 +115,15 @@ rownames(tmp) <- paste0("Enc b, group ", rownames(tmp))
 kable(tmp, caption = "Distances between groups of encodings a and b.")
 ```
 
-For each group in encoding **a**, we choose the minimum distance between the group and any group belonging to the encoding **b**. The normalization factor is equal to the sum of minimum distances for each group in **a**.
+For each group in encoding **a**, we choose the minimum distance $d_i$ between the group and any group belonging to the encoding **b**. The normalization factor is equal to the sum of minimum distances for each group in **a**.
 
 $$
-n_f = \sum_{i \in 1, 2, 3} \min \left( \bar{d}_i \right) 
+n_f = \sum_{i \in 1, 2, 3} \min \left( d_i \right) 
 $$
 
 Problematic situations:  
 1. Unequal number of groups.  
-2. Source of properties to calculate mean properties of groups.  
+2. Source of properties to calculate mean properties of groups (default: properties used in clusterization to create the eoncoding).  
 
 # Cross-validation
 
