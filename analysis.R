@@ -48,3 +48,5 @@ names(full_aa) <- 1L:20
 full_aa <- list(full_aa)
 
 extracted_ngrams_full <- extract_ngrams(seqs_m, full_aa)
+cv_results_full <- do_cv(all_folds, extracted_ngrams_full)
+save(cv_results_full, file = "./results/cv_results_full.RData")
