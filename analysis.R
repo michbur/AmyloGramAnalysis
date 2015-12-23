@@ -9,7 +9,7 @@ require(pbapply)
 require(biogram)
 require(cvTools)
 require(ranger)
-
+require(hmeasure)
 
 ftraits <- choose_properties()
 
@@ -43,10 +43,11 @@ all_folds <- create_all_folds(ets, seq_lengths)
 cv_results <- do_cv(all_folds, extracted_ngrams)
 
 # negative control - full amino acid alphabet
-full_aa <- tolower(a()[-1]) %>% as.list
-names(full_aa) <- 1L:20
-full_aa <- list(full_aa)
+# full_aa <- tolower(a()[-1]) %>% as.list
+# names(full_aa) <- 1L:20
+# full_aa <- list(full_aa)
+# extracted_ngrams_full <- extract_ngrams(seqs_m, full_aa)
+# cv_results_full <- do_cv(all_folds, extracted_ngrams_full)
+# save(cv_results_full, file = "./results/cv_results_full.RData")
+load("./results/cv_results_full.RData")
 
-extracted_ngrams_full <- extract_ngrams(seqs_m, full_aa)
-cv_results_full <- do_cv(all_folds, extracted_ngrams_full)
-save(cv_results_full, file = "./results/cv_results_full.RData")
