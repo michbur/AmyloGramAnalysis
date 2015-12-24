@@ -84,9 +84,6 @@ do_cv <- function(all_folds, extracted_ngrams, hv)
 
 do_single_cv <- function(fold_list, encoded_group, hv) {
   lapply(1L:5, function(fold) {
-    
-    fold_list[[1]][fold_list[[1]][, "which"] != fold, "id"] %in% hv
-    
     #training data
     train_pos <- encoded_group[hv %in% fold_list[[1]][fold_list[[1]][, "which"] != fold, "id"], ]
     train_neg <- encoded_group[hv %in% fold_list[[3]][fold_list[[3]][, "which"] != fold, "id"], ]
