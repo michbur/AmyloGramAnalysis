@@ -40,7 +40,9 @@ seq_lengths <- unname(lengths(seqs_list))
 
 all_folds <- create_all_folds(ets, seq_lengths)
 
-cv_results <- do_cv(all_folds, extracted_ngrams)
+hv <- create_hv(seqs_m)
+
+cv_results <- do_cv(all_folds, extracted_ngrams, hv)
 
 # negative control - full amino acid alphabet
 # full_aa <- tolower(a()[-1]) %>% as.list
