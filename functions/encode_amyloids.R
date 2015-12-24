@@ -29,8 +29,8 @@ extract_ngrams <- function(seq, aa_groups) {
   })
   
   #very time consuming
-  pblapply(aa_groups, function(single_group) 
-    lapply(gl, function(single_protein) {
+  lapply(aa_groups, function(single_group) 
+    as.simple_triplet_matrix(do.call(rbind, lapply(gl, function(single_protein) {
       bitrigrams <- as.matrix(count_multigrams(ns = c(1, rep(2, 4), rep(3, 3)), 
                                                ds = list(0, 0, 1, 2, 3, c(0, 0), c(0, 1), c(1, 0)),
                                                seq = degenerate(single_protein[, -7], single_group),
@@ -40,6 +40,6 @@ extract_ngrams <- function(seq, aa_groups) {
       storage.mode(bitrigrams) <- "integer"
       
       bitrigrams
-    })
+    })))
   )
 }
