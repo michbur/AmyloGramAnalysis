@@ -12,9 +12,14 @@ source("./functions/plot_tools.R")
 
 Date: `r Sys.Date()`
 
+# Data set
+
+The data used in the study was extracted from AmyLoad data base. Aside from eight sequences shorter than five residues that were removed from the final data set, we obtained 418 amyloidogenic sequences and 1039 non-amyloiodegenic sequences (1457 peptides in total).
+
+
 # Encodings of amino acids
 
-The amylodogenicity of given peptide may not depend on the exact sequence of amino acids, but on its more general properties. To verify this hypothesis, we created 18 537 reduced amino acid alphabets with different lengths (from three to six letters).
+The amyloidogenicity of given peptide may not depend on the exact sequence of amino acids, but on its more general properties. To verify this hypothesis, we created 18 537 reduced amino acid alphabets with different lengths (from three to six letters).
 
 ## Physicochemical properties
 
@@ -123,14 +128,16 @@ $$
 
 Problematic situations:  
 1. Unequal number of groups.  
-2. Source of properties to calculate mean properties of groups (default: properties used in clusterization to create the eoncoding).  
+2. Source of properties to calculate mean properties of groups (default: properties used in clusterization to create the encoding).  
+
+# Training
+
+In addition to the reduced amino acid alphabets created through the clusterization of physicochemical properties, we also examined common reduced alphabets from the literature and raw amino acid sequences.  
+
+Considering that in longer amyloids, only the part of their sequence is responsible for amyloidogenicity, we restricted the maximum length of peptides in training data set to fifteen amino acids. During the training phase, we extracted overlapping hexamers from each sequence. Each hexamer was tagged with the same etiquette (amyloid/nonamyloid) as the original peptide. For example, the sequence of length 6 residues yields only one hexamer and the sequence of 8 residues yields 3 hexamers.
+
+The inquire the exact length of amyloidogenicity signal, we trained nine classifiers for each encoding on the sequences of different length. We considered sequences of length 6, shorter of equal to 10 residues and shorter or equal to 15 residues. We specified separately length of peptides for negative and positive training set, obtaining in total nine classifiers.
 
 # Cross-validation
 
-Amino acid encodings used in the cross-validation: all 18 537 reduced alphabets created by clusterization, two common reduced alphabets, raw amino acid sequence.  
-
-Previously we trained classifiers using three distinct data sets containing sequences of length 6 and shorter than 11 and 16 amino acids. The smaller data sets were subsets of larger data sets.  
-
-Possible new schemes:  
-1. Positive training data sets: only sequences on length 6. Negative training set: sequences shorter than 16 amino acids.
-2. All combinations of positive data sets (6, 11, 15) and negative data set (6, 11, 15).
+The cross-validation was repeated ten times for each combination of the encoding as well as the length of sequences in positive data set and negative data set.

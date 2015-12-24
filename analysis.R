@@ -29,7 +29,7 @@ seqs_m <- tolower(t(sapply(seqs_list, function(i)
   c(i, rep(NA, max(lengths(seqs_list)) - length(i))))))
 
 #for single aa_group around 85 sec
-extracted_ngrams <- extract_ngrams(seqs_m, aa_groups)
+extracted_ngrams <- extract_ngrams(seqs_m, aa_groups[15555L:15556])
 #add to extracted_ngrams raw aa n-grams
 
 #create folds for cv
@@ -42,7 +42,7 @@ all_folds <- create_all_folds(ets, seq_lengths)
 
 hv <- create_hv(seqs_m)
 
-cv_results <- do_cv(all_folds, extracted_ngrams, hv)
+cv_results <- system.time(do_cv(all_folds, extracted_ngrams, hv))
 
 # negative control - full amino acid alphabet
 # full_aa <- tolower(a()[-1]) %>% as.list

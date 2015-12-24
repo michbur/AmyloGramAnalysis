@@ -6,4 +6,4 @@ if(Sys.info()["nodename"] == "phobos" )
 
 opts_knit$set(root.dir = pathway)
 
-render("./reports/report1.Rmd")
+render("./reports/methods.Rmd")
