@@ -71,5 +71,7 @@ library(ggplot2)
 ggplot(cv_summary, aes(x = pos, y = neg, fill = mauc, label = round(mauc, 4))) +
   geom_tile() +
   geom_text(color = "red") +
-  facet_wrap(~ len_range)
+  facet_wrap(~ len_range) +
+  scale_x_discrete("Positive training set") +
+  scale_x_discrete("Positive negative set")
 

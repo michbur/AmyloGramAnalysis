@@ -85,8 +85,6 @@ do_cv <- function(all_folds, extracted_ngrams, hv)
 do_single_cv <- function(fold_list, encoded_group, hv) {
   lapply(1L:5, function(fold) {
     
-    browser()
-    
     fold_list[[1]][fold_list[[1]][, "which"] != fold, "id"] %in% hv
     
     #training data
