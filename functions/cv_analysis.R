@@ -18,9 +18,6 @@ get_reps_ids <- function()
   data.frame %>%
   rename(pos = X1, neg = X2)
 
-reps_ids <- get_reps_ids()
-
-
 summarize_cv_results <- function(cv_results, reps_ids) {
   res <- do.call(rbind, lapply(1L:length(cv_results), function(single_enc_id) {
     all_reps_res <- lapply(cv_results[[single_enc_id]], function(single_rep) {
@@ -65,14 +62,14 @@ summarize_cv_results <- function(cv_results, reps_ids) {
   res
 }
 
-cv_summary <- summarize_cv_results(cv_results_full, reps_ids)
 
-levels(cv_summary[["len_range"]]) <- paste0("Test peptide length: ", levels(cv_summary[["len_range"]]))
-library(ggplot2)
-ggplot(cv_summary, aes(x = pos, y = neg, fill = mauc, label = round(mauc, 4))) +
-  geom_tile() +
-  geom_text(color = "red") +
-  facet_wrap(~ len_range) +
-  scale_x_discrete("Positive training set") +
-  scale_y_discrete("Positive negative set")
+
+# levels(cv_summary[["len_range"]]) <- paste0("Test peptide length: ", levels(cv_summary[["len_range"]]))
+# library(ggplot2)
+# ggplot(cv_summary, aes(x = pos, y = neg, fill = mauc, label = round(mauc, 4))) +
+#   geom_tile() +
+#   geom_text(color = "red") +
+#   facet_wrap(~ len_range) +
+#   scale_x_discrete("Positive training set") +
+#   scale_y_discrete("Positive negative set")
 
