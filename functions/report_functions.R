@@ -26,7 +26,7 @@ format_property_table <- function(ftraits) {
   
   prop_id <- c(2, 5, 7, 12, 16, 17, #contactivity,
                4, 6, 10, #beta freq
-               1, 9, 14, 15, #hyrophobicity
+               1, 9, 14, 15, #hydrophobicity
                3, 8, #polarity
                13, #size
                11) #stability
