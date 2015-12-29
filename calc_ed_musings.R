@@ -79,3 +79,12 @@ ggplot(dat, aes(x = f1, y = f2, colour = pair)) +
 
 
 
+my_group <- list(`1` = c("c", "f", "h", "i", "l", "v", "w"),
+                 `2` = c("a", "d", "g", "k", "n", "p", "q", "r"),
+                 `3` = c("e", "m", "s", "t", "y"))
+
+all_dists <- pbsapply(aa_groups, function(i) calc_ed(i, my_group))
+
+tmp <- aa_groups[all_dists == 1][[1]]
+
+calc_ed(tmp, my_group)
