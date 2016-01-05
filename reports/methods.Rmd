@@ -16,6 +16,8 @@ Date: `r Sys.Date()`
 
 The data used in the study was extracted from AmyLoad data base. Aside from eight sequences shorter than five residues that were removed from the final data set, we obtained 418 amyloidogenic sequences and 1039 non-amyloiodegenic sequences (1457 peptides in total).
 
+Sequences shorter than 6 amino acids and longer than 25 amino acids were removed from data set. The final data set contains 397 amyloidogenic and 1033 non-amyloidogenic sequences (1430 peptides in total).
+
 
 # Encodings of amino acids
 
