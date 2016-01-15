@@ -24,24 +24,34 @@ create_hv <- function(seq)
 #' nonamyloidsin test set.
 
 create_all_folds <- function(ets, seq_lengths) {
-  #set the seed to alasy create the same folds
+  seq_label <- cut(seq_lengths, breaks = c(5, 6, 10, 15, 25, 100))
+  #seqs with label (25,100] are ignored and will not be present in any fold
+  
+  
+  #set the seed to create the same folds
   set.seed(1)
-  lapply(c(6, 10, 15), function(constant_pos) {
-    lapply(c(6, 10, 15), function(constant_neg) {
-      
-      pos_train <- which(ets == 1 & seq_lengths <= constant_pos)
-      neg_train <- which(ets == 0 & seq_lengths <= constant_neg)
-      
-      pos_test <- which(ets == 1 & seq_lengths >= constant_pos)
-      neg_test <- which(ets == 0 & seq_lengths >= constant_neg)
-      
+  lapply(1L:3, function(constant_pos) {
+    lapply(1L:3, function(constant_neg) {
+
       lapply(1L:10, function(dummy) {
-        
-        fold_list <- lapply(list(pos_train, pos_test, neg_train, neg_test), function(single_n) {
-          folded <- cvFolds(length(single_n), K = 5)
-          data.frame(id = single_n[folded[["subsets"]]], which = folded[["which"]])
+        splitted_seqs <- lapply(levels(seq_label)[-4], function(single_label) {
+          pos_seqs <- which(ets == 1 & seq_label == single_label)
+          neg_seqs <- which(ets == 0 & seq_label == single_label)
+          
+          fold_list <- lapply(list(pos = pos_seqs, neg = neg_seqs), function(single_n) {
+            folded <- cvFolds(length(single_n), K = 5)
+            data.frame(id = single_n[folded[["subsets"]]], which = folded[["which"]])
+          })
         })
         
+        list(pos_train = do.call(rbind, lapply(splitted_seqs[1L:constant_pos], 
+                                               function(single_split) single_split[["pos"]])),
+             pos_test = do.call(rbind, lapply(splitted_seqs[-(1L:constant_pos)], 
+                                              function(single_split) single_split[["pos"]])),
+             neg_train = do.call(rbind, lapply(splitted_seqs[1L:constant_pos], 
+                                               function(single_split) single_split[["neg"]])),
+             neg_test = do.call(rbind, lapply(splitted_seqs[-(1L:constant_pos)], 
+                                              function(single_split) single_split[["neg"]])))
       })
     })
   }) %>% unlist(recursive = FALSE) %>% 
