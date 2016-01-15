@@ -14,9 +14,11 @@ Date: `r Sys.Date()`
 
 # Data set
 
-The data used in the study was extracted from AmyLoad data base. Aside from eight sequences shorter than five residues that were removed from the final data set, we obtained 418 amyloidogenic sequences and 1039 non-amyloiodegenic sequences (1457 peptides in total).
+The data used in the study was extracted from AmyLoad data base. Aside from eight sequences shorter than five residues that were removed from the final data set, we obtained 418 amyloidogenic sequences and 1039 non-amyloidogenic sequences (1457 peptides in total).
 
-Sequences shorter than 6 amino acids and longer than 25 amino acids were removed from data set. The final data set contains 397 amyloidogenic and 1033 non-amyloidogenic sequences (1430 peptides in total).
+Sequences shorter than 6 amino acids and longer than 25 amino acids were removed from data set. The former were too short to be processed in the devised analysis framework and the latter were too diversified and rare, preventing the proper analysis.
+
+The final data set contains 397 amyloidogenic and 1033 non-amyloidogenic sequences (1430 peptides in total).
 
 
 # Encodings of amino acids
@@ -25,7 +27,7 @@ The amyloidogenicity of given peptide may not depend on the exact sequence of am
 
 ## Physicochemical properties
 
-We created the reduced alphabet of amino acids using Ward's clusterization on the selected physicochemical properties. We picked several measures belonging to more general categories important in process of amylodogenicity as size, hydrophobicity, solvent surface area, frequency in $\beta$-sheets and contactivity. As the rule of thumb, we limited ourselves to properties introduced after 1980 when, thanks to the technological advancements, the measurements were more accurate.
+We created the reduced alphabet of amino acids using Ward's clusterization on the selected physicochemical properties. We picked several measures belonging to more general categories important in process of amyloidogenicity as size, hydrophobicity, solvent surface area, frequency in $\beta$-sheets and contactivity. As the rule of thumb, we limited ourselves to properties introduced after 1980 when, thanks to the technological advancements, the measurements were more accurate.
 
 We further reduced the number of properties to 17, by selecting measures uncorrelated with others (with the Pearson's correlation coefficient for normalized values larger than 0.95 or smaller than 0.05) since they would create very similar encodings.
 
@@ -49,8 +51,10 @@ The inquire the exact length of amyloidogenicity signal, we trained nine classif
 
 The cross-validation was repeated ten times for each combination of the encoding as well as the length of sequences in positive data set and negative data set.
 
-The performance measures were calculated separately for four ranges of lengths of sequences in the testing data set:   
+Since we are interested if our classiffiers are able to use decision rules extracted from sequences of given length to correctly classify longer or shorter sequences, we calculate performance measures separately for four ranges of lengths of sequences:   
 1. 6;  
 2. 7-10;   
 3. 11-15;   
-4. more than 15.  
+4. 16-25.  
+
+The number of sequences from the given length range was roughly comparable between folds of cross-validation.

@@ -66,18 +66,19 @@ img {
 </div>
 
 
-<p>Date: 2016-01-05</p>
+<p>Date: 2016-01-15</p>
 <div id="data-set" class="section level1">
 <h1>Data set</h1>
-<p>The data used in the study was extracted from AmyLoad data base. Aside from eight sequences shorter than five residues that were removed from the final data set, we obtained 418 amyloidogenic sequences and 1039 non-amyloiodegenic sequences (1457 peptides in total).</p>
-<p>Sequences shorter than 6 amino acids and longer than 25 amino acids were removed from data set. The final data set contains 397 amyloidogenic and 1033 non-amyloidogenic sequences (1430 peptides in total).</p>
+<p>The data used in the study was extracted from AmyLoad data base. Aside from eight sequences shorter than five residues that were removed from the final data set, we obtained 418 amyloidogenic sequences and 1039 non-amyloidogenic sequences (1457 peptides in total).</p>
+<p>Sequences shorter than 6 amino acids and longer than 25 amino acids were removed from data set. The former were too short to be processed in the devised analysis framework and the latter were too diversified and rare, preventing the proper analysis.</p>
+<p>The final data set contains 397 amyloidogenic and 1033 non-amyloidogenic sequences (1430 peptides in total).</p>
 </div>
 <div id="encodings-of-amino-acids" class="section level1">
 <h1>Encodings of amino acids</h1>
 <p>The amyloidogenicity of given peptide may not depend on the exact sequence of amino acids, but on its more general properties. To verify this hypothesis, we created 18 537 reduced amino acid alphabets with different lengths (from three to six letters).</p>
 <div id="physicochemical-properties" class="section level2">
 <h2>Physicochemical properties</h2>
-<p>We created the reduced alphabet of amino acids using Ward’s clusterization on the selected physicochemical properties. We picked several measures belonging to more general categories important in process of amylodogenicity as size, hydrophobicity, solvent surface area, frequency in <span class="math">\(\beta\)</span>-sheets and contactivity. As the rule of thumb, we limited ourselves to properties introduced after 1980 when, thanks to the technological advancements, the measurements were more accurate.</p>
+<p>We created the reduced alphabet of amino acids using Ward’s clusterization on the selected physicochemical properties. We picked several measures belonging to more general categories important in process of amyloidogenicity as size, hydrophobicity, solvent surface area, frequency in <span class="math">\(\beta\)</span>-sheets and contactivity. As the rule of thumb, we limited ourselves to properties introduced after 1980 when, thanks to the technological advancements, the measurements were more accurate.</p>
 <p>We further reduced the number of properties to 17, by selecting measures uncorrelated with others (with the Pearson’s correlation coefficient for normalized values larger than 0.95 or smaller than 0.05) since they would create very similar encodings.</p>
 <table>
 <thead>
@@ -169,7 +170,8 @@ img {
 <div id="cross-validation" class="section level1">
 <h1>Cross-validation</h1>
 <p>The cross-validation was repeated ten times for each combination of the encoding as well as the length of sequences in positive data set and negative data set.</p>
-<p>The performance measures were calculated separately for four ranges of lengths of sequences in the testing data set:<br />1. 6;<br />2. 7-10;<br />3. 11-15;<br />4. more than 15.</p>
+<p>Since we are interested if our classiffiers are able to use decision rules extracted from sequences of given length to correctly classify longer or shorter sequences, we calculate performance measures separately for four ranges of lengths of sequences:<br />1. 6;<br />2. 7-10;<br />3. 11-15;<br />4. 16-25.</p>
+<p>The number of sequences from the given length range was roughly comparable between folds of cross-validation.</p>
 <div class="references">
 
 </div>
