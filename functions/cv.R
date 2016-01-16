@@ -24,9 +24,7 @@ create_hv <- function(seq)
 #' nonamyloidsin test set.
 
 create_all_folds <- function(ets, seq_lengths) {
-  seq_label <- cut(seq_lengths, breaks = c(5, 6, 10, 15, 25, 100))
-  #seqs with label (25,100] are ignored and will not be present in any fold
-  
+  seq_label <- cut(seq_lengths, breaks = c(5, 6, 10, 15, 25))
   
   #set the seed to create the same folds
   set.seed(1)
@@ -34,7 +32,7 @@ create_all_folds <- function(ets, seq_lengths) {
     lapply(1L:3, function(constant_neg) {
 
       lapply(1L:10, function(dummy) {
-        splitted_seqs <- lapply(levels(seq_label)[-4], function(single_label) {
+        splitted_seqs <- lapply(levels(seq_label), function(single_label) {
           pos_seqs <- which(ets == 1 & seq_label == single_label)
           neg_seqs <- which(ets == 0 & seq_label == single_label)
           

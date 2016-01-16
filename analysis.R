@@ -22,9 +22,9 @@ aa_groups <- string2list(aa_groups)
 
 raw_seqs_list <- c(read.fasta("./data/amyloid_pos_full.fasta",seqtype = "AA"),
                read.fasta("./data/amyloid_neg_full.fasta",seqtype = "AA"))
-seqs_list <- raw_seqs_list[lengths(raw_seqs_list) > 5]
-
-
+#sequences longer than 5 aa and shorter than 26 aa
+purified_seqs_id <- lengths(raw_seqs_list) > 5 & lengths(raw_seqs_list) < 26
+seqs_list <- raw_seqs_list[purified_seqs_id]
 
 seqs_m <- tolower(t(sapply(seqs_list, function(i)
   c(i, rep(NA, max(lengths(seqs_list)) - length(i))))))
@@ -36,7 +36,7 @@ extracted_ngrams <- extract_ngrams(seqs_m, aa_groups)
 #create folds for cv
 ets <- c(rep(1, length(read.fasta("./data/amyloid_pos_full.fasta",seqtype = "AA"))),
          rep(0, length(read.fasta("./data/amyloid_neg_full.fasta",seqtype = "AA"))))
-ets <- ets[lengths(raw_seqs_list) > 5]
+ets <- ets[purified_seqs_id]
 seq_lengths <- unname(lengths(seqs_list))
 
 all_folds <- create_all_folds(ets, seq_lengths)
