@@ -123,12 +123,47 @@ do_single_cv <- function(fold_list, encoded_group, hv) {
                      rep(prot_id, ngram_prots_pos[prot_id]))), 
                      unlist(lapply(1L:length(ngram_prots_neg), function(prot_id)
                        rep(prot_id, ngram_prots_neg[prot_id])))))
-
+    
     # is randomForest consistent with ranger?
     # model_rf <- randomForest(tar ~ ., train_data)
     # predict(model_rf, data.frame(rbind(test_pos, test_neg)[, imp_bigrams])) == 
     #   predict(model_cv, data.frame(rbind(test_pos, test_neg)[, imp_bigrams]))[["predictions"]]
     
-    list(preds, imp_bigrams)
+    preds_df <- preds %>% 
+      data.frame %>% 
+      rename(prob = X1, tar = X2, prot = X3) %>% 
+      mutate(prot = paste0(tar, "_", prot)) %>%
+      group_by(prot) %>%
+      # assumption - peptide is amyloid if at least one hexagram has prob > 0.5, 
+      # so we take maximum probabilities for all hexagrams belonging to the peptide
+      summarise(prob = max(prob), tar = unique(tar), len = 5 + length(prot)) %>%
+      mutate(len_range = cut(len, include.lowest = TRUE, breaks = c(5, 6, 10, 15, 26)))
+    
+    perf_measures <- lapply(levels(preds_df[["len_range"]]), function(single_range) {
+      dat <- preds_df[preds_df[["len_range"]] == single_range, ]
+      tryCatch(HMeasure(dat[["tar"]], dat[["prob"]])[["metrics"]], 
+               warning = function(w) 
+                 list(HMeasure(dat[["tar"]], dat[["prob"]])[["metrics"]],w))
+    })
+    
+    #check if scores were switched
+    reverted <- !sapply(perf_measures, is.data.frame)
+
+    aggregated_measures <- data.frame(len_range = levels(preds_df[["len_range"]]), 
+               n = as.vector(table(preds_df[["len_range"]])),
+               reverted = reverted,
+               do.call(rbind, lapply(1L:length(reverted), function(single_range_id) {
+                 if(reverted[single_range_id]) {
+                   perf_measures[[single_range_id]][[1]]
+                 } else {
+                   perf_measures[[single_range_id]]
+                 }
+               }))
+    )
+    
+
+    
+    
+    list(aggregated_measures, imp_bigrams)
   })
 }
