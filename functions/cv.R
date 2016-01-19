@@ -137,7 +137,7 @@ do_single_cv <- function(fold_list, encoded_group, hv) {
       # assumption - peptide is amyloid if at least one hexagram has prob > 0.5, 
       # so we take maximum probabilities for all hexagrams belonging to the peptide
       summarise(prob = max(prob), tar = unique(tar), len = 5 + length(prot)) %>%
-      mutate(len_range = cut(len, include.lowest = TRUE, breaks = c(5, 6, 10, 15, 26)))
+      mutate(len_range = cut(len, include.lowest = TRUE, breaks = c(5, 6, 10, 15, 25)))
     
     perf_measures <- lapply(levels(preds_df[["len_range"]]), function(single_range) {
       dat <- preds_df[preds_df[["len_range"]] == single_range, ]
