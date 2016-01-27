@@ -9,11 +9,13 @@
 
 \subtitle{Subject Section}
 
-\title[short Title]{This is a title}
-\author[Sample \textit{et~al}.]{Corresponding Author\,$^{\text{\sfb 1,}*}$, Co-Author\,$^{\text{\sfb 2}}$ and Co-Author\,$^{\text{\sfb 2,}*}$}
-\address{$^{\text{\sf 1}}$Department, Institution, City, Post Code, Country and \\
-$^{\text{\sf 2}}$Department, Institution, City, Post Code,
-Country.}
+\title[short Title]{Prediction of amyloidogenicity based on the n-gram analysis}
+\author[Sample \textit{et~al}.]{Micha\l{} Burdukiewicz$^{\text{\sfb 1,*}}$, Piotr Sobczyk\,$^{\text{\sfb 2}}$, Pawe\l{} Mackiewicz$^{\text{\sfb 1}}$ and Ma\l{}gorzata Kotulska\,$^{\text{\sfb 3,}*}$}
+\address{$^{\text{\sf 1}}$University of Wroc\l{}aw, Department of Genomics,
+$^{\text{\sf 2}}$Wroc\l{}aw University of Technology, Department of Mathematics and 
+$^{\text{\sf 3}}$Wroc\l{}aw University of Technology, Department of Biomedical Engineering, Faculty of Fundamental Problems of Technology
+}
+
 
 \corresp{$^\ast$To whom correspondence should be addressed.}
 
@@ -62,380 +64,48 @@ Text Text Text  Text Text Text Text Text Text  Text Text.
 \begin{methods}
 \section{Methods}
 
-Text Text Text Text Text Text  Text Text Text Text Text Text Text
-Text Text  Text Text Text Text Text Text.
-Figure~2\vphantom{\ref{fig:02}} shows that the above method  Text
-Text Text Text  Text Text Text Text Text Text  Text Text.
-\citealp{Boffelli03} might want to know about  text text text text
-Text Text Text Text Text Text Text Text Text Text Text Text Text
-Text Text  Text Text Text Text Text Text.
-Figure~2\vphantom{\ref{fig:02}} shows that the above method  Text
-Text Text Text Text Text Text Text Text Text  Text Text.
-\citealp{Boffelli03} might want to know about text text text text
-Text Text Text Text Text Text  Text Text Text Text Text Text Text
-Text Text Text Text Text Text Text Text.
-Figure~2\vphantom{\ref{fig:02}} shows that the above method  Text
-Text Text Text Text Text Text Text Text Text  Text Text.
-\citealp{Boffelli03} might want to know about text text text
-text\vspace*{1pt}
+\subsection{Data set}
 
-\begin{itemize}
-\item for bulleted list, use itemize
-\item for bulleted list, use itemize
-\item for bulleted list, use itemize\vspace*{1pt}
-\end{itemize}
+The data used in the study was extracted from AmyLoad data base. Aside from eight sequences shorter than five residues that were removed from the final data set, we obtained 418 amyloidogenic sequences and 1039 non-amyloidogenic sequences (1457 peptides in total).
 
-Text Text Text Text Text Text  Text Text Text Text Text Text Text
-Text Text  Text Text Text Text Text Text.
-Figure~2\vphantom{\ref{fig:02}} shows that the above method  Text
-Text Text Text  Text Text Text Text Text Text  Text Text.
-\citealp{Boffelli03} might want to know about  text text text text
-Text Text Text Text Text Text Text Text Text Text Text Text Text
-Text Text Text Text Text Text Text Text.
-Figure~2\vphantom{\ref{fig:02}} shows that the above method  Text
-Text Text Text Text Text Text Text Text Text  Text Text.
-\citealp{Boffelli03} might want to know about text text text text
-Text Text Text Text Text Text  Text Text Text Text Text Text Text
-Text Text Text Text Text Text Text Text.
-Figure~2\vphantom{\ref{fig:02}} shows that the above method  Text
-Text Text Text Text Text Text Text Text Text  Text Text.
-\citealp{Boffelli03} might want to know about text text text text
-Text Text Text Text Text Text  Text Text Text Text Text Text Text
-Text Text Text Text Text Text Text Text.
-Figure~2\vphantom{\ref{fig:02}} shows that the above method Text
-Text Text Text Text Text Text Text Text Text Text Text.
-\citealp{Boffelli03} might want to know about text text text text
-Text Text Text Text Text Text  Text Text Text Text Text Text Text
-Text Text Text Text Text Text Text Text.
+Sequences shorter than 6 amino acids and longer than 25 amino acids were removed from data set. The former were too short to be processed in the devised analysis framework and the latter were too diversified and rare, preventing the proper analysis.
 
-Text Text Text Text Text Text  Text Text Text Text Text Text Text
-Text Text  Text Text Text Text Text Text\vadjust{\newpage}.
-Figure~2\vphantom{\ref{fig:02}} shows that the above method  Text
-Text Text Text  Text Text Text Text Text Text  Text Text.
-\citealp{Boffelli03} might want to know about text text text text
-Text Text Text Text Text Text Text Text Text Text Text Text Text
-Text Text Text Text Text Text Text Text.
-Figure~2\vphantom{\ref{fig:02}} shows that the above method  Text
-Text Text Text Text Text Text Text Text Text  Text Text.
-\citealp{Boffelli03} might want to know about text text text text
-Text Text Text Text Text Text  Text Text Text Text Text Text Text
-Text Text Text Text Text Text Text Text.
-Figure~2\vphantom{\ref{fig:02}} shows that the above method  Text
-Text Text Text Text Text Text Text Text Text  Text Text.
-\citealp{Boffelli03} might want to know about text text text text
-Text Text Text Text Text Text  Text Text Text Text Text Text Text
-Text Text Text Text Text Text Text Text.
-Figure~2\vphantom{\ref{fig:02}} shows that the above method Text
-Text Text Text Text Text Text Text Text Text Text Text.
-\citealp{Boffelli03} might want to know about text text text text
-Text Text Text Text Text Text  Text Text Text Text Text Text Text
-Text Text Text Text Text Text Text Text.
+The final data set contains 397 amyloidogenic and 1033 non-amyloidogenic sequences (1430 peptides in total).
+
+\subsection{Encodings of amino acids}
+
+The amyloidogenicity of given peptide may not depend on the exact sequence of amino acids, but on its more general properties. To verify this hypothesis, we created 18 537 reduced amino acid alphabets with different lengths (from three to six letters).
+
+We created the reduced alphabet of amino acids using Ward's clusterization on the selected physicochemical properties. We picked several measures belonging to more general categories important in process of amyloidogenicity as size, hydrophobicity, solvent surface area, frequency in $\beta$-sheets and contactivity. As the rule of thumb, we limited ourselves to properties introduced after 1980 when, thanks to the technological advancements, the measurements were more accurate.
+
+We further reduced the number of properties to 17, by selecting measures uncorrelated with others (with the Pearson's correlation coefficient for normalized values larger than 0.95 or smaller than 0.05) since they would create very similar encodings.
+
+\subsection{Traning of learners}
 
 
-Text Text Text Text Text Text  Text Text Text Text Text Text Text
-Text Text  Text Text Text Text Text Text.
-Figure~2\vphantom{\ref{fig:02}} shows that the above method  Text
-Text Text Text  Text Text Text Text Text Text  Text Text.
-\citealp{Boffelli03} might want to know about  text text text text
-Text Text Text Text Text Text  Text Text Text Text Text Text Text
-Text Text  Text Text Text Text Text Text.
-Figure~2\vphantom{\ref{fig:02}} shows that the above method  Text
-Text Text Text  Text Text Text Text Text Text  Text Text.
-\citealp{Boffelli03} might want to know about  text text text text
-Text Text Text Text Text Text Text Text Text Text Text Text Text
-Text Text  Text Text Text Text Text Text.
-Figure~2\vphantom{\ref{fig:02}} shows that the above method  Text
-Text Text Text  Text Text Text Text Text Text  Text Text.
-\citealp{Boffelli03} might want to know about  text text text text
-
-
-
-Text Text Text Text Text Text  Text Text Text Text Text Text Text
-Text Text  Text Text Text Text Text Text.
-Figure~2\vphantom{\ref{fig:02}} shows that the above method  Text
-Text Text Text  Text Text Text Text Text Text  Text Text.
-\citealp{Boffelli03} might want to know about  text text text text
-Text Text Text Text Text Text  Text Text Text Text Text Text Text
-Text Text  Text Text Text Text Text Text.
-Figure~2\vphantom{\ref{fig:02}} shows that the above method  Text
-Text Text Text  Text Text Text Text Text Text  Text Text.
-\citealp{Boffelli03} might want to know about  text text text text
-Text Text Text Text Text Text Text Text Text Text Text Text Text
-Text Text  Text Text Text Text Text Text.
-
-\subsection{This is subheading}
-
-Text Text Text Text Text Text  Text Text Text Text Text Text Text
-Text Text  Text Text Text Text Text Text.
-Figure~2\vphantom{\ref{fig:02}} shows that the above method  Text
-Text Text Text  Text Text Text Text Text Text  Text Text.
-\citealp{Boffelli03} might want to know about  text text text text
-Text Text Text Text Text Text  Text Text Text Text Text Text Text
-Text Text  Text Text Text Text Text Text.
-Figure~2\vphantom{\ref{fig:02}} shows that the above method  Text
-Text Text Text Text Text Text Text Text Text  Text Text.
-\citealp{Boffelli03} might want to know about  text text text text
-Text Text Text Text Text Text Text Text Text Text Text Text Text
-Text Text  Text Text Text Text Text Text.
-Figure~2\vphantom{\ref{fig:02}} shows that the above method  Text
-Text Text Text Text Text Text Text Text Text  Text Text.
-\citealp{Boffelli03} might want to know about  text text text
-text. Text Text Text Text Text Text  Text Text Text Text Text Text
-Text Text Text  Text Text Text Text Text Text.
-Figure~2\vphantom{\ref{fig:02}} shows that the above method  Text
-Text Text Text Text Text Text Text Text Text  Text Text.
-\citealp{Boffelli03} might want to know about  text text text text
-Text Text Text Text Text Text Text Text Text Text Text Text Text
-Text Text  Text Text Text Text Text Text.
-Figure~2\vphantom{\ref{fig:02}} shows that the above method  Text
-Text Text Text Text Text Text Text Text Text  Text Text.
-\citealp{Boffelli03} might want to know about  text text text text
-Text Text Text Text Text Text  Text Text Text Text Text Text Text
-Text Text  Text Text Text Text Text Text.
-Figure~2\vphantom{\ref{fig:02}} shows that the above method  Text
-Text Text Text Text Text Text Text Text Text  Text Text.
-\citealp{Boffelli03} might want to know about  text text text text
-Text Text Text Text Text Text Text Text Text Text Text Text Text
-Text Text  Text Text Text Text Text Text.
-Figure~2\vphantom{\ref{fig:02}} shows that the above method  Text
-Text Text Text Text Text Text Text Text Text  Text Text.
-\citealp{Boffelli03} might want to know about  text text text text
-Text Text Text Text Text Text  Text Text Text Text Text Text Text
-Text Text  Text Text Text Text Text Text.
-
-
-\subsubsection{This is subsubheading}
-
-Text Text Text Text Text Text  Text Text Text Text Text Text Text
-Text Text  Text Text Text Text Text Text.
-Figure~2\vphantom{\ref{fig:02}} shows that the above method  Text
-Text Text Text  Text Text Text Text Text Text  Text Text.
-\citealp{Boffelli03} might want to know about  text text text text
-Text Text Text Text Text Text  Text Text Text Text Text Text Text
-Text Text  Text Text Text Text Text Text.
-Figure~2\vphantom{\ref{fig:02}} shows that the above method  Text
-Text Text Text  Text Text Text Text Text Text  Text Text.
-\citealp{Boffelli03} might want to know about  text text text text
-Text Text Text Text Text Text Text Text Text Text Text Text Text
-Text Text  Text Text Text Text Text Text.
-Figure~2\vphantom{\ref{fig:02}} shows that the above method  Text
-Text Text Text  Text Text Text Text Text Text  Text Text.
-\citealp{Boffelli03} might want to know about  text text text text
-
-
-
-Text Text Text Text Text Text  Text Text Text Text Text Text Text
-Text Text  Text Text Text Text Text Text.
-Figure~2\vphantom{\ref{fig:02}} shows that the above method  Text
-Text Text Text  Text Text Text Text Text Text  Text Text.
-\citealp{Boffelli03} might want to know about  text text text text
-Text Text Text Text Text Text  Text Text Text Text Text Text Text
-Text Text  Text Text Text Text Text Text.
-Figure~2\vphantom{\ref{fig:02}} shows that the above method  Text
-Text Text Text  Text Text Text Text Text Text  Text Text.
-\citealp{Boffelli03} might want to know about  text text text text
-Text Text Text Text Text Text Text Text Text Text Text Text Text
-Text Text  Text Text Text Text Text Text.
-Figure~2\vphantom{\ref{fig:02}} shows that the above method  Text
-Text Text Text  Text Text Text Text Text Text  Text Text.
-\citealp{Boffelli03} might want to know about  text text\break
-text text
-
-
-Text Text Text Text Text Text  Text Text Text Text Text Text Text
-Text Text  Text Text Text Text Text Text.
-Figure~2\vphantom{\ref{fig:02}} shows that the above method  Text
-Text Text Text  Text Text Text Text Text Text  Text Text.
-\citealp{Boffelli03} might want to know about  text text text text
-Text Text Text Text Text Text  Text Text Text Text Text Text Text
-Text Text  Text Text Text Text Text Text.
-Figure~2\vphantom{\ref{fig:02}} shows that the above method  Text
-Text Text Text  Text Text Text Text Text Text  Text Text.
-\citealp{Boffelli03} might want to know about  text text text text
-Text Text Text Text Text Text Text Text Text Text Text Text Text
-Text Text  Text Text Text Text Text Text.
-Figure~2\vphantom{\ref{fig:02}} shows that the above method  Text
-Text Text Text  Text Text Text Text Text Text  Text Text.
-\citealp{Boffelli03} might want to know about  text text text
-textText Text Text Text Text Text  Text Text Text Text Text Text
-Text Text Text  Text Text Text Text Text Text.
-Figure~2\vphantom{\ref{fig:02}} shows that the above method  Text
-Text Text Text  Text Text Text Text Text Text  Text Text.
-\citealp{Boffelli03} might want to know about  text text text text
-Text Text Text Text Text Text Text Text Text Text Text Text Text
-Text Text  Text Text Text Text Text Text.
-Figure~2\vphantom{\ref{fig:02}} shows that the above method  Text
-Text Text Text  Text Text Text Text Text Text  Text Text.
-\citealp{Boffelli03} might want to know about  text text text text
-Text Text Text Text Text Text  Text Text Text Text Text Text Text
-Text Text  Text Text Text Text Text Text.
-Figure~2\vphantom{\ref{fig:02}} shows that the above method  Text
-Text Text Text  Text Text Text Text Text Text  Text Text.
-\citealp{Boffelli03} might want to know about  text text text text
-Text Text Text Text Text Text Text Text Text Text Text Text Text
-Text Text  Text Text Text Text Text Text.
-Figure~2\vphantom{\ref{fig:02}} shows that the above method  Text
-Text Text Text  Text Text Text Text Text Text  Text Text.
-\citealp{Boffelli03} might want to know about  text text text text
-Text Text Text Text Text Text  Text Text Text Text Text Text Text
-Text Text  Text Text Text Text Text Text.
-
-\enlargethispage{6pt}
-
-
-Text Text Text Text Text Text  Text Text Text Text Text Text Text
-Text Text  Text Text Text Text Text Text.
-Figure~2\vphantom{\ref{fig:02}} shows that the above method  Text
-Text Text Text  Text Text Text Text Text Text  Text Text.
-\citealp{Boffelli03} might want to know about  text text text text
-Text Text Text Text Text Text  Text Text Text Text Text Text Text
-Text Text  Text Text Text Text Text Text.
-Figure~2\vphantom{\ref{fig:02}} shows that the above method  Text
-Text Text Text  Text Text Text Text Text Text  Text Text.
-\citealp{Boffelli03} might want to know about  text text text text
-Text Text Text Text Text Text Text Text Text Text Text Text Text
-Text Text  Text Text Text Text Text Text.
-Figure~2\vphantom{\ref{fig:02}} shows that the above method  Text
-Text Text Text  Text Text Text Text Text Text  Text Text.
-\citealp{Boffelli03} might want to know about  text text text text
-
-
-
-Text Text Text Text Text Text  Text Text Text Text Text Text Text
-Text Text  Text Text Text Text Text Text.
-Figure~2\vphantom{\ref{fig:02}} shows that the above method  Text
-Text Text Text  Text Text Text Text Text Text  Text Text.
-\citealp{Boffelli03} might want to know about  text text text text
-Text Text Text Text Text Text  Text Text Text Text Text Text Text
-Text Text  Text Text Text Text Text Text.
-Figure~2\vphantom{\ref{fig:02}} shows that the above method  Text
-Text Text Text  Text Text Text Text Text Text  Text Text.
-\citealp{Boffelli03} might want to know about  text text text text
-Text Text Text Text Text Text Text Text Text Text Text Text Text
-Text Text  Text Text Text Text Text Text.
-Figure~2\vphantom{\ref{fig:02}} shows that the above method  Text
-Text Text Text  Text Text Text Text Text Text  Text Text.
-\citealp{Boffelli03} might want to know about  text text text text
-
-
-Text Text Text Text Text Text  Text Text Text Text Text Text Text
-Text Text  Text Text Text Text Text Text.
-Figure~2\vphantom{\ref{fig:02}} shows that the above method  Text
-Text Text Text  Text Text Text Text Text Text  Text Text.
-\citealp{Boffelli03} might want to know about  text text text text
-Text Text Text Text Text Text  Text Text Text Text Text Text Text
-Text Text  Text Text Text Text Text Text.
-Figure~2\vphantom{\ref{fig:02}} shows that the above method  Text
-Text Text Text  Text Text Text Text Text Text  Text Text.
-\citealp{Boffelli03} might want to know about  text text text text
-Text Text Text Text Text Text Text Text Text Text Text Text Text
-Text Text  Text Text Text Text Text Text.
-Figure~2\vphantom{\ref{fig:02}} shows that the above method  Text
-Text Text Text  Text Text Text Text Text Text  Text Text.
-\citealp{Boffelli03} might want to know about  text text text text
-
-Text Text Text Text Text Text  Text Text Text Text Text Text Text
-Text Text  Text Text Text Text Text Text.
-Figure~2\vphantom{\ref{fig:02}} shows that the above method  Text
-Text Text Text  Text Text Text Text Text Text  Text Text.
-\citealp{Boffelli03} might want to know about  text text text text
-Text Text Text Text Text Text  Text Text Text Text Text Text Text
-Text Text  Text Text Text Text Text Text.
-Figure~2\vphantom{\ref{fig:02}} shows that the above method  Text
-Text Text Text  Text Text Text Text Text Text  Text Text.
-\citealp{Boffelli03} might want to know about  text text text text
-Text Text Text Text Text Text Text Text Text Text Text Text Text
-Text Text  Text Text Text Text Text Text.
-Figure~2\vphantom{\ref{fig:02}} shows that the above method  Text
-Text Text Text  Text Text Text Text Text Text  Text Text.
-\citealp{Boffelli03} might want to know about  text text text text
-Text Text Text Text Text Text  Text Text Text Text Text Text Text
-Text Text  Text Text Text Text Text Text.
-Figure~2\vphantom{\ref{fig:02}} shows that the above method  Text
-Text Text Text  Text Text Text Text Text Text  Text Text.
-\citealp{Boffelli03} might want to know about  text text text text
-Text Text Text Text Text Text Text Text Text Text Text Text Text
-Text Text  Text Text Text Text Text Text.
-
-
-Text Text Text Text Text Text  Text Text Text Text Text Text Text
-Text Text  Text Text Text Text Text Text.
-Figure~2\vphantom{\ref{fig:02}} shows that the above method  Text
-Text Text Text  Text Text Text Text Text Text  Text Text.
-\citealp{Boffelli03} might want to know about  text text text text
-Text Text Text Text Text Text  Text Text Text Text Text Text Text
-Text Text  Text Text Text Text Text Text.
-Figure~2\vphantom{\ref{fig:02}} shows that the above method  Text
-Text Text Text  Text Text Text Text Text Text  Text Text.
-\citealp{Boffelli03} might want to know about  text text text text
-Text Text Text Text Text Text Text Text Text Text Text Text Text
-Text Text  Text Text Text Text Text Text.
-Figure~2\vphantom{\ref{fig:02}} shows that the above method  Text
-Text Text Text  Text Text Text Text Text Text  Text Text.
-\citealp{Boffelli03} might want to know about  text text text text
-
-\begin{table}[!t]
-\processtable{This is table caption\label{Tab:01}} {\begin{tabular}{@{}llll@{}}\toprule head1 &
-head2 & head3 & head4\\\midrule
-row1 & row1 & row1 & row1\\
-row2 & row2 & row2 & row2\\
-row3 & row3 & row3 & row3\\
-row4 & row4 & row4 & row4\\\botrule
-\end{tabular}}{This is a footnote}
-\end{table}
-
-\end{methods}
-
-\begin{figure}[!tpb]%figure1
-\fboxsep=0pt\colorbox{gray}{\begin{minipage}[t]{235pt} \vbox to 100pt{\vfill\hbox to
-235pt{\hfill\fontsize{24pt}{24pt}\selectfont FPO\hfill}\vfill}
-\end{minipage}}
-%\centerline{\includegraphics{fig01.eps}}
+\begin{figure*}[!tpb]%figure1
+\centerline{\includegraphics[width=\textwidth]{figures/ngram_scheme.png}}
 \caption{Caption, caption.}\label{fig:01}
-\end{figure}
+\end{figure*}
 
-%\begin{figure}[!tpb]%figure2
-%%\centerline{\includegraphics{fig02.eps}}
-%\caption{Caption, caption.}\label{fig:02}
-%\end{figure}
+In addition to the reduced amino acid alphabets created through the clusterization of physicochemical properties, we also examined common reduced alphabets from the literature and raw amino acid sequences.  
 
-Text Text Text Text Text Text  Text Text Text Text Text Text Text
-Text Text  Text Text Text Text Text Text.
-Figure~2\vphantom{\ref{fig:02}} shows that the above method  Text
-Text Text Text  Text Text Text Text Text Text  Text Text.
-\citealp{Boffelli03} might want to know about  text text text text
-Text Text Text Text Text Text  Text Text Text Text Text Text Text
-Text Text  Text Text Text Text Text Text.
-Figure~2\vphantom{\ref{fig:02}} shows that the above method  Text
-Text Text Text  Text Text Text Text Text Text  Text Text.
-\citealp{Boffelli03} might want to know about  text text text text
-Text Text Text Text Text Text Text Text Text Text Text Text Text
-Text Text  Text Text Text Text Text Text.
-Figure~2\vphantom{\ref{fig:02}} shows that the above method  Text
-Text Text Text  Text Text Text Text Text Text  Text Text.
-\citealp{Boffelli03} might want to know about  text text text text
+Considering that in longer amyloids, only the part of their sequence is responsible for amyloidogenicity, we restricted the maximum length of peptides in training data set to fifteen amino acids. During the training phase, we extracted overlapping hexamers from each sequence. Each hexamer was tagged with the same etiquette (amyloid/nonamyloid) as the original peptide. For example, the sequence of length 6 residues yields only one hexamer and the sequence of 8 residues yields 3 hexamers.
 
+The inquire the exact length of amyloidogenicity signal, we trained nine classifiers for each encoding on the sequences of different length. We considered sequences of length 6, shorter of equal to 10 residues and shorter or equal to 15 residues. We specified separately length of peptides for negative and positive training set, obtaining in total nine classifiers per each encoding.
 
-\subsection{Test1}
+\subsection{Cross-validation}
 
-Text Text Text Text Text Text  Text Text Text Text Text Text Text
-Text Text  Text Text Text Text Text Text.
-Figure~2\vphantom{\ref{fig:02}} shows that the above method  Text
-Text Text Text  Text Text Text Text Text Text  Text Text.
-\citealp{Boffelli03} might want to know about  text text text text
-Text Text Text Text Text Text  Text Text Text Text Text Text Text
-Text Text  Text Text Text Text Text Text.
-Figure~2\vphantom{\ref{fig:02}} shows that the above method  Text
-Text Text Text  Text Text Text Text Text Text  Text Text.
-\citealp{Boffelli03} might want to know about  text text text text
-Text Text Text Text Text Text Text Text Text Text Text Text Text
-Text Text  Text Text Text Text Text Text.
-Figure~2\vphantom{\ref{fig:02}} shows that the above method  Text
-Text Text Text  Text Text Text Text Text Text  Text Text.
-\citealp{Boffelli03} might want to know about  text text text text
+The cross-validation was repeated five times for each combination of the encoding as well as the length of sequences in positive data set and negative data set.
 
-
-
+Since we are interested if our classiffiers are able to use decision rules extracted from sequences of given length to correctly classify longer or shorter sequences, we calculate performance measures separately for four ranges of lengths of sequences:  
+\begin{itemize}
+\item 6;  
+\item 7-10;   
+\item 11-15;   
+\item 16-25.  
+\end{itemize}
+The number of sequences from the given length range was roughly comparable between folds of cross-validation.
 
 
 \section{Discussion}
@@ -541,7 +211,7 @@ text text text\vspace*{-12pt}
 
 \section*{Funding}
 
-This work has been supported by the... Text Text  Text Text.\vspace*{-12pt}
+The conference fee was funded by the KNOW Consortium.
 
 %\bibliographystyle{natbib}
 %\bibliographystyle{achemnat}
@@ -554,38 +224,4 @@ This work has been supported by the... Text Text  Text Text.\vspace*{-12pt}
 %\bibliography{Document}
 
 
-\begin{thebibliography}{}
-
-\bibitem[Bofelli {\it et~al}., 2000]{Boffelli03}
-Bofelli,F., Name2, Name3 (2003) Article title, {\it Journal Name}, {\bf 199}, 133-154.
-
-\bibitem[Bag {\it et~al}., 2001]{Bag01}
-Bag,M., Name2, Name3 (2001) Article title, {\it Journal Name}, {\bf 99}, 33-54.
-
-\bibitem[Yoo \textit{et~al}., 2003]{Yoo03}
-Yoo,M.S. \textit{et~al}. (2003) Oxidative stress regulated genes
-in nigral dopaminergic neurnol cell: correlation with the known
-pathology in Parkinson's disease. \textit{Brain Res. Mol. Brain
-Res.}, \textbf{110}(Suppl. 1), 76--84.
-
-\bibitem[Lehmann, 1986]{Leh86}
-Lehmann,E.L. (1986) Chapter title. \textit{Book Title}. Vol.~1, 2nd edn. Springer-Verlag, New York.
-
-\bibitem[Crenshaw and Jones, 2003]{Cre03}
-Crenshaw, B.,III, and Jones, W.B.,Jr (2003) The future of clinical
-cancer management: one tumor, one chip. \textit{Bioinformatics},
-doi:10.1093/bioinformatics/btn000.
-
-\bibitem[Auhtor \textit{et~al}. (2000)]{Aut00}
-Auhtor,A.B. \textit{et~al}. (2000) Chapter title. In Smith, A.C.
-(ed.), \textit{Book Title}, 2nd edn. Publisher, Location, Vol. 1, pp.
-???--???.
-
-\bibitem[Bardet, 1920]{Bar20}
-Bardet, G. (1920) Sur un syndrome d'obesite infantile avec
-polydactylie et retinite pigmentaire (contribution a l'etude des
-formes cliniques de l'obesite hypophysaire). PhD Thesis, name of
-institution, Paris, France.
-
-\end{thebibliography}
 \end{document}
