@@ -49,7 +49,7 @@ The inquire the exact length of amyloidogenicity signal, we trained nine classif
 
 # Cross-validation
 
-The cross-validation was repeated ten times for each combination of the encoding as well as the length of sequences in positive data set and negative data set.
+The cross-validation was repeated five times for each combination of the encoding as well as the length of sequences in positive data set and negative data set.
 
 Since we are interested if our classiffiers are able to use decision rules extracted from sequences of given length to correctly classify longer or shorter sequences, we calculate performance measures separately for four ranges of lengths of sequences:   
 1. 6;  
