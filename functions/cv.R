@@ -31,7 +31,7 @@ create_all_folds <- function(ets, seq_lengths) {
   lapply(1L:3, function(constant_pos) {
     lapply(1L:3, function(constant_neg) {
 
-      lapply(1L:10, function(dummy) {
+      lapply(1L:5, function(dummy) {
         splitted_seqs <- lapply(levels(seq_label), function(single_label) {
           pos_seqs <- which(ets == 1 & seq_label == single_label)
           neg_seqs <- which(ets == 0 & seq_label == single_label)
