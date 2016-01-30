@@ -10,6 +10,7 @@ require(pbapply)
 require(biogram)
 require(cvTools)
 require(ranger)
+require(xtable)
 
 # functions
 
@@ -47,3 +48,9 @@ group2df <- function(group_list, caption = NULL, label = NULL) {
              Groups = sapply(group_list, function(i)
     paste0(toupper(sort(i)), collapse = ", ")))
 }
+
+
+# choose_properties() %>%
+#   format_property_table %>% 
+#   xtable(caption = "Physicochemical properties used during creation of reduced amino acid alphabets.") %>%
+#   print.xtable(include.rownames = FALSE)

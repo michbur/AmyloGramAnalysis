@@ -78,6 +78,34 @@ The amyloidogenicity of given peptide may not depend on the exact sequence of am
 
 We created the reduced alphabet of amino acids using Ward's clusterization on the selected physicochemical properties. We picked several measures belonging to more general categories important in process of amyloidogenicity as size, hydrophobicity, solvent surface area, frequency in $\beta$-sheets and contactivity. As the rule of thumb, we limited ourselves to properties introduced after 1980 when, thanks to the technological advancements, the measurements were more accurate.
 
+\begin{table}[ht]
+\centering
+\begin{tabular}{ll}
+  \hline
+Category & Property \\ 
+  \hline
+Contactivity & Average flexibility indices (Bhaskaran-Ponnuswamy, 1988) \\ 
+  Contactivity & 14 A contact number (Nishikawa-Ooi, 1986) \\ 
+  Contactivity & Accessible surface area (Radzicka-Wolfenden, 1988) \\ 
+  Contactivity & Buriability (Zhou-Zhou, 2004) \\ 
+  Contactivity & Values of Wc in proteins from class Beta, cutoff 12 A, separation 5 (Wozniak-Kotulska, 2014) \\ 
+  Contactivity & Values of Wc in proteins from class Beta, cutoff 12 A, separation 15 (Wozniak-Kotulska, 2014) \\ 
+  \$$\backslash$beta\$-frequency & Average relative probability of inner beta-sheet (Kanehisa-Tsong, 1980) \\ 
+  \$$\backslash$beta\$-frequency & Relative frequency in beta-sheet (Prabhakaran, 1990) \\ 
+  \$$\backslash$beta\$-frequency & Thermodynamic beta sheet propensity (Kim-Berg, 1993) \\ 
+  Hydrophobicity & Hydrophobicity index (Argos et al., 1982) \\ 
+  Hydrophobicity & Optimal matching hydrophobicity (Sweet-Eisenberg, 1983) \\ 
+  Hydrophobicity & Hydrophobicity-related index (Kidera et al., 1985) \\ 
+  Hydrophobicity & Scaled side chain hydrophobicity values (Black-Mould, 1991) \\ 
+  Polarity & Polarizability parameter (Charton-Charton, 1982) \\ 
+  Polarity & Mean polarity (Radzicka-Wolfenden, 1988) \\ 
+  Size & Average volumes of residues (Pontius et al., 1996) \\ 
+  Stability & Side-chain contribution to protein stability (kJ/mol) (Takano-Yutani, 2001) \\ 
+   \hline
+\end{tabular}
+\caption{Physicochemical properties used during creation of reduced amino acid alphabets.} 
+\end{table}
+
 We further reduced the number of properties to 17, by selecting measures uncorrelated with others (with the Pearson's correlation coefficient for normalized values larger than 0.95 or smaller than 0.05) since they would create very similar encodings.
 
 \subsection{Traning of learners}
@@ -88,9 +116,10 @@ We further reduced the number of properties to 17, by selecting measures uncorre
 \caption{Caption, caption.}\label{fig:01}
 \end{figure*}
 
-In addition to the reduced amino acid alphabets created through the clusterization of physicochemical properties, we also examined common reduced alphabets from the literature and raw amino acid sequences.  
+In addition to the reduced amino acid alphabets created through the clusterization of physicochemical properties, we also examined two reduced alphabets from the literature and raw amino acid sequences.  
 
-Considering that in longer amyloids, only the part of their sequence is responsible for amyloidogenicity, we restricted the maximum length of peptides in training data set to fifteen amino acids. During the training phase, we extracted overlapping hexamers from each sequence. Each hexamer was tagged with the same etiquette (amyloid/nonamyloid) as the original peptide. For example, the sequence of length 6 residues yields only one hexamer and the sequence of 8 residues yields 3 hexamers.
+Assuming that in longer amyloids only the short part of the sequence is responsible for amyloidogenicity, 
+we restricted the maximum length of peptides in training data set to fifteen amino acids to easy the extraction of probable hot-spots. During the training phase, we extracted overlapping hexamers from each sequence. Each hexamer was tagged with the same etiquette (amyloid/nonamyloid) as the original peptide. For example, the sequence of length 6 residues yields only one hexamer and the sequence of 8 residues yields 3 hexamers. 
 
 The inquire the exact length of amyloidogenicity signal, we trained nine classifiers for each encoding on the sequences of different length. We considered sequences of length 6, shorter of equal to 10 residues and shorter or equal to 15 residues. We specified separately length of peptides for negative and positive training set, obtaining in total nine classifiers per each encoding.
 
