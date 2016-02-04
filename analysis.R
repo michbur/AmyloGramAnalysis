@@ -50,7 +50,6 @@ seq_lengths <- unname(lengths(seqs_list))
 
 all_folds <- create_all_folds(ets, seq_lengths)
 
-
 cv_results <- do_cv(all_folds[idx], extracted_ngrams, create_hv(seqs_m))
 filename <- paste0("./results/cv_results_full_", idx, "_", idx2, ".Rdata")
 print(filename)
@@ -60,12 +59,14 @@ print("success")
 # cv_results <- do_cv(all_folds, extracted_ngrams, create_hv(seqs_m))
 # cv_summary <- summarize_cv_results(cv_results, reps_ids = get_reps_ids())
 
+cv_summary <- summarize_cv_results(cv_results, get_reps_ids)
+
 # negative control - full amino acid alphabet
 # full_aa <- tolower(a()[-1]) %>% as.list
 # names(full_aa) <- 1L:20
 # full_aa <- list(full_aa)
 # extracted_ngrams_full <- extract_ngrams(seqs_m, full_aa)
-# cv_results_full <- do_cv(all_folds, extracted_ngrams_full)
+# cv_results_full <- do_cv(all_folds, extracted_ngrams_full, create_hv(seqs_m))
 # save(cv_results_full, file = "./results/cv_results_full.RData")
 # load("./results/cv_results_full.RData")
 
