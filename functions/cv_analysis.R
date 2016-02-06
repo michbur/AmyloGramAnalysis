@@ -18,6 +18,16 @@ get_reps_ids <- function()
   data.frame %>%
   rename(pos = X1, neg = X2)
 
+#' Summarize results of cross-validation
+#'
+#' Computes mean performance measure of cross-validation results.
+#'
+#' @param cv_results results of cross-valdiation as per \code{\link{do_cv}} function.
+#' @param reps_ids sizes of positive and negative data sets as provided by
+#' \code{\link{get_reps_ids}}
+#' 
+#' @return Data frame containing mean and standard deviation of AUC, MCC, 
+#' sensitivity and specificity.
 summarize_cv_results <- function(cv_results, reps_ids) {
   res <- do.call(rbind, lapply(1L:length(cv_results), function(single_enc_id) {
     all_reps_res <- lapply(cv_results[[single_enc_id]], function(single_rep) {
