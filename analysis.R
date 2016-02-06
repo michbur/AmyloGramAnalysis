@@ -43,7 +43,7 @@ all_folds <- create_all_folds(ets, seq_lengths)
 
 cv_results <- do_cv(all_folds, extracted_ngrams, create_hv(seqs_m))
 
-cv_summary <- summarize_cv_results(cv_results, reps_ids = get_reps_ids())
+cv_summary <- summarize_cv_results(cv_results, get_reps_ids)
 
 # negative control - full amino acid alphabet
 # full_aa <- tolower(a()[-1]) %>% as.list
