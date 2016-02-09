@@ -66,7 +66,7 @@ Text Text Text  Text Text Text Text Text Text  Text Text.
 
 \subsection{Data set}
 
-The data used in the study was extracted from AmyLoad data base. Aside from eight sequences shorter than five residues that were removed from the final data set, we obtained 418 amyloidogenic sequences and 1039 non-amyloidogenic sequences (1457 peptides in total).
+The data used in the study was extracted from AmyLoad data base~\citep{wozniak_amyload:_2015}. Aside from eight sequences shorter than five residues that were removed from the final data set, we obtained 418 amyloidogenic sequences and 1039 non-amyloidogenic sequences (1457 peptides in total).
 
 Sequences shorter than 6 amino acids and longer than 25 amino acids were removed from data set. The former were too short to be processed in the devised analysis framework and the latter were too diversified and rare, preventing the proper analysis.
 
@@ -76,7 +76,7 @@ The final data set contains 397 amyloidogenic and 1033 non-amyloidogenic sequenc
 
 The amyloidogenicity of given peptide may not depend on the exact sequence of amino acids, but on its more general properties. To verify this hypothesis, we created 18 537 reduced amino acid alphabets with different lengths (from three to six letters).
 
-We created the reduced alphabet of amino acids using Ward's clusterization on the selected physicochemical properties. We picked several measures belonging to more general categories important in process of amyloidogenicity as size, hydrophobicity, solvent surface area, frequency in $\beta$-sheets and contactivity. As the rule of thumb, we limited ourselves to properties introduced after 1980 when, thanks to the technological advancements, the measurements were more accurate.
+We created the reduced alphabet of amino acids using Ward's clusterization on the selected physicochemical properties from AAIndex database~\citep{kawashima_aaindex:_2008}. We handpicked several measures belonging to more general categories important in process of amyloidogenicity as size, hydrophobicity, solvent surface area, frequency in $\beta$-sheets and contactivity. As the rule of thumb, we limited ourselves to properties introduced after 1980 when, thanks to the technological advancements, the measurements were more accurate.
 
 \begin{table}[ht]
 \centering
@@ -106,7 +106,7 @@ Category & Property \\
 \caption{Physicochemical properties used during creation of reduced amino acid alphabets.} 
 \end{table}
 
-We further reduced the number of properties to 17, by selecting measures uncorrelated with others (with the Pearson's correlation coefficient for normalized values larger than 0.95 or smaller than 0.05) since they would create very similar encodings.
+Since highly correlated or, contrarily, uncorrelated measures create very similar encodings, we further reduced the number of properties to 17 by selecting measures with the Pearson's correlation coefficient for normalized values larger than 0.95 or smaller than 0.05.
 
 \subsection{Traning of learners}
 
