@@ -74,9 +74,7 @@ The final data set contains 397 amyloidogenic and 1033 non-amyloidogenic sequenc
 
 \subsection{Encodings of amino acids}
 
-The amyloidogenicity of given peptide may not depend on the exact sequence of amino acids, but on its more general properties. To verify this hypothesis, we created 18 537 reduced amino acid alphabets with different lengths (from three to six letters).
-
-We created the reduced alphabet of amino acids using Ward's clusterization on the selected physicochemical properties from AAIndex database~\citep{kawashima_aaindex:_2008}. We handpicked several measures belonging to more general categories important in process of amyloidogenicity as size, hydrophobicity, solvent surface area, frequency in $\beta$-sheets and contactivity. As the rule of thumb, we limited ourselves to properties introduced after 1980 when, thanks to the technological advancements, the measurements were more accurate.
+The amyloidogenicity of given peptide may not depend on the exact sequence of amino acids, but on its more general properties. To verify this hypothesis, we created 18 537 reduced amino acid alphabets (encodings) with different lengths (from three to six letters) using Ward's clusterization on the selected physicochemical properties from AAIndex database~\citep{kawashima_aaindex:_2008}. We handpicked several measures belonging to more general categories important in process of amyloidogenicity as size, hydrophobicity, solvent surface area, frequency in $\beta$-sheets and contactivity. As the rule of thumb, we limited ourselves to properties introduced after 1980 when, thanks to the technological advancements, the measurements were more accurate.
 
 \begin{table}[ht]
 \centering
@@ -106,7 +104,7 @@ Category & Property \\
 \caption{Physicochemical properties used during creation of reduced amino acid alphabets.} 
 \end{table}
 
-Since highly correlated or, contrarily, uncorrelated measures create very similar encodings, we further reduced the number of properties to 17 by selecting measures with the Pearson's correlation coefficient for normalized values larger than 0.95 or smaller than 0.05.
+Since highly correlated or, contrarily, uncorrelated measures create very similar encodings, we further reduced the number of properties to 17 by selecting measures with the absolute value of Pearson's correlation coefficient for normalized values larger than 0.95.
 
 \subsection{Traning of learners}
 
@@ -116,12 +114,11 @@ Since highly correlated or, contrarily, uncorrelated measures create very simila
 \caption{Caption, caption.}\label{fig:01}
 \end{figure*}
 
-In addition to the reduced amino acid alphabets created through the clusterization of physicochemical properties, we also examined two reduced alphabets from the literature and raw amino acid sequences.  
+In addition to the reduced amino acid alphabets created through the clusterization of physicochemical properties, we also examined two reduced alphabets from the literature and amino acid alphabet of normal length.  
 
-Assuming that in longer amyloids only the short part of the sequence is responsible for amyloidogenicity, 
-we restricted the maximum length of peptides in training data set to fifteen amino acids to easy the extraction of probable hot-spots. During the training phase, we extracted overlapping hexamers from each sequence. Each hexamer was tagged with the same etiquette (amyloid/nonamyloid) as the original peptide. For example, the sequence of length 6 residues yields only one hexamer and the sequence of 8 residues yields 3 hexamers. 
+During the training phase, we extracted overlapping hexamers from each sequence. Each hexamer was tagged with the same etiquette (amyloid/nonamyloid) as the original peptide. For example, the sequence of length 6 residues yields only one hexamer and the sequence of 8 residues yields 3 hexamers.  Assuming that in longer amyloids only a short part of the sequence is responsible for amyloidogenicity, our method might results in many false positives in the training data set. To evade this problem, we restricted the maximum length of peptides in training data set to fifteen amino acids to easy the extraction of probable hot-spots. 
 
-The inquire the exact length of amyloidogenicity signal, we trained nine classifiers for each encoding on the sequences of different length. We considered sequences of length 6, shorter of equal to 10 residues and shorter or equal to 15 residues. We specified separately length of peptides for negative and positive training set, obtaining in total nine classifiers per each encoding.
+The inquire further the length of amyloidogenicity signal, we trained nine classifiers for each encoding on the sequences of different length. We considered six-residue sequences, shorter of equal to ten residues and shorter or equal to fifteen residues. We specified separately length of peptides for negative and positive training set, obtaining in total nine ways of constructing training set for each reduced amino acids alphabet.
 
 \subsection{Cross-validation}
 
