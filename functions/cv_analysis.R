@@ -6,21 +6,21 @@
 #' 
 #' @return List of maximum lengths of sequences in training set.
 
-get_reps_ids <- function() {
-  reps_ids <- lapply(c(6, 10, 15), function(constant_pos) {
+get_reps_ids <- function() 
+  lapply(c(6, 10, 15), function(constant_pos) {
     lapply(c(6, 10, 15), function(constant_neg) {
       lapply(1L:5, function(dummy) {
         c(pos = constant_pos, neg = constant_neg)
       })
     })
   }) %>% unlist %>% 
-  matrix(ncol = 2, byrow = TRUE) %>%
-  data.frame %>%
-  rename(pos = X1, neg = X2)
+    matrix(ncol = 2, byrow = TRUE) %>%
+    data.frame %>%
+    rename(pos = X1, neg = X2)
 
 
-  
-  
+
+
 #' Summarize results of cross-validation
 #'
 #' Computes mean performance measure of cross-validation results.
@@ -44,7 +44,7 @@ summarize_cv_results <- function(cv_results, reps_ids) {
       summarize_each(funs(mean, sd)) %>%
       cbind(., enc = single_enc_id)
   }))
-
+  
   # dplyr changes order of len_ranger, need to get it back
   res[["len_range"]] <- factor(res[["len_range"]], levels(res[["len_range"]])[c(4, 3, 1, 2)])
   res[["pos"]] <- as.factor(res[["pos"]])
@@ -67,3 +67,43 @@ calc_mcc <- function(TP, TN, FP, FN)
 #   scale_y_discrete("Positive negative set")
 
 
+
+#' Get important n-grams from cross-validation
+#'
+#' Extracts important n-grams (n-grams that occured in all folds of every replicate of
+#' cross-validation for a single combination of positive and negative training data 
+#' set sizes).
+#' @param cv_results results of cross-valdiation as per \code{\link{do_cv}} function.
+#' @param reps_ids sizes of positive and negative data sets as provided by
+#' \code{\link{get_reps_ids}}
+#' 
+#' @return List of data frames containing important n-grams for a single encoding.
+summarize_cv_ngrams <- function(cv_results, reps_ids) {
+  lapply(1L:length(cv_results), function(single_enc_id) {
+    all_reps_res <- lapply(cv_results[[single_enc_id]], function(single_rep) {
+      unlist(lapply(single_rep, function(single_fold) single_fold[[2]]))
+    })
+    
+    # ids of replicates
+    reps_ids_factor <- factor(apply(reps_ids(), 1, paste, collapse = "_"))
+    
+    # concatenated n-grams from all replicates, still splitted by training sets
+    conc_res <- lapply(levels(reps_ids_factor), function(rep_group) {
+      all_reps_res[reps_ids_factor == rep_group] %>%
+        unlist %>%
+        table(dnn = "ngram") %>%
+        as.data.frame(responseName = "count", stringsAsFactors = FALSE) %>%
+        filter(count == 25) %>%
+        select(ngram) %>%
+        unlist(use.names = FALSE)
+    })
+    
+    do.call(rbind, lapply(1L:length(conc_res), function(group_id) {
+      train_sizes <- as.numeric(strsplit(levels(reps_ids_factor)[group_id], "_")[[1]])
+      data.frame(pos = train_sizes[1], neg = train_sizes[2], ngram = conc_res[[group_id]],
+                 stringsAsFactors = FALSE)
+    }))
+  })
+}
+
+tmp <- summarize_cv_ngrams(cv_results_full, get_reps_ids)
