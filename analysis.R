@@ -50,7 +50,7 @@ cv_summary <- summarize_cv_results(cv_results, get_reps_ids)
 full_aa <- tolower(a()[-1]) %>% as.list
 names(full_aa) <- full_aa
 full_aa <- list(full_aa)
-extracted_ngrams_full <- extract_ngrams(seqs_m[1L:5, ], full_aa)
+extracted_ngrams_full <- extract_ngrams(seqs_m, full_aa)
 cv_results_full <- do_cv(all_folds, extracted_ngrams_full, create_hv(seqs_m))
 save(cv_results_full, file = "/home/michal/Dropbox/cv_results_full.RData")
 #load("./results/cv_results_full.RData")
