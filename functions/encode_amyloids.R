@@ -34,7 +34,7 @@ extract_ngrams <- function(seq, aa_groups) {
       bitrigrams <- as.matrix(count_multigrams(ns = c(1, rep(2, 4), rep(3, 3)), 
                                                ds = list(0, 0, 1, 2, 3, c(0, 0), c(0, 1), c(1, 0)),
                                                seq = degenerate(single_protein[, -7], single_group),
-                                               u = single_group))
+                                               u = as.character(1L:length(single_group))))
       
       bitrigrams <- bitrigrams > 0
       storage.mode(bitrigrams) <- "integer"
