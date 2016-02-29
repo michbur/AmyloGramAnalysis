@@ -11,7 +11,13 @@ require(biogram)
 require(cvTools)
 require(ranger)
 require(hmeasure)
-require(stringdist)
+require(e1071)
+
+if(Sys.info()["nodename"] %in% c("phobos", "michal-XPS14"))
+  pathway <- "/home/michal/Dropbox/amyloid_cv_results/"
+
+if(Sys.info()["nodename"] == "MICHALKOMP" )
+  pathway <- "C:/Users/Michal/Dropbox/amyloid_cv_results/"
 
 ftraits <- choose_properties()
 

@@ -161,9 +161,6 @@ do_single_cv <- function(fold_list, encoded_group, hv) {
                }))
     )
     
-
-    
-    
     list(aggregated_measures, imp_bigrams)
   })
 }

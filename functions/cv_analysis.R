@@ -1,3 +1,5 @@
+# Functions here should not be used, because they were written with the different data structure in mind
+
 #' Explain replicates of cross-validation
 #'
 #' Since the integration with WCSS, the exact structure of cross-validation results 
@@ -108,6 +110,7 @@ summarize_cv_ngrams <- function(cv_results, reps_ids) {
 
 # imp_ngrams <- summarize_cv_ngrams(cv_results_full, get_reps_ids)
 # 
-# tmp <- imp_ngrams[[1]][["ngram"]][477]
+# tmp <- imp_ngrams[[1]][["ngram"]]
 # 
 # gap_ngrams(tmp)
+
