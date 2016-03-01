@@ -101,7 +101,7 @@ ggplot(bests, aes(x = factor(pos), y = factor(neg), fill = AUC_mean,
                   label = paste0("Se: ", formatC(Sens_mean, digits = 2, format = "f"), 
                                  "\n",
                                  "Sp: ", formatC(Spec_mean, digits = 2, format = "f")))) +
-  geom_tile() +
+  geom_tile(color = "orange") +
   geom_text(color = "red", size = 5) +
   facet_grid(type ~ len_range)
 dev.off()
