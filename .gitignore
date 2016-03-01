@@ -2,3 +2,5 @@
 .Rhistory
 .RData
 amyloid_ngram2.Rproj
+amyloids.Rproj
+results/all_summaries.csv
