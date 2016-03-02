@@ -34,6 +34,9 @@ amyloids %>% group_by(len_range, neg) %>%
   summarise(max(Sens_mean), mean(Sens_mean), min(Sens_mean),
             max(Spec_mean), mean(Spec_mean), min(Spec_mean)) 
 
-
+ggplot(amyloids, aes(x = len_range, y = Spec_mean)) +
+  geom_boxplot() +
+  facet_grid(pos ~ neg, labeller = label_both) +
+  ggtitle("Specificity")
 #wychodzi na to, że prawdziwa różnica jest na sensitivity. Różnice są naprawdę duże,
 #co sugeruje, że warto jest robić osobne modele dla każdego typu długości sekwencji

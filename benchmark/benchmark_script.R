@@ -7,7 +7,7 @@ library(hmeasure)
 
 source("aa_encodings2.R") #creates encodings for data
 
-pep424_tab <- read.table("pep424_evaluation.txt", sep = "\t")
+pep424_tab <- read.table("./benchmark/pep424_evaluation.txt", sep = "\t")
 levels(pep424_tab[[3]]) <- c(0, 0, 1, 1)
 
 
@@ -127,27 +127,8 @@ prot_preds <- data.frame(id = unlist(lapply(1L:length(long_lengths), function(i)
   group_by(id) %>% summarise(pred = max(pred)) %>% select(pred) %>%
   unlist
 
-#real labels
-real_labels <- as.numeric(as.character(pep424_tab[[3]]))[lengths(pep424_prots) > min_subseq_length]
 
-
-#fold amyloid preds
-foldAmyloid_data <- readLines("FoldAmyloid_pred.txt")
-foldAmyloid_preds <- grepl("1", 
-                           foldAmyloid_data[grep("Options: Scale = Expected number of contacts 8A", 
-                                                 foldAmyloid_data) + 1])
-
-#PASTA 2.0 preds
-file_names <- list.files(".benchmark//pasta2_preds/")[grepl("fasta.seq.best_pairings_list.dat", list.files("./pasta2_preds/"))]
-
-pasta2_prot_id <- as.numeric(sapply(strsplit(file_names, ".", fixed = TRUE), function(i) substr(i[1], 5, nchar(i[1]))))
-
-pasta2_preds <- sapply(file_names, function(i) {
-  all_lines <- readLines(paste0("./pasta2_preds/", i))
-  as.numeric(strsplit(strsplit(all_lines, "PASTA energy ")[[1]][2], "*[ ]")[[1]][1])
-}) < -4
-
-
+#write.csv("./results/")
 
 metrics <- HMeasure(real_labels, data.frame(AmyloGram = prot_preds,
                                             PASTA2 = pasta2_preds[order(pasta2_prot_id)],

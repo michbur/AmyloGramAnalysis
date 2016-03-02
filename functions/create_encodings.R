@@ -25,11 +25,11 @@ create_traits_combination <- function(ftraits) {
 #' Creates encodings (3-6 groups long) from list of traits.
 #' @param vtraits a vector of trait indices in the expanded aaindex table
 #' create by \code{\link{choose_properties}}.
-#'
+#' @param list_duplicates if \code{TRUE} returns also a list of duplicates.
 #' @return a named vector of encodings (for example 
 #' \code{iknty_degpqrs_acfhlmvw})
 
-create_encodings <- function(ftraits) {
+create_encodings <- function(ftraits, list_duplicates = FALSE) {
   
   paste_enc <- function(x)
     paste0(sapply(x, paste0, collapse = ""), collapse = "_")
@@ -38,7 +38,7 @@ create_encodings <- function(ftraits) {
   
   grouping_properties <- aa_nprop[unlist(ftraits), ]
   
-  all_traits_combn_list <- create_traits_combination(vtraits)
+  all_traits_combn_list <- create_traits_combination(ftraits)
   
   #create encodings
   all_aa_groups <- pblapply(3L:6, function(single_k) {
@@ -63,6 +63,12 @@ create_encodings <- function(ftraits) {
   #get indices of unique encodings
   aa_id <- lapply(all_aa_groups, function(i) !duplicated(i))
   
+  aa_duplicates <- unlist(lapply(1L:length(aa_id), function(i) 
+    lapply(all_aa_groups[[i]][aa_id[[i]]], function(j)
+      names(which(j == all_aa_groups[[i]])))
+  ), recursive = FALSE)
+  aa_duplicates <- aa_duplicates[lengths(aa_duplicates) > 1]
+  
   #remove from aa_groups redundant encodings
   aa_groups <- unlist(lapply(1L:length(aa_id), function(i) {
     all_aa_groups[[i]][aa_id[[i]]]
@@ -79,6 +85,11 @@ create_encodings <- function(ftraits) {
              `3` = c("d", "e"), 
              `4` = c("s", "t", "c", "n", "q", "y", "w"))
   
-  c(aa1 = paste_enc(aa1), aa2 = paste_enc(aa2), aa_groups)
+  if(list_duplicates) {
+    list(aagroups = c(aa1 = paste_enc(aa1), aa2 = paste_enc(aa2), aa_groups),
+         aa_duplicates = aa_duplicates)
+  } else {
+    c(aa1 = paste_enc(aa1), aa2 = paste_enc(aa2), aa_groups)
+  }
 }
 
