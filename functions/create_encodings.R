@@ -67,7 +67,7 @@ create_encodings <- function(ftraits, list_duplicates = FALSE) {
     lapply(all_aa_groups[[i]][aa_id[[i]]], function(j)
       names(which(j == all_aa_groups[[i]])))
   ), recursive = FALSE)
-  aa_duplicates <- aa_duplicates[lengths(aa_duplicates) > 1]
+  #aa_duplicates <- aa_duplicates[lengths(aa_duplicates) > 1]
   
   #remove from aa_groups redundant encodings
   aa_groups <- unlist(lapply(1L:length(aa_id), function(i) {

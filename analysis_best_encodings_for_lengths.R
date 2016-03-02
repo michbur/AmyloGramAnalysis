@@ -32,8 +32,20 @@ for(i in 1:4){
 
 #distances are quite big
 
+load("./results/enc_dupes.RData")
+#remember, indices in enc_adj and are equal to indices in enc_dupes + 2 and trait_tab  + 2
+
+all_encs <- unlist(enc_dupes[["aa_duplicates"]][best_enc], use.names = FALSE) %>%
+  sapply(function(i) substr(i, 3, nchar(i))) %>%
+  strsplit("K") %>%
+  lapply(as.numeric) %>%
+  do.call(rbind, .) %>%
+  data.frame %>%
+  select(X1) %>%
+  unlist(use.names = FALSE) - 2
+
 trait_tab <-  read.csv(file = "./results/trait_tab.csv")
-frequencies <- data.frame(trait_tab[best_enc,] %>%
+frequencies <- data.frame(trait_tab[all_encs,] %>%
                             apply(1, na.omit) %>% unlist %>% table)
 colnames(frequencies) <- c("X", "Freq")
 frequencies$X <- as.numeric(as.character(frequencies$X))
@@ -45,10 +57,18 @@ years <- prop_MK %>% select(name) %>% unlist %>% as.character %>% sapply(functio
   strsplit(last(strsplit(i, ", ")[[1]]), ")", fixed = TRUE)[[1]][1]) %>%
   as.numeric
 
-prop_MK <- cbind(prop_MK, years = years) %>% filter(years >= 1980)
+prop_MK <- cbind(prop_MK, years = years) %>% filter(years >= 1980) %>%
+  select(X, name) %>% rbind(., 
+                            data.frame(X = 545:550, 
+                                       name =  c("Values of Wc in proteins from class Beta, cutoff 6 A, separation 5 (Wozniak-Kotulska, 2014)",
+                                                 "Values of Wc in proteins from class Beta, cutoff 8 A, separation 5 (Wozniak-Kotulska, 2014)",
+                                                 "Values of Wc in proteins from class Beta, cutoff 12 A, separation 5 (Wozniak-Kotulska, 2014)",
+                                                 "Values of Wc in proteins from class Beta, cutoff 6 A, separation 15 (Wozniak-Kotulska, 2014)",
+                                                 "Values of Wc in proteins from class Beta, cutoff 8 A, separation 15 (Wozniak-Kotulska, 2014)",
+                                                 "Values of Wc in proteins from class Beta, cutoff 12 A, separation 15 (Wozniak-Kotulska, 2014)")))
 #################################################################################
 prop_MK %>%
   inner_join(frequencies) %>%
-  arrange(desc(Freq, property)) %>%
-  select(name, property, Freq)
+  arrange(desc(Freq)) %>%
+  select(name, Freq)
 
