@@ -6,6 +6,7 @@ require(biogram)
 source("./functions/choose_properties.R")
 source("./functions/create_encodings.R")
 
+ftraits <- choose_properties()
 trait_combn <- create_traits_combination(ftraits)
 load("aa_groups.RData")
 aa_groups <- string2list(aa_groups)
@@ -34,3 +35,7 @@ write.csv(trait_tab, file = "./results/trait_tab.csv", row.names = FALSE)
 #   apply(1, na.omit) %>%
 #   unlist %>%
 #   table
+
+#encodings and duplicates
+enc_dupes <- create_encodings(ftraits, TRUE)
+save(enc_dupes, file = "./results/enc_dupes.RData")
