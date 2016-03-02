@@ -19,6 +19,8 @@ if(Sys.info()["nodename"] %in% c("phobos", "michal-XPS14"))
 if(Sys.info()["nodename"] == "MICHALKOMP" )
   pathway <- "C:/Users/Michal/Dropbox/amyloid_cv_results/"
 
+if(Sys.info()["nodename"] == "tobit" )
+  pathway <- "~/Dropbox/amyloid_cv_results/"
 
 extract_cv_results_single_file <- function(cv_results) {
   res <- do.call(rbind, lapply(1L:length(cv_results), function(single_enc_id) {
