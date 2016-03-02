@@ -1,7 +1,8 @@
 #amyloidy
 
 library(dplyr)
-
+if(Sys.info()["nodename"] == "sobczyk-pc" )
+  setwd("~/Dropbox/doktorat/moje_prace/amyloid_ngram2/")
 amyloids <- read.csv("results/all_summaries.csv")
 
 summary(amyloids)
