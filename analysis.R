@@ -1,3 +1,5 @@
+# code below creates and cross-validates classifiers for all reduced amino acid alphabets
+
 source("./functions/choose_properties.R")
 source("./functions/create_encodings.R")
 source("./functions/encode_amyloids.R")

@@ -6,10 +6,10 @@ amyloids %>% group_by(len_range) %>%
 amyloids %>% group_by(len_range) %>%
   summarise(max(AUC_mean))
 
-best_enc <- c((amyloids[amyloids$len_range=="(10,15]",])[135191,"enc"],
-(amyloids[amyloids$len_range=="(15,25]",])[27378,"enc"],
-(amyloids[amyloids$len_range=="[5,6]",])[151207,"enc"],
-(amyloids[amyloids$len_range=="(6,10]",])[113669,"enc"])
+best_enc <- c((amyloids[amyloids$len_range=="(10,15]",])[135191,"enc_adj"],
+              (amyloids[amyloids$len_range=="(15,25]",])[27378,"enc_adj"],
+              (amyloids[amyloids$len_range=="[5,6]",])[151207,"enc_adj"],
+              (amyloids[amyloids$len_range=="(6,10]",])[113669,"enc_adj"])
 
 distances <- matrix(ncol=4, nrow=4)
 for(i in 1:4){
