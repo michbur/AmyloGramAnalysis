@@ -71,17 +71,17 @@ all_summaries <- mutate(all_summaries,
 
 write.csv(all_summaries, file = "./results/all_summaries.csv", row.names = FALSE)
 
-best_sens <- group_by(all_summaries, pos, neg, len_range) %>%
+best_sens <- group_by(all_summaries, pos, len_range) %>%
   filter(Sens_mean == max(Sens_mean, na.rm = TRUE)) %>%
   arrange(desc(Sens_mean)) %>%
-  select(pos, neg, len_range, AUC_mean, Sens_mean, Spec_mean, enc_adj) %>%
+  select(pos, len_range, AUC_mean, Sens_mean, Spec_mean, enc_adj) %>%
   filter(AUC_mean == max(AUC_mean)) %>%
   mutate(type = "Best sensitivity")
 
-best_spec <- group_by(all_summaries, pos, neg, len_range) %>%
+best_spec <- group_by(all_summaries, pos, len_range) %>%
   filter(Spec_mean == max(Spec_mean, na.rm = TRUE)) %>%
   arrange(desc(Spec_mean)) %>%
-  select(pos, neg, len_range, AUC_mean, Sens_mean, Spec_mean, enc_adj) %>%
+  select(pos, len_range, AUC_mean, Sens_mean, Spec_mean, enc_adj) %>%
   filter(AUC_mean == max(AUC_mean)) %>%
   mutate(type = "Best specificity")
 
@@ -93,17 +93,7 @@ group_by(bests, type, enc_adj) %>%
   data.frame()
 
 library(ggplot2)
-ggplot(bests, aes(x = factor(pos), y = factor(neg), fill = Sens_mean, label = round(Sens_mean, 2))) +
+ggplot(bests, aes(x = factor(pos), fill = Sens_mean, label = round(Sens_mean, 2))) +
   geom_tile() +
   geom_text(color = "red", size = 5) +
   facet_grid(type ~ len_range)
-
-png("auc_plot.png", height = 1024, width = 1024)
-ggplot(bests, aes(x = factor(pos), y = factor(neg), fill = AUC_mean, 
-                  label = paste0("Se: ", formatC(Sens_mean, digits = 2, format = "f"), 
-                                 "\n",
-                                 "Sp: ", formatC(Spec_mean, digits = 2, format = "f")))) +
-  geom_tile(color = "orange") +
-  geom_text(color = "red", size = 5) +
-  facet_grid(type ~ len_range)
-dev.off()

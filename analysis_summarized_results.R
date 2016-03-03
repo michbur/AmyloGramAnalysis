@@ -19,7 +19,7 @@ amyloids %>% group_by(enc) %>%
   summarise(min(AUC_mean), mean(AUC_mean), max(AUC_mean))
 
 #even if we take into account non-homogenity of learning set
-amyloids %>% group_by(enc, pos, neg) %>% 
+amyloids %>% group_by(enc, pos) %>% 
   summarise(AUC_mean=mean(AUC_mean)) -> AUC_means
 summary(AUC_means$AUC_mean)
 
@@ -29,14 +29,16 @@ amyloids %>% group_by(len_range, pos) %>%
             max(Spec_mean), mean(Spec_mean), min(Spec_mean)) 
 
 
-#influence of negative dataset is far less significant
-amyloids %>% group_by(len_range, neg) %>%
-  summarise(max(Sens_mean), mean(Sens_mean), min(Sens_mean),
-            max(Spec_mean), mean(Spec_mean), min(Spec_mean)) 
-
 ggplot(amyloids, aes(x = len_range, y = Spec_mean)) +
   geom_boxplot() +
-  facet_grid(pos ~ neg, labeller = label_both) +
+  facet_wrap(~ pos, labeller = label_both) +
   ggtitle("Specificity")
+
+png("sesp_plot.png", height = 1024, width = 1024)
+ggplot(amyloids, aes(x = Sens_mean, y = Spec_mean)) +
+  geom_point() +
+  facet_grid(len_range~ pos, labeller = label_both) 
+dev.off()
+
 #wychodzi na to, że prawdziwa różnica jest na sensitivity. Różnice są naprawdę duże,
 #co sugeruje, że warto jest robić osobne modele dla każdego typu długości sekwencji
