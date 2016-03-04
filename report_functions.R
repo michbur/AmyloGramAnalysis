@@ -52,7 +52,7 @@ best_positions <- amyloids %>%
   group_by(enc_adj) %>%
   summarise(cum_rank = sum(position)) %>%
   arrange(desc(cum_rank)) %>%
-  slice(1L:5)
+  slice(1L:4)
 
 best_enc <- best_positions[["enc_adj"]]
 
@@ -62,8 +62,10 @@ amyloids_plot <- select(amyloids, Sens_mean, Spec_mean, pos, len_range, enc_adj)
   mutate(special = ifelse(enc_adj %in% best_enc, "best", ""))
 
 png("sesp_plot.png", height = 1024, width = 1024)
-ggplot(amyloids_plot, aes(x = Sens_mean, y = Spec_mean, color = special)) +
+ggplot(amyloids_plot, aes(x = Sens_mean, y = Spec_mean, color = special, alpha = special)) +
   geom_point() +
+  scale_color_manual(values = c("cadetblue", "red")) +
+  scale_alpha_manual(values = c(0.25, 1)) +
   facet_grid(pos ~ len_range)
 dev.off()
 
