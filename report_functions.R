@@ -42,8 +42,7 @@ prop_MK <- cbind(prop_MK, years = years) %>% filter(years >= 1980) %>%
 
 trait_tab <- read.csv(file = "./results/trait_tab.csv")
 
-# start of analysis ----------------------------------------
-
+# best ecodings ----------------------------------------------
 
 best_positions <- amyloids %>% 
   select(len_range, enc_adj, AUC_mean) %>%
@@ -57,47 +56,14 @@ best_positions <- amyloids %>%
 
 best_enc <- best_positions[["enc_adj"]]
 
-distances <- sapply(best_enc, function(i)
-  sapply(best_enc, function(j)
-    calc_ed(aa_groups[[i]], aa_groups[[j]])
-  )
-)
+# Fig 1 all encodings mean_AUC  ----------------------------------------
 
-# properties - everything -----------------------------
+amyloids_plot <- select(amyloids, Sens_mean, Spec_mean, pos, len_range, enc_adj) %>%
+  mutate(special = ifelse(enc_adj %in% best_enc, "best", ""))
 
-load("./results/enc_dupes.RData")
-#remember, indices in enc_adj and are equal to indices in enc_dupes + 2 and trait_tab  + 2
-
-best_dupes <- lapply(enc_dupes[["aa_duplicates"]][best_enc], function(single_enc)
-  single_enc %>%
-    sapply(function(i) substr(i, 3, nchar(i))) %>%
-    strsplit("K") %>%
-    lapply(as.numeric) %>%
-    do.call(rbind, .) %>%
-    data.frame %>%
-    select(X1) %>%
-    unlist(use.names = FALSE) - 2)
-
-frequencies <- data.frame(trait_tab[unlist(best_dupes, use.names = FALSE), ] %>%
-                            apply(1, na.omit) %>% unlist %>% table)
-colnames(frequencies) <- c("X", "Freq")
-frequencies$X <- as.numeric(as.character(frequencies$X))
-
-trait_props_all <- prop_MK %>%
-  inner_join(frequencies) %>%
-  arrange(desc(Freq)) %>%
-  select(name, Freq) %>%
-  mutate(prop = Freq/length(unlist(best_dupes, use.names = FALSE))) %>%
-  droplevels()
-
-trait_props_all[["name"]] <- factor(trait_props_all[["name"]],
-                                    levels = rev(as.character(trait_props_all[["name"]])))
-
-levels(trait_props_all[["name"]]) <- sapply(strwrap(levels(trait_props_all[["name"]]), 30, simplify = FALSE),
-       function(i) paste0(i, collapse = "\n"))
-
-ggplot(trait_props_all, aes(x = name, y = prop)) +
-  geom_bar(stat = "identity") +
-  coord_flip()
-
+png("sesp_plot.png", height = 1024, width = 1024)
+ggplot(amyloids_plot, aes(x = Sens_mean, y = Spec_mean, color = special)) +
+  geom_point() +
+  facet_grid(pos ~ len_range)
+dev.off()
 

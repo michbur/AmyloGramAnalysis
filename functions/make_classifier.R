@@ -1,7 +1,9 @@
 #aa_group must a list of length 1
 make_classifier <- function(dat, ets, seq_lengths, max_len, aa_group, test_dat) {
   fdat <- extract_ngrams(dat[seq_lengths <= max_len, ], aa_group)[[1]]
-  fets <- ets[seq_lengths <= max_len]
+  fets_raw <- ets[seq_lengths <= max_len]
+  flens <- seq_lengths[seq_lengths <= max_len] - 5
+  fets <- unlist(lapply(1L:length(flens), function(i) rep(fets_raw[i], flens[i])))
   
   test_bis <- test_features(fets, fdat, adjust = NULL)
   imp_bigrams <- cut(test_bis, breaks = c(0, 0.05, 1))[[1]]
