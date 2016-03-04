@@ -22,7 +22,7 @@ pasta2_prot_id <- as.numeric(sapply(strsplit(file_names, ".", fixed = TRUE), fun
 pasta2_preds <- sapply(file_names, function(i) {
   all_lines <- readLines(paste0("./benchmark/pasta2_preds/", i))
   as.numeric(strsplit(strsplit(all_lines, "PASTA energy ")[[1]][2], "*[ ]")[[1]][1])
-}) < -4
+}) 
 
 write.csv(data.frame(real_labels = real_labels,
            PASTA2 = unname(pasta2_preds[order(pasta2_prot_id)]),
