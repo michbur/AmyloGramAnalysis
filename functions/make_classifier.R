@@ -28,6 +28,6 @@ make_classifier <- function(dat, ets, seq_lengths, max_len, aa_group, test_dat) 
     unlist
 }
 
-#time around 40 [s]
+#time around 50 [s]
 #tmp <- make_classifier(seqs_m, ets, seq_lengths, 6, aa_groups[15608], test_dat_m)
 # system.time(make_classifier(seqs_m, ets, seq_lengths, 6, aa_groups[9], test_dat_m))
