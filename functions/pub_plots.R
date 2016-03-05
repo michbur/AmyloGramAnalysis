@@ -1,4 +1,4 @@
-# Fig 1 all encodings sens/spec  ----------------------------------------
+# plot data ----------------------------------------------
 
 amyloids_plot <- select(amyloids, AUC_mean, MCC_mean, Sens_mean, Spec_mean, pos, len_range, enc_adj) %>%
   mutate(et = factor(ifelse(enc_adj %in% best_enc, "best", ifelse(enc_adj %in% 1L:2, "literature", "")))) %>%
