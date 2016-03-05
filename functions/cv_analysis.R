@@ -108,6 +108,12 @@ summarize_cv_ngrams <- function(cv_results, reps_ids) {
   })
 }
 
+liberal_mean <- function(x)
+  mean(x, na.rm = TRUE)
+
+liberal_sd <- function(x)
+  sd(x, na.rm = TRUE)
+
 # imp_ngrams <- summarize_cv_ngrams(cv_results_full, get_reps_ids)
 # 
 # tmp <- imp_ngrams[[1]][["ngram"]]

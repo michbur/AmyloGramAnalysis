@@ -57,7 +57,7 @@ all_summaries <- do.call(rbind, lapply(1L:20, function(single_partition_id) {
                extract_cv_results_single_file(cv_results))
   }))
   group_by(single_part_res, replicate, len_range, enc) %>%
-    summarize_each(funs(mean, sd), AUC, MCC, Sens, Spec) %>%
+    summarize_each(funs(mean = liberal_mean, sd = liberal_sd), AUC, MCC, Sens, Spec) %>%
     mutate(partition  = single_partition_id)
 }))
 

@@ -4,7 +4,7 @@ source("./functions/encode_amyloids.R")
 source("./functions/cv.R")
 source("./functions/cv_analysis.R")
 source("./functions/make_classifier.R")
-
+source("./functions/plot_tools.R")
 
 if(Sys.info()["nodename"] == "tobit" )
   setwd("~/Dropbox/doktorat/moje_prace/amyloid_ngram2/")
@@ -13,7 +13,7 @@ if(Sys.info()["nodename"] == "tobit" )
 library(dplyr)
 library(biogram) #calc_ed
 require(seqinr) #for choose_properties
-require(ggplot2)
+
 
 # read data ----------------------------------------
 
@@ -52,20 +52,67 @@ best_positions <- amyloids %>%
   group_by(enc_adj) %>%
   summarise(cum_rank = sum(position)) %>%
   arrange(desc(cum_rank)) %>%
-  slice(1L:4)
+  slice(1)
 
 best_enc <- best_positions[["enc_adj"]]
 
-# Fig 1 all encodings mean_AUC  ----------------------------------------
+load("./results/cv_results_full.RData")
 
-amyloids_plot <- select(amyloids, Sens_mean, Spec_mean, pos, len_range, enc_adj) %>%
-  mutate(special = ifelse(enc_adj %in% best_enc, "best", ""))
+full_alphabet <- lapply(1L:length(cv_results_full[[1]]), function(single_replicate_id) {
+  lapply(1L:5, function(single_fold) 
+    data.frame(cv_results_full[[1]][[single_replicate_id]][[single_fold]][[1]], replicate = floor((single_replicate_id - 1)/15) + 1)
+  )
+}) %>% unlist(recursive = FALSE) %>%
+  do.call(rbind, .) %>% 
+  mutate(MCC = calc_mcc(TP, TN, FP, FN)) %>%
+  select(replicate, len_range, AUC, MCC, Sens, Spec) %>%
+  group_by(replicate, len_range) %>%
+  summarize_each(funs(mean = liberal_mean, sd = liberal_sd), AUC, MCC, Sens, Spec) %>%
+  ungroup %>% 
+  mutate(pos = c(6, 10, 15)[replicate])
 
-png("sesp_plot.png", height = 1024, width = 1024)
-ggplot(amyloids_plot, aes(x = Sens_mean, y = Spec_mean, color = special, alpha = special)) +
+
+# Fig 1 all encodings sens/spec  ----------------------------------------
+
+amyloids_plot <- select(amyloids, AUC_mean, MCC_mean, Sens_mean, Spec_mean, pos, len_range, enc_adj) %>%
+  mutate(et = factor(ifelse(enc_adj %in% best_enc, "best", ifelse(enc_adj %in% 1L:2, "literature", "")))) %>%
+  select(AUC_mean, MCC_mean, Sens_mean, Spec_mean, pos, len_range, et, enc_adj) %>%
+  rbind(select(full_alphabet, AUC_mean, MCC_mean, Sens_mean, Spec_mean, pos, len_range, enc_adj) %>% 
+          mutate(et = "full alphabet", enc_adj = 0)) %>%
+  mutate(len_range = factor(len_range, levels = c("[5,6]", "(6,10]", "(10,15]", "(15,25]")),
+         pos = factor(pos, labels = c("6 residues", "10 residues or less", "15 residues or less")),
+         et = factor(et, labels = c("Reduced alphabet", "Best performing reduced alphabet",
+                                    "Reduced alphabet from literature", "Full alphabet")))
+
+png("sesp_plot.png", height = 648, width = 648)
+ggplot(amyloids_plot, aes(x = Sens_mean, y = Spec_mean, color = et, shape = et)) +
   geom_point() +
-  scale_color_manual(values = c("cadetblue", "red")) +
-  scale_alpha_manual(values = c(0.25, 1)) +
-  facet_grid(pos ~ len_range)
+  scale_color_manual(values = c("grey", "red", "blue", "green")) +
+  scale_shape_manual(values = c(1, 16, 15, 15)) +
+  scale_x_continuous("Mean sensitivity") +
+  scale_y_continuous("Mean specificity") +
+  facet_grid(pos ~ len_range) +
+  my_theme +
+  geom_point(data = filter(amyloids_plot, et != "Reduced alphabet"), 
+             aes(x = Sens_mean, y = Spec_mean, color = et))
 dev.off()
 
+
+
+png("AUC_boxplot.png", height = 648, width = 648)
+ggplot(amyloids_plot, aes(x = pos, y = AUC_mean)) +
+  geom_boxplot() +
+  geom_point(aes(x = pos, y = AUC_mean, color = et)) +
+  scale_color_manual(values = c(NA, "red", "blue", "green")) +
+  facet_wrap(~ len_range) +
+  my_theme
+dev.off()
+
+png("MCC_boxplot.png", height = 648, width = 648)
+ggplot(amyloids_plot, aes(x = pos, y = MCC_mean)) +
+  geom_boxplot() +
+  geom_point(aes(x = pos, y = MCC_mean, color = et)) +
+  scale_color_manual(values = c(NA, "red", "blue", "green")) +
+  facet_wrap(~ len_range) +
+  my_theme
+dev.off()
