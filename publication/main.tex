@@ -1,6 +1,6 @@
 \documentclass{bioinfo}
 \copyrightyear{2015} \pubyear{2015}
-
+\usepackage{graphicx}
 \access{Advance Access Publication Date: Day Month Year}
 \appnotes{Manuscript Category}
 
@@ -16,7 +16,6 @@ $^{\text{\sf 2}}$Wroc\l{}aw University of Technology, Department of Mathematics 
 $^{\text{\sf 3}}$Wroc\l{}aw University of Technology, Department of Biomedical Engineering, Faculty of Fundamental Problems of Technology
 }
 
-
 \corresp{$^\ast$To whom correspondence should be addressed.}
 
 \history{Received on XXXXX; revised on XXXXX; accepted on XXXXX}
@@ -28,7 +27,10 @@ Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text 
 Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text
 Text Text Text Text Text Text
 Text Text Text Text Text.\\
-\textbf{Results:} Text  Text Text Text Text Text Text Text Text Text  Text Text Text Text Text
+\textbf{Results:} Text  Text Text Text Text Text Text Text Text Text  Text Text Text Text Text vvv
+% * <michalburdukiewicz@gmail.com> 2016-02-23T09:35:35.738Z:
+%
+% ^.
 Text Text Text Text Text Text Text Text Text Text Text Text Text  Text Text Text Text Text Text\\
 \textbf{Availability:} Text  Text Text Text Text Text Text Text Text Text  Text Text Text Text
 Text Text Text Text Text Text Text Text Text Text Text Text Text Text  Text\\
@@ -40,25 +42,11 @@ online.}
 
 \section{Introduction}
 
-Text Text Text Text Text Text  Text Text Text Text Text Text Text
-Text Text  Text Text Text Text Text Text. Figure~\ref{fig:01}
-shows that the above method  Text Text Text Text  Text Text Text
-Text Text Text  Text Text.  \citep{Bag01} wants to know about
-{\ldots}{\ldots} text follows.
-\begin{equation}
-\sum \text{\it x}+ \text{\it y} =\text{\it Z}\label{eq:01}\vspace*{-10pt}
-\end{equation}
 
 %\enlargethispage{12pt}
 
 \section{Approach}
 
-Equation~(\ref{eq:01}) Text Text Text Text Text Text  Text Text
-Text Text Text Text Text Text Text Text Text Text Text Text Text.
-Figure~2\vphantom{\ref{fig:02}} shows that the above method  Text
-Text Text Text  Text Text Text Text Text Text  Text Text.
-\citealp{Boffelli03} might want to know about text text text text
-.....
 
 
 \begin{methods}
@@ -74,9 +62,11 @@ The final data set contains 397 amyloidogenic and 1033 non-amyloidogenic sequenc
 
 \subsection{Encodings of amino acids}
 
-The amyloidogenicity of given peptide may not depend on the exact sequence of amino acids, but on its more general properties. To verify this hypothesis, we created 18 537 reduced amino acid alphabets (encodings) with different lengths (from three to six letters) using Ward's clusterization on the selected physicochemical properties from AAIndex database~\citep{kawashima_aaindex:_2008}. We handpicked several measures belonging to more general categories important in process of amyloidogenicity as size, hydrophobicity, solvent surface area, frequency in $\beta$-sheets and contactivity. As the rule of thumb, we limited ourselves to properties introduced after 1980 when, thanks to the technological advancements, the measurements were more accurate.
+The amyloidogenicity of given peptide may not depend on the exact sequence of amino acids, but on its more general properties. To verify this hypothesis, we created 524 284 reduced amino acid alphabets (encodings) with different lengths (from three to six letters) using Ward's clusterization~\cite{jr_hierarchical_1963} on the selected physicochemical properties from AAIndex database~\citep{kawashima_aaindex:_2008}. We handpicked several measures belonging to more general categories important in process of amyloidogenicity as size, hydrophobicity, solvent surface area, frequency in $\beta$-sheets and contactivity. As the rule of thumb, we limited ourselves to properties introduced after 1980 when, thanks to the technological advancements, the measurements were more accurate.
 
-\begin{table}[ht]
+Some of the encodings created on different combinations of physicochemical properties were identical. In such case, only a single representative was included in the benchmark. After filtering duplicates, we obtained 18 535 unique encodings.
+
+\begin{table*}[bth]
 \centering
 \begin{tabular}{ll}
   \hline
@@ -101,30 +91,33 @@ Category & Property \\
   Stability & Side-chain contribution to protein stability (kJ/mol) \citep{takano_new_2001} \\ 
    \hline
 \end{tabular}
-\caption{Physicochemical properties used during creation of reduced amino acid alphabets.} 
-\end{table}
+\caption{Physicochemical properties used in the creation of reduced amino acid alphabets.} 
+\end{table*}
 
 Since highly correlated or, contrarily, uncorrelated measures create very similar encodings, we further reduced the number of properties to 17 by selecting measures with the absolute value of Pearson's correlation coefficient for normalized values larger than 0.95.
 
-\subsection{Traning of learners}
-
+\subsection{Training of learners}
 
 \begin{figure*}[!tpb]%figure1
 \centerline{\includegraphics[width=\textwidth]{figures/ngram_scheme.png}}
-\caption{Caption, caption.}\label{fig:01}
+\caption{The scheme of n-gram extraction. A) Input data - peptides with a known amyloidogenicity status. B) Each peptide sequence was divided into overlapping hexamers. The amyloidogenicity status of a source sequence was used as the amyloidogenicity status of a derived hexamer. C) From each hexamer we extracted continuous 1-, 2- and 3-grams. We selected also gapped 2-grams with the length of gap equal from 1 to 3 residues and gapped 3-grams with a single gap between the first and the second or the second and the third element of the n-gram.}\label{fig:ngram_scheme}
 \end{figure*}
-
-In addition to the reduced amino acid alphabets created through the clusterization of physicochemical properties, we also examined two reduced alphabets from the literature and amino acid alphabet of normal length.  
 
 During the training phase, we extracted overlapping hexamers from each sequence. Each hexamer was tagged with the same etiquette (amyloid/nonamyloid) as the original peptide. For example, the sequence of length 6 residues yields only one hexamer and the sequence of 8 residues yields 3 hexamers.  Assuming that in longer amyloids only a short part of the sequence is responsible for amyloidogenicity, our method might results in many false positives in the training data set. To evade this problem, we restricted the maximum length of peptides in training data set to fifteen amino acids to easy the extraction of probable hot-spots. 
 
-The inquire further the length of amyloidogenicity signal, we trained nine classifiers for each encoding on the sequences of different length. We considered six-residue sequences, shorter of equal to ten residues and shorter or equal to fifteen residues. We specified separately length of peptides for negative and positive training set, obtaining in total nine ways of constructing training set for each reduced amino acids alphabet.
+From each hexamer we extracted n-grams of the following length: 1, 2 and 3. In the case of 2- and 3-grams, we separately counted both gapped and continous n-grams. For 2-grams we counted n-grams with gaps of lengths from 1 to 3 and for 3-grams with a single gap between the first and the second or the second and the third element (see Fig.~\ref{fig:ngram_scheme}).
 
-\subsection{Cross-validation}
+The inquire further the length of amyloidogenicity signal, we trained three classifiers for each encoding on the sequences of different length. We considered separately six-residue sequences, shorter of equal to ten residues and shorter or equal to fifteen residues.
 
-The cross-validation was repeated five times for each combination of the encoding as well as the length of sequences in positive data set and negative data set.
+All n-grams extracted from the hexamers in the training data set were filtered using QuiPT, our own implementation of permutation test with the information gain ( mutual information) as the criterion of the importance of a specific n-gram. In the next step, we used n-grams with the p-value smaller than 0.05 to build a random forest~\citep{breiman_random_2001} classifier using ranger \textbf{R} package~\citep{wright_ranger:_2015}. 
 
-Since we are interested if our classiffiers are able to use decision rules extracted from sequences of given length to correctly classify longer or shorter sequences, we calculate performance measures separately for four ranges of lengths of sequences:  
+Furthemore, we repeated the procedure described above on two typical reduced alphabets of amino acids derived from the literature to check if the process of amyloidogenicity does require nonstandard groupings of amino acids. We also added the full amino acid alphabet to assess the advantages of the amino acid encoding.
+
+\subsection{Cross-validation and selection of the best performing encoding}
+
+The ability to correctly predict amyloidogenicity was assessed during the five-fold cross-validation. Since the data set was very heterogenous,  we repeated the cross-validation fifteen times for each classifier to obtain more precise estimates of peformance measures for each classifier. 
+
+To evaluate if our classifiers are able to use decision rules extracted from sequences of given length to correctly classify longer or shorter sequences, we calculate performance measures separately for four ranges of lengths of sequences:  
 \begin{itemize}
 \item 6;  
 \item 7-10;   
@@ -133,31 +126,40 @@ Since we are interested if our classiffiers are able to use decision rules extra
 \end{itemize}
 The number of sequences from the given length range was roughly comparable between folds of cross-validation.
 
+To choose the most adequate reduced amino acid alphabet, we ranked the values of AUC (with rank 1 for the best AUC, rank 2 for the second best AUC and so on) for each range of sequence length in the testing data set. The encoding having the lowest sum of ranks from all sequence length categories was selected as the best one nd further used to develop AmyloGram, a predictor of amyloidogenicity.
+
+\subsection{Benchmark}
+
+We used pep424 data set~\cite{walsh_pasta_2014} to compare the performance of AmyloGram and other predictors of amyloidogenicity. Since the model of AmyloGram does not covers peptides shorter than five amino acids, we removed them from the total benchmark data set. It should not affect the comparison as only five sequences were eliminated (around 1\% of the original data set).
+
+MCC to choose the best classifier.
+How sensitivity/specificity depends on the lengths of sequences in the positive and negative training set.
+Which the simplest (shortest) alphabet gives the best prediction.
+Correlation matrix of Hamming distance of best n-grams.
+Encoding distance.
+
+\end{methods}
+
+\section{Results}
+
+
+
+\begin{figure*}[!tpb]
+\centerline{\includegraphics{figures/sesp_plot.png}}
+\caption{Caption, caption.}\label{fig:sesp_plot}
+\end{figure*}
+
+\begin{figure*}[!tpb]
+\centerline{\includegraphics{figures/AUC_boxplot.eps}}
+\caption{Caption, caption.}\label{fig:AUC_boxplot}
+\end{figure*}
+
+
+
+
+
 
 \section{Discussion}
-
-Text Text Text Text Text Text  Text Text Text Text Text Text Text
-Text Text  Text Text Text Text Text Text.
-Figure~2\vphantom{\ref{fig:02}} shows that the above method  Text
-Text Text Text  Text Text Text Text Text Text  Text Text.
-\citealp{Boffelli03} might want to know about  text text text text
-Text Text Text Text Text Text  Text Text Text Text Text Text Text
-Text Text  Text Text Text Text Text Text.
-Figure~2\vphantom{\ref{fig:02}} shows that the above method  Text
-Text Text Text  Text Text Text Text Text Text  Text Text.
-\citealp{Boffelli03} might want to know about  text text text text
-Text Text Text Text Text Text Text Text Text Text.
-
-
-
-
-Table~\ref{Tab:01} shows that Text Text Text Text Text  Text Text
-Text Text Text Text. Figure~2\vphantom{\ref{fig:02}} shows that
-the above method Text Text. Text Text Text  Text Text Text Text
-Text Text. Figure~2\vphantom{\ref{fig:02}} shows that the above
-method Text Text. Text Text Text  Text Text Text Text Text Text.
-Figure~2\vphantom{\ref{fig:02}} shows that the above method Text
-Text.
 
 
 
@@ -181,63 +183,15 @@ Text.
 
 \section{Conclusion}
 
-(Table~\ref{Tab:01}) Text Text Text Text Text Text  Text Text Text
-Text Text Text Text Text Text  Text Text Text Text Text Text.
-Figure~2\vphantom{\ref{fig:02}} shows that the above method  Text
-Text Text Text  Text Text Text Text Text Text  Text Text.
-\citealp{Boffelli03} might want to know about  text text text text
-Text Text Text Text Text Text  Text Text Text Text Text Text Text
-Text Text  Text Text Text Text Text Text.
-Figure~2\vphantom{\ref{fig:02}} shows that the above method  Text
-Text Text Text  Text Text Text Text Text Text  Text Text.
-\citealp{Boffelli03} might want to know about  text text text text
-Text Text Text Text Text Text Text Text Text Text Text Text Text
-Text Text  Text Text Text Text Text Text.
-Figure~2\vphantom{\ref{fig:02}} shows that the above method  Text
-Text Text Text  Text Text Text Text Text Text  Text Text.
 
 
+\section*{Acknowledgments}
 
-Text Text Text Text Text Text  Text Text Text Text Text Text Text
-Text Text  Text Text Text Text Text Text.
-Figure~2\vphantom{\ref{fig:02}} shows that the above method  Text
-Text Text Text  Text Text Text Text Text Text  Text Text.
-\citealp{Boffelli03} might want to know about  text text text text
-
-\begin{enumerate}
-\item this is item, use enumerate
-\item this is item, use enumerate
-\item this is item, use enumerate
-\end{enumerate}
-
-Text Text Text Text Text Text Text Text Text Text Text Text Text
-Text Text Text Text Text Text Text Text.
-Figure~2\vphantom{\ref{fig:02}} shows\vadjust{\pagebreak} that the
-above method  Text Text Text Text Text Text Text Text Text Text
-Text Text.  \citealp{Boffelli03} might want to know about text
-text text text Text Text Text Text Text Text  Text Text Text Text
-Text Text Text Text Text Text Text Text Text Text Text.
-Figure~2\vphantom{\ref{fig:02}} shows that the above method  Text
-Text Text Text Text Text Text Text Text Text  Text Text.
-\citealp{Boffelli03} might want to know about text text text text
-Text Text Text Text Text Text  Text Text Text Text Text Text Text
-Text Text Text Text Text Text Text\break Text.
-
-
-Text Text Text Text Text Text  Text Text Text Text Text Text Text
-Text Text  Text Text Text Text Text Text.
-Figure~2\vphantom{\ref{fig:02}} shows that the above method  Text
-Text Text Text\vspace*{-10pt}
-
-
-\section*{Acknowledgements}
-
-Text Text Text Text Text Text  Text Text.  \citealp{Boffelli03} might want to know about  text
-text text text\vspace*{-12pt}
+Text Text Text Text Text Text  Text Text. 
 
 \section*{Funding}
 
-The conference fee was funded by the KNOW Consortium.
+This research was partially funded by the KNOW Consortium.
 
 \bibliographystyle{natbib}
 %\bibliographystyle{achemnat}
@@ -248,6 +202,4 @@ The conference fee was funded by the KNOW Consortium.
 %\bibliographystyle{plain}
 %
 \bibliography{amyloids}
-
-
 \end{document}

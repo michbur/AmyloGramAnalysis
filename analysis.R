@@ -34,6 +34,8 @@ if(Sys.info()["nodename"] == "MICHALKOMP" )
 
 ftraits <- choose_properties()
 
+# 131071 combinations for each length of reduced alphabet: 524284 total
+
 #time-consuming step commented out. Instead just load the results.
 #aa_groups <- create_encodings(ftraits)
 #save(aa_groups, file = "aa_groups.RData")
