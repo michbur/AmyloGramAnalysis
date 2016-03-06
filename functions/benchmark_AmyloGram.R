@@ -53,10 +53,10 @@ class_list <- pblapply(c(6, 10, 15), function(single_length)
              class14533 = make_classifier(seqs_m, ets, seq_lengths, single_length, aa_groups[14533], test_dat_m),
              class18297 = make_classifier(seqs_m, ets, seq_lengths, single_length, aa_groups[18297], test_dat_m),
              class6704 = make_classifier(seqs_m, ets, seq_lengths, single_length, aa_groups[6704], test_dat_m),
-             raw_aa = make_classifier(seqs_m, ets, seq_lengths, single_length, full_aa, test_dat_m)
+             raw_aa = make_classifier(seqs_m, ets, seq_lengths, single_length, full_aa[1], test_dat_m)
   )
 )
-save(class_list, file = "./results/class_list_best5.RData")
+save(class_list, file = "./results/class_list_best5_full.RData")
 
 # learn_lengths <- c(6, 10, 15)
 # load("./results/class_list_best5.RData")

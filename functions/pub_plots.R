@@ -27,6 +27,8 @@ sesp_plot <- ggplot(amyloids_plot, aes(x = Sens_mean, y = Spec_mean, color = et,
              aes(x = Sens_mean, y = Spec_mean, color = et))
 
 #png("./pub_figures/sesp_plot.png", height = 648, width = 648)
+#cairo_ps("./pub_figures/sesp_plot.eps", height = 9, width = 9)
+# should be eps, but it's too big for overleaf
 cairo_pdf("./pub_figures/sesp_plot.pdf", height = 9, width = 9)
 print(sesp_plot)
 dev.off()
@@ -45,7 +47,7 @@ AUC_boxplot <- ggplot(amyloids_plot, aes(x = len_range, y = AUC_mean)) +
   my_theme + 
   coord_flip()
 
-cairo_pdf("./pub_figures/AUC_boxplot.pdf", height = 9, width = 9)
+cairo_ps("./pub_figures/AUC_boxplot.eps", height = 9, width = 9)
 #png("./pub_figures/AUC_boxplot.png", height = 648, width = 648)
 print(AUC_boxplot)
 dev.off()
@@ -64,7 +66,7 @@ MCC_boxplot <- ggplot(amyloids_plot, aes(x = len_range, y = MCC_mean)) +
   my_theme + 
   coord_flip()
 
-cairo_pdf("./pub_figures/MCC_boxplot.pdf", height = 9, width = 9)
+cairo_ps("./pub_figures/MCC_boxplot.eps", height = 9, width = 9)
 #png("./pub_figures/MCC_boxplot.png", height = 648, width = 648)
 MCC_boxplot
 dev.off()

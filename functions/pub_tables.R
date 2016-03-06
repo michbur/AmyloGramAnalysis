@@ -15,3 +15,6 @@ pub_full_summary_table <- rbind(select(amyloids, AUC_mean, MCC_mean, Sens_mean, 
                                 select(full_alphabet, pos, len_range, AUC_mean, MCC_mean, Sens_mean, Spec_mean) %>%
                                   mutate(classifiers = "Full alphabet")
 )
+
+colnames(pub_full_summary_table) <- c("pos", "len_range", "AUC_mean", "MCC_mean", "Sens_mean", "Spec_mean", 
+                                      "classifiers")
