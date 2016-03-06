@@ -47,17 +47,24 @@ full_aa <- tolower(a()[-1]) %>% as.list
 names(full_aa) <- 1L:20
 full_aa <- list(full_aa)
 
-class_list <- list(
-  class14592 = make_classifier(seqs_m, ets, seq_lengths, single_length, aa_groups[14592], test_dat_m),
-  class14596 = make_classifier(seqs_m, ets, seq_lengths, single_length, aa_groups[14596], test_dat_m),
-  class14533 = make_classifier(seqs_m, ets, seq_lengths, single_length, aa_groups[14533], test_dat_m),
-  class18297 = make_classifier(seqs_m, ets, seq_lengths, single_length, aa_groups[18297], test_dat_m),
-  class6704 = make_classifier(seqs_m, ets, seq_lengths, single_length, aa_groups[6704], test_dat_m),
-  raw_aa = make_classifier(seqs_m, ets, seq_lengths, single_length, full_aa[1], test_dat_m)
+# class_list <- pblapply(c(6, 10, 15), function(single_length)
+#   data.frame(class14592 = make_classifier(seqs_m, ets, seq_lengths, single_length, aa_groups[14592], test_dat_m),
+#              class14596 = make_classifier(seqs_m, ets, seq_lengths, single_length, aa_groups[14596], test_dat_m),
+#              class14533 = make_classifier(seqs_m, ets, seq_lengths, single_length, aa_groups[14533], test_dat_m),
+#              class18297 = make_classifier(seqs_m, ets, seq_lengths, single_length, aa_groups[18297], test_dat_m),
+#              class6704 = make_classifier(seqs_m, ets, seq_lengths, single_length, aa_groups[6704], test_dat_m),
+#              raw_aa = make_classifier(seqs_m, ets, seq_lengths, single_length, full_aa[1], test_dat_m)
+#   )
+# )
+# save(class_list, file = "./results/class_list_best5.RData")
+
+
+raw_benchmark <- pblapply(c(6, 10, 15), function(single_length)
+  data.frame(raw_aa = make_classifier(seqs_m, ets, seq_lengths, single_length, full_aa[1], test_dat_m)
+  )
 )
 
-save(class_list, file = "./results/class_list_best5_full.RData")
-
+save(class_list, file = "./results/class_raw_bench.RData")
 # learn_lengths <- c(6, 10, 15)
 # load("./results/class_list_best5.RData")
 # 
