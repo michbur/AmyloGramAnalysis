@@ -59,23 +59,47 @@ full_aa <- list(full_aa)
 # save(class_list, file = "./results/class_list_best5.RData")
 
 
-raw_benchmark <- pblapply(c(6, 10, 15), function(single_length)
-  data.frame(raw_aa = make_classifier(seqs_m, ets, seq_lengths, single_length, full_aa[1], test_dat_m)
-  )
-)
+# raw_benchmark <- pblapply(c(6, 10, 15), function(single_length)
+#   data.frame(raw_aa = make_classifier(seqs_m, ets, seq_lengths, single_length, full_aa[1], test_dat_m)
+#   )
+# )
+# 
+# save(raw_benchmark, file = "./results/class_raw_benchmark.RData")
+learn_lengths <- c(6, 10, 15)
+load("./results/class_list_best5.RData")
+load("./results/class_raw_benchmark.RData")
 
-save(class_list, file = "./results/class_raw_bench.RData")
-# learn_lengths <- c(6, 10, 15)
-# load("./results/class_list_best5.RData")
-# 
-# 
-# dat <- cbind(read.csv("./results/benchmark_otherpreds.csv"),
-#              do.call(cbind, lapply(1L:3, function(i) {
-#                single_preds_df <- class_list[[i]]
-#                colnames(single_preds_df) <- paste0(colnames(single_preds_df), "_", learn_lengths[i])
-#                single_preds_df
-#              })))
-# 
-# HMeasure(dat[[1]], dat[-1])[["metrics"]] %>%
-#   mutate(MCC = calc_mcc(TP, TN, FP, FN), classifier = rownames(.)) %>%
-#   select(classifier, AUC, MCC, Sens, Spec) 
+dat <- cbind(read.csv("./results/benchmark_otherpreds.csv"),
+             do.call(cbind, lapply(1L:3, function(i) {
+               single_preds_df <- class_list[[i]]
+               colnames(single_preds_df) <- paste0(colnames(single_preds_df), "_", learn_lengths[i])
+               single_preds_df
+             })),
+             do.call(cbind, lapply(1L:3, function(i) {
+               single_preds_df <- raw_benchmark[[i]]
+               colnames(single_preds_df) <- paste0(colnames(single_preds_df), "_", learn_lengths[i])
+               single_preds_df
+             })))
+
+get_last <- function(x, what) {
+  splitted <- strsplit(as.character(x), what)[[1]]
+  splitted[length(splitted)]
+}
+
+bench_res <- HMeasure(dat[[1]], dat[-1])[["metrics"]] %>%
+  mutate(MCC = calc_mcc(TP, TN, FP, FN), classifier = rownames(.)) %>%
+  select(classifier, AUC, MCC, Sens, Spec) %>%
+  group_by(classifier) %>%
+  mutate(pos = get_last(classifier, what = "_"),
+         nice_name = strsplit(as.character(classifier), "_")[[1]][1]) %>%
+  mutate(nice_name = get_last(nice_name, "class")) %>%
+  mutate(nice_name = ifelse(nice_name == "raw", "full alphabet", nice_name)) %>%
+  ungroup %>%
+  mutate(pos = as.numeric(pos),
+         nice_name = factor(nice_name, 
+                            levels = c("PASTA2", "FoldAmyloid", "14592", "14596", "14533", "18297", 
+                                       "full alphabet", "16548"))) %>%
+  arrange(nice_name) %>%
+  slice(1L:17)
+
+write.csv(bench_res, "./results/benchmark_allpreds.csv", row.names = FALSE)

@@ -26,8 +26,8 @@ sesp_plot <- ggplot(amyloids_plot, aes(x = Sens_mean, y = Spec_mean, color = et,
   geom_point(data = filter(amyloids_plot, et != "Reduced alphabet"), 
              aes(x = Sens_mean, y = Spec_mean, color = et))
 
-png("./publication/figures/sesp_plot.png", height = 4, width = 9, unit = "in", res = 200)
-#cairo_ps("./pub_figures/sesp_plot.eps", height = 9, width = 9)
+png("./publication/figures/sesp_plot.png", height = 4, width = 8, unit = "in", res = 200)
+#cairo_ps("./pub_figures/sesp_plot.eps", height = 4, width = 8)
 # should be eps, but it's too big for overleaf
 print(sesp_plot)
 dev.off()
@@ -46,7 +46,7 @@ AUC_boxplot <- ggplot(amyloids_plot, aes(x = len_range, y = AUC_mean)) +
   my_theme + 
   coord_flip()
 
-cairo_ps("./publication/figures/AUC_boxplot.eps", height = 6, width = 9)
+cairo_ps("./publication/figures/AUC_boxplot.eps", height = 6, width = 8)
 #png("./pub_figures/AUC_boxplot.png", height = 648, width = 648)
 print(AUC_boxplot)
 dev.off()
@@ -65,7 +65,7 @@ MCC_boxplot <- ggplot(amyloids_plot, aes(x = len_range, y = MCC_mean)) +
   my_theme + 
   coord_flip()
 
-cairo_ps("./publication/figures/MCC_boxplot.eps", height = 9, width = 9)
+cairo_ps("./publication/figures/MCC_boxplot.eps", height = 9, width = 8)
 #png("./pub_figures/MCC_boxplot.png", height = 648, width = 648)
 MCC_boxplot
 dev.off()
