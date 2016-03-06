@@ -2,6 +2,8 @@
 make_classifier <- function(dat, ets, seq_lengths, aa_group, test_dat) {
   fdat <- extract_ngrams(dat[seq_lengths <= max_len, ], aa_group)[[1]]
   
+  print("N-grams extracted")
+  
   sapply(c(6, 10, 15), function(max_len) {
     fets_raw <- ets[seq_lengths <= max_len]
     flens <- seq_lengths[seq_lengths <= max_len] - 5
