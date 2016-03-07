@@ -58,7 +58,7 @@ mutate(pub_full_summary_table,
   select(-pos) %>%
   rename("Length of peptides" = len_range, Classifier = classifiers, "Mean AUC" = AUC_mean,
          "Mean MCC" = MCC_mean, "Mean sensitivity" = Sens_mean, "Mean specificity" = Spec_mean) %>%
-  select(2, 1, 3L:6)
+  select(c(2, 1, 3L:6)) %>%
   format_table("Results of cross-validation.", "table:cv_summary", 3L:6) %>%
   cat
 
