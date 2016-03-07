@@ -1,0 +1,159 @@
+
+source("./functions/choose_properties.R")
+source("./functions/create_encodings.R")
+source("./functions/encode_amyloids.R")
+source("./functions/cv.R")
+source("./functions/cv_analysis.R")
+
+require(seqinr)
+require(dplyr)
+require(pbapply)
+require(biogram)
+require(cvTools)
+require(ranger)
+require(hmeasure)
+require(e1071)
+
+if(Sys.info()["nodename"] %in% c("phobos", "michal-XPS14"))
+  pathway <- "/home/michal/Dropbox/amyloid_cv_results/"
+
+if(Sys.info()["nodename"] == "MICHALKOMP" )
+  pathway <- "C:/Users/Michal/Dropbox/amyloid_cv_results/"
+
+if(Sys.info()["nodename"] == "tobit" )
+  pathway <- "~/Dropbox/amyloid_cv_results/"
+
+amyloids <- read.csv("results/all_summaries.csv")
+load("aa_groups.RData")
+aa_groups <- string2list(aa_groups)
+
+#we select best encodings, by their ranks of AUC, for different lengths of sequences
+best_positions <- amyloids %>% 
+  select(len_range, enc_adj, AUC_mean) %>%
+  group_by(len_range) %>%
+  mutate(position = rank(AUC_mean)) %>%
+  ungroup %>%
+  group_by(enc_adj) %>%
+  summarise(cum_rank = sum(position)) %>%
+  arrange(desc(cum_rank)) %>%
+  slice(1L:5)
+
+best_enc <- best_positions[["enc_adj"]][1]
+
+########### properties - best encodings ############
+
+load("./results/enc_dupes.RData")
+#remember, indices in enc_adj and are equal to indices in enc_dupes + 2 and trait_tab  + 2
+
+best_dupes <- lapply(enc_dupes[["aa_duplicates"]][best_enc], function(single_enc)
+  single_enc %>%
+    sapply(function(i) substr(i, 3, nchar(i))) %>%
+    strsplit("K") %>%
+    lapply(as.numeric) %>%
+    do.call(rbind, .) %>%
+    data.frame %>%
+    select(X1) %>%
+    unlist(use.names = FALSE) - 2)
+
+frequencies <- data.frame(trait_tab[unlist(best_dupes, use.names = FALSE), ] %>%
+                            apply(1, na.omit) %>% unlist %>% table)
+colnames(frequencies) <- c("X", "Freq")
+frequencies$X <- as.numeric(as.character(frequencies$X))
+
+trait_props_all <- prop_MK %>%
+  inner_join(frequencies) %>%
+  arrange(desc(Freq)) %>%
+  select(name, Freq) %>%
+  mutate(prop = Freq/length(unlist(best_dupes, use.names = FALSE))) %>%
+  droplevels()
+
+trait_props_all[["name"]] <- factor(trait_props_all[["name"]],
+                                    levels = rev(as.character(trait_props_all[["name"]])))
+
+levels(trait_props_all[["name"]]) <- sapply(strwrap(levels(trait_props_all[["name"]]), 30, simplify = FALSE),
+                                            function(i) paste0(i, collapse = "\n"))
+
+ggplot(trait_props_all, aes(x = name, y = prop)) +
+  geom_bar(stat = "identity") +
+  coord_flip()
+
+####### ngrams for the best encoding ############
+
+partition_enc_id <- filter(amyloids, enc_adj %in% best_enc) %>%
+  select(partition, enc, enc_adj) %>%
+  filter(!duplicated(.)) %>%
+  slice(1) %>%
+  select(partition, enc) %>%
+  unlist
+
+
+ngrams_best_enc <- lapply(1L:45, function(single_replicate_id) {
+  load(paste0(pathway, "results/cv_results_full_", single_replicate_id, "_", 
+              partition_enc_id[["partition"]],".Rdata"))
+  
+  sapply(cv_results[[partition_enc_id[["enc"]]]][[1]], function(single_fold)
+    single_fold[[2]]) 
+}) %>% 
+  unlist %>% 
+  table(dnn = "ngram") %>%
+  data.frame %>%
+  filter(Freq == 225) %>%
+  select(ngram) %>%
+  unlist %>%
+  as.character
+
+
+load("aa_groups.RData")
+aa_groups <- string2list(aa_groups)
+
+raw_seqs_list <- c(read.fasta("./data/amyloid_pos_full.fasta",seqtype = "AA"),
+                   read.fasta("./data/amyloid_neg_full.fasta",seqtype = "AA"))
+#sequences longer than 5 aa and shorter than 26 aa
+purified_seqs_id <- lengths(raw_seqs_list) > 5 & lengths(raw_seqs_list) < 26
+
+ets <- c(rep(1, length(read.fasta("./data/amyloid_pos_full.fasta",seqtype = "AA"))),
+         rep(0, length(read.fasta("./data/amyloid_neg_full.fasta",seqtype = "AA"))))
+ets <- ets[purified_seqs_id]
+
+seqs_list <- raw_seqs_list[purified_seqs_id]
+
+seqs_m <- tolower(t(sapply(seqs_list, function(i)
+  c(i, rep(NA, max(lengths(seqs_list)) - length(i))))))
+
+
+extracted_ngrams <- extract_ngrams(seqs_m, aa_groups[[best_enc]])
+
+seqs_deg <- t(apply(seqs_m, 1, function(seq) degenerate(seq, aa_groups[[best_enc]])))
+
+positive_ngrams_count_best_encoding <- count_specified(seqs_deg[which(ets==1),], ngrams_best_enc) 
+negative_ngrams_count_best_encoding <- count_specified(seqs_deg[which(ets==0),], ngrams_best_enc) 
+
+dane=rbind(
+  data.frame(v=positive_ngrams_count_best_encoding$v, j=positive_ngrams_count_best_encoding$j,type="pos", nseq=397),
+  data.frame(v=negative_ngrams_count_best_encoding$v, j=negative_ngrams_count_best_encoding$j,type="neg", nseq=1033))
+
+#negative number means that occurs more frequently in amyloids
+relative_frequency_gap <- dane%>%group_by(type,j) %>%
+  summarise(count=sum(v>0)/mean(nseq)) %>%
+  group_by(j) %>%
+  summarise(count_freq=diff(count)) %>%
+  mutate(name=ngrams_best_enc,
+         decoded_name=decode_ngrams(name)) %>%
+  arrange(desc(abs(count_freq))) %>%
+  select(decoded_name, count_freq)
+
+relative_frequency_gap
+aa_groups[[best_enc]]
+
+
+relative_frequency_p_vals <- dane%>%group_by(type,j) %>%
+  summarise(count=sum(v>0),
+            nseq=mean(nseq)) %>%
+  group_by(j) %>%
+  summarise(pval=prop.test(count, nseq)$p.value) %>%
+  mutate(name=ngrams_best_enc,
+         decoded_name=decode_ngrams(name)) %>%
+  arrange(pval) %>%
+  select(decoded_name, pval) %>%
+  filter(pval<0.01)
+relative_frequency_p_vals
