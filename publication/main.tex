@@ -1,6 +1,8 @@
 \documentclass{bioinfo}
 \copyrightyear{2015} \pubyear{2015}
 \usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{colortbl, xcolor}
 \access{Advance Access Publication Date: Day Month Year}
 \appnotes{Manuscript Category}
 
@@ -142,20 +144,47 @@ Encoding distance.
 
 \section{Results}
 
-
+\subsection{Selection of the best encoding}
 
 
 
 \begin{figure*}[!tpb]
 \centerline{\includegraphics{figures/AUC_boxplot.eps}}
-\caption{Caption, caption.}\label{fig:AUC_boxplot}
+\caption{Distribution of AUC values of different reduced amino acid alphabets. Red circle: classifier employing best encoding of amino acid. Green square: classifier using full amino acid alphabet. Blue square: classifiers employing encodings from literature.}\label{fig:AUC_boxplot}
 \end{figure*}
 
-
-
+% latex table generated in R 3.2.3 by xtable 1.8-2 package
+% Mon Mar  7 20:46:49 2016
+\begin{table*}[ht]
+\centering
+\caption{Results of cross-validation.} 
+\label{table:cv_summary}
+\begin{tabular}{llllll}
+  \toprule
+Classifier & Length of peptides & Mean AUC & Mean MCC & Mean sensitivity & Mean specificity \\ 
+  \midrule
+All reduced alphabets & [5,6] & 0.8176 & 0.4356 & 0.5261 & 0.8908 \\ 
+   \rowcolor[gray]{0.85}All reduced alphabets & (6,10] & 0.7218 & 0.3332 & 0.4839 & 0.8234 \\ 
+  All reduced alphabets & (10,15] & 0.7611 & 0.3983 & 0.7045 & 0.6754 \\ 
+   \rowcolor[gray]{0.85}All reduced alphabets & (15,25] & 0.7216 & 0.3141 & 0.7005 & 0.6015 \\ 
+  Best reduced alphabet & [5,6] & \textbf{0.8516} & 0.5111 & 0.5946 & 0.9004 \\ 
+   \rowcolor[gray]{0.85}Best reduced alphabet & (6,10] & 0.7997 & 0.4484 & 0.5552 & 0.8597 \\ 
+  Best reduced alphabet & (10,15] & 0.8255 & \textbf{0.5266} & 0.7237 & 0.7801 \\ 
+   \rowcolor[gray]{0.85}Best reduced alphabet & (15,25] & 0.7733 & 0.3884 & \textbf{0.7402} & 0.6326 \\ 
+  Full alphabet & [5,6] & 0.8375 & 0.4378 & 0.4910 & 0.9081 \\ 
+   \rowcolor[gray]{0.85}Full alphabet & (6,10] & 0.7614 & 0.3508 & 0.3942 & 0.8971 \\ 
+  Full alphabet & (10,15] & 0.7628 & 0.3873 & 0.5607 & 0.8019 \\ 
+   \rowcolor[gray]{0.85}Full alphabet & (15,25] & 0.7383 & 0.3438 & 0.5556 & 0.7706 \\ 
+  Reduced alphabet from literature & [5,6] & 0.7163 & 0.2063 & 0.2178 & \textbf{0.9286} \\ 
+   \rowcolor[gray]{0.85}Reduced alphabet from literature & (6,10] & 0.6330 & 0.0550 & 0.2513 & 0.8097 \\ 
+  Reduced alphabet from literature & (10,15] & 0.7343 & 0.3038 & 0.5130 & 0.7518 \\ 
+   \rowcolor[gray]{0.85}Reduced alphabet from literature & (15,25] & 0.6948 & 0.2167 & 0.4790 & 0.7205 \\ 
+   \bottomrule
+\end{tabular}
+\end{table*}
 \begin{figure*}[!tpb]
 \centerline{\includegraphics{figures/sesp_plot.png}}
-\caption{Sensitivity and specificity of classifiers in cross-validation. Red circle: classifier employing best encoding of amino acid. Green square: classifier using full amino acid alphabet. Red square: classifiers employing encodings from literature. The classifier based on the best encoding always have good specificity and sensitivity.}\label{fig:sesp_plot}
+\caption{Sensitivity and specificity of classifiers in cross-validation. Red circle: classifier employing best encoding of amino acid. Green square: classifier using full amino acid alphabet. Blue square: classifiers employing encodings from literature. The classifier based on the best encoding always have good specificity and sensitivity.}\label{fig:sesp_plot}
 \end{figure*}
 
 

@@ -13,7 +13,7 @@ if(Sys.info()["nodename"] == "tobit" )
 library(dplyr)
 library(biogram) #calc_ed
 require(seqinr) #for choose_properties
-
+require(xtable)
 
 # read data ----------------------------------------
 
