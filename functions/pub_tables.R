@@ -1,3 +1,5 @@
+# cross-validation summary table ----------------------------
+
 pub_full_summary_table <- rbind(select(amyloids, AUC_mean, MCC_mean, Sens_mean, Spec_mean, pos, len_range) %>%
                                   group_by(pos, len_range) %>%
                                   summarise_each(funs(mean)) %>%
@@ -18,3 +20,16 @@ pub_full_summary_table <- rbind(select(amyloids, AUC_mean, MCC_mean, Sens_mean, 
 
 colnames(pub_full_summary_table) <- c("pos", "len_range", "AUC_mean", "MCC_mean", "Sens_mean", "Spec_mean", 
                                       "classifiers")
+
+
+
+mutate(pub_full_summary_table, 
+       len_range = factor(len_range, levels = levels(len_range)[c(3L:4, 1L:2)])) %>%
+  group_by(len_range, classifiers) %>%
+  summarise_each(funs(mean)) %>%
+  ungroup %>%
+  arrange(classifiers, len_range)
+
+# benchmark table --------------------------------------------
+
+read.csv("./results/benchmark_allpreds.csv")
