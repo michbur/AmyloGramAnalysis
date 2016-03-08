@@ -56,14 +56,29 @@ mutate(pub_full_summary_table,
   ungroup %>%
   arrange(classifiers, len_range) %>%
   select(-pos) %>%
-  rename("Length of peptides" = len_range, Classifier = classifiers, "Mean AUC" = AUC_mean,
+  rename("Length of peptides in testing set" = len_range, Classifier = classifiers, "Mean AUC" = AUC_mean,
          "Mean MCC" = MCC_mean, "Mean sensitivity" = Sens_mean, "Mean specificity" = Spec_mean) %>%
   select(c(2, 1, 3L:6)) %>%
-  format_table("Results of cross-validation.", "table:cv_summary", 3L:6) %>%
+  format_table("Summarized results of 15 repeats of cross-validation. The results of all reduced 
+               alphabets (without the best performing encoding, the best encoding, the full 
+               alphabet and the reduced alphabet are presented separately.", "tab:cv_summary", 3L:6) %>%
   cat
 
 
 
 # benchmark table --------------------------------------------
 
-
+slice(bench_measures, c(1L:2, 4, 15L:17)) %>%
+  mutate(pos = factor(pos, labels = c("6", "6-10", "6-15"))) %>%
+  mutate(nice_name = paste0(nice_name, " (", pos, ")")) %>%
+  select(nice_name, AUC, MCC, Sens, Spec) %>%
+  mutate(nice_name = sub(" (NA)", "", as.character(nice_name), fixed = TRUE)) %>%
+  mutate(nice_name = sub("14592 (6-10)", "AmyloGram", as.character(nice_name), fixed = TRUE)) %>%
+  rename(Classifier = nice_name, "AUC" = AUC, "MCC" = MCC, 
+         "Sensitivity" = Sens, "Specificity" = Spec) %>%
+  slice(c(3, 1L:2, 4L:6)) %>%
+  format_table("Results of benchmark on pep424 data set for AmyloGram, Pasta2, FoldAmyloid and 
+               random forest predictior learned on n-grams extracted without any amino acid 
+               encoding from the sequences of the length specified in the brackets", 
+               "tab:bench_summary", 2L:5) %>%
+  cat
