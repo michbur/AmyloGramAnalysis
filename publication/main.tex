@@ -145,7 +145,7 @@ that in longer amyloids only a short part of the sequence is responsible for
 amyloidogenicity, our method might results in many false positives in the 
 training data set. To evade this problem, we restricted the maximum length of 
 peptides in training data set to fifteen amino acids to easy the extraction of 
-probable hot-spots. 
+probable hot-spots.
 
   From each hexamer we extracted n-grams of the following length: 1, 2 and 3. In 
 the case of 2- and 3-grams, we separately counted both gapped and continous 
@@ -165,7 +165,7 @@ n-gram. In the next step, we used n-grams with the p-value smaller than 0.05 to
 build a random forest~\citep{breiman_random_2001} classifier using ranger 
 \textbf{R} package~\citep{wright_ranger:_2015}. 
 
-  Furthemore, we repeated the procedure described above on two typical reduced 
+  Furthermore, we repeated the procedure described above on two typical reduced 
 alphabets of amino acids derived from the literature to check if the process of 
 amyloidogenicity does require nonstandard groupings of amino acids. We also 
 added the full amino acid alphabet to assess the advantages of the amino acid 
@@ -174,111 +174,157 @@ encoding.
 \subsection{Cross-validation and selection of the best performing encoding}
 
 The ability to correctly predict amyloidogenicity was assessed during the 
-five-fold cross-validation. Since the data set was very heterogenous,  we 
+five-fold cross-validation. Since the data set was very heterogeneous, we 
 repeated the cross-validation fifteen times for each classifier to obtain more 
-precise estimates of peformance measures for each classifier. 
+precise estimates of performance measures for each classifier. 
 
   To evaluate if our classifiers are able to use decision rules extracted from 
 sequences of given length to correctly classify longer or shorter sequences, we 
 calculate performance measures separately for four ranges of lengths of 
-sequences:  
-  \begin{itemize}
-  \item 6;  
-  \item 7-10;   
-  \item 11-15;   
-  \item 16-25.  
-  \end{itemize}
-  The number of sequences from the given length range was roughly comparable 
-between folds of cross-validation.
-
-\subsection{Benchmark}
-\label{sec:bench}
+sequences: 6, 7-10, 11-15 and 16-25. The number of sequences from the given 
+length range was roughly comparable between folds of cross-validation.
+  
+  To choose the most adequate reduced amino acid alphabet, we ranked the values 
+of AUC (with rank 1 for the best AUC, rank 2 for the second best AUC and so on) 
+for each range of sequence length in the testing data set. The encoding with 
+the lowest sum of ranks from all sequence length categories was selected as 
+the best one. For this encoding, we choose the range of peptides length in the 
+training set providing the best AUC in cross-validation.
 
 
-MCC to choose the best classifier.
-How sensitivity/specificity depends on the lengths of sequences in the positive and negative training set.
-Which the simplest (shortest) alphabet gives the best prediction.
-Correlation matrix of Hamming distance of best n-grams.
-Encoding distance.
+\subsection{Benchmark of AmyloGram}
+
+The best performing reduced amino acid alphabet chosen during the 
+cross-validation was later used to train AmyloGram, n-gram based predictor of 
+amyloidogenicity.
+
+  We used \textit{pep424} data set~\cite{walsh_pasta_2014} to compare the 
+performance of AmyloGram and other predictors of amyloidogenicity. Since the 
+model of AmyloGram does not covers peptides shorter than five amino acids, we 
+removed them from the total benchmark data set. It should not affect the 
+comparison as only five sequences were eliminated (around 1\% of the original 
+data set). Additionally, we also benchmarked three predictors learned on the 
+n-grams extracted from sequences of different length ranges without any amino 
+acid encoding.
+
+  All benchmarked classifiers were trained on sequences used during the 
+cross-validation. Since some peptides were common for both \textit{pep424} and 
+AmyLoad, we removed them from the training data set. After purification, the 
+learning data set had 269 positive sequences and 746 negative sequences longer 
+than five residues and shorter than fifteen residues. Aside from the 
+preparation of the training data, we exactly repeated the procedure of n-gram 
+extraction as described above (see Fig.~\ref{fig:ngram_scheme}). 
+
 
 \end{methods}
 
-\section{Results}
+\section{Results and discussion}
 
-\subsection{Selection of the best encoding}
-    To choose the most adequate reduced amino acid alphabet, we ranked the 
-values of AUC (with rank 1 for the best AUC, rank 2 for the second best AUC and 
-so on) for each range of sequence length in the testing data set. The encoding 
-having the lowest sum of ranks from all sequence length categories was selected 
-as the best one nd further used to develop AmyloGram, a predictor of 
-amyloidogenicity.
-
+\subsection{Selection of the best performing encoding}
 
 \begin{figure*}[!tpb]
 \centerline{\includegraphics{figures/AUC_boxplot.eps}}
-\caption{Distribution of AUC values of different reduced amino acid alphabets. Red circle: classifier employing best encoding of amino acid. Green square: classifier using full amino acid alphabet. Blue square: classifiers employing encodings from literature.}\label{fig:AUC_boxplot}
+\caption{Distribution of AUC values of different reduced amino acid alphabets. 
+Red circle: classifier employing best encoding of amino acid. Green square: 
+classifier using full amino acid alphabet. Blue square: classifiers employing 
+encodings from literature.}\label{fig:AUC_boxplot} 
 \end{figure*}
-
-% latex table generated in R 3.2.3 by xtable 1.8-2 package
-% Mon Mar  7 20:46:49 2016
-\begin{table*}[ht]
-\centering
-\caption{Summarized results of 15 repeats of cross-validation. The results of all reduced 
-               alphabets (without the best performing encoding, the best encoding, the full 
-               alphabet and the reduced alphabet are presented separately.} 
-\label{tab:cv_summary}
-\begin{tabular}{llllll}
-  \toprule
-Classifier & Length of peptides in testing set & Mean AUC & Mean MCC & Mean sensitivity & Mean specificity \\ 
-  \midrule
-All reduced alphabets & [5,6] & 0.8176 & 0.4356 & 0.5261 & 0.8908 \\ 
-   \rowcolor[gray]{0.85}All reduced alphabets & (6,10] & 0.7218 & 0.3332 & 0.4839 & 0.8234 \\ 
-  All reduced alphabets & (10,15] & 0.7611 & 0.3983 & 0.7045 & 0.6754 \\ 
-   \rowcolor[gray]{0.85}All reduced alphabets & (15,25] & 0.7216 & 0.3141 & 0.7005 & 0.6015 \\ 
-  Best reduced alphabet & [5,6] & \textbf{0.8516} & 0.5111 & 0.5946 & 0.9004 \\ 
-   \rowcolor[gray]{0.85}Best reduced alphabet & (6,10] & 0.7997 & 0.4484 & 0.5552 & 0.8597 \\ 
-  Best reduced alphabet & (10,15] & 0.8255 & \textbf{0.5266} & 0.7237 & 0.7801 \\ 
-   \rowcolor[gray]{0.85}Best reduced alphabet & (15,25] & 0.7733 & 0.3884 & \textbf{0.7402} & 0.6326 \\ 
-  Full alphabet & [5,6] & 0.8375 & 0.4378 & 0.4910 & 0.9081 \\ 
-   \rowcolor[gray]{0.85}Full alphabet & (6,10] & 0.7614 & 0.3508 & 0.3942 & 0.8971 \\ 
-  Full alphabet & (10,15] & 0.7628 & 0.3873 & 0.5607 & 0.8019 \\ 
-   \rowcolor[gray]{0.85}Full alphabet & (15,25] & 0.7383 & 0.3438 & 0.5556 & 0.7706 \\ 
-  Reduced alphabet from literature & [5,6] & 0.7163 & 0.2063 & 0.2178 & \textbf{0.9286} \\ 
-   \rowcolor[gray]{0.85}Reduced alphabet from literature & (6,10] & 0.6330 & 0.0550 & 0.2513 & 0.8097 \\ 
-  Reduced alphabet from literature & (10,15] & 0.7343 & 0.3038 & 0.5130 & 0.7518 \\ 
-   \rowcolor[gray]{0.85}Reduced alphabet from literature & (15,25] & 0.6948 & 0.2167 & 0.4790 & 0.7205 \\ 
-   \bottomrule
-\end{tabular}
-\end{table*}
-
-
 
 \begin{figure*}[!tpb]
 \centerline{\includegraphics{figures/sesp_plot.png}}
-\caption{Sensitivity and specificity of classifiers in cross-validation. Red circle: classifier employing best encoding of amino acid. Green square: classifier using full amino acid alphabet. Blue square: classifiers employing encodings from literature. The classifier based on the best encoding always have good specificity and sensitivity.}\label{fig:sesp_plot}
+\caption{Sensitivity and specificity of classifiers in cross-validation. Red 
+circle: classifier employing best encoding of amino acid. Green square: 
+classifier using full amino acid alphabet. Blue square: classifiers employing 
+encodings from literature. The classifier based on the best encoding always 
+have 
+good specificity and sensitivity.}\label{fig:sesp_plot}
 \end{figure*}
 
+  The selected encoding performed better than other reduced alphabets 
+considering all sequence length ranges in training and testing data set. It has 
+the AUC always in the fourth quartile (Fig.~\ref{fig:AUC_boxplot}). For the 
+best-performing encoding the most problematic was correct prediction of the 
+amyloidogenicity in the longest peptides 16-25 not when learned on very short 
+sequences, but longer ones (6-10 and 6-15). Such behavior was typical for most 
+of the analyzed encodings.
 
-\subsection{Benchmark of classifiers}
+  The highest values of AUC the chosen encoding reaches in the relatively the 
+simplest cases of predicting amyloidogenicity of the shortest sequences (6 
+residues). Of course, the decision rules were the easiest to extract when also 
+the learning set has only sequences of the same lengths, but results were quite 
+comparable even if the training set contained longer sequences. Also in this 
+situation, majority of reduced amino acid alphabets behaved like the selected 
+encoding and also have higher AUC than in other scenarios.
 
-We used pep424 data set~\cite{walsh_pasta_2014} to compare the performance of 
-AmyloGram and other predictors of amyloidogenicity. Since the model of AmyloGram 
-does not covers peptides shorter than five amino acids, we removed them from the 
-total benchmark data set. It should not affect the comparison as only five 
-sequences were eliminated (around 1\% of the original data set).
+  Furthermore, the best encoding has also very good sensitivity and specificity 
+regardless of the length of sequences in training and testing 
+set (Fig.~\ref{fig:sesp_plot}). The classifiers trained on the peptides of 
+length 6 tend to have the best specificity, while predictors learned on the 
+long sequences have the best sensitivity. As the matter of fact, training on 
+the sequences ranging from six to ten residues seem to yield most balanced 
+classifiers with optimal sensitivity and specificity.
 
-  The benchmark covered Amylogram as well as two best-performing peer-reviewed 
+  In addition to reduced alphabets, we also evaluated classifiers based on the 
+full amino acid alphabet. In most cases they also places in the fourth quartile 
+considering their AUC value (Fig.~\ref{fig:AUC_boxplot}). Nevertheless, they 
+never predict amyloidogenicity better than the selected encoding. It suggests 
+that despite the predictive power of n-grams based on full alphabet, the 
+encoding allows better generalization of the prediction rules and in the 
+consequence better performance.
+
+  Similarly to the best-performing encoding, the sensitivity of classifiers 
+based on the full amino acid alphabet seems to decrease with the length of 
+sequences in the training data set (Fig.~\ref{fig:sesp_plot}). Furthermore, 
+these classifiers seem to always have one of the worst sensitivities among all 
+analyzed predictors, especially when tested on longer amyloids. It means that 
+using the full amino acid alphabet it easier to point the non-amyloidogenic 
+sequences instead of recognizing amyloids.
+
+  The encodings found in the literature performs substantively worse than other 
+analyzed amino acid alphabets in all categories. It indicates that classical 
+divisions of amino acids do not create groups suitable for the recognition of 
+amyloids. This observation is well-supported by the specificity-sensitivity 
+plot (Fig.~\ref{fig:sesp_plot}), where classifiers trained with this encodings 
+of amino acids groups with the worst performers.
+
+\subsection{The best performing encoding}
+
+% latex table generated in R 3.2.3 by xtable 1.8-2 package
+% Tue Mar  8 14:20:53 2016
+\begin{table}[ht]
+\centering
+\caption{The best-performing encoding.} 
+\label{tab:best_enc}
+\begin{tabular}{rl}
+  \toprule
+ID & Groups \\ 
+  \midrule
+  1 & G \\ 
+   \rowcolor[gray]{0.85}  2 & K, P, R \\ 
+    3 & I, L, V \\ 
+   \rowcolor[gray]{0.85}  4 & F, W, Y \\ 
+    5 & A, C, H, M \\ 
+   \rowcolor[gray]{0.85}  6 & D, E, N, Q, S, T \\ 
+   \bottomrule
+\end{tabular}
+\end{table}
+
+
+
+
+\subsection{Benchmark of AmyloGram}
+
+The benchmark covered Amylogram as well as two best-performing peer-reviewed 
 predictors of amyloidogenicity (PASTA2~\citep{walsh_pasta_2014} and 
-FoldAmyloid~\citep{garbuzynskiy_foldamyloid:_2010}). Additionally, we also 
-benchmarked three predictors learned on the n-grams extracted from sequences of 
-different length ranges without any amino acid encoding. We analyzed Area Under 
-the Curve (AUC), Matthew's Correlation Coefficient (MCC), Sensitivity and 
+FoldAmyloid~\citep{garbuzynskiy_foldamyloid:_2010}). We analyzed Area Under the 
+Curve (AUC), Matthew's Correlation Coefficient (MCC), Sensitivity and 
 Specificity (see Tab.~\ref{tab:bench_summary}).
     
-  Interesingly, the n-gram extraction method was efficient enough to produce 
+  Interestingly, the n-gram extraction method was efficient enough to produce 
 classifiers able to outperformed published methods. Two of three n-gram based 
 classifiers trained on the full alphabet have AUC higher than PASTA2 and all 
-three were more successful than FoldAmyloid.
+three were more successful than FoldAmyloid. They also maintained they high 
+Specificity as seen previously during cross-validation.
     
   Although the proposed n-gram extraction creates efficient classifiers, the 
 encoding of amino acids further increases the prediction of amyloidogenicity. 
@@ -289,28 +335,31 @@ highlight that AmyloGram is the most balanced of analyzed classifiers, having
 the best Specificity/Sensitivity balance, as indicated by the value of MCC.
 
 % latex table generated in R 3.2.3 by xtable 1.8-2 package
-% Tue Mar  8 10:40:40 2016
+% Tue Mar  8 14:17:55 2016
 \begin{table}[ht]
 \centering
-\caption{Results of benchmark on pep424 data set for AmyloGram, Pasta2, FoldAmyloid and 
-               random forest predictior learned on n-grams extracted without any amino acid 
-               encoding from the sequences of the length specified in the brackets.} 
+\caption{Results of benchmark on \textit{pep424} data set for AmyloGram, 
+PASTA2, FoldAmyloid and random forest predictor learned on n-grams extracted 
+without any amino acid encoding from the sequences of the length specified in 
+the brackets.} 
 \label{tab:bench_summary}
-\begin{tabular}{lllll}
+\begin{tabular}{ccccc}
   \toprule
 Classifier & AUC & MCC & Sensitivity & Specificity \\ 
   \midrule
 AmyloGram & \textbf{0.8972} & \textbf{0.6307} & \textbf{0.8658} & 0.7889 \\ 
    \rowcolor[gray]{0.85}PASTA2 & 0.8550 & 0.5227 & 0.7987 & 0.7444 \\ 
   FoldAmyloid & 0.7351 & 0.4526 & 0.7517 & 0.7185 \\ 
-   \rowcolor[gray]{0.85}full alphabet (6) & 0.8411 & 0.5427 & 0.4966 & \textbf{0.9593} \\ 
+   \rowcolor[gray]{0.85}full alphabet (6) & 0.8411 & 0.5427 & 0.4966 & 
+\textbf{0.9593} \\ 
   full alphabet (6-10) & 0.8581 & 0.5698 & 0.7517 & 0.8259 \\ 
-   \rowcolor[gray]{0.85}full alphabet (6-15) & 0.8610 & 0.5490 & 0.8188 & 0.7519 \\ 
+   \rowcolor[gray]{0.85}full alphabet (6-15) & 0.8610 & 0.5490 & 0.8188 & 0.7519 
+\\ 
    \bottomrule
 \end{tabular}
 \end{table}
 
-\section{Discussion}
+
 
 
 

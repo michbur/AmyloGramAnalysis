@@ -6,12 +6,12 @@ amyloids_plot <- select(amyloids, AUC_mean, MCC_mean, Sens_mean, Spec_mean, pos,
   rbind(select(full_alphabet, AUC_mean, MCC_mean, Sens_mean, Spec_mean, pos, len_range) %>% 
           mutate(et = "full alphabet", enc_adj = 0)) %>%
   mutate(len_range = factor(len_range, levels = c("[5,6]", "(6,10]", "(10,15]", "(15,25]")),
-         pos = factor(pos, labels = paste0("Training peptide\nlength: ", 
-                                           c("6", "10 or less", "15 or less"))),
+         pos = factor(pos, labels = paste0("Training peptide length: ", 
+                                           c("6", "6-10", "6-15"))),
          et = factor(et, labels = c("Reduced alphabet", "Best performing reduced alphabet",
                                     "Reduced alphabet from literature", "Full alphabet"))) %>%
   mutate(len_range = factor(len_range, 
-                            labels = paste0("Testing peptide\nlength: ", c("6 ", "7-10", "11-15", "16-25"))))
+                            labels = paste0("Testing peptide length: ", c("6 ", "7-10", "11-15", "16-25"))))
 
 # Fig 1 all encodings sens/spec  ----------------------------------------
 
@@ -26,7 +26,7 @@ sesp_plot <- ggplot(amyloids_plot, aes(x = Sens_mean, y = Spec_mean, color = et,
   geom_point(data = filter(amyloids_plot, et != "Reduced alphabet"), 
              aes(x = Sens_mean, y = Spec_mean, color = et))
 
-png("./publication/figures/sesp_plot.png", height = 4, width = 8, unit = "in", res = 200)
+png("./publication/figures/sesp_plot.png", height = 5, width = 7, unit = "in", res = 200)
 #cairo_ps("./pub_figures/sesp_plot.eps", height = 4, width = 8)
 # should be eps, but it's too big for overleaf
 print(sesp_plot)
@@ -46,7 +46,7 @@ AUC_boxplot <- ggplot(amyloids_plot, aes(x = len_range, y = AUC_mean)) +
   my_theme + 
   coord_flip()
 
-cairo_ps("./publication/figures/AUC_boxplot.eps", height = 6, width = 8)
+cairo_ps("./publication/figures/AUC_boxplot.eps", height = 5, width = 7)
 #png("./pub_figures/AUC_boxplot.png", height = 648, width = 648)
 print(AUC_boxplot)
 dev.off()

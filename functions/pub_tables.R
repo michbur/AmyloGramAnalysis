@@ -17,7 +17,22 @@ format_table <- function(x, caption, label, range) {
   
   tab_full <- cbind(x[-range], tab_bold)
   
-  res <- print(xtable(tab_full, caption = caption, label = label), include.rownames = FALSE, booktabs = TRUE,
+  res <- print(xtable(tab_full, caption = caption, label = label, align = rep("c", ncol(tab_full) + 1)), 
+               include.rownames = FALSE, booktabs = TRUE,
+               add.to.row = list(pos = as.list(rws), command = col), print.results = FALSE, 
+               caption.placement = "top", sanitize.text.function = identity, 
+               sanitize.rownames.function = identity)
+  res
+}
+
+group2df <- function(group_list, caption = NULL, label = NULL) {
+  tab <- data.frame(Groups = sapply(group_list, function(i)
+    paste0(toupper(sort(i)), collapse = ", ")))
+  tab <- cbind(ID = 1L:nrow(tab), tab)
+  rws <- seq(1, nrow(tab) - 1, by = 2)
+  col <- rep("\\rowcolor[gray]{0.85}", length(rws))
+  res <- print(xtable(tab, caption = caption, label = label), 
+               include.rownames = FALSE, booktabs = TRUE,
                add.to.row = list(pos = as.list(rws), command = col), print.results = FALSE, 
                caption.placement = "top", sanitize.text.function = identity, 
                sanitize.rownames.function = identity)
@@ -64,7 +79,10 @@ mutate(pub_full_summary_table,
                alphabet and the reduced alphabet are presented separately.", "tab:cv_summary", 3L:6) %>%
   cat
 
+# best encoding ----------------------------
 
+cat(group2df(aa_groups[[best_enc]], caption = "The best-performing encoding.", 
+             label = "tab:best_enc"))
 
 # benchmark table --------------------------------------------
 
@@ -77,8 +95,8 @@ slice(bench_measures, c(1L:2, 4, 15L:17)) %>%
   rename(Classifier = nice_name, "AUC" = AUC, "MCC" = MCC, 
          "Sensitivity" = Sens, "Specificity" = Spec) %>%
   slice(c(3, 1L:2, 4L:6)) %>%
-  format_table("Results of benchmark on pep424 data set for AmyloGram, Pasta2, FoldAmyloid and 
-               random forest predictior learned on n-grams extracted without any amino acid 
-               encoding from the sequences of the length specified in the brackets", 
+  format_table("Results of benchmark on \\textit{pep424} data set for AmyloGram, PASTA2, FoldAmyloid and 
+               random forest predictor learned on n-grams extracted without any amino acid 
+               encoding from the sequences of the length specified in the brackets.", 
                "tab:bench_summary", 2L:5) %>%
   cat
