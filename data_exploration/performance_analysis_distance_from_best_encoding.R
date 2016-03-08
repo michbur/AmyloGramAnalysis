@@ -90,14 +90,27 @@ props_normalization <- lapply(aa_groups, function(enc) {
 #normalized distances
 normalized_distances <- data.frame(enc_adj=seq_along(aa_groups),
                                    ed=unlist(distances)*unlist(props_normalization))
+normalized_distances <- rbind(normalized_distances,c(0, 14)) #for full alphabet
 
+
+source("functions/pub_functions.R")
 #we join information about distance with mean AUC
 inner_join(amyloids %>% 
-  select(len_range, enc_adj, AUC_mean) %>%
-  group_by(enc_adj) %>%
-  summarise(AUC_mean = mean(AUC_mean)), normalized_distances) -> dat
+             mutate(et = factor(ifelse(enc_adj %in% best_enc, "best", ifelse(enc_adj %in% 1L:2, "literature", "")))) %>%
+             select(len_range, enc_adj, AUC_mean, et) %>%
+             rbind(select(full_alphabet, AUC_mean, len_range) %>% 
+                     mutate(et = "full alphabet", enc_adj = 0)) %>%
+             group_by(enc_adj) %>%
+             summarise(AUC_mean = mean(AUC_mean), et=et[1]), normalized_distances) -> dat
+
+dat$et <- factor(dat$et, labels = c("Reduced alphabet", "Best performing reduced alphabet",
+                      "Reduced alphabet from literature", "Full alphabet"))
 
 #this shows really strong correlation
 library(ggplot2)
-ggplot(dat) + geom_point(aes(x=ed, y=AUC_mean))
-
+ggplot(dat, aes(x=ed, y=AUC_mean, color=et, alpha=1-0.2*(et=="Reduced alphabet"))) + 
+  geom_point() +
+  xlab("Normalized encoding distance") +
+  ylab("AUC") +
+  scale_color_manual("", values = c("grey", "red", "blue", "green")) +
+  guides(alpha=FALSE) + my_theme
