@@ -2,7 +2,7 @@ library(ggplot2)
 library(grid)
 library(gridExtra)
 
-size_mod <- -6
+size_mod <- -7
 
 my_theme <- theme(plot.background=element_rect(fill = "transparent",
                                                colour = "transparent"),
@@ -12,10 +12,10 @@ my_theme <- theme(plot.background=element_rect(fill = "transparent",
                   legend.background = element_rect(fill = "NA"),
                   legend.position = "bottom",
                   axis.text = element_text(size=13 + size_mod),
-                  axis.title.x = element_text(size=16 + size_mod, vjust = -1), 
-                  axis.title.y = element_text(size=16 + size_mod, vjust = 1),
+                  axis.title.x = element_text(size=14 + size_mod, vjust = -1), 
+                  axis.title.y = element_text(size=14 + size_mod, vjust = 1),
                   strip.text = element_text(size=13 + size_mod, face = "bold"),
                   legend.text = element_text(size=13 + size_mod), 
-                  legend.title = element_text(size=17 + size_mod),
+                  legend.title = element_text(size=14 + size_mod),
                   plot.title = element_text(size=20 + size_mod),
                   strip.background = element_rect(fill = "NA", colour = "NA"))
