@@ -69,3 +69,9 @@ cairo_ps("./publication/figures/MCC_boxplot.eps", height = 9, width = 8)
 #png("./pub_figures/MCC_boxplot.png", height = 648, width = 648)
 MCC_boxplot
 dev.off()
+
+# Fig 4 properties  ----------------------------------------
+
+ggplot(best_enc_props, aes(x = as.factor(id), y = value)) +
+  geom_point() +
+  facet_wrap(~ gr, ncol = 2)

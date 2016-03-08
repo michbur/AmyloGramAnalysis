@@ -171,7 +171,7 @@ amyloidogenicity does require nonstandard groupings of amino acids. We also
 added the full amino acid alphabet to assess the advantages of the amino acid 
 encoding.
 
-\subsection{Cross-validation and selection of the best performing encoding}
+\subsection{Cross-validation and selection of the best-performing encoding}
 
 The ability to correctly predict amyloidogenicity was assessed during the 
 five-fold cross-validation. Since the data set was very heterogeneous, we 
@@ -194,7 +194,7 @@ training set providing the best AUC in cross-validation.
 
 \subsection{Benchmark of AmyloGram}
 
-The best performing reduced amino acid alphabet chosen during the 
+The best-performing reduced amino acid alphabet chosen during the 
 cross-validation was later used to train AmyloGram, n-gram based predictor of 
 amyloidogenicity.
 
@@ -220,7 +220,7 @@ extraction as described above (see Fig.~\ref{fig:ngram_scheme}).
 
 \section{Results and discussion}
 
-\subsection{Selection of the best performing encoding}
+\subsection{Selection of the best-performing encoding}
 
 \begin{figure*}[!tpb]
 \centerline{\includegraphics{figures/AUC_boxplot.eps}}
@@ -287,7 +287,24 @@ amyloids. This observation is well-supported by the specificity-sensitivity
 plot (Fig.~\ref{fig:sesp_plot}), where classifiers trained with this encodings 
 of amino acids groups with the worst performers.
 
-\subsection{The best performing encoding}
+\subsection{The best-performing encoding}
+
+The reduced amino acid alphabet chosen during the analysis has six elements 
+(Tab.~\ref{tab:best_enc}). Identical reduced amino acid alphabets were created through ten other combinations 
+of physicochemical properties. The following features appeared in all eleven combinations:
+hydrophobicity index~\citep{argos_structural_1982}, average flexibility 
+indices~\citep{bhaskaran_positional_1988}, polarizability 
+parameter~\citep{charton_structural_1982} and thermodynamic beta sheet 
+propensity~\citep{kim_thermodynamic_1993}.
+
+  Two groups, 3 and 4 contain mostly hydrophobic amino acids, while 1 and 4 
+are mostly hydrophilic. In addition to this, group 1 and 4 have amino acid with 
+the highest average flexibility. The least flexible amino acids are in group 5. 
+The most polarizable amino acids belong to group 4, while the lowest polarizability 
+is typical for glycine in group 1. The glycine has also the highest thermodynamic beta sheet 
+propensity, which has the lowest values for groups 3 and 4.
+
+  
 
 % latex table generated in R 3.2.3 by xtable 1.8-2 package
 % Tue Mar  8 14:20:53 2016

@@ -14,6 +14,7 @@ library(dplyr)
 library(biogram) #calc_ed
 require(seqinr) #for choose_properties
 require(xtable)
+require(reshape2)
 
 # read data ----------------------------------------
 
@@ -70,6 +71,59 @@ full_alphabet <- lapply(1L:length(cv_results_full[[1]]), function(single_replica
   summarize_each(funs(mean = liberal_mean, sd = liberal_sd), AUC, MCC, Sens, Spec) %>%
   ungroup %>% 
   mutate(pos = c(6, 10, 15)[replicate])
+
+
+# properites of benc encoding  --------------------------------------
+
+load("./results/enc_dupes.RData")
+
+best_dupes <- lapply(enc_dupes[["aa_duplicates"]][best_enc], function(single_enc)
+  single_enc %>%
+    sapply(function(i) substr(i, 3, nchar(i))) %>%
+    strsplit("K") %>%
+    lapply(as.numeric) %>%
+    do.call(rbind, .) %>%
+    data.frame %>%
+    select(X1) %>%
+    unlist(use.names = FALSE) - 2)
+
+frequencies <- data.frame(trait_tab[unlist(best_dupes, use.names = FALSE), ] %>%
+                            apply(1, na.omit) %>% unlist %>% table)
+colnames(frequencies) <- c("X", "Freq")
+frequencies$X <- as.numeric(as.character(frequencies$X))
+
+trait_props_all <- prop_MK %>%
+  inner_join(frequencies) %>%
+  arrange(desc(Freq)) %>%
+  select(name, Freq) %>%
+  mutate(prop = Freq/length(unlist(best_dupes, use.names = FALSE))) %>%
+  droplevels() %>%
+  filter(Freq == 11) %>%
+  select(name) %>%
+  unlist() %>%
+  as.character()
+
+traits_best_ids <- filter(frequencies, Freq == 11) %>%
+  select(X) %>%
+  unlist(use.names = FALSE)
+
+best_enc_aa <- do.call(rbind, lapply(1L:length(aa_groups[[best_enc]]), function(i)
+  data.frame(id = i, aa = toupper(aa_groups[[best_enc]][[i]]), stringsAsFactors = FALSE)
+))
+
+norm_props <- normalize_properties()[traits_best_ids, ] %>% 
+  data.frame %>% 
+  cbind(gr = rownames(.), .) %>% 
+  melt(variable = "aa") %>%
+  mutate(aa = as.character(aa))
+  
+best_enc_props <- inner_join(best_enc_aa, norm_props)
+
+
+
+
+
+# results of benchmark --------------------------------------
 
 bench_measures <- read.csv("./results/benchmark_allpreds.csv")
 
