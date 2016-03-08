@@ -11,7 +11,7 @@
 
 \subtitle{Subject Section}
 
-\title[short Title]{Prediction of amyloidogenicity based on the n-gram analysis}
+\title[Prediction of amyloidogenicity based on the n-gram analysis]{Prediction of amyloidogenicity based on the n-gram analysis}
 \author[Sample \textit{et~al}.]{Micha\l{} Burdukiewicz$^{\text{\sfb 1,*}}$, Piotr Sobczyk\,$^{\text{\sfb 2}}$, Pawe\l{} Mackiewicz$^{\text{\sfb 1}}$ and Ma\l{}gorzata Kotulska\,$^{\text{\sfb 3,}*}$}
 \address{$^{\text{\sf 1}}$University of Wroc\l{}aw, Department of Genomics,
 $^{\text{\sf 2}}$Wroc\l{}aw University of Technology, Department of Mathematics and 
@@ -56,17 +56,38 @@ online.}
 
 \subsection{Data set}
 
-The data used in the study was extracted from AmyLoad data base~\citep{wozniak_amyload:_2015}. Aside from eight sequences shorter than five residues that were removed from the final data set, we obtained 418 amyloidogenic sequences and 1039 non-amyloidogenic sequences (1457 peptides in total).
+The data used in the study was extracted from AmyLoad data 
+base~\citep{wozniak_amyload:_2015}. Aside from eight sequences shorter than five 
+residues that were removed from the final data set, we obtained 418 
+amyloidogenic sequences and 1039 non-amyloidogenic sequences (1457 peptides in 
+total).
 
-Sequences shorter than 6 amino acids and longer than 25 amino acids were removed from data set. The former were too short to be processed in the devised analysis framework and the latter were too diversified and rare, preventing the proper analysis.
+  Sequences shorter than 6 amino acids and longer than 25 amino acids were 
+removed from data set. The former were too short to be processed in the devised 
+analysis framework and the latter were too diversified and rare, preventing the 
+proper analysis.
 
-The final data set contains 397 amyloidogenic and 1033 non-amyloidogenic sequences (1430 peptides in total).
+  The final data set contains 397 amyloidogenic and 1033 non-amyloidogenic 
+sequences (1430 peptides in total).
 
 \subsection{Encodings of amino acids}
 
-The amyloidogenicity of given peptide may not depend on the exact sequence of amino acids, but on its more general properties. To verify this hypothesis, we created 524 284 reduced amino acid alphabets (encodings) with different lengths (from three to six letters) using Ward's clusterization~\cite{jr_hierarchical_1963} on the selected physicochemical properties from AAIndex database~\citep{kawashima_aaindex:_2008}. We handpicked several measures belonging to more general categories important in process of amyloidogenicity as size, hydrophobicity, solvent surface area, frequency in $\beta$-sheets and contactivity. As the rule of thumb, we limited ourselves to properties introduced after 1980 when, thanks to the technological advancements, the measurements were more accurate.
+The amyloidogenicity of given peptide may not depend on the exact sequence of 
+amino acids, but on its more general properties. To verify this hypothesis, we 
+created 524 284 reduced amino acid alphabets (encodings) with different lengths 
+(from three to six letters) using Ward's 
+clusterization~\cite{jr_hierarchical_1963} on the selected physicochemical 
+properties from AAIndex database~\citep{kawashima_aaindex:_2008}. We handpicked 
+several measures belonging to more general categories important in process of 
+amyloidogenicity as size, hydrophobicity, solvent surface area, frequency in 
+$\beta$-sheets and contactivity. As the rule of thumb, we limited ourselves to 
+properties introduced after 1980 when, thanks to the technological advancements, 
+the measurements were more accurate.
 
-Some of the encodings created on different combinations of physicochemical properties were identical. In such case, only a single representative was included in the benchmark. After filtering duplicates, we obtained 18 535 unique encodings.
+  Some of the encodings created on different combinations of physicochemical 
+properties were identical. In such case, only a single representative was 
+included in the benchmark. After filtering duplicates, we obtained 18 535 unique 
+encodings.
 
 \begin{table*}[bth]
 \centering
@@ -96,43 +117,83 @@ Category & Property \\
 \caption{Physicochemical properties used in the creation of reduced amino acid alphabets.} 
 \end{table*}
 
-Since highly correlated or, contrarily, uncorrelated measures create very similar encodings, we further reduced the number of properties to 17 by selecting measures with the absolute value of Pearson's correlation coefficient for normalized values larger than 0.95.
+  Since highly correlated or, contrarily, uncorrelated measures create very 
+similar encodings, we further reduced the number of properties to 17 by 
+selecting measures with the absolute value of Pearson's correlation coefficient 
+for normalized values larger than 0.95.
 
 \subsection{Training of learners}
 
 \begin{figure*}[!tpb]%figure1
 \centerline{\includegraphics[width=\textwidth]{figures/ngram_scheme.png}}
-\caption{The scheme of n-gram extraction. A) Input data - peptides with a known amyloidogenicity status. B) Each peptide sequence was divided into overlapping hexamers. The amyloidogenicity status of a source sequence was used as the amyloidogenicity status of a derived hexamer. C) From each hexamer we extracted continuous 1-, 2- and 3-grams. We selected also gapped 2-grams with the length of gap equal from 1 to 3 residues and gapped 3-grams with a single gap between the first and the second or the second and the third element of the n-gram.}\label{fig:ngram_scheme}
+  \caption{The scheme of n-gram extraction. A) Input data - peptides with a 
+known amyloidogenicity status. B) Each peptide sequence was divided into 
+overlapping hexamers. The amyloidogenicity status of a source sequence was used 
+as the amyloidogenicity status of a derived hexamer. C) From each hexamer we 
+extracted continuous 1-, 2- and 3-grams. We selected also gapped 2-grams with 
+the length of gap equal from 1 to 3 residues and gapped 3-grams with a single 
+gap between the first and the second or the second and the third element of the 
+n-gram.}
+\label{fig:ngram_scheme}
 \end{figure*}
 
-During the training phase, we extracted overlapping hexamers from each sequence. Each hexamer was tagged with the same etiquette (amyloid/nonamyloid) as the original peptide. For example, the sequence of length 6 residues yields only one hexamer and the sequence of 8 residues yields 3 hexamers.  Assuming that in longer amyloids only a short part of the sequence is responsible for amyloidogenicity, our method might results in many false positives in the training data set. To evade this problem, we restricted the maximum length of peptides in training data set to fifteen amino acids to easy the extraction of probable hot-spots. 
+During the training phase, we extracted overlapping hexamers from each 
+sequence. Each hexamer was tagged with the same etiquette (amyloid/nonamyloid) 
+as the original peptide. For example, the sequence of length 6 residues yields 
+only one hexamer and the sequence of 8 residues yields 3 hexamers.  Assuming 
+that in longer amyloids only a short part of the sequence is responsible for 
+amyloidogenicity, our method might results in many false positives in the 
+training data set. To evade this problem, we restricted the maximum length of 
+peptides in training data set to fifteen amino acids to easy the extraction of 
+probable hot-spots. 
 
-From each hexamer we extracted n-grams of the following length: 1, 2 and 3. In the case of 2- and 3-grams, we separately counted both gapped and continous n-grams. For 2-grams we counted n-grams with gaps of lengths from 1 to 3 and for 3-grams with a single gap between the first and the second or the second and the third element (see Fig.~\ref{fig:ngram_scheme}).
+  From each hexamer we extracted n-grams of the following length: 1, 2 and 3. In 
+the case of 2- and 3-grams, we separately counted both gapped and continous 
+n-grams. For 2-grams we counted n-grams with gaps of lengths from 1 to 3 and for 
+3-grams with a single gap between the first and the second or the second and the 
+third element (see Fig.~\ref{fig:ngram_scheme}).
 
-The inquire further the length of amyloidogenicity signal, we trained three classifiers for each encoding on the sequences of different length. We considered separately six-residue sequences, shorter of equal to ten residues and shorter or equal to fifteen residues.
+  The inquire further the length of amyloidogenicity signal, we trained three 
+classifiers for each encoding on the sequences of different length. We 
+considered separately six-residue sequences, shorter of equal to ten residues 
+and shorter or equal to fifteen residues.
 
-All n-grams extracted from the hexamers in the training data set were filtered using QuiPT, our own implementation of permutation test with the information gain ( mutual information) as the criterion of the importance of a specific n-gram. In the next step, we used n-grams with the p-value smaller than 0.05 to build a random forest~\citep{breiman_random_2001} classifier using ranger \textbf{R} package~\citep{wright_ranger:_2015}. 
+  All n-grams extracted from the hexamers in the training data set were filtered 
+using QuiPT, our own implementation of permutation test with the information 
+gain ( mutual information) as the criterion of the importance of a specific 
+n-gram. In the next step, we used n-grams with the p-value smaller than 0.05 to 
+build a random forest~\citep{breiman_random_2001} classifier using ranger 
+\textbf{R} package~\citep{wright_ranger:_2015}. 
 
-Furthemore, we repeated the procedure described above on two typical reduced alphabets of amino acids derived from the literature to check if the process of amyloidogenicity does require nonstandard groupings of amino acids. We also added the full amino acid alphabet to assess the advantages of the amino acid encoding.
+  Furthemore, we repeated the procedure described above on two typical reduced 
+alphabets of amino acids derived from the literature to check if the process of 
+amyloidogenicity does require nonstandard groupings of amino acids. We also 
+added the full amino acid alphabet to assess the advantages of the amino acid 
+encoding.
 
 \subsection{Cross-validation and selection of the best performing encoding}
 
-The ability to correctly predict amyloidogenicity was assessed during the five-fold cross-validation. Since the data set was very heterogenous,  we repeated the cross-validation fifteen times for each classifier to obtain more precise estimates of peformance measures for each classifier. 
+The ability to correctly predict amyloidogenicity was assessed during the 
+five-fold cross-validation. Since the data set was very heterogenous,  we 
+repeated the cross-validation fifteen times for each classifier to obtain more 
+precise estimates of peformance measures for each classifier. 
 
-To evaluate if our classifiers are able to use decision rules extracted from sequences of given length to correctly classify longer or shorter sequences, we calculate performance measures separately for four ranges of lengths of sequences:  
-\begin{itemize}
-\item 6;  
-\item 7-10;   
-\item 11-15;   
-\item 16-25.  
-\end{itemize}
-The number of sequences from the given length range was roughly comparable between folds of cross-validation.
-
-To choose the most adequate reduced amino acid alphabet, we ranked the values of AUC (with rank 1 for the best AUC, rank 2 for the second best AUC and so on) for each range of sequence length in the testing data set. The encoding having the lowest sum of ranks from all sequence length categories was selected as the best one nd further used to develop AmyloGram, a predictor of amyloidogenicity.
+  To evaluate if our classifiers are able to use decision rules extracted from 
+sequences of given length to correctly classify longer or shorter sequences, we 
+calculate performance measures separately for four ranges of lengths of 
+sequences:  
+  \begin{itemize}
+  \item 6;  
+  \item 7-10;   
+  \item 11-15;   
+  \item 16-25.  
+  \end{itemize}
+  The number of sequences from the given length range was roughly comparable 
+between folds of cross-validation.
 
 \subsection{Benchmark}
+\label{sec:bench}
 
-We used pep424 data set~\cite{walsh_pasta_2014} to compare the performance of AmyloGram and other predictors of amyloidogenicity. Since the model of AmyloGram does not covers peptides shorter than five amino acids, we removed them from the total benchmark data set. It should not affect the comparison as only five sequences were eliminated (around 1\% of the original data set).
 
 MCC to choose the best classifier.
 How sensitivity/specificity depends on the lengths of sequences in the positive and negative training set.
@@ -145,7 +206,12 @@ Encoding distance.
 \section{Results}
 
 \subsection{Selection of the best encoding}
-
+    To choose the most adequate reduced amino acid alphabet, we ranked the 
+values of AUC (with rank 1 for the best AUC, rank 2 for the second best AUC and 
+so on) for each range of sequence length in the testing data set. The encoding 
+having the lowest sum of ranks from all sequence length categories was selected 
+as the best one nd further used to develop AmyloGram, a predictor of 
+amyloidogenicity.
 
 
 \begin{figure*}[!tpb]
@@ -157,11 +223,13 @@ Encoding distance.
 % Mon Mar  7 20:46:49 2016
 \begin{table*}[ht]
 \centering
-\caption{Results of cross-validation.} 
-\label{table:cv_summary}
+\caption{Summarized results of 15 repeats of cross-validation. The results of all reduced 
+               alphabets (without the best performing encoding, the best encoding, the full 
+               alphabet and the reduced alphabet are presented separately.} 
+\label{tab:cv_summary}
 \begin{tabular}{llllll}
   \toprule
-Classifier & Length of peptides & Mean AUC & Mean MCC & Mean sensitivity & Mean specificity \\ 
+Classifier & Length of peptides in testing set & Mean AUC & Mean MCC & Mean sensitivity & Mean specificity \\ 
   \midrule
 All reduced alphabets & [5,6] & 0.8176 & 0.4356 & 0.5261 & 0.8908 \\ 
    \rowcolor[gray]{0.85}All reduced alphabets & (6,10] & 0.7218 & 0.3332 & 0.4839 & 0.8234 \\ 
@@ -182,11 +250,65 @@ All reduced alphabets & [5,6] & 0.8176 & 0.4356 & 0.5261 & 0.8908 \\
    \bottomrule
 \end{tabular}
 \end{table*}
+
+
+
 \begin{figure*}[!tpb]
 \centerline{\includegraphics{figures/sesp_plot.png}}
 \caption{Sensitivity and specificity of classifiers in cross-validation. Red circle: classifier employing best encoding of amino acid. Green square: classifier using full amino acid alphabet. Blue square: classifiers employing encodings from literature. The classifier based on the best encoding always have good specificity and sensitivity.}\label{fig:sesp_plot}
 \end{figure*}
 
+
+\subsection{Benchmark of classifiers}
+
+We used pep424 data set~\cite{walsh_pasta_2014} to compare the performance of 
+AmyloGram and other predictors of amyloidogenicity. Since the model of AmyloGram 
+does not covers peptides shorter than five amino acids, we removed them from the 
+total benchmark data set. It should not affect the comparison as only five 
+sequences were eliminated (around 1\% of the original data set).
+
+  The benchmark covered Amylogram as well as two best-performing peer-reviewed 
+predictors of amyloidogenicity (PASTA2~\citep{walsh_pasta_2014} and 
+FoldAmyloid~\citep{garbuzynskiy_foldamyloid:_2010}). Additionally, we also 
+benchmarked three predictors learned on the n-grams extracted from sequences of 
+different length ranges without any amino acid encoding. We analyzed Area Under 
+the Curve (AUC), Matthew's Correlation Coefficient (MCC), Sensitivity and 
+Specificity (see Tab.~\ref{tab:bench_summary}).
+    
+  Interesingly, the n-gram extraction method was efficient enough to produce 
+classifiers able to outperformed published methods. Two of three n-gram based 
+classifiers trained on the full alphabet have AUC higher than PASTA2 and all 
+three were more successful than FoldAmyloid.
+    
+  Although the proposed n-gram extraction creates efficient classifiers, the 
+encoding of amino acids further increases the prediction of amyloidogenicity. 
+AmyloGram has the highest AUC, MCC and Sensitivity among all tested classifiers. 
+Is has lower specificity than two classifiers trained on the full alphabet, but 
+still outperforms other published method in this category. It is important to 
+highlight that AmyloGram is the most balanced of analyzed classifiers, having 
+the best Specificity/Sensitivity balance, as indicated by the value of MCC.
+
+% latex table generated in R 3.2.3 by xtable 1.8-2 package
+% Tue Mar  8 10:40:40 2016
+\begin{table}[ht]
+\centering
+\caption{Results of benchmark on pep424 data set for AmyloGram, Pasta2, FoldAmyloid and 
+               random forest predictior learned on n-grams extracted without any amino acid 
+               encoding from the sequences of the length specified in the brackets.} 
+\label{tab:bench_summary}
+\begin{tabular}{lllll}
+  \toprule
+Classifier & AUC & MCC & Sensitivity & Specificity \\ 
+  \midrule
+AmyloGram & \textbf{0.8972} & \textbf{0.6307} & \textbf{0.8658} & 0.7889 \\ 
+   \rowcolor[gray]{0.85}PASTA2 & 0.8550 & 0.5227 & 0.7987 & 0.7444 \\ 
+  FoldAmyloid & 0.7351 & 0.4526 & 0.7517 & 0.7185 \\ 
+   \rowcolor[gray]{0.85}full alphabet (6) & 0.8411 & 0.5427 & 0.4966 & \textbf{0.9593} \\ 
+  full alphabet (6-10) & 0.8581 & 0.5698 & 0.7517 & 0.8259 \\ 
+   \rowcolor[gray]{0.85}full alphabet (6-15) & 0.8610 & 0.5490 & 0.8188 & 0.7519 \\ 
+   \bottomrule
+\end{tabular}
+\end{table}
 
 \section{Discussion}
 
