@@ -90,8 +90,21 @@ props_normalization <- lapply(aa_groups, function(enc) {
 #normalized distances
 normalized_distances <- data.frame(enc_adj=seq_along(aa_groups),
                                    ed=unlist(distances)*unlist(props_normalization))
-normalized_distances <- rbind(normalized_distances,c(0, 14)) #for full alphabet
 
+#for full alphabet
+full_alphabet_groups = lapply(unlist(aa_groups[[1]]), function(x) x)
+coords_a <- lapply(aa_groups[[best_enc]], function(single_subgroup) rowMeans(selected_props[, single_subgroup, drop = FALSE]))
+coords_b <- lapply(full_alphabet_groups, function(single_subgroup) rowMeans(selected_props[, single_subgroup, drop = FALSE]))
+
+norm_factor <- sum(sapply(coords_a, function(single_coords_a) {
+  distances <- sapply(coords_b, function(single_coords_b) 
+    # vector of distances between groups
+    sqrt(sum((single_coords_a - single_coords_b)^2))
+  )
+  # c(dist = min(distances), id = unname(which.min(distances)))
+  min(distances)
+}))
+normalized_distances <- rbind(normalized_distances,c(0, 14*norm_factor)) 
 
 source("functions/pub_functions.R")
 #we join information about distance with mean AUC
