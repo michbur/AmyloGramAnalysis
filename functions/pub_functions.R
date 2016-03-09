@@ -9,12 +9,11 @@ source("./functions/plot_tools.R")
 if(Sys.info()["nodename"] == "tobit" )
   setwd("~/Dropbox/doktorat/moje_prace/amyloid_ngram2/")
 
-
-library(dplyr)
 library(biogram) #calc_ed
 require(seqinr) #for choose_properties
 require(xtable)
 require(reshape2)
+library(dplyr)
 
 # read data ----------------------------------------
 

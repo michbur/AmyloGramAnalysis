@@ -121,9 +121,11 @@ dat$et <- factor(dat$et, labels = c("Reduced alphabet", "Best performing reduced
 
 #this shows really strong correlation
 library(ggplot2)
-ggplot(dat, aes(x=ed, y=AUC_mean, color=et, alpha=1-0.2*(et=="Reduced alphabet"))) + 
+ggplot(dat, aes(x=ed, y=AUC_mean, color=et)) + 
   geom_point() +
+  scale_color_manual("", values = c("grey", "red", "blue", "green")) +
   xlab("Normalized encoding distance") +
   ylab("AUC") +
-  scale_color_manual("", values = c("grey", "red", "blue", "green")) +
-  guides(alpha=FALSE) + my_theme
+  my_theme +
+  geom_point(data = filter(dat, et != "Reduced alphabet"), 
+             aes(x = ed, y = AUC_mean, color = et))
