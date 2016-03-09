@@ -75,3 +75,17 @@ dev.off()
 ggplot(best_enc_props, aes(x = as.factor(id), y = value)) +
   geom_point() +
   facet_wrap(~ gr, ncol = 2)
+
+# Fig 5 n-grams  ----------------------------------------
+
+ngram_freq_plot <- mutate(ngram_freq, decoded_name = gsub("_", "|", decoded_name)) %>%
+  mutate(decoded_name = factor(decoded_name, levels = as.character(decoded_name))) %>%
+  melt() %>% 
+  filter(variable %in% c("pos", "neg"))
+
+ggplot(ngram_freq_plot, aes(x = decoded_name, y = value, fill = variable)) +
+  geom_bar(position = "dodge", stat = "identity") +
+  coord_flip()
+
+mutate(ngram_freq, len = nchar(as.character(decoded_name)))
+       

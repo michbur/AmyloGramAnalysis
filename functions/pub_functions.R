@@ -119,7 +119,8 @@ norm_props <- normalize_properties()[traits_best_ids, ] %>%
   
 best_enc_props <- inner_join(best_enc_aa, norm_props)
 
-
+# best n-grams
+ngram_freq <- read.csv("./results/ngram_freq.csv")
 
 
 

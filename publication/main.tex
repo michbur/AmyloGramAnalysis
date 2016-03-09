@@ -84,10 +84,9 @@ $\beta$-sheets and contactivity. As the rule of thumb, we limited ourselves to
 properties introduced after 1980 when, thanks to the technological advancements, 
 the measurements were more accurate.
 
-  Some of the encodings created on different combinations of physicochemical 
-properties were identical. In such case, only a single representative was 
-included in the benchmark. After filtering duplicates, we obtained 18 535 unique 
-encodings.
+  The majority of encodings had at least one duplicate. In such case, only a single 
+representative was included in the cross-validation. After filtering duplicates, we 
+obtained 18 535 unique encodings.
 
 \begin{table*}[bth]
 \centering
@@ -138,9 +137,9 @@ n-gram.}
 \end{figure*}
 
 During the training phase, we extracted overlapping hexamers from each 
-sequence. Each hexamer was tagged with the same etiquette (amyloid/nonamyloid) 
+sequencesee. Each hexamer was tagged with the same etiquette (amyloid/nonamyloid) 
 as the original peptide. For example, the sequence of length 6 residues yields 
-only one hexamer and the sequence of 8 residues yields 3 hexamers.  Assuming 
+only one hexamer and the sequence of 8 residues yields 3 hexamers (Fig.~\ref{fig:ngram_scheme} A and B).  Assuming 
 that in longer amyloids only a short part of the sequence is responsible for 
 amyloidogenicity, our method might results in many false positives in the 
 training data set. To evade this problem, we restricted the maximum length of 
@@ -153,7 +152,7 @@ n-grams. For 2-grams we counted n-grams with gaps of lengths from 1 to 3 and for
 3-grams with a single gap between the first and the second or the second and the 
 third element (see Fig.~\ref{fig:ngram_scheme}).
 
-  The inquire further the length of amyloidogenicity signal, we trained three 
+  The study the length of amyloidogenicity signal, we trained three 
 classifiers for each encoding on the sequences of different length. We 
 considered separately six-residue sequences, shorter of equal to ten residues 
 and shorter or equal to fifteen residues.
@@ -287,7 +286,7 @@ amyloids. This observation is well-supported by the specificity-sensitivity
 plot (Fig.~\ref{fig:sesp_plot}), where classifiers trained with this encodings 
 of amino acids groups with the worst performers.
 
-\subsection{The best-performing encoding}
+\subsection{The best-performing encoding and important n-grams}
 
 The reduced amino acid alphabet chosen during the analysis has six elements 
 (Tab.~\ref{tab:best_enc}). Identical reduced amino acid alphabets were created through ten other combinations 
@@ -304,8 +303,6 @@ The most polarizable amino acids belong to group 4, while the lowest polarizabil
 is typical for glycine in group 1. The glycine has also the highest thermodynamic beta sheet 
 propensity, which has the lowest values for groups 3 and 4.
 
-  
-
 % latex table generated in R 3.2.3 by xtable 1.8-2 package
 % Tue Mar  8 14:20:53 2016
 \begin{table}[ht]
@@ -313,20 +310,21 @@ propensity, which has the lowest values for groups 3 and 4.
 \caption{The best-performing encoding.} 
 \label{tab:best_enc}
 \begin{tabular}{rl}
-  \toprule
+\toprule
 ID & Groups \\ 
-  \midrule
+\midrule
   1 & G \\ 
-   \rowcolor[gray]{0.85}  2 & K, P, R \\ 
-    3 & I, L, V \\ 
-   \rowcolor[gray]{0.85}  4 & F, W, Y \\ 
-    5 & A, C, H, M \\ 
-   \rowcolor[gray]{0.85}  6 & D, E, N, Q, S, T \\ 
-   \bottomrule
+\rowcolor[gray]{0.85}  2 & K, P, R \\ 
+3 & I, L, V \\ 
+\rowcolor[gray]{0.85}  4 & F, W, Y \\ 
+5 & A, C, H, M \\ 
+\rowcolor[gray]{0.85}  6 & D, E, N, Q, S, T \\ 
+\bottomrule
 \end{tabular}
 \end{table}
 
-
+  We discovered that 65 n-grams have p-values smaller than 0.05 
+in the every fold of repetitions of cross-validation regardless of the training set. 
 
 
 \subsection{Benchmark of AmyloGram}

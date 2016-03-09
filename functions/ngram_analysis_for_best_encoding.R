@@ -13,6 +13,7 @@ require(cvTools)
 require(ranger)
 require(hmeasure)
 require(e1071)
+library(reshape2)
 
 if(Sys.info()["nodename"] %in% c("phobos", "michal-XPS14"))
   pathway <- "/home/michal/Dropbox/amyloid_cv_results/"
@@ -129,8 +130,15 @@ positive_ngrams_count_best_encoding <- count_specified(seqs_deg[which(ets==1),],
 negative_ngrams_count_best_encoding <- count_specified(seqs_deg[which(ets==0),], ngrams_best_enc) 
 
 dane=rbind(
-  data.frame(v=positive_ngrams_count_best_encoding$v, j=positive_ngrams_count_best_encoding$j,type="pos", nseq=397),
-  data.frame(v=negative_ngrams_count_best_encoding$v, j=negative_ngrams_count_best_encoding$j,type="neg", nseq=1033))
+  data.frame(v=positive_ngrams_count_best_encoding$v, j
+             =positive_ngrams_count_best_encoding$j,
+             type="pos", 
+             nseq=397),
+  data.frame(v=negative_ngrams_count_best_encoding$v, 
+             j=negative_ngrams_count_best_encoding$j,
+             type="neg", 
+             nseq=1033)
+)
 
 #negative number means that occurs more frequently in amyloids
 relative_frequency_gap <- dane%>%group_by(type,j) %>%
@@ -142,10 +150,6 @@ relative_frequency_gap <- dane%>%group_by(type,j) %>%
   arrange(desc(abs(count_freq))) %>%
   select(decoded_name, count_freq)
 
-relative_frequency_gap
-aa_groups[[best_enc]]
-
-
 relative_frequency_p_vals <- dane%>%group_by(type,j) %>%
   summarise(count=sum(v>0),
             nseq=mean(nseq)) %>%
@@ -154,6 +158,17 @@ relative_frequency_p_vals <- dane%>%group_by(type,j) %>%
   mutate(name=ngrams_best_enc,
          decoded_name=decode_ngrams(name)) %>%
   arrange(pval) %>%
-  select(decoded_name, pval) %>%
-  filter(pval<0.01)
+  select(decoded_name, pval) 
 relative_frequency_p_vals
+
+ngram_freq_final_tab <- dane%>%group_by(type,j) %>%
+  summarise(count=sum(v>0)/mean(nseq)) %>%
+  dcast(j ~ type) %>%
+  mutate(name=ngrams_best_enc,
+         decoded_name=decode_ngrams(name),
+         diff_freq = pos - neg) %>%
+  arrange(desc(diff_freq)) %>%
+  inner_join(relative_frequency_p_vals) %>%
+  select(decoded_name, diff_freq, pval, pos, neg)
+
+write.csv(ngram_freq_final_tab, file = "./results/ngram_freq.csv", row.names = FALSE)
