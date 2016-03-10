@@ -81,13 +81,26 @@ dev.off()
 # 
 # ngram_freq_plot <- mutate(ngram_freq, decoded_name = gsub("_", "|", decoded_name)) %>%
 #   mutate(decoded_name = factor(decoded_name, levels = as.character(decoded_name))) %>%
-#   melt() %>% 
+#   melt() %>%
 #   filter(variable %in% c("pos", "neg"))
 # 
 # ggplot(ngram_freq_plot, aes(x = decoded_name, y = value, fill = variable)) +
 #   geom_bar(position = "dodge", stat = "identity") +
 #   coord_flip()
 
-filter(ngram_freq, diff_freq > 0) 
-  
-       
+# Fig 6 encoding distance  ----------------------------------------
+
+ed_AUC_plot <- ggplot(ed_dat, aes(x=ed, y=AUC_mean, color=et, shape = et)) + 
+  geom_point() +
+  scale_color_manual("", values = c("grey", "red", "blue", "green")) +
+  scale_shape_manual("", values = c(1, 16, 15, 15), drop = FALSE) +
+  xlab("Normalized encoding distance") +
+  ylab("AUC") +
+  my_theme +
+  geom_point(data = filter(ed_dat, et != "Reduced alphabet"), 
+             aes(x = ed, y = AUC_mean, color = et)) +
+  guides(color=guide_legend(ncol=2))
+
+cairo_ps("./publication/figures/ed_AUC.eps", height = 4, width = 3.5)
+print(ed_AUC_plot)
+dev.off()

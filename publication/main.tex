@@ -76,7 +76,7 @@ The amyloidogenicity of given peptide may not depend on the exact sequence of
 amino acids, but on its more general properties. To verify this hypothesis, we 
 created 524 284 reduced amino acid alphabets (encodings) with different lengths 
 (from three to six letters) using Ward's 
-clusterization~\cite{jr_hierarchical_1963} on the selected physicochemical 
+clusterization~\citep{jr_hierarchical_1963} on the selected physicochemical 
 properties from AAIndex database~\citep{kawashima_aaindex:_2008}. We handpicked 
 several measures belonging to more general categories important in process of 
 amyloidogenicity as size, hydrophobicity, solvent surface area, frequency in 
@@ -197,7 +197,7 @@ The best-performing reduced amino acid alphabet chosen during the
 cross-validation was later used to train AmyloGram, n-gram based predictor of 
 amyloidogenicity.
 
-  We used \textit{pep424} data set~\cite{walsh_pasta_2014} to compare the 
+  We used \textit{pep424} data set~\citep{walsh_pasta_2014} to compare the 
 performance of AmyloGram and other predictors of amyloidogenicity. Since the 
 model of AmyloGram does not covers peptides shorter than five amino acids, we 
 removed them from the total benchmark data set. It should not affect the 
@@ -213,6 +213,9 @@ learning data set had 269 positive sequences and 746 negative sequences longer
 than five residues and shorter than fifteen residues. Aside from the 
 preparation of the training data, we exactly repeated the procedure of n-gram 
 extraction as described above (see Fig.~\ref{fig:ngram_scheme}). 
+
+\subsection{Encoding distance}
+The encoding distance is defined as the minimum number of amino acids that have to be moved between subgroups of encoding to make \textit{a} identical to \textit{b} (the order of subgroups in the encoding and amino acids in a group is unimportant). This measure may be further normalized by a factor reflecting how much moving amino acids between groups altered mean group properties. 
 
 
 \end{methods}
@@ -288,6 +291,14 @@ of amino acids groups with the worst performers.
 
 \subsection{The best-performing encoding and important n-grams}
 
+\begin{figure}[!tpb]
+\centerline{\includegraphics{figures/ed_AUC.eps}}
+\caption{The encoding distance and AUC of reduced alphabets studied in the cross-validation. Red 
+circle: classifier employing best encoding of amino acid. Green square: 
+classifier using full amino acid alphabet. Blue square: classifiers employing 
+encodings from literature. Classifiers having the smallest encoding distance to the best classifier have the highest AUC.}\label{fig:ed_AUC}
+\end{figure}
+
 The reduced amino acid alphabet chosen during the analysis has six elements 
 (Tab.~\ref{tab:best_enc}). Identical reduced amino acid alphabets were created through ten other combinations 
 of physicochemical properties. The following features appeared in all eleven combinations:
@@ -325,6 +336,7 @@ ID & Groups \\
 
   We discovered that 65 n-grams have p-values smaller than 0.05 
 in the every fold of repetitions of cross-validation regardless of the training set. 
+
 
 
 \subsection{Benchmark of AmyloGram}

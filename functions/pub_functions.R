@@ -121,7 +121,61 @@ best_enc_props <- inner_join(best_enc_aa, norm_props)
 # best n-grams
 ngram_freq <- read.csv("./results/ngram_freq.csv")
 
+# distance from the best encoding --------------------------------------
 
+# very time consuming, load from file instead
+# distances = lapply(aa_groups, function(enc) calc_ed(aa_groups[[best_enc]], enc))
+# save(distances, file="results/distances.Rdata")
+load(file = "results/distances.Rdata")
+
+selected_props <- aaprop[frequencies %>% top_n(5) %>% select(X) %>% unlist, ]
+
+props_normalization <- lapply(aa_groups, function(enc) {
+  coords_a <- lapply(aa_groups[[best_enc]], function(single_subgroup) rowMeans(selected_props[, single_subgroup, drop = FALSE]))
+  coords_b <- lapply(enc, function(single_subgroup) rowMeans(selected_props[, single_subgroup, drop = FALSE]))
+  
+  norm_factor <- sum(sapply(coords_a, function(single_coords_a) {
+    distances <- sapply(coords_b, function(single_coords_b) 
+      # vector of distances between groups
+      sqrt(sum((single_coords_a - single_coords_b)^2))
+    )
+    # c(dist = min(distances), id = unname(which.min(distances)))
+    min(distances)
+  }))
+  norm_factor
+})
+
+normalized_distances <- data.frame(enc_adj=seq_along(aa_groups),
+                                   ed=unlist(distances)*unlist(props_normalization))
+
+#for full alphabet
+full_alphabet_groups = lapply(unlist(aa_groups[[1]]), function(x) x)
+coords_a <- lapply(aa_groups[[best_enc]], function(single_subgroup) rowMeans(selected_props[, single_subgroup, drop = FALSE]))
+coords_b <- lapply(full_alphabet_groups, function(single_subgroup) rowMeans(selected_props[, single_subgroup, drop = FALSE]))
+
+norm_factor <- sum(sapply(coords_a, function(single_coords_a) {
+  distances <- sapply(coords_b, function(single_coords_b) 
+    # vector of distances between groups
+    sqrt(sum((single_coords_a - single_coords_b)^2))
+  )
+  # c(dist = min(distances), id = unname(which.min(distances)))
+  min(distances)
+}))
+normalized_distances <- rbind(normalized_distances,c(0, 14*norm_factor)) 
+
+
+ed_dat <- inner_join(amyloids %>% 
+                       mutate(et = factor(ifelse(enc_adj %in% best_enc, "best", ifelse(enc_adj %in% 1L:2, "literature", "")))) %>%
+                       select(len_range, enc_adj, AUC_mean, et) %>%
+                       rbind(select(full_alphabet, AUC_mean, len_range) %>% 
+                               mutate(et = "full alphabet", enc_adj = 0)) %>%
+                       group_by(enc_adj) %>%
+                       summarise(AUC_mean = mean(AUC_mean), et=et[1]), normalized_distances)
+
+ed_dat[["et"]] <- factor(ed_dat[["et"]], labels = c("Reduced alphabet", "Best performing reduced alphabet",
+                                                    "Reduced alphabet\nfrom literature", "Full alphabet"))
+
+cor.test(~ AUC_mean + ed, ed_dat)
 
 # results of benchmark --------------------------------------
 
