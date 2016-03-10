@@ -31,6 +31,7 @@ group2df <- function(group_list, caption = NULL, label = NULL) {
   tab <- cbind(ID = 1L:nrow(tab), tab)
   rws <- seq(1, nrow(tab) - 1, by = 2)
   col <- rep("\\rowcolor[gray]{0.85}", length(rws))
+  colnames(tab) <- c("Subgroup ID", "Amino acids")
   res <- print(xtable(tab, caption = caption, label = label), 
                include.rownames = FALSE, booktabs = TRUE,
                add.to.row = list(pos = as.list(rws), command = col), print.results = FALSE, 

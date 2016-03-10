@@ -261,8 +261,7 @@ for different lengths of sequences in the training and testing data sets.
 
 \begin{figure*}[!tpb]
 \centerline{\includegraphics{figures/sesp_plot.png}}
-\caption{Sensitivity and specificity of classifiers in cross-validation for 
-different lengths of sequences in the training and testing data sets.
+\caption{Sensitivity and specificity of classifiers in cross-validation. 
 %Red 
 %circle: classifier employing best encoding of amino acid. Green square: 
 %classifier using full amino acid alphabet. Blue square: classifiers employing 
@@ -304,17 +303,17 @@ every testing set.
 and specificity regardless of the length of sequences in training and testing 
 set (Fig.~\ref{fig:sesp_plot}). The classifiers trained on the peptides of 
 length 6 tend to have the best specificity, while predictors learned on the long 
-sequences have the best sensitivity. Albeit the classifiers trained on 
-six-residue-long sequences have generally better AUC, training on 
-the sequences ranging from six to ten residues seem to yield most balanced 
+sequences have the best sensitivity. As the matter of fact, training on the 
+sequences ranging from six to ten residues seem to yield most balanced 
 classifiers with optimal sensitivity and specificity.
 
-  We also evaluated classifiers based on the full amino acid alphabet. In most 
-cases they also places in the fourth quartile considering their AUC value 
-(Fig.~\ref{fig:AUC_boxplot}). Nevertheless, they never predict amyloidogenicity 
-better than the selected encoding. It suggests that despite the predictive power 
-of n-grams based on full alphabet, the encoding allows better generalization of 
-the prediction rules and in the consequence better performance.
+  We also evaluated classifiers based on the 
+full amino acid alphabet. In most cases they also places in the fourth quartile 
+considering their AUC value (Fig.~\ref{fig:AUC_boxplot}). Nevertheless, they 
+never predict amyloidogenicity better than the selected encoding. It suggests 
+that despite the predictive power of n-grams based on full alphabet, the 
+encoding allows better generalization of the prediction rules and in the 
+consequence better performance.
 
   Similarly to the best-performing encoding, the sensitivity of classifiers 
 based on the full amino acid alphabet seems to decrease with the length of 
@@ -364,18 +363,12 @@ Subgroup ID & Amino acids \\
 \end{tabular}
 \end{table}
 
-
-\begin{figure}[!tpb]
-\centerline{\includegraphics{figures/ngrams.eps}}
-\caption{Blabla}\label{fig:ngrams}
-\end{figure}
-
 The reduced amino acid alphabet chosen during the analysis has six subgroups 
 (Tab.~\ref{tab:best_enc}). Two subgroups, 3 and 4 contain mostly hydrophobic 
 amino acids, while 1 and 4 are mostly hydrophilic. In addition to this, subgroup 
 1 and 4 have amino acid with the highest average flexibility. The least flexible 
 amino acids are in subgroup 5. The most polarizable amino acids belong to 
-subgroup 4, while the lowest polarizability is typical for glycine, the 
+subgroup 4, while the lowest polarizability is typical for glycine which is the 
 only amino acid in subgroup 1. The glycine has also the highest thermodynamic 
 beta sheet propensity, which has the lowest values for subgroups 3 and 4.
 
@@ -450,6 +443,28 @@ AmyloGram & \textbf{0.8972} & \textbf{0.6307} & \textbf{0.8658} & 0.7889 \\
    \bottomrule
 \end{tabular}
 \end{table}
+
+
+
+
+
+
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%     please remove the " % " symbol from \centerline{\includegraphics{fig01.eps}}
+%     as it may ignore the figures.
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+
 
 \section{Conclusion}
 

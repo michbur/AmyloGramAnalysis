@@ -78,15 +78,39 @@ dev.off()
 
 
 # Fig 5 n-grams  ----------------------------------------
-# 
-# ngram_freq_plot <- mutate(ngram_freq, decoded_name = gsub("_", "|", decoded_name)) %>%
-#   mutate(decoded_name = factor(decoded_name, levels = as.character(decoded_name))) %>%
-#   melt() %>%
-#   filter(variable %in% c("pos", "neg"))
-# 
-# ggplot(ngram_freq_plot, aes(x = decoded_name, y = value, fill = variable)) +
-#   geom_bar(position = "dodge", stat = "identity") +
-#   coord_flip()
+
+ngram_freq_plot <- mutate(ngram_freq, decoded_name = gsub("_", "|", decoded_name)) %>%
+  mutate(decoded_name = factor(decoded_name, levels = as.character(decoded_name)),
+         amyloid = diff_freq > 0) %>%
+  melt() %>%
+  filter(variable %in% c("pos", "neg")) %>%
+  droplevels %>%
+  mutate(variable = factor(variable, labels = c("Amyloid", "Non-amyloid")))
+
+plotA <- ggplot(filter(ngram_freq_plot, amyloid == TRUE), 
+                aes(x = decoded_name, y = value, fill = variable)) +
+  geom_bar(position = "dodge", stat = "identity") +
+  scale_fill_manual("", values = c("darkmagenta", "gold")) +
+  scale_y_continuous("Frequency", limits = c(0, 0.8)) +
+  scale_x_discrete("") +
+  coord_flip() +
+  my_theme + 
+  guides(fill = FALSE)
+
+plotB <- ggplot(filter(ngram_freq_plot, amyloid == FALSE), 
+                aes(x = decoded_name, y = value, fill = variable)) +
+  geom_bar(position = "dodge", stat = "identity") +
+  scale_fill_manual("", values = c("darkmagenta", "gold")) +
+  scale_y_continuous("Frequency", limits = c(0, 0.8)) +
+  scale_x_discrete("") +
+  coord_flip() +
+  my_theme
+
+cairo_ps("./publication/figures/ngrams.eps", height = 8, width = 3.5)
+grid.arrange(textGrob("A", x = 0.1, y = 0.5, gp=gpar(fontsize=12)), plotA, 
+             textGrob("B", x = 0.1, y = 0.5, gp=gpar(fontsize=12)), plotB, 
+             nrow = 4, ncol = 1, heights = c(0.02, 0.56, 0.02, 0.40))
+dev.off()
 
 # Fig 6 encoding distance  ----------------------------------------
 
