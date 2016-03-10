@@ -172,7 +172,50 @@ encoding.
 
 \subsection{Quick Permutation Test (QuiPT)}
 
+In this section we outline how to filter n-gram features without performing huge number of permutations. 
+Let us consider the contingency table for target $y$ and feature $x$:
 
+\begin{center}
+\begin{tabular}{ | c || c | c | }
+  \hline			
+  target / feature & 1 & 0 \\ \hline
+ 1 & $n_{1,1}$ & $n_{1,0}$ \\
+ 0 & $n_{0,1}$ & $n_{0,0}$ \\
+  \hline  
+\end{tabular} 
+\end{center}
+
+Under the hypothesis that $x$ an $y$ are independent, the probability of such a contingency  table 
+is given by the multinomial distribution. In the permutation test we simply reshuffle 
+feature and target labels, but the total number of positives in both of them
+is fixed. When we impose this constraint on the multinomial distribution then
+it depends only on $n_{1,1}$ and is fairly easy to compute.
+Observe also, that $n_{1,1}$ is from range $[0,min(n_{\cdot, 1}, n_{1, \cdot})]$.
+After computing Information Gain for each possible value of $n_{1,1}$, we get
+distribution of Information Gain under hypothesis that target and feature
+are independent. We reject null hypothesis when Information Gain is big.
+
+ Having the analytical formula for the distribution, allows us to perform permutation test much quicker. 
+Furthermore, we get exact quantiles even for extreme tails of the distribution,
+which is not guaranteed by random permutations. 
+In fact, imagine performing test with $\alpha=10^{-8}$, which is
+not an uncommon value, i.e. when we adjust for multiple testing.
+Even for huge number of permutations like $m=10^8$, standard deviation of quantile estimate 
+in permutation test, $\frac{p(1-p)}{m}$, is roughly equal to $\alpha$ itself.
+
+ In the context of k-mer data we can speed up our algorithm even further. Note that
+since target $y$ is common for testing all k-mer features, test statistics depends only on
+$n_{\cdot, 1}$ -- the number of positive cases in a feature. 
+Though we test millions of features, there are just few distributions
+that we need to compute, as usually number of positives in k-mer feature is small. 
+We take advantage of this fact and we compute quantiles for just a handful of distributions.
+Therefore complexity of our algorithm is roughly equal $O(n\cdot p)$.
+
+Lastly, let us point out that QuiPT is very similar for Fisher's exact test.
+From the derivation provided in i.e.~\citep{lehmann2008testing}, it becomes obvious that
+QuiPT is a heuristics for an unsolved problem of a two-tailed Fisher's exact test.
+In this heuristics, extremity of a contingency table, is defined by the amount of 
+Information Gain it provides.
 
 \subsection{Cross-validation and selection of the best-performing encoding}
 
@@ -214,7 +257,7 @@ properties of all amino acids separately for each subgroup. The factor between
 $a$ and $b$ is equal to: 
 
 $$
-s_{ab} = \sum^n_{i = 1} \min \left( \sum^m_{j = 1} \left(\sqrt{\sum^l p_{i}^2} 
+s_{ab} = \sum^n_{i = 1}  \left( \min_{j=1,\dots,m} \left(\sqrt{\sum^l p_{i}^2} 
 - \sqrt{\sum^l p_{j}^2} \right) \right)
 $$
  
