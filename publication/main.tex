@@ -84,9 +84,9 @@ $\beta$-sheets and contactivity. As the rule of thumb, we limited ourselves to
 properties introduced after 1980 when, thanks to the technological advancements, 
 the measurements were more accurate.
 
-  The majority of encodings had at least one duplicate. In such case, only a single 
-representative was included in the cross-validation. After filtering duplicates, we 
-obtained 18 535 unique encodings.
+  The majority of encodings had at least one duplicate. In such case, only the 
+single representative was included in the cross-validation. After filtering 
+duplicates, we obtained 18 535 unique encodings.
 
 \begin{table*}[bth]
 \centering
@@ -136,18 +136,18 @@ n-gram.}
 \label{fig:ngram_scheme}
 \end{figure*}
 
-During the training phase, we extracted overlapping hexamers from each 
-sequencesee. Each hexamer was tagged with the same etiquette (amyloid/nonamyloid) 
-as the original peptide. For example, the sequence of length 6 residues yields 
-only one hexamer and the sequence of 8 residues yields 3 hexamers (Fig.~\ref{fig:ngram_scheme} A and B).  Assuming 
-that in longer amyloids only a short part of the sequence is responsible for 
-amyloidogenicity, our method might results in many false positives in the 
-training data set. To evade this problem, we restricted the maximum length of 
-peptides in training data set to fifteen amino acids to easy the extraction of 
-probable hot-spots.
+During the training phase, we extracted overlapping hexamers from each sequence. 
+Each hexamer was tagged with the same etiquette (amyloid/nonamyloid) as the 
+original peptide. For example, the sequence of length 6 residues yields only one 
+hexamer and the sequence of 8 residues yields 3 hexamers 
+(Fig.~\ref{fig:ngram_scheme} A and B).  Assuming that in longer amyloids only a 
+short part of the sequence is responsible for amyloidogenicity, our method might 
+results in many false positives in the training data set. To evade this problem, 
+we restricted the maximum length of peptides in training data set to fifteen 
+amino acids to easy the extraction of probable hot-spots.
 
   From each hexamer we extracted n-grams of the following length: 1, 2 and 3. In 
-the case of 2- and 3-grams, we separately counted both gapped and continous 
+the case of 2- and 3-grams, we separately counted both gapped and continuous 
 n-grams. For 2-grams we counted n-grams with gaps of lengths from 1 to 3 and for 
 3-grams with a single gap between the first and the second or the second and the 
 third element (see Fig.~\ref{fig:ngram_scheme}).
@@ -158,17 +158,21 @@ considered separately six-residue sequences, shorter of equal to ten residues
 and shorter or equal to fifteen residues.
 
   All n-grams extracted from the hexamers in the training data set were filtered 
-using QuiPT, our own implementation of permutation test with the information 
-gain ( mutual information) as the criterion of the importance of a specific 
-n-gram. In the next step, we used n-grams with the p-value smaller than 0.05 to 
-build a random forest~\citep{breiman_random_2001} classifier using ranger 
-\textbf{R} package~\citep{wright_ranger:_2015}. 
+using described below Quick Permutation Test with the information gain (mutual 
+information) as the criterion of the importance of a specific n-gram. In the 
+next step, we used n-grams with the p-value smaller than 0.05 to build a random 
+forest~\citep{breiman_random_2001} classifier using ranger \textbf{R} 
+package~\citep{wright_ranger:_2015}. 
 
   Furthermore, we repeated the procedure described above on two typical reduced 
 alphabets of amino acids derived from the literature to check if the process of 
 amyloidogenicity does require nonstandard groupings of amino acids. We also 
 added the full amino acid alphabet to assess the advantages of the amino acid 
 encoding.
+
+\subsection{Quick Permutation Test (QuiPT}
+
+
 
 \subsection{Cross-validation and selection of the best-performing encoding}
 
@@ -190,6 +194,31 @@ the lowest sum of ranks from all sequence length categories was selected as
 the best one. For this encoding, we choose the range of peptides length in the 
 training set providing the best AUC in cross-validation.
 
+\subsection{Encoding distance}
+The encoding distance is a measure defining the similarity between two 
+encodings. It has zero value for identical encodings and grows with the 
+diffences between encodings. It was introduced to verify if the reduced 
+alphabets very similar to the best performing encoding will also have good 
+prediction performance.
+
+  We define the encoding distance as the minimum number of amino acids that 
+have to be moved between subgroups of encoding to make \textit{a} identical to 
+\textit{b} (the order of subgroups in the encoding and amino acids in a group 
+is unimportant). This measure is further scaled by a factor reflecting how 
+much moving amino acids between groups altered mean group properties. 
+
+To compute the scale factor $s$ for the encoding distance between 
+encoding \textit{a} with $n$ subgroups and encoding \textit{b} with $m$ 
+subgroups we firstly calculate $p_i$ and $p_j$, mean values of physicochemical 
+properties of all amino acids separately for each subgroup. The factor between 
+$a$ and $b$ is equal to: 
+
+$$
+s_{ab} = \sum^n_{i = 1} \min \left( \sum^m_{j = 1} \left(\sqrt{\sum^l p_{i}^2} 
+- \sqrt{\sum^l p_{j}^2} \right) \right)
+$$
+ 
+where $l$ is equal to the number of physicochemical properties of concern.
 
 \subsection{Benchmark of AmyloGram}
 
@@ -214,8 +243,7 @@ than five residues and shorter than fifteen residues. Aside from the
 preparation of the training data, we exactly repeated the procedure of n-gram 
 extraction as described above (see Fig.~\ref{fig:ngram_scheme}). 
 
-\subsection{Encoding distance}
-The encoding distance is defined as the minimum number of amino acids that have to be moved between subgroups of encoding to make \textit{a} identical to \textit{b} (the order of subgroups in the encoding and amino acids in a group is unimportant). This measure may be further normalized by a factor reflecting how much moving amino acids between groups altered mean group properties. 
+
 
 
 \end{methods}
@@ -227,18 +255,20 @@ The encoding distance is defined as the minimum number of amino acids that have 
 \begin{figure*}[!tpb]
 \centerline{\includegraphics{figures/AUC_boxplot.eps}}
 \caption{Distribution of AUC values of different reduced amino acid alphabets. 
-Red circle: classifier employing best encoding of amino acid. Green square: 
-classifier using full amino acid alphabet. Blue square: classifiers employing 
-encodings from literature.}\label{fig:AUC_boxplot} 
+%Red circle: classifier employing best encoding of amino acid. Green square: 
+%classifier using full amino acid alphabet. Blue square: classifiers employing 
+%encodings from literature.
+}\label{fig:AUC_boxplot} 
 \end{figure*}
 
 \begin{figure*}[!tpb]
 \centerline{\includegraphics{figures/sesp_plot.png}}
-\caption{Sensitivity and specificity of classifiers in cross-validation. Red 
-circle: classifier employing best encoding of amino acid. Green square: 
-classifier using full amino acid alphabet. Blue square: classifiers employing 
-encodings from literature. The classifier based on the best encoding always 
-have 
+\caption{Sensitivity and specificity of classifiers in cross-validation. 
+%Red 
+%circle: classifier employing best encoding of amino acid. Green square: 
+%classifier using full amino acid alphabet. Blue square: classifiers employing 
+%encodings from literature. 
+The classifier based on the best encoding always have 
 good specificity and sensitivity.}\label{fig:sesp_plot}
 \end{figure*}
 
@@ -293,26 +323,41 @@ of amino acids groups with the worst performers.
 
 \begin{figure}[!tpb]
 \centerline{\includegraphics{figures/ed_AUC.eps}}
-\caption{The encoding distance and AUC of reduced alphabets studied in the cross-validation. Red 
-circle: classifier employing best encoding of amino acid. Green square: 
-classifier using full amino acid alphabet. Blue square: classifiers employing 
-encodings from literature. Classifiers having the smallest encoding distance to the best classifier have the highest AUC.}\label{fig:ed_AUC}
+\caption{The encoding distance and AUC of reduced alphabets studied in the 
+cross-validation. 
+%Red circle: classifier employing best encoding of amino acid. Green square: 
+%classifier using full amino acid alphabet. Blue square: classifiers employing 
+%encodings from literature. 
+Classifiers having the smallest encoding distance to the best classifier have 
+the highest AUC.}\label{fig:ed_AUC}
 \end{figure}
 
-The reduced amino acid alphabet chosen during the analysis has six elements 
-(Tab.~\ref{tab:best_enc}). Identical reduced amino acid alphabets were created through ten other combinations 
-of physicochemical properties. The following features appeared in all eleven combinations:
-hydrophobicity index~\citep{argos_structural_1982}, average flexibility 
+  The reduced amino acid alphabet chosen during the analysis has six elements 
+(Tab.~\ref{tab:best_enc}). Identical reduced amino acid alphabets were created 
+through ten other combinations of physicochemical properties. The following 
+features appeared in all eleven combinations: hydrophobicity 
+index~\citep{argos_structural_1982}, average flexibility 
 indices~\citep{bhaskaran_positional_1988}, polarizability 
 parameter~\citep{charton_structural_1982} and thermodynamic beta sheet 
 propensity~\citep{kim_thermodynamic_1993}.
 
-  Two groups, 3 and 4 contain mostly hydrophobic amino acids, while 1 and 4 
-are mostly hydrophilic. In addition to this, group 1 and 4 have amino acid with 
-the highest average flexibility. The least flexible amino acids are in group 5. 
-The most polarizable amino acids belong to group 4, while the lowest polarizability 
-is typical for glycine in group 1. The glycine has also the highest thermodynamic beta sheet 
-propensity, which has the lowest values for groups 3 and 4.
+We calculated encoding distances between the best-performing reduced amino acid 
+alphabet and other encodings (Fig.~\ref{fig:ed_AUC}). To compute the scale 
+factor, we used described above features common for all encodings identical to 
+the best-performing one. The value of AUC is significantly lower for more 
+distant encodings ($-0.4370$ Pearson's correlation coefficient, p-value smaller 
+than $2.2 \times 10^{-16}$). Such relationship between AUC and encoding distance 
+confirms that only reduced alphabets sufficiently similar to the 
+best-performing encoding are able to remove unnecessary diversity while 
+preserving information important for recognition of amyloids. 
+
+Two groups, 3 and 4 contain mostly hydrophobic amino acids, while 1 and 4 are 
+mostly hydrophilic. In addition to this, group 1 and 4 have amino acid with the 
+highest average flexibility. The least flexible amino acids are in group 5. The 
+most polarizable amino acids belong to group 4, while the lowest polarizability 
+is typical for glycine which is the only amino acid in group 1. The glycine 
+has also the highest thermodynamic beta sheet propensity, which has the lowest 
+values for groups 3 and 4.
 
 % latex table generated in R 3.2.3 by xtable 1.8-2 package
 % Tue Mar  8 14:20:53 2016
@@ -334,9 +379,10 @@ ID & Groups \\
 \end{tabular}
 \end{table}
 
-  We discovered that 65 n-grams have p-values smaller than 0.05 
-in the every fold of repetitions of cross-validation regardless of the training set. 
+We discovered that 65 n-grams have p-values smaller than 0.05 in the every 
+fold of repetitions of cross-validation regardless of the training set. 
 
+  
 
 
 \subsection{Benchmark of AmyloGram}

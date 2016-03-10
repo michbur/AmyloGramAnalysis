@@ -46,7 +46,7 @@ AUC_boxplot <- ggplot(amyloids_plot, aes(x = len_range, y = AUC_mean)) +
   my_theme + 
   coord_flip()
 
-cairo_ps("./publication/figures/AUC_boxplot.eps", height = 5, width = 7)
+cairo_ps("./publication/figures/AUC_boxplot.eps", height = 4, width = 7)
 #png("./pub_figures/AUC_boxplot.png", height = 648, width = 648)
 print(AUC_boxplot)
 dev.off()
