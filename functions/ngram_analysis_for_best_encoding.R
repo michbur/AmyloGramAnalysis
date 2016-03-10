@@ -167,7 +167,7 @@ ngram_freq_final_tab <- dane%>%group_by(type,j) %>%
   mutate(name=ngrams_best_enc,
          decoded_name=decode_ngrams(name),
          diff_freq = pos - neg) %>%
-  arrange(abs(diff_freq)) %>%
+  arrange(desc(diff_freq)) %>%
   inner_join(relative_frequency_p_vals) %>%
   select(decoded_name, diff_freq, pval, pos, neg)
 

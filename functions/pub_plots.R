@@ -15,7 +15,11 @@ amyloids_plot <- select(amyloids, AUC_mean, MCC_mean, Sens_mean, Spec_mean, pos,
 
 # Fig 1 all encodings sens/spec  ----------------------------------------
 
-sesp_plot <- ggplot(amyloids_plot, aes(x = Sens_mean, y = Spec_mean, color = et, shape = et)) +
+sesp_dat <- amyloids_plot
+levels(sesp_dat[["pos"]]) <- c("Training peptide\nlength: 6", "Training peptide\nlength: 6-10", 
+                               "Training peptide\nlength: 6-15")
+
+sesp_plot <- ggplot(sesp_dat, aes(x = Sens_mean, y = Spec_mean, color = et, shape = et)) +
   geom_point() +
   scale_color_manual("", values = c("grey", "red", "blue", "green")) +
   scale_shape_manual("", values = c(1, 16, 15, 15)) +
@@ -23,10 +27,10 @@ sesp_plot <- ggplot(amyloids_plot, aes(x = Sens_mean, y = Spec_mean, color = et,
   scale_y_continuous("Mean specificity") +
   facet_grid(pos ~ len_range) +
   my_theme +
-  geom_point(data = filter(amyloids_plot, et != "Reduced alphabet"), 
+  geom_point(data = filter(sesp_dat, et != "Reduced alphabet"), 
              aes(x = Sens_mean, y = Spec_mean, color = et))
 
-png("./publication/figures/sesp_plot.png", height = 5, width = 6.5, unit = "in", res = 200)
+png("./publication/figures/sesp_plot.png", height = 4, width = 6.5, unit = "in", res = 200)
 #cairo_ps("./pub_figures/sesp_plot.eps", height = 4, width = 8)
 # should be eps, but it's too big for overleaf
 print(sesp_plot)
@@ -46,7 +50,7 @@ AUC_boxplot <- ggplot(amyloids_plot, aes(x = len_range, y = AUC_mean)) +
   my_theme + 
   coord_flip()
 
-cairo_ps("./publication/figures/AUC_boxplot.eps", height = 4, width = 6.5)
+cairo_ps("./publication/figures/AUC_boxplot.eps", height = 3.5, width = 6.5)
 #png("./pub_figures/AUC_boxplot.png", height = 648, width = 648)
 print(AUC_boxplot)
 dev.off()
@@ -72,9 +76,9 @@ MCC_boxplot <- ggplot(amyloids_plot, aes(x = len_range, y = MCC_mean)) +
 
 # Fig 4 properties  ----------------------------------------
 
-# ggplot(best_enc_props, aes(x = as.factor(id), y = value, label = aa)) +
-#   geom_text(position = "dodge") +
-#   facet_wrap(~ gr, ncol = 2)
+ggplot(best_enc_props, aes(x = as.factor(id), y = value, label = aa)) +
+  geom_text(position = "dodge") +
+  facet_wrap(~ gr, ncol = 2)
 
 
 # Fig 5 n-grams  ----------------------------------------
@@ -87,32 +91,17 @@ ngram_freq_plot <- mutate(ngram_freq, decoded_name = gsub("_", "|", decoded_name
   droplevels %>%
   mutate(variable = factor(variable, labels = c("Amyloid", "Non-amyloid")))
 
-plotA <- ggplot(filter(ngram_freq_plot, amyloid == TRUE), 
-                aes(x = decoded_name, y = value, fill = variable)) +
+ngram_plot <- ggplot(ngram_freq_plot, aes(x = decoded_name, y = value, fill = variable)) +
   geom_bar(position = "dodge", stat = "identity") +
-  scale_fill_manual("", values = c("darkmagenta", "gold")) +
-  scale_y_continuous("Frequency", limits = c(0, 0.8)) +
+  scale_fill_manual("", values = c("gold", "darkmagenta")) +
+  scale_y_continuous("Frequency", limits = c(0, 0.95)) +
   scale_x_discrete("") +
   coord_flip() +
   my_theme + 
-  theme(panel.grid.major.y = element_line(color = "NA")) +
-  guides(fill = FALSE)
+  theme(panel.grid.major.y = element_line(color = "NA")) 
 
-plotB <- ggplot(filter(ngram_freq_plot, amyloid == FALSE), 
-                aes(x = decoded_name, y = value, fill = variable)) +
-  geom_bar(position = "dodge", stat = "identity") +
-  scale_fill_manual("", values = c("darkmagenta", "gold")) +
-  scale_y_continuous("Frequency", limits = c(0, 0.8)) +
-  scale_x_discrete("") +
-  coord_flip() +
-  my_theme + 
-  theme(panel.grid.major.y = element_line(color = "NA"))
-
-cairo_ps("./publication/figures/ngrams.eps", height = 9, width = 3)
-grid.arrange(textGrob("A", x = 0.1, y = 0.5, gp=gpar(fontsize=12)), plotA, 
-             textGrob("B", x = 0.1, y = 0.5, gp=gpar(fontsize=12)), plotB, 
-             nrow = 4, ncol = 1, heights = c(0.02, 0.56, 0.02, 0.40),
-             padding = unit(0, "line"))
+cairo_ps("./publication/figures/ngrams.eps", height = 8.5, width = 3)
+print(ngram_plot)
 dev.off()
 
 # Fig 6 encoding distance  ----------------------------------------

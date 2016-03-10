@@ -47,9 +47,6 @@ online.}
 
 %\enlargethispage{12pt}
 
-\section{Approach}
-
-
 
 \begin{methods}
 \section{Methods}
@@ -101,8 +98,10 @@ Category & Property \\
   Contactivity & Values of Wc in proteins from class Beta, cutoff 12 A, separation 5 \citep{wozniak_characteristics_2014} \\ 
   Contactivity & Values of Wc in proteins from class Beta, cutoff 12 A, separation 15 \citep{wozniak_characteristics_2014} \\ 
   $\beta$-frequency & Average relative probability of inner beta-sheet \citep{kanehisa_local_1980} \\ 
-  $\beta$-frequency & Relative frequency in beta-sheet \citep{prabhakaran_distribution_1990} \\ 
-  $\beta$-frequency & Thermodynamic beta sheet propensity \citep{kim_thermodynamic_1993} \\ 
+  $\beta$-frequency & Relative frequency in $\beta$-sheet 
+\citep{prabhakaran_distribution_1990} \\ 
+  $\beta$-frequency & Thermodynamic $\beta$-sheet propensity 
+\citep{kim_thermodynamic_1993} \\ 
   Hydrophobicity & Hydrophobicity index \citep{argos_structural_1982} \\ 
   Hydrophobicity & Optimal matching hydrophobicity \citep{sweet_correlation_1983} \\ 
   Hydrophobicity & Hydrophobicity-related index \citep{kidera_statistical_1985} \\ 
@@ -123,8 +122,8 @@ for normalized values larger than 0.95.
 
 \subsection{Training of learners}
 
-\begin{figure*}[!tpb]%figure1
-\centerline{\includegraphics[width=\textwidth]{figures/ngram_scheme.png}}
+\begin{figure}[!tpb]
+\centerline{\includegraphics[scale=0.12]{figures/ngram_scheme.png}}
   \caption{The scheme of n-gram extraction. A) Input data - peptides with a 
 known amyloidogenicity status. B) Each peptide sequence was divided into 
 overlapping hexamers. The amyloidogenicity status of a source sequence was used 
@@ -134,7 +133,7 @@ the length of gap equal from 1 to 3 residues and gapped 3-grams with a single
 gap between the first and the second or the second and the third element of the 
 n-gram.}
 \label{fig:ngram_scheme}
-\end{figure*}
+\end{figure}
 
 During the training phase, we extracted overlapping hexamers from each sequence. 
 Each hexamer was tagged with the same etiquette (amyloid/nonamyloid) as the 
@@ -172,8 +171,11 @@ encoding.
 
 \subsection{Quick Permutation Test (QuiPT)}
 
-In this section we outline how to filter n-gram features without performing huge number of permutations. 
-Let us consider the contingency table for target $y$ and feature $x$:
+The permutation tests, commonly used for filtering important n-grams, are 
+often one of the most limiting factors for that kinds of analysis requiring 
+significant computational power. The Quick Permutation Test effectively filters 
+n-gram features without performing a huge number of permutations. Let us 
+consider the contingency table for target $y$ and feature $x$:
 
 \begin{center}
 \begin{tabular}{ | c || c | c | }
@@ -185,37 +187,39 @@ Let us consider the contingency table for target $y$ and feature $x$:
 \end{tabular} 
 \end{center}
 
-Under the hypothesis that $x$ an $y$ are independent, the probability of such a contingency  table 
-is given by the multinomial distribution. In the permutation test we simply reshuffle 
-feature and target labels, but the total number of positives in both of them
-is fixed. When we impose this constraint on the multinomial distribution then
-it depends only on $n_{1,1}$ and is fairly easy to compute.
-Observe also, that $n_{1,1}$ is from range $[0,min(n_{\cdot, 1}, n_{1, \cdot})]$.
-After computing Information Gain for each possible value of $n_{1,1}$, we get
-distribution of Information Gain under hypothesis that target and feature
-are independent. We reject null hypothesis when Information Gain is big.
+  Under the hypothesis that $x$ an $y$ are independent, the probability of such 
+a contingency  table is given by the multinomial distribution. In the 
+permutation test we simply reshuffle feature and target labels, but the total 
+number of positives in both of them is fixed. When we impose this constraint on 
+the multinomial distribution then it depends only on $n_{1,1}$ and is fairly 
+easy to compute. Observe also, that $n_{1,1}$ is from range $[0,min(n_{\cdot, 
+1}, n_{1, \cdot})]$. After computing Information Gain for each possible value 
+of $n_{1,1}$, we get distribution of Information Gain under hypothesis that 
+target and feature are independent. We reject null hypothesis when Information 
+Gain is big.
 
- Having the analytical formula for the distribution, allows us to perform permutation test much quicker. 
-Furthermore, we get exact quantiles even for extreme tails of the distribution,
-which is not guaranteed by random permutations. 
-In fact, imagine performing test with $\alpha=10^{-8}$, which is
-not an uncommon value, i.e. when we adjust for multiple testing.
-Even for huge number of permutations like $m=10^8$, standard deviation of quantile estimate 
-in permutation test, $\frac{p(1-p)}{m}$, is roughly equal to $\alpha$ itself.
+  Having the analytical formula for the distribution, allows us to perform 
+permutation test much quicker. Furthermore, we get exact quantiles even for 
+extreme tails of the distribution, which is not guaranteed by random 
+permutations. In fact, imagine performing test with $\alpha=10^{-8}$, which is 
+not an uncommon value, i.e. when we adjust for multiple testing. Even for huge 
+number of permutations like $m=10^8$, standard deviation of quantile estimate in 
+permutation test, $\frac{p(1-p)}{m}$, is roughly equal to $\alpha$ itself.
 
- In the context of k-mer data we can speed up our algorithm even further. Note that
-since target $y$ is common for testing all k-mer features, test statistics depends only on
-$n_{\cdot, 1}$ -- the number of positive cases in a feature. 
-Though we test millions of features, there are just few distributions
-that we need to compute, as usually number of positives in k-mer feature is small. 
-We take advantage of this fact and we compute quantiles for just a handful of distributions.
-Therefore complexity of our algorithm is roughly equal $O(n\cdot p)$.
+  In the context of k-mer data we can speed up our algorithm even further. Note 
+that since target $y$ is common for testing all k-mer features, test statistics 
+depends only on $n_{\cdot, 1}$ -- the number of positive cases in a feature. 
+Though we test millions of features, there are just few distributions that we 
+need to compute, as usually number of positives in k-mer feature is small. We 
+take advantage of this fact and we compute quantiles for just a handful of 
+distributions. Therefore complexity of our algorithm is roughly equal $O(n\cdot 
+p)$.
 
-Lastly, let us point out that QuiPT is very similar for Fisher's exact test.
-From the derivation provided in i.e.~\citep{lehmann2008testing}, it becomes obvious that
-QuiPT is a heuristics for an unsolved problem of a two-tailed Fisher's exact test.
-In this heuristics, extremity of a contingency table, is defined by the amount of 
-Information Gain it provides.
+  Lastly, let us point out that QuiPT is very similar for Fisher's exact test. 
+From the derivation provided in i.e.~\citep{lehmann2008testing}, it becomes 
+obvious that QuiPT is a heuristics for an unsolved problem of a two-tailed 
+Fisher's exact test. In this heuristics, extremity of a contingency table, is 
+defined by the amount of Information Gain it provides.
 
 \subsection{Cross-validation and selection of the best-performing encoding}
 
@@ -265,6 +269,8 @@ where $l$ is equal to the number of physicochemical properties of concern.
 
 \subsection{Benchmark of AmyloGram}
 
+
+
 The best-performing reduced amino acid alphabet chosen during the 
 cross-validation was later used to train AmyloGram, n-gram based predictor of 
 amyloidogenicity.
@@ -286,6 +292,7 @@ than five residues and shorter than fifteen residues. Aside from the
 preparation of the training data, we exactly repeated the procedure of n-gram 
 extraction as described above (see Fig.~\ref{fig:ngram_scheme}). 
 
+
 \end{methods}
 
 \section{Results and discussion}
@@ -301,6 +308,7 @@ for different lengths of sequences in the training and testing data sets.
 %encodings from literature.
 }\label{fig:AUC_boxplot} 
 \end{figure*}
+
 
 \begin{figure*}[!tpb]
 \centerline{\includegraphics{figures/sesp_plot.png}}
@@ -410,23 +418,27 @@ Subgroup ID & Amino acids \\
 
 \begin{figure}[!tpb]
 \centerline{\includegraphics{figures/ngrams.eps}}
-\caption{Important n-grams. }\label{fig:ngrams}
+\caption{The frequency of important n-grams used by best-performing classifer 
+in amyloid and non-amyloid sequences. The elements of n-grams 
+are amino acids encoded using the best-performing reduced amino acid 
+alphabet (see Tab.~\ref{tab:best_enc}). A vertical bar 
+represents a gap in a n-gram.}\label{fig:ngrams}
 \end{figure}
 
 The reduced amino acid alphabet chosen during the analysis has six subgroups 
-(Tab.~\ref{tab:best_enc}). Two subgroups, 3 and 4 contain mostly hydrophobic 
-amino acids, while 1 and 4 are mostly hydrophilic. In addition to this, subgroup 
+(Tab.~\ref{tab:best_enc}). Two subgroups, 3 and 4 contain strongly hydrophobic 
+amino acids, while 1 and 5 are mostly hydrophilic. In addition to this, subgroup 
 1 and 4 have amino acid with the highest average flexibility. The least flexible 
 amino acids are in subgroup 5. The most polarizable amino acids belong to 
-subgroup 4, while the lowest polarizability is typical for glycine, the 
-only amino acid in subgroup 1. The glycine has also the highest thermodynamic 
-beta sheet propensity, which has the lowest values for subgroups 3 and 4.
+subgroup 4, while the lowest polarizability is typical for glycine, the only 
+amino acid in subgroup 1. The glycine has also the highest thermodynamic beta 
+sheet propensity, which has the lowest values for subgroups 3 and 4.
 
   Identical reduced amino acid alphabets were created through ten other 
 combinations of physicochemical properties. Only four features appeared in all 
 eleven combinations: hydrophobicity index~\citep{argos_structural_1982}, average 
 flexibility indices~\citep{bhaskaran_positional_1988}, polarizability 
-parameter~\citep{charton_structural_1982} and thermodynamic beta sheet 
+parameter~\citep{charton_structural_1982} and thermodynamic $\beta$-sheet 
 propensity~\citep{kim_thermodynamic_1993}.
 
   We calculated encoding distances between the best-performing reduced amino 
@@ -439,35 +451,24 @@ confirms that only reduced alphabets sufficiently similar to the best-performing
 encoding are able to remove unnecessary diversity while preserving information 
 important for recognition of amyloids.
 
+  65 n-grams have p-values smaller than 0.05 in the every fold of repetitions of 
+cross-validation regardless of the training set (see Fig.~\ref{fig:ngrams}). The 
+n-grams typical for amyloidogenic sequences (with the highest frequency in 
+amyloids) incorporate mostly highly hydrophobic, typical for $\beta$-structures 
+amino acids from subgroups 3 and 4. The important n-grams occurring frequent in 
+amyloids often have repeats of 3, suggesting that the presence of amino acids 
+belonging to this subgroup might be one of the most effective predictors of 
+amyloidogenicity.
 
-
-  We discovered that 65 n-grams have p-values smaller than 0.05 in the every 
-fold of repetitions of cross-validation regardless of the training set. 
+  N-grams typical for non-amyloidogenic peptides have mostly elements 
+belonging to subgroups 2 and 6. The amino acids of these subgroups are strongly 
+hydrophilic and highly flexible, in the opposite to the residues typical for 
+amyloids.
 
   
 
 
 \subsection{Benchmark of AmyloGram}
-
-The benchmark covered Amylogram as well as two best-performing peer-reviewed 
-predictors of amyloidogenicity (PASTA2~\citep{walsh_pasta_2014} and 
-FoldAmyloid~\citep{garbuzynskiy_foldamyloid:_2010}). We analyzed Area Under the 
-Curve (AUC), Matthew's Correlation Coefficient (MCC), Sensitivity and 
-Specificity (see Tab.~\ref{tab:bench_summary}).
-    
-  Interestingly, the n-gram extraction method was efficient enough to produce 
-classifiers able to outperformed published methods. Two of three n-gram based 
-classifiers trained on the full alphabet have AUC higher than PASTA2 and all 
-three were more successful than FoldAmyloid. They also maintained they high 
-Specificity as seen previously during cross-validation.
-    
-  Although the proposed n-gram extraction creates efficient classifiers, the 
-encoding of amino acids further increases the prediction of amyloidogenicity. 
-AmyloGram has the highest AUC, MCC and Sensitivity among all tested classifiers. 
-Is has lower specificity than two classifiers trained on the full alphabet, but 
-still outperforms other published method in this category. It is important to 
-highlight that AmyloGram is the most balanced of analyzed classifiers, having 
-the best Specificity/Sensitivity balance, as indicated by the value of MCC.
 
 % latex table generated in R 3.2.3 by xtable 1.8-2 package
 % Tue Mar  8 14:17:55 2016
@@ -488,11 +489,34 @@ AmyloGram & \textbf{0.8972} & \textbf{0.6307} & \textbf{0.8658} & 0.7889 \\
    \rowcolor[gray]{0.85}full alphabet (6) & 0.8411 & 0.5427 & 0.4966 & 
 \textbf{0.9593} \\ 
   full alphabet (6-10) & 0.8581 & 0.5698 & 0.7517 & 0.8259 \\ 
-   \rowcolor[gray]{0.85}full alphabet (6-15) & 0.8610 & 0.5490 & 0.8188 & 0.7519 
+   \rowcolor[gray]{0.85}full alphabet (6-15) & 0.8610 & 0.5490 & 0.8188 & 
+0.7519 
 \\ 
    \bottomrule
 \end{tabular}
 \end{table}
+
+The benchmark covered Amylogram as well as two best-performing peer-reviewed 
+predictors of amyloidogenicity (PASTA2~\citep{walsh_pasta_2014} and 
+FoldAmyloid~\citep{garbuzynskiy_foldamyloid:_2010}). We analyzed Area Under the 
+Curve (AUC), Matthew's Correlation Coefficient (MCC), Sensitivity and 
+Specificity (see Tab.~\ref{tab:bench_summary}).
+    
+  Interestingly, the n-gram extraction method was efficient enough to produce 
+classifiers able to outperformed published methods. Two of three n-gram based 
+classifiers trained on the full alphabet have AUC higher than PASTA2 and all 
+three were more successful than FoldAmyloid. They also maintained they high 
+Specificity as seen previously during cross-validation.
+    
+  Although the proposed n-gram extraction creates efficient classifiers, the 
+encoding of amino acids further increases the prediction of amyloidogenicity. 
+AmyloGram has the highest AUC, MCC and Sensitivity among all tested classifiers. 
+Is has lower specificity than two classifiers trained on the full alphabet, but 
+still outperforms other published method in this category. It is important to 
+highlight that AmyloGram is the most  of analyzed classifiers, having 
+the best Specificity/Sensitivity trade-off, as indicated by the value of MCC.
+
+
 
 \section{Conclusion}
 
