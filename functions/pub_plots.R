@@ -100,7 +100,7 @@ ngram_plot <- ggplot(ngram_freq_plot, aes(x = decoded_name, y = value, fill = va
   my_theme + 
   theme(panel.grid.major.y = element_line(color = "NA")) 
 
-cairo_ps("./publication/figures/ngrams.eps", height = 8.5, width = 3)
+cairo_ps("./publication/figures/ngrams.eps", height = 8.5, width = 2.5)
 print(ngram_plot)
 dev.off()
 
