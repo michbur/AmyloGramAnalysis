@@ -9,6 +9,8 @@
 \access{Advance Access Publication Date: Day Month Year}
 \appnotes{Manuscript Category}
 
+\newcommand*{\bigcdot}{\raisebox{-0.25ex}{\scalebox{1.5}{$\cdot$}}}
+
 \begin{document}
 \firstpage{1}
 
@@ -81,23 +83,25 @@ the selective detection of amyloids from amorphous aggregates using either a
 variety of microscopic techniques or fluorescence of probes with which they form 
 compounds.
 
-Currently, it is believed that short peptide sequences of amyloidogenic 
+  Currently, it is believed that short peptide sequences of amyloidogenic 
 properties (called hot-spots) can be responsible for aggregation of amyloid 
 proteins.  Previous studies have suggested that amyloidogenic fragments may have 
 regular characteristics, not only with regard to averaged physicochemical 
 properties of their amino acids, but also the order of amino acids in the 
 sequence. There have been attempts to predict the sequence of such peptides by 
 computational modelling. Physics and chemistry based models have been used, 
-including FoldAmyloid \cite{Ga10}. This method is based on the density of the 
-protein contact sites. Other methods perform threading a peptide on an amyloid 
-fiber backbone, followed by determination of its energy and stability 
-\cite{Go10}\cite{Br11}\cite{OD11}. Statistical approaches include production of 
-frequency profiles, such as the WALTZ method \cite{Be15} and machine learning 
-methods, which have been used by our team \cite{Sta13}\cite{Ga14}. Some other 
+including FoldAmyloid~\citep{garbuzynskiy_foldamyloid:_2010}. This method is 
+based on the density of the protein contact sites. Other methods perform 
+threading a peptide on an amyloid fiber backbone, followed by determination of 
+its energy and stability~\citep{goldschmidt_identifying_2010, 
+bryan_stitcher:_2012, odonnell_method_2011}. Statistical approaches include 
+production of frequency profiles, such as the WALTZ method 
+\citep{beerten_waltz-db:_2015} and machine learning methods, which have been 
+used by our team \citep{stanislawski_machine_2013, gasior_fish_2014}. Some other 
 approaches, mostly biophysical-based, enable classification of hot spots for 
 non-amyloid aggregation. Recently, AGGRESCAN3D has been proposed to estimate 
-more accurately aggregation propensity by performing 3D structure based analysis 
-\cite{Za15}. 
+more accurately aggregation propensity by performing 3D structure based 
+analysis~\citep{zambrano_aggrescan3d_2015}. 
 % * <kotulska@gmail.com> 2016-03-29T15:34:04.588Z:
 %
 % > Many diseases, especially neurodegenerative, result from protein fragments forming aggregates. This occurs when a cell environment fosters the partial unfolding of protein chains or their fragmentation, in a way that the parts prone to joining with other protein fragments are exposed. For the majority of proteins, considerable conformational rearrangement must have occurred to initiate the aggregation process. Such changes cannot take place in the typical tightly packed native protein conformation, due to the constraints of the tertiary structure. Thus, formation of a non-native partially unfolded conformation is required, presumably enabling specific intermolecular interactions, including electrostatic attraction, hydrogen bonding and hydrophobic contacts. This partial unfolding can be influenced by various factors, such as protein high concentration, high temperature, low pH, binding metals, or exposition to UV light.
@@ -107,12 +111,42 @@ more accurately aggregation propensity by performing 3D structure based analysis
 %
 % Ten tekst jest na razie przykładowy, oparty na moim tekscie juz użytym. 
 %
-% ^.
+% ^ <kotulska@gmail.com> 2016-04-01T13:21:05.364Z.
 % * <kotulska@gmail.com> 2016-03-29T14:52:35.515Z:
 %
 % Tu konicznie trzeba napisać wprowadzenie do metody n-gramów i tego co wcześniej z Piotrem już zrobiliście i opublikowaliście
 %
 % ^.
+
+  In this study we present an n-gram model of amyloidogenic sequences. In 
+bioinformatics n-grams (k-mers) are continuous or discontinuous sequences of $n$ 
+elements. Employed as a feature extraction method, n-grams are widely used in 
+analysis of biological sequences. The choice of n-grams was driven by their 
+highly interpretable nature, because we were interested in the identification of 
+motifs most relevant to amyloidogenic properties. We selected these n-grams 
+using the novel feature selection algorithm called Quick Permutation Test 
+(QuiPT).
+
+  Several studies highlighted that three-dimensional protein structure depends 
+not on the exact sequence of amino acids, but on their general physicochemical 
+properties. Hence, a reduced amino acid alphabet, where a single element 
+represents several amino acids, still retains the information about protein 
+folding~\citep{murphy_simplified_2000}. Since amyloid aggregates, especially 
+their hot-spots regions, have very specific spatial organization, we 
+investigated if it also can be described using shorter alphabet. Instead of 
+relying on general similarities of amino acids, we created our own reduced amino 
+acid alphabets based on the combinations of properties that might be associated 
+with amyloidogenicity. Due to that we discovered which physicochemical 
+properties discriminate the best between amyloids and non-amyloids.
+
+  Our model of amyloidogenicity consisted of n-gram datasets extracted from 
+sequences encoded using different reduced amino acid alphabets. The information 
+in models was further used to train predictors of amyloids based on random 
+forest~\citep{breiman_random_2001}. We trained several iterations of each 
+classifier using peptides of different length to identify the optimal number of 
+residues consisting the information of the hot-spot presence or absence. 
+Through the cross-validation of predictors we determined the best-performing 
+classifier, its reduced amino acid alphabet and set of important n-grams.
 
 \begin{methods}
 \section{Methods}
@@ -141,8 +175,8 @@ created 524 284 reduced amino acid alphabets (encodings) with different lengths
 clusterization~\citep{jr_hierarchical_1963} on the selected physicochemical 
 properties from AAIndex database~\citep{kawashima_aaindex:_2008}. We handpicked 
 several measures belonging to more general categories important in the  
-amyloidogenicity, such as size, hydrophobicity, solvent surface area, frequency in 
-$\beta$-sheets and contactivity. As a rule of thumb, we limited it to 
+amyloidogenicity, such as size, hydrophobicity, solvent surface area, frequency 
+in $\beta$-sheets and contactivity. As a rule of thumb, we limited it to 
 properties introduced after 1980 when, thanks to the technological advancements, 
 the measurements were more accurate.
 
@@ -176,13 +210,15 @@ Category & Property \\
   Stability & Side-chain contribution to protein stability (kJ/mol) \citep{takano_new_2001} \\ 
    \hline
 \end{tabular}
-\caption{Physicochemical properties used in the creation of reduced amino acid alphabets.} 
+\caption{Physicochemical properties used in the creation of reduced amino acid 
+alphabets.} 
+\label{tab:properties}
 \end{table*}
 
-  Since highly correlated or, contrarily, uncorrelated measures create very 
-similar encodings, we further reduced the number of properties to 17 by 
-selecting measures with the absolute value of Pearson's correlation coefficient 
-larger than 0.95 for normalized values.
+  Since correlated or, contrarily, uncorrelated measures create very similar 
+encodings, we further reduced the number of properties to 17 by selecting 
+measures with the absolute value of Pearson's correlation coefficient larger 
+than 0.95 for normalized values (Tab.~\ref{tab:properties}).
 
 \subsection{Training of learners}
 
@@ -201,7 +237,8 @@ n-gram.}
 
 During the training phase, we extracted overlapping hexamers from each sequence. 
 Each hexamer was tagged with the same etiquette (amyloid/nonamyloid) as the 
-source peptide. For example, the amyloidogenic sequence of length 6 residues yields only one 
+source peptide. For example, the amyloidogenic sequence of length 6 residues 
+yields only one 
 % * <kotulska@gmail.com> 2016-03-29T12:38:15.711Z:
 %
 % > original peptide
@@ -213,12 +250,13 @@ source peptide. For example, the amyloidogenic sequence of length 6 residues yie
 % każdy heksamer dostał taką samą etykietę jak peptyd z którego pochodzi. Np. z peptydu amyloidogennego o długości 8 wyodrębniono 3 heksamery i każdemu z nich przypisano etykietę "amyloidogenny"
 %
 % ^.
-hexamer tagged as "amyloid". The non-amyloidogenic sequence of 8 residues yields 3 hexamers, all marked as "non-amyloids". 
-(Fig.~\ref{fig:ngram_scheme} A and B).  Assuming that in longer amyloids only a 
-short part of the sequence is responsible for amyloidogenicity, our method might 
-result in many false positives in the training data set. To evade this problem, 
-we restricted the maximum length of peptides in training data set to fifteen 
-amino acids to easy the extraction of probable hot-spots.
+hexamer tagged as "amyloid". The non-amyloidogenic sequence of 8 residues yields 
+3 hexamers, all marked as "non-amyloids". (Fig.~\ref{fig:ngram_scheme} A and B). 
+Assuming that in longer amyloids only a short part of the sequence is 
+responsible for amyloidogenicity, our method might result in many false 
+positives in the training data set. To evade this problem, we restricted the 
+maximum length of peptides in training data set to fifteen amino acids to easy 
+the extraction of probable hot-spots.
 
   From each hexamer we extracted n-grams of the following length: 1, 2 and 3. In 
 the case of 2- and 3-grams, we separately counted both gapped and continuous 
@@ -235,8 +273,7 @@ and shorter or equal to fifteen residues.
 using described below Quick Permutation Test with the information gain (mutual 
 information) as the criterion of the importance of a specific n-gram. In the 
 next step, we used n-grams with the p-value smaller than 0.05 to build a random 
-forest~\citep{breiman_random_2001} classifier using ranger \textbf{R} 
-package~\citep{wright_ranger:_2015}. 
+forest classifier using ranger \textbf{R} package~\citep{wright_ranger:_2015}. 
 
   Furthermore, we repeated the procedure described above on two typical reduced 
 alphabets of amino acids derived from the literature to check if the process of 
@@ -255,60 +292,44 @@ encoding.
 \subsection{Quick Permutation Test (QuiPT)}
 
 The permutation tests, commonly used for filtering important n-grams, are 
-often one of the most limiting factors for these kinds of analysis requiring 
-significant computational power. The Quick Permutation Test effectively filters 
+computationally expensive, and, as a result, they often become one of the most
+limiting factors for these kinds of analysis. 
+The Quick Permutation Test effectively filters 
 n-gram features without performing a huge number of permutations. Let us 
-consider the contingency table for target $y$ and feature $x$:
-% * <kotulska@gmail.com> 2016-03-29T13:36:19.299Z:
-%
-% > target $y$ and feature $x$:
-%
-% Należałoby lepiej wyjaśnić tabelkę. 
-%
-% ^.
+consider the contingency table for target $y$ and feature $x$. For example 
+entry $n_{10}$ is the number of cases when target is $1$ and feature is $0$.
 
 \begin{center}
-\begin{tabular}{ | c || c | c | }
+\begin{tabular}{ | c || c | c | c | }
   \hline			
-  target / feature & 1 & 0 \\ \hline
- 1 & $n_{1,1}$ & $n_{1,0}$ \\
- 0 & $n_{0,1}$ & $n_{0,0}$ \\
+  target / feature & 1 & 0 & total\\ \hline
+ 1 & $n_{1,1}$ & $n_{1,0}$ & $n_{1,\bigcdot}$ \\
+ 0 & $n_{0,1}$ & $n_{0,0}$ & $n_{0,\bigcdot}$ \\ \hline
+ total & $n_{\bigcdot,1}$ & $n_{\bigcdot,0}$ & $n$ \\
   \hline  
 \end{tabular} 
 \end{center}
 
-  Under the hypothesis that $x$ an $y$ are independent, the probability of such 
-a contingency  table is given by the multinomial distribution. In the 
-permutation test we simply reshuffle feature and target labels, but the total 
-number of positives in both of them is fixed. When we impose this constraint on 
-the multinomial distribution then it depends only on $n_{1,1}$ and is fairly 
-easy to compute. Observe also, that $n_{1,1}$ is from range $[0,min(n_{\cdot, 
-1}, n_{1, \cdot})]$. After computing Information Gain for each possible value 
-of $n_{1,1}$, we get distribution of Information Gain under hypothesis that 
-target and feature are independent. We reject null hypothesis when Information 
-Gain is big.
+  Under the hypothesis that $x$ an $y$ are independent, the probability of 
+observing such a contingency table is given by the multinomial distribution. The 
+idea of permutation test is to reshuffle feature and target labels, while 
+keeping the total number of positives in both of them fixed. When we impose this 
+constraint on the multinomial distribution, then the probability of occurrence 
+for a given contingency table depends only on one entry, say $n_{1,1}$, and is 
+fairly easy to compute. After computing Information Gain (IG) for each possible 
+value of $n_{1,1} \in [0,min(n_{\bigcdot, 1}, n_{1, \bigcdot})]$, we get the 
+distribution of Information Gain under hypothesis that target and feature are 
+independent. We reject null hypothesis, when IG for a feature we test is above a 
+required quantile from IG distribution.
 
   Having the analytical formula for the distribution, allows us to perform 
-% * <kotulska@gmail.com> 2016-03-29T13:37:41.462Z:
-%
-% > Having the analytical formula for the distribution
-%
-% To brzmi jakby w tym konkretnym problemie taki rozkład był znany. Czy o to chodziło?
-%
-% ^.
 permutation test much quicker. Furthermore, we get exact quantiles even for 
 extreme tails of the distribution, which is not guaranteed by random 
-permutations. In fact, imagine performing the test with $\alpha=10^{-8}$, which is 
-not an uncommon value, i.e. when we adjust for multiple testing. Even for huge 
-% * <kotulska@gmail.com> 2016-03-29T13:39:43.954Z:
-%
-% > i.e
-%
-% e.g.?  Brzmi jakby miało być "np."
-%
-% ^.
-number of permutations like $m=10^8$, the standard deviation of quantile estimate in 
-permutation test, $\frac{p(1-p)}{m}$, is roughly equal to $\alpha$ itself.
+permutations. In fact, imagine performing the test with $\alpha=10^{-8}$, which 
+is not an uncommon value, e.g. when one adjusts for multiple testing. Even for a 
+huge number of permutations like $m=10^8$, the standard deviation of quantile 
+estimate in permutation test, $\frac{p(1-p)}{m}$, is roughly equal to $\alpha$ 
+itself.
 
   In the context of k-mer data we can speed up our algorithm even further. Note 
 that since target $y$ is common for testing all k-mer features, test statistics 
@@ -320,10 +341,10 @@ distributions. Therefore complexity of our algorithm is roughly equal $O(n\cdot
 p)$.
 
   Lastly, let us point out that QuiPT is very similar for Fisher's exact test. 
-From the derivation provided in i.e.~\citep{lehmann2008testing}, it becomes 
-obvious that QuiPT is a heuristics for an unsolved problem of a two-tailed 
+From the derivation provided in e.g.~\citep{lehmann2008testing}, it becomes 
+obvious, that QuiPT is a heuristics for an unsolved problem of a two-tailed 
 Fisher's exact test. In this heuristics, extremity of a contingency table, is 
-defined by the amount of Information Gain it provides.
+defined by its Information Gain.
 
 \subsection{Cross-validation and selection of the best-performing encoding}
 
@@ -436,21 +457,21 @@ The classifier based on the best-performing encoding always have
 good specificity and sensitivity.}\label{fig:sesp_plot}
 \end{figure*}
 
-The selected encoding performed better than other reduced alphabets 
-considering all sequence length ranges in training and testing data set. It had 
-the AUC always in the fourth quartile (Fig.~\ref{fig:AUC_boxplot}). For the 
+The selected encoding performed better than other reduced alphabets considering 
+all sequence length ranges in training and testing data set. It had the AUC 
+always in the fourth quartile (Fig.~\ref{fig:AUC_boxplot}). For the 
 best-performing encoding the most problematic was correct prediction of the 
-amyloidogenicity in the longest peptide data set 16-25, not when learned on very short 
-sequences, but for longer ones (6-10 and 6-15). Such a behavior was typical for most 
-of the analyzed encodings.
+amyloidogenicity in the longest peptide data set 16-25, not when learned on very 
+short sequences, but for longer ones (6-10 and 6-15). Such a behavior was 
+typical for most of the analyzed encodings.
 
   The highest values of AUC the chosen encoding reaches in the relatively the 
 simplest cases of predicting amyloidogenicity of the shortest sequences (6 
 residues). Of course, the decision rules were the easiest to extract when also 
-the learning data set had only sequences of the same lengths, but the results were quite 
-comparable even if the training set contained longer sequences. Also in this 
-situation, the majority of reduced amino acid alphabets behaved like the selected 
-encoding and also had higher AUC than in other scenarios.
+the learning data set had only sequences of the same lengths, but the results 
+were quite comparable even if the training set contained longer sequences. Also 
+in this situation, the majority of reduced amino acid alphabets behaved like the 
+selected encoding and also had higher AUC than in other scenarios.
 
   Considering only the AUC value, the most problematic testing data were 
 sequences longer than 15 amino acids. Surprisingly, the classifiers trained on 
@@ -588,7 +609,7 @@ subgroups 3 and 4. The important n-grams occurring frequent in amyloids often
 have repeats of 3, suggesting that the presence of amino acids belonging to this 
 subgroup might be one of the most effective predictors of amyloidogenicity.
 
-N-grams typical for non-amyloidogenic peptides have mostly elements 
+  N-grams typical for non-amyloidogenic peptides have mostly elements 
 belonging to subgroups 2 and 6. The amino acids of these subgroups are strongly 
 hydrophilic and highly flexible, in the opposite to the residues typical for 
 amyloids.
@@ -650,33 +671,42 @@ efficient predictor of amyloidogenic sequences called AmyLoad. One of the
 strength of our approach is its highly interpretable outcome, which hopefully 
 sheds new light on the process of amyloid aggregation.
 
-  The idea of using the reduced amino acid alphabets is not new, but we 
-employed innovative framework to generate and validate several thousands of 
-possible amino acid encodings. Due to this approach, we are able to specify 
-important physicochemical properties that define the best-performing alphabet.  
-We confirmed the relevance of properties commonly associated with 
-amyloidogenicity as hydrophobicity and discover new ones, as flexibility.  
+  The idea of using the reduced amino acid alphabets is not new, but we employed 
+innovative framework to generate and validate several thousands of possible 
+amino acid encodings. Due to this approach, we are able to specify important 
+physicochemical properties that define the best-performing alphabet.  We 
+confirmed the relevance of properties commonly associated with amyloidogenicity 
+as hydrophobicity and discover new ones, as flexibility.  
 
-  Our analysis was completed with the extraction of important n-grams, short 
-motifs highly determining the amyloidogenicity or nonamyloidogenicity of the 
-peptide. 65 important n-grams revealed that mostly alifatic and nonpolar amino 
-acids as isoleucine, leucine and valine are responsible for the hydrophobic 
-character of amyloids. The presence of of aromatic amino acids is also a very 
-significant signal of potential for amyloidogenicity. 
+  Our analysis was completed with the extraction of important n-grams, which 
+might be interpreted as short motifs highly relevant to amyloidogenicity or 
+nonamyloidogenicity of the peptide. 65 important n-grams revealed that mostly 
+alifatic and nonpolar amino acids as isoleucine, leucine and valine are 
+responsible for the hydrophobic character of amyloids. Only in their 
+neighborhood, the presence of aromatic and hydrophobic amino acids 
+(phenylalanine, tyrosine, tryptophan) is also a sign of a potential amyloid. 
 
-  The n-grams consisting of elements from the best-performing reduced amino acid 
-alphabet separate efficiently amyloids and non-amyloids. Our classifier 
-outperforms existing software for amyloid detection in all performance measures. 
+  Since the best-performing classifier was trained on the alphabet of length 
+six, but still outperformed predictors learning on the raw amino acid sequence, 
+we cannot surely determine the optimal length of a reduced amino acid alphabet 
+for detection of amyloids. It is plausible that such alphabet is longer than 
+six residues. Nevertheless, the alphabet of length six is enough to find 
+n-grams separating efficiently amyloids and non-amyloids. 
+
 % * <kotulska@gmail.com> 2016-03-29T14:58:53.648Z:
 %
 % Trzeba streścić najważniejsze kroki analizy i podsumować wyniki
 %
 % ^.
 
-\section*{Acknowledgments and funding}
+\section*{Acknowledgments}
 
 \noindent Calculations were carried out in Wroclaw Center for Networking 
 and Supercomputing (http://www.wcss.pl), grant No. 347 and by KNOW Consortium.
+
+\section*{Funding}
+
+This research was partially funded by the KNOW Consortium.
 
 \bibliographystyle{natbib}
 %\bibliographystyle{achemnat}
