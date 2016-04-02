@@ -6,6 +6,7 @@
 \usepackage{graphicx}
 \usepackage{booktabs}
 \usepackage{colortbl, xcolor}
+\usepackage{tabularx}
 \access{Advance Access Publication Date: Day Month Year}
 \appnotes{Manuscript Category}
 
@@ -183,37 +184,34 @@ the measurements were more accurate.
   The majority of encodings had at least one duplicate. In such a case, only a 
 single representative was included in the cross-validation. After filtering 
 duplicates, we obtained 18 535 unique encodings.
-\begin{table*}[bth]
-\centering
-\begin{tabular}{ll}
-  \hline
-Category & Property \\ 
-  \hline
-  Contactivity & Average flexibility indices \citep{bhaskaran_positional_1988} \\ 
-  Contactivity & 14 A contact number \citep{nishikawa_radial_1986} \\ 
-  Contactivity & Accessible surface area \citep{radzicka_comparing_1988} \\ 
-    Contactivity & Buriability \citep{zhou_quantifying_2004} \\ 
-  Contactivity & Values of Wc in proteins from class Beta, cutoff 12 A, separation 5 \citep{wozniak_characteristics_2014} \\ 
-  Contactivity & Values of Wc in proteins from class Beta, cutoff 12 A, separation 15 \citep{wozniak_characteristics_2014} \\ 
-  $\beta$-frequency & Average relative probability of inner beta-sheet \citep{kanehisa_local_1980} \\ 
-  $\beta$-frequency & Relative frequency in $\beta$-sheet 
-\citep{prabhakaran_distribution_1990} \\ 
-  $\beta$-frequency & Thermodynamic $\beta$-sheet propensity 
-\citep{kim_thermodynamic_1993} \\ 
-  Hydrophobicity & Hydrophobicity index \citep{argos_structural_1982} \\ 
-  Hydrophobicity & Optimal matching hydrophobicity \citep{sweet_correlation_1983} \\ 
-  Hydrophobicity & Hydrophobicity-related index \citep{kidera_statistical_1985} \\ 
-  Hydrophobicity & Scaled side chain hydrophobicity values \citep{black_development_1991} \\ 
-  Polarity & Polarizability parameter \citep{charton_structural_1982} \\ 
-  Polarity & Mean polarity \citep{radzicka_comparing_1988} \\ 
-  Size & Average volumes of residues \citep{pontius_deviations_1996} \\ 
-  Stability & Side-chain contribution to protein stability (kJ/mol) \citep{takano_new_2001} \\ 
-   \hline
-\end{tabular}
+\begin{table}[bth]
+\begin{tabularx}{\columnwidth}{@{} lX @{}}
+  \toprule
+  Category & Property \\ 
+  \midrule
+  Contactivity & Average flexibility indices \newline \citep{bhaskaran_positional_1988} \\ 
+  Contactivity & 14 A contact number \newline \citep{nishikawa_radial_1986} \\ 
+  Contactivity & Accessible surface area \newline \citep{radzicka_comparing_1988} \\ 
+  Contactivity & Buriability \newline  \citep{zhou_quantifying_2004} \\ 
+  Contactivity & Values of Wc in proteins from class $\beta$, \newline  cutoff 12 A, separation 5 \newline \citep{wozniak_characteristics_2014} \\ 
+  Contactivity & Values of Wc in proteins from class $\beta$, \newline  cutoff 12 A, separation 15 \newline \citep{wozniak_characteristics_2014} \\ 
+  $\beta$-frequency & Average relative probability of inner beta-sheet \newline \citep{kanehisa_local_1980} \\ 
+  $\beta$-frequency & Relative frequency in $\beta$-sheet \newline \citep{prabhakaran_distribution_1990} \\ 
+  $\beta$-frequency & Thermodynamic $\beta$-sheet propensity \newline \citep{kim_thermodynamic_1993} \\ 
+  Hydrophobicity & Hydrophobicity index \newline \citep{argos_structural_1982} \\ 
+  Hydrophobicity & Optimal matching hydrophobicity \newline \citep{sweet_correlation_1983} \\ 
+  Hydrophobicity & Hydrophobicity-related index \newline \citep{kidera_statistical_1985} \\ 
+  Hydrophobicity & Scaled side chain hydrophobicity values \newline \citep{black_development_1991} \\ 
+  Polarity & Polarizability parameter \newline \citep{charton_structural_1982} \\ 
+  Polarity & Mean polarity \newline \citep{radzicka_comparing_1988} \\ 
+  Size & Average volumes of residues \newline \citep{pontius_deviations_1996} \\ 
+  Stability & Side-chain contribution to protein stability (kJ/mol) \newline \citep{takano_new_2001} \\
+  \bottomrule
+\end{tabularx}
 \caption{Physicochemical properties used in the creation of reduced amino acid 
 alphabets.} 
 \label{tab:properties}
-\end{table*}
+\end{table}
 
   Since correlated or, contrarily, uncorrelated measures create very similar 
 encodings, we further reduced the number of properties to 17 by selecting 
