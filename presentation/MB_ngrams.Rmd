@@ -1,0 +1,220 @@
+---
+title: "Prediction of amyloids using <br> n-grams"
+author: "Michal Burdukiewicz, Piotr Sobczyk, Pawel Mackiewicz, Malgorzata Kotulska"
+date: "21-04-2016"
+output:
+  ioslides_presentation:
+  fig_height: 5.5
+fig_width: 9.5
+widescreen: yes
+slidy_presentation: default
+---
+  
+```{r, echo = FALSE, message = FALSE, results='asis',warning=FALSE}
+library(DT)
+library(knitr)
+library(ggplot2)
+library(grid)
+library(gridExtra)
+library(dplyr)
+
+options(DT.options = list(iDisplayLength = 6, searching = TRUE))
+
+load("presentation.RData")
+
+size_mod <- -4
+
+enc2df <- function(x)
+  data.frame(Names = names(x), Elements = toupper(sapply(x, paste0, collapse = ", ")))
+
+my_theme <- theme(
+  axis.text = element_text(size=13 + size_mod),
+  axis.title.x = element_text(size=14 + size_mod, vjust = -1),
+  axis.title.y = element_text(size=14 + size_mod, vjust = 1),
+  
+  legend.background = element_rect(fill = "NA"),
+  legend.key = element_rect(fill = "NA", color = "NA", size = 0.5),
+  legend.position = "bottom",
+  #uncomment for publications
+  legend.key.size = unit(0.1, "inches"),
+  legend.margin = unit(-0.25, "lines"),
+  legend.text = element_text(size=13 + size_mod), 
+  legend.title = element_text(size=14 + size_mod),
+  
+  panel.grid.major = element_line(color="grey", linetype = "dashed", size = 0.5),
+  panel.grid.major = element_line(color="lightgrey", 
+                                  linetype = "dashed", size = 0.5),
+  panel.background = element_rect(fill = "transparent", color = "black"),
+  
+  plot.background=element_rect(fill = "transparent",
+                               color = "transparent"),
+  #uncomment for publications
+  plot.margin = unit(rep(0.02, 4), "inches"),
+  plot.title = element_text(size=20 + size_mod),
+  
+  strip.background = element_rect(fill = "NA", color = "NA"),
+  strip.text = element_text(size=13 + size_mod, face = "bold")
+)
+```
+
+## Amyloids
+
+Amyloids are proteins associated with the number of clinical disorders (e.g. Alzheimer's or Creutzfeldt-Jakob’s diseases) characterized by the occurence of hot-spots.
+
+## Hot-spots
+
+- Through hot-spots amyloids can create harmful zipper-like $\beta$-structures.
+- Hot-spots require not only amino acids with specific physicochemical properties and in specific order.
+
+## Scientific problem
+
+- How to predict amyloids using only amino acid sequences?  
+- Which patterns of amino acids (n-grams) are typical for hot-spots?  
+
+## Data source
+
+AmyLoad database (Wozniak and Kotulska, 2015): 397 amyloidogenic and 1033 non-amyloidogenic sequences (1430 in total).
+
+## Encoding of amino acids
+
+We created 524 284 reduced amino acid alphabets (encodings) with different lengths (from three to six letters) using Ward's clusterization on the selected physicochemical properties from AAIndex database.
+
+```{r, echo = FALSE, message = FALSE, results='asis',warning=FALSE}
+datatable(enc2df(list(`1` = "g", 
+                  `2` = c("k", "p", "r"), 
+                  `3` = c("i", "l", "v"), 
+                  `4` = c("f", "w", "y"), 
+                  `5` = c("a", "c", "h", "m"), 
+                  `6` = c("d", "e", "n", "q", "s", "t"))), 
+          rownames = FALSE, filter = "none", 
+          options = list(dom = 't'))
+```
+
+## Encoding of amino acids
+
+Sequence before encoding: YFGST   
+Sequence after encoding: 44166 
+
+```{r, echo = FALSE, message = FALSE, results='asis',warning=FALSE}
+datatable(enc2df(list(`1` = "g", 
+                  `2` = c("k", "p", "r"), 
+                  `3` = c("i", "l", "v"), 
+                  `4` = c("f", "w", "y"), 
+                  `5` = c("a", "c", "h", "m"), 
+                  `6` = c("d", "e", "n", "q", "s", "t"))), 
+          rownames = FALSE, filter = "none", 
+          options = list(dom = 't'))
+```
+
+## Prediction of amyloids
+
+Sensitivity: correctly recognize amyloids.   
+Specificity: correctly recognize nonamyloids.   
+
+Both specificity and sensitivity ranges from 0 (completly wrong prediction) to 1 (perfect prediction).
+
+## Prediction of amyloids
+
+```{r, echo = FALSE, message = FALSE, results='asis',warning=FALSE,fig.width=8.5,fig.height=5.5}
+sesp_dat <- amyloids_plot
+levels(sesp_dat[["pos"]]) <- c("Training peptide\nlength: 6", "Training peptide\nlength: 6-10", 
+                               "Training peptide\nlength: 6-15")
+
+ggplot(sesp_dat, aes(x = Sens_mean, y = Spec_mean, color = et, shape = et)) +
+  geom_point() +
+  scale_color_manual("", values = c("grey", "red", "blue", "green")) +
+  scale_shape_manual("", values = c(1, 16, 15, 15)) +
+  scale_x_continuous("Mean sensitivity") +
+  scale_y_continuous("Mean specificity") +
+  facet_grid(pos ~ len_range) +
+  my_theme +
+  geom_point(data = filter(sesp_dat, et != "Reduced alphabet"), 
+             aes(x = Sens_mean, y = Spec_mean, color = et), size = 3)
+```
+
+## Encoding distance
+
+Encoding distance measures how much one encoding differs from the other (how many amino acids must be moved between groups to transform the encoding into other one).  
+
+AUC defines how well the predictor separates between amyloids and non-amyloids. It ranges from 0 (completly wrong prediction) to 1 (perfect prediction).
+
+## Encoding distance
+
+```{r, echo = FALSE, message = FALSE, results='asis',warning=FALSE,fig.width=8.5,fig.height=5.5}
+ggplot(ed_dat, aes(x=ed, y=AUC_mean, color=et, shape = et)) + 
+  geom_point() +
+  scale_color_manual("", values = c("grey", "red", "blue", "green")) +
+  scale_shape_manual("", values = c(1, 16, 15, 15), drop = FALSE) +
+  xlab("Normalized encoding distance") +
+  ylab("AUC") +
+  my_theme +
+  geom_point(data = filter(ed_dat, et != "Reduced alphabet"), 
+             aes(x = ed, y = AUC_mean, color = et), size = 3) +
+  guides(color=guide_legend(nrow=1))
+```
+
+## The best-performing encoding
+
+Two subgroups, 3 and 4 contain strongly hydrophobic amino acids.   
+
+Subgroup 1 and 6 have amino acid with the highest average flexibility.   
+
+
+```{r, echo = FALSE, message = FALSE, results='asis',warning=FALSE}
+datatable(enc2df(list(`1` = "g", 
+                  `2` = c("k", "p", "r"), 
+                  `3` = c("i", "l", "v"), 
+                  `4` = c("f", "w", "y"), 
+                  `5` = c("a", "c", "h", "m"), 
+                  `6` = c("d", "e", "n", "q", "s", "t"))), 
+          rownames = FALSE, filter = "none", 
+          options = list(dom = 't'))
+```
+
+## Results - important n-grams
+
+```{r, echo = FALSE, message = FALSE, results='asis',warning=FALSE,fig.width=8.5,fig.height=5.5}
+ggplot(group_by(ngram_freq_plot, decoded_name) %>% filter(sum(value) > 0.2), 
+       aes(x = decoded_name, y = value, fill = variable)) +
+  geom_bar(position = "dodge", stat = "identity") +
+  scale_fill_manual("", values = c("gold", "darkmagenta")) +
+  scale_y_continuous("Frequency", limits = c(0, 0.95)) +
+  scale_x_discrete("") +
+  my_theme + 
+  theme(panel.grid.major.y = element_line(color = "NA")) 
+```
+
+## Results - important n-grams
+
+Amyloids:  
+- mostly highly hydrophobic, typical for $\beta$-structures amino acids from subgroups 3 and 4.   
+- repeats of 3.  
+
+Non-amyloids:  
+- strongly hydrophilic and highly flexible from subgroups 2 and 6.
+
+## Comparison with other software
+
+```{r, echo = FALSE, message = FALSE, results='asis',warning=FALSE}
+structure(list(Classifier = c("PASTA2 (Walsh et al., 2014)", "FoldAmyloid (Garbuzynskiy et al., 2014)", "AmyloGram", 
+"full alphabet (6)", "full alphabet (6-10)", "full alphabet (6-15)"
+), AUC = c(0.854996271439225, 0.735098185433756, 0.897153865274671, 
+0.841076311210539, 0.858078548347005, 0.860986825751926), MCC = c(0.522723029101976, 
+0.45255292317694, 0.630749412736651, 0.542706843847458, 0.569796537154809, 
+0.548965810928388), Sensitivity = c(0.798657718120805, 0.751677852348993, 
+0.865771812080537, 0.496644295302013, 0.751677852348993, 0.818791946308725
+), Specificity = c(0.744444444444444, 0.718518518518519, 0.788888888888889, 
+0.959259259259259, 0.825925925925926, 0.751851851851852)), class = "data.frame", row.names = c(NA, 
+-6L), .Names = c("Classifier", "AUC", "MCC", "Sensitivity", "Specificity"
+)) %>%
+  select(1L:2) %>% 
+  slice(1L:3) %>% 
+  datatable(rownames = FALSE, filter = "none", 
+          options = list(dom = 't')) %>%  formatRound(2, 4)
+```
+
+## Conclusion
+
+The n-gram model of amyloids allows accurate prediction of amyloidogenicity. In addition, it yields interpretable decision rules.
+
+This work was partially funded by by National Science Center (2015/17/N/NZ2/01845). The computations were partially made using the infrastructure provided by Wroclaw Centre for Networking and Supercomputing.

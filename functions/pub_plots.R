@@ -120,3 +120,6 @@ ed_AUC_plot <- ggplot(ed_dat, aes(x=ed, y=AUC_mean, color=et, shape = et)) +
 cairo_ps("./publication/figures/ed_AUC.eps", height = 4, width = 3)
 print(ed_AUC_plot)
 dev.off()
+
+# save(amyloids_plot, best_enc_props, ngram_freq_plot, ed_dat,
+#      file = "./presentation/presentation.RData")
