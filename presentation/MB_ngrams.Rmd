@@ -1,6 +1,6 @@
 ---
 title: "Prediction of amyloids using <br> n-grams"
-author: "Michal Burdukiewicz, Piotr Sobczyk, Pawel Mackiewicz, Malgorzata Kotulska"
+author: "Michał Burdukiewicz, Piotr Sobczyk, Paweł Mackiewicz, Małgorzata Kotulska"
 date: "21-04-2016"
 output:
   ioslides_presentation: null
@@ -60,7 +60,7 @@ my_theme <- theme(
 
 ## Amyloids
 
-Amyloids are proteins associated with the number of clinical disorders (e.g. Alzheimer's or Creutzfeldt-Jakob�s diseases) characterized by the occurence of hot-spots.
+Amyloids are proteins associated with the number of clinical disorders (e.g. Alzheimer's or Creutzfeldt-Jakob's diseases) characterized by the occurence of hot-spots, short (6-15 amino acid) subsequences.
 
 ## Hot-spots
 
@@ -109,6 +109,8 @@ datatable(enc2df(list(`1` = "g",
 
 ## Prediction of amyloids
 
+Learner associates n-grams from a training set with the status of their source (amyloid/nonamyloid) and uses this information to predict status of peptides from the testing data set.
+
 Sensitivity: recognize amyloids.   
 Specificity: recognize nonamyloids.   
 
@@ -120,11 +122,12 @@ Both specificity and sensitivity ranges from 0 (completly wrong prediction) to 1
 sesp_dat <- amyloids_plot
 levels(sesp_dat[["pos"]]) <- c("Training peptide\nlength: 6", "Training peptide\nlength: 6-10", 
                                "Training peptide\nlength: 6-15")
-
+levels(sesp_dat[["et"]]) <- c("Reduced alphabet", "Best performing reduced alphabet", "Reduced alphabet", 
+"Full alphabet")
 ggplot(sesp_dat, aes(x = Sens_mean, y = Spec_mean, color = et, shape = et)) +
   geom_point() +
-  scale_color_manual("", values = c("grey", "red", "blue", "green")) +
-  scale_shape_manual("", values = c(1, 16, 15, 15)) +
+  scale_color_manual("", values = c("grey", "red", "green")) +
+  scale_shape_manual("", values = c(1, 16, 15)) +
   scale_x_continuous("Mean sensitivity") +
   scale_y_continuous("Mean specificity") +
   facet_grid(pos ~ len_range) +
@@ -142,10 +145,13 @@ AUC defines how well the predictor separates between amyloids and non-amyloids. 
 ## Encoding distance
 
 ```{r, echo = FALSE, message = FALSE, results='asis',warning=FALSE,fig.width=8.5,fig.height=5.5}
+levels(ed_dat[["et"]]) <- c("Reduced alphabet", "Best performing reduced alphabet", "Reduced alphabet", 
+                              "Full alphabet")
+
 ggplot(ed_dat, aes(x=ed, y=AUC_mean, color=et, shape = et)) + 
   geom_point() +
-  scale_color_manual("", values = c("grey", "red", "blue", "green")) +
-  scale_shape_manual("", values = c(1, 16, 15, 15), drop = FALSE) +
+  scale_color_manual("", values = c("grey", "red", "green")) +
+  scale_shape_manual("", values = c(1, 16, 15), drop = FALSE) +
   xlab("Normalized encoding distance") +
   ylab("AUC") +
   my_theme +
@@ -153,6 +159,12 @@ ggplot(ed_dat, aes(x=ed, y=AUC_mean, color=et, shape = et)) +
              aes(x = ed, y = AUC_mean, color = et), size = 3) +
   guides(color=guide_legend(nrow=1))
 ```
+
+## Encoding distance
+
+The value of AUC is significantly lower for more distant encodings:  
+- $-0.4370$ Pearson's correlation coefficient,  
+- p-value smaller than $2.2 \times 10^{-16}$.
 
 ## The best-performing encoding
 
