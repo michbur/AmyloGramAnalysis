@@ -3,11 +3,12 @@ title: "Prediction of amyloids using <br> n-grams"
 author: "Michal Burdukiewicz, Piotr Sobczyk, Pawel Mackiewicz, Malgorzata Kotulska"
 date: "21-04-2016"
 output:
-  ioslides_presentation:
+  ioslides_presentation: null
   fig_height: 5.5
+  beamer_presentation: default
+slidy_presentation: default
 fig_width: 9.5
 widescreen: yes
-slidy_presentation: default
 ---
   
 ```{r, echo = FALSE, message = FALSE, results='asis',warning=FALSE}
@@ -39,7 +40,7 @@ my_theme <- theme(
   legend.key.size = unit(0.1, "inches"),
   legend.margin = unit(-0.25, "lines"),
   legend.text = element_text(size=13 + size_mod), 
-  legend.title = element_text(size=14 + size_mod),
+  legend.title = element_text(size=15 + size_mod),
   
   panel.grid.major = element_line(color="grey", linetype = "dashed", size = 0.5),
   panel.grid.major = element_line(color="lightgrey", 
@@ -69,7 +70,7 @@ Amyloids are proteins associated with the number of clinical disorders (e.g. Alz
 ## Scientific problem
 
 - How to predict amyloids using only amino acid sequences?  
-- Which patterns of amino acids (n-grams) are typical for hot-spots?  
+- Which patterns of amino acids (**n-grams**) are typical for hot-spots?  
 
 ## Data source
 
@@ -92,8 +93,8 @@ datatable(enc2df(list(`1` = "g",
 
 ## Encoding of amino acids
 
-Sequence before encoding: YFGST   
-Sequence after encoding: 44166 
+Sequence before encoding: YFR  
+Sequence after encoding: 442
 
 ```{r, echo = FALSE, message = FALSE, results='asis',warning=FALSE}
 datatable(enc2df(list(`1` = "g", 
@@ -108,8 +109,8 @@ datatable(enc2df(list(`1` = "g",
 
 ## Prediction of amyloids
 
-Sensitivity: correctly recognize amyloids.   
-Specificity: correctly recognize nonamyloids.   
+Sensitivity: recognize amyloids.   
+Specificity: recognize nonamyloids.   
 
 Both specificity and sensitivity ranges from 0 (completly wrong prediction) to 1 (perfect prediction).
 
@@ -207,10 +208,10 @@ structure(list(Classifier = c("PASTA2 (Walsh et al., 2014)", "FoldAmyloid (Garbu
 0.959259259259259, 0.825925925925926, 0.751851851851852)), class = "data.frame", row.names = c(NA, 
 -6L), .Names = c("Classifier", "AUC", "MCC", "Sensitivity", "Specificity"
 )) %>%
-  select(1L:2) %>% 
+  select(-3) %>% 
   slice(1L:3) %>% 
   datatable(rownames = FALSE, filter = "none", 
-          options = list(dom = 't')) %>%  formatRound(2, 4)
+          options = list(dom = 't')) %>%  formatRound(2L:4, 4)
 ```
 
 ## Conclusion
