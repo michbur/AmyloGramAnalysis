@@ -19,10 +19,10 @@ file_names <- list.files("./benchmark/pasta2_preds/")[grepl("fasta.seq.best_pair
 
 pasta2_prot_id <- as.numeric(sapply(strsplit(file_names, ".", fixed = TRUE), function(i) substr(i[1], 5, nchar(i[1]))))
 
-pasta2_preds <- sapply(file_names, function(i) {
-  all_lines <- readLines(paste0("./benchmark/pasta2_preds/", i))
-  as.numeric(strsplit(strsplit(all_lines, "PASTA energy ")[[1]][2], "*[ ]")[[1]][1])
-}) > -4
+# pasta2_preds <- sapply(file_names, function(i) {
+#   all_lines <- readLines(paste0("./benchmark/pasta2_preds/", i))
+#   as.numeric(strsplit(strsplit(all_lines, "PASTA energy ")[[1]][2], "*[ ]")[[1]][1])
+# }) > -5
 
 pasta2_preds <- sapply(file_names, function(i) {
   all_lines <- readLines(paste0("./benchmark/pasta2_preds/", i))
