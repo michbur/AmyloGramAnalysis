@@ -101,3 +101,17 @@ slice(bench_measures, c(1L:2, 4, 15L:17)) %>%
                encoding from the sequences of the length specified in the brackets.", 
                "tab:bench_summary", 2L:5) %>%
   cat
+
+# sizes of training sets, requires analysis.R --------------
+
+# data.frame(len = seq_lengths, et = ets) %>% 
+#   mutate(len_group = cut(seq_lengths, breaks = c(5, 6, 10, 15, 25)),
+#          nhexamers = len - 5) %>% 
+#   group_by(len_group, et) %>% 
+#   summarise(total_hexamers = sum(nhexamers), total = length(nhexamers)) %>% 
+#   group_by(et) %>% 
+#   mutate(total_hexamers = cumsum(total_hexamers),
+#          etnice = ifelse(et == 1, "Amyloid", "Non-amyloid")) %>% 
+#   ungroup %>% 
+#   select(len_group, etnice, total, total_hexamers) %>% 
+#   xtable
