@@ -1,56 +1,48 @@
-\documentclass{bioinfo}
-% * <michalburdukiewicz@gmail.com> 2016-03-25T10:03:29.805Z:
-%
-% ^.
+\documentclass[a4,center,fleqn]{NAR}
 \copyrightyear{2015} \pubyear{2015}
 \usepackage{booktabs}
 \usepackage{colortbl, xcolor}
 \usepackage{tabularx}
 \usepackage{multirow}
-\access{Advance Access Publication Date: Day Month Year}
-\appnotes{Manuscript Category}
+\pubdate{31 July 2009}
+\pubyear{2009}
+\jvolume{37}
+\jissue{12}
 
 \newcommand*{\bigcdot}{\raisebox{-0.25ex}{\scalebox{1.5}{$\cdot$}}}
 
 \begin{document}
-\firstpage{1}
 
-\subtitle{Subject Section}
+\title{Prediction of amyloidogenicity based on the n-gram analysis}
 
-\title[Prediction of amyloidogenicity based on the n-gram analysis]{Prediction of amyloidogenicity based on the n-gram analysis}
-\author[Sample \textit{et~al}.]{Micha\l{} Burdukiewicz$^{\text{\sfb 1,*}}$, Piotr Sobczyk\,$^{\text{\sfb 2}}$, Pawe\l{} Mackiewicz$^{\text{\sfb 1}}$ and Ma\l{}gorzata Kotulska\,$^{\text{\sfb 3,}*}$}
-\address{$^{\text{\sf 1}}$University of Wroc\l{}aw, Department of Genomics,
-$^{\text{\sf 2}}$Wroc\l{}aw University of Science and Technology, Department of Mathematics and 
-$^{\text{\sf 3}}$Wroc\l{}aw University of Science and Technology, Department of Biomedical Engineering, Faculty of Fundamental Problems of Technology
+\author{Micha\l{} Burdukiewicz\,$^{1}$, Piotr Sobczyk\,$^{2}$, Pawe\l{} Mackiewicz\,$^{1}$ and Ma\l{}gorzata Kotulska\,$^{3}$
+\footnote{To whom correspondence should be addressed.
+Email: malgorzata.kotulska@pwr.edu.pl}}
+
+\address{
+$^{1}$University of Wroc\l{}aw, Department of Genomics,
+$^{2}$Wroc\l{}aw University of Science and Technology, Department of Mathematics and 
+$^{3}$Wroc\l{}aw University of Science and Technology, Department of Biomedical Engineering, Faculty of Fundamental Problems of Technology
 }
-
-\corresp{$^\ast$To whom correspondence should be addressed.}
 
 \history{Received on XXXXX; revised on XXXXX; accepted on XXXXX}
 
-\editor{Associate Editor: XXXXXXX}
-
-\abstract{\textbf{Motivation:} Tekst
-Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text
-Text Text Text Text Text Text
-Text Text Text Text Text.\\
-\textbf{Results:} Text  Text Text Text Text Text Text Text Text Text  Text Text Text Text Text vvv
-% * <michalburdukiewicz@gmail.com> 2016-02-23T09:35:35.738Z:
-%
-% ^.
-Text Text Text Text Text Text Text Text Text Text Text Text Text  Text Text Text Text Text Text\\
-\textbf{Availability:} Text  Text Text Text Text Text Text Text Text Text  Text Text Text Text
-Text Text Text Text Text Text Text Text Text Text Text Text Text Text  Text\\
-\textbf{Contact:} \href{name@bio.com}{name@bio.com}\\
-\textbf{Supplementary information:} Supplementary data are available at \textit{Bioinformatics}
-online.}
-
 \maketitle
+
+\begin{abstract}
+Text. Text. Text. Text. Text. Text. Text. Text. Text. Text. Text.
+Text. Text. Text. Text. Text. Text. Text. Text. Text. Text. Text.
+Text. Text. Text. Text. Text. Text. Text. Text. Text. Text. Text.
+Text. Text. Text. Text. Text. Text. Text. Text. Text. Text. Text.
+Text. Text. Text. Text. Text. Text. Text. Text. Text. Text. Text.
+Text. Text. Text. Text. Text. Text. Text. Text. Text. Text. Text.
+Text. Text. Text. Text. Text. Text. Text. Text. Text. Text. Text.
+Text. Text. Text. Text. Text. Text. Text. Text. Text. Text. Text.
+\end{abstract}
 
 \section{Introduction}
 
 
-%\enlargethispage{12pt}
 Amyloid aggregates have been observed in tissues of people suffering from 
 Alzheimer's disease, Parkinson's disease, amyotrophic lateral sclerosis and 
 Huntington's disease, as well as many other conditions. They also include 
@@ -84,7 +76,7 @@ the selective detection of amyloids from amorphous aggregates using either a
 variety of microscopic techniques or fluorescence of probes with which they form 
 compounds.
 
-  Currently, it is believed that short peptide sequences of amyloidogenic 
+    Currently, it is believed that short peptide sequences of amyloidogenic 
 properties (called hot spots) can be responsible for aggregation of amyloid 
 proteins.  Previous studies have suggested that amyloidogenic fragments may have 
 regular characteristics, not only with regard to averaged physicochemical 
@@ -98,18 +90,20 @@ its energy and stability~\citep{goldschmidt_identifying_2010,
 bryan_stitcher:_2012, odonnell_method_2011}. Statistical approaches include 
 production of frequency profiles, such as the WALTZ method 
 \citep{beerten_waltz-db:_2015} and machine learning methods, which have been 
-used by our team \citep{stanislawski_machine_2013, gasior_fish_2014}. AGGRESCAN3D has been proposed to estimate 
-more accurately aggregation propensity by performing 3D structure based 
-analysis~\citep{zambrano_aggrescan3d_2015}. 
+used by our team \citep{stanislawski_machine_2013, gasior_fish_2014}. 
+AGGRESCAN3D has been proposed to estimate more accurately aggregation propensity 
+by performing 3D structure based analysis~\citep{zambrano_aggrescan3d_2015}. 
+
+\enlargethispage{-65.1pt}
 
   In this study we present an n-gram model of amyloidogenic sequences. In 
-bioinformatics, n-grams (k-mers) are continuous or discontinuous sequences of $n$ 
-elements. Employed as a feature extraction method, n-grams are widely used in 
-analysis of biological sequences. Our choice of n-grams was driven by their 
-highly interpretable nature. This is a valuable feature since we are interested in identification of 
-motifs that are most relevant to amyloidogenic properties of peptides. Out of several possible n-grams 
-the most relevant features using the novel feature selection algorithm called Quick Permutation Test 
-(QuiPT).
+bioinformatics, n-grams (k-mers) are continuous or discontinuous sequences of 
+$n$ elements. Employed as a feature extraction method, n-grams are widely used 
+in analysis of biological sequences. Our choice of n-grams was driven by their 
+highly interpretable nature. This is a valuable feature since we are interested 
+in identification of motifs that are most relevant to amyloidogenic properties 
+of peptides. Out of several possible n-grams the most relevant features using 
+the novel feature selection algorithm called Quick Permutation Test (QuiPT).
 
   Several studies highlighted that three-dimensional protein structure depends 
 not on the exact sequence of amino acids, but on their general physicochemical 
@@ -131,7 +125,7 @@ residues consisting the information of the hot spot presence or absence.
 Through the cross-validation of predictors we determined the best-performing 
 classifier, its reduced amino acid alphabet and set of important n-grams.
 
-\begin{methods}
+
 \section{Methods}
 \subsection{Data set}
 
@@ -518,8 +512,6 @@ preparation of the training data, we exactly repeated the procedure of n-gram
 extraction as described above (see Fig.~\ref{fig:ngram_scheme}). 
 
 
-\end{methods}
-
 \section{Results and discussion}
 
 \subsection{Selection of the best-performing encoding}
@@ -763,17 +755,17 @@ amyloids.
 \caption{Results of benchmark on \textit{pep424} data set for AmyloGram, 
 PASTA2, FoldAmyloid and random forest predictor learned on n-grams extracted 
 without any amino acid encoding from the sequences of the length specified in 
-the brackets.} 
+the brackets (FA).} 
 \label{tab:bench_summary}
 \begin{tabular}{ccccc}
   \toprule
 Classifier & AUC & MCC & Sensitivity & Specificity \\ 
   \midrule
 AmyloGram & \textbf{0.8972} & \textbf{0.6307} & \textbf{0.8658} & 0.7889 \\ 
-   \rowcolor[gray]{0.85}full alphabet (6) & 0.8411 & 0.5427 & 0.4966 & 
+   \rowcolor[gray]{0.85}FA (6) & 0.8411 & 0.5427 & 0.4966 & 
 \textbf{0.9593} \\ 
-  full alphabet (6-10) & 0.8581 & 0.5698 & 0.7517 & 0.8259 \\ 
-   \rowcolor[gray]{0.85}full alphabet (6-15) & 0.8610 & 0.5490 & 0.8188 & 
+  FA (6-10) & 0.8581 & 0.5698 & 0.7517 & 0.8259 \\ 
+   \rowcolor[gray]{0.85}FA (6-15) & 0.8610 & 0.5490 & 0.8188 & 
 0.7519 \\ 
 \hline \hline
    PASTA2 & 0.8550 & 0.5227 & 0.7987 & 0.7444 \\ 
@@ -855,13 +847,6 @@ institutional grant No. 347.
 This research was partially funded by the KNOW Consortium and
 National Science Center (2015/17/N/NZ2/01845).
 
-\bibliographystyle{natbib}
-%\bibliographystyle{achemnat}
-%\bibliographystyle{plainnat}
-%\bibliographystyle{abbrv}
-%\bibliographystyle{bioinformatics}
-%
-%\bibliographystyle{plain}
-%
+\bibliographystyle{plain}
 \bibliography{amyloids}
 \end{document}
