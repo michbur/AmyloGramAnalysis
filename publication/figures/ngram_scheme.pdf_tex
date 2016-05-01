@@ -1,0 +1,254 @@
+%% Creator: Inkscape 0.91_64bit, www.inkscape.org
+%% PDF/EPS/PS + LaTeX output extension by Johan Engelen, 2010
+%% Accompanies image file 'ngram_scheme.pdf' (pdf, eps, ps)
+%%
+%% To include the image in your LaTeX document, write
+%%   \input{<filename>.pdf_tex}
+%%  instead of
+%%   \includegraphics{<filename>.pdf}
+%% To scale the image, write
+%%   \def\svgwidth{<desired width>}
+%%   \input{<filename>.pdf_tex}
+%%  instead of
+%%   \includegraphics[width=<desired width>]{<filename>.pdf}
+%%
+%% Images with a different path to the parent latex file can
+%% be accessed with the `import' package (which may need to be
+%% installed) using
+%%   \usepackage{import}
+%% in the preamble, and then including the image with
+%%   \import{<path to file>}{<filename>.pdf_tex}
+%% Alternatively, one can specify
+%%   \graphicspath{{<path to file>/}}
+%% 
+%% For more information, please see info/svg-inkscape on CTAN:
+%%   http://tug.ctan.org/tex-archive/info/svg-inkscape
+%%
+\begingroup%
+  \makeatletter%
+  \providecommand\color[2][]{%
+    \errmessage{(Inkscape) Color is used for the text in Inkscape, but the package 'color.sty' is not loaded}%
+    \renewcommand\color[2][]{}%
+  }%
+  \providecommand\transparent[1]{%
+    \errmessage{(Inkscape) Transparency is used (non-zero) for the text in Inkscape, but the package 'transparent.sty' is not loaded}%
+    \renewcommand\transparent[1]{}%
+  }%
+  \providecommand\rotatebox[2]{#2}%
+  \ifx\svgwidth\undefined%
+    \setlength{\unitlength}{462.66181722bp}%
+    \ifx\svgscale\undefined%
+      \relax%
+    \else%
+      \setlength{\unitlength}{\unitlength * \real{\svgscale}}%
+    \fi%
+  \else%
+    \setlength{\unitlength}{\svgwidth}%
+  \fi%
+  \global\let\svgwidth\undefined%
+  \global\let\svgscale\undefined%
+  \makeatother%
+  \begin{picture}(1,1.74986234)%
+    \put(0.20088897,1.37065313){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.78949927\unitlength}\raggedright \end{minipage}}}%
+    \put(-0.00876403,1.72858285){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{1.25238039\unitlength}\raggedright \end{minipage}}}%
+    \put(0.15303265,1.6100143){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.51750233\unitlength}\raggedright \end{minipage}}}%
+    \put(0.22097579,1.4553671){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.45501009\unitlength}\raggedright \end{minipage}}}%
+    \put(1.20940748,1.58628798){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.0345825\unitlength}\raggedright \end{minipage}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=1]{ngram_scheme.pdf}}%
+    \put(0.00854895,1.45998149){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.16070292\unitlength}\raggedright B)\end{minipage}}}%
+    \put(0.15932525,1.47441941){\color[rgb]{0,0,0.78431373}\makebox(0,0)[lb]{\smash{P}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=2]{ngram_scheme.pdf}}%
+    \put(0.2136314,1.47441066){\color[rgb]{0,0,0.78431373}\makebox(0,0)[lb]{\smash{V}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=3]{ngram_scheme.pdf}}%
+    \put(0.26799262,1.47441407){\color[rgb]{0,0,0.78431373}\makebox(0,0)[lb]{\smash{P}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=4]{ngram_scheme.pdf}}%
+    \put(0.32229873,1.47440537){\color[rgb]{0,0,0.78431373}\makebox(0,0)[lb]{\smash{M}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=5]{ngram_scheme.pdf}}%
+    \put(0.37670998,1.47449971){\color[rgb]{0,0,0.78431373}\makebox(0,0)[lb]{\smash{P}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=6]{ngram_scheme.pdf}}%
+    \put(0.43101599,1.47449101){\color[rgb]{0,0,0.78431373}\makebox(0,0)[lb]{\smash{D}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=7]{ngram_scheme.pdf}}%
+    \put(0.15932525,1.40220743){\color[rgb]{0.66666667,0,0}\makebox(0,0)[lb]{\smash{V}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=8]{ngram_scheme.pdf}}%
+    \put(0.21368651,1.40221089){\color[rgb]{0.66666667,0,0}\makebox(0,0)[lb]{\smash{P}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=9]{ngram_scheme.pdf}}%
+    \put(0.26799267,1.40220214){\color[rgb]{0.66666667,0,0}\makebox(0,0)[lb]{\smash{M}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=10]{ngram_scheme.pdf}}%
+    \put(0.32240385,1.40229648){\color[rgb]{0.66666667,0,0}\makebox(0,0)[lb]{\smash{P}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=11]{ngram_scheme.pdf}}%
+    \put(0.37670998,1.40228778){\color[rgb]{0.66666667,0,0}\makebox(0,0)[lb]{\smash{D}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=12]{ngram_scheme.pdf}}%
+    \put(0.43096554,1.40232168){\color[rgb]{0.66666667,0,0}\makebox(0,0)[lb]{\smash{L}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=13]{ngram_scheme.pdf}}%
+    \put(0.15932525,1.33000765){\color[rgb]{0.70588235,0,0.82352941}\makebox(0,0)[lb]{\smash{P}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=14]{ngram_scheme.pdf}}%
+    \put(0.2136314,1.32999889){\color[rgb]{0.70588235,0,0.82352941}\makebox(0,0)[lb]{\smash{M}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=15]{ngram_scheme.pdf}}%
+    \put(0.26804259,1.33009329){\color[rgb]{0.70588235,0,0.82352941}\makebox(0,0)[lb]{\smash{P}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=16]{ngram_scheme.pdf}}%
+    \put(0.3223486,1.33008455){\color[rgb]{0.70588235,0,0.82352941}\makebox(0,0)[lb]{\smash{D}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=17]{ngram_scheme.pdf}}%
+    \put(0.37660423,1.33011844){\color[rgb]{0.70588235,0,0.82352941}\makebox(0,0)[lb]{\smash{L}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=18]{ngram_scheme.pdf}}%
+    \put(0.43095477,1.33020975){\color[rgb]{0.70588235,0,0.82352941}\makebox(0,0)[lb]{\smash{K}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=19]{ngram_scheme.pdf}}%
+    \put(0.10562541,1.46905569){\color[rgb]{0,0,0.78431373}\makebox(0,0)[lb]{\smash{P}}}%
+    \put(0.10562541,1.39781565){\color[rgb]{0.66666667,0,0}\makebox(0,0)[lb]{\smash{P}}}%
+    \put(0.10562541,1.32657561){\color[rgb]{0.70588235,0,0.82352941}\makebox(0,0)[lb]{\smash{P}}}%
+    \put(0.58491513,1.4744193){\color[rgb]{0,0,0.78431373}\makebox(0,0)[lb]{\smash{P}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=20]{ngram_scheme.pdf}}%
+    \put(0.63922124,1.4744106){\color[rgb]{0,0,0.78431373}\makebox(0,0)[lb]{\smash{M\\ }}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=21]{ngram_scheme.pdf}}%
+    \put(0.6935825,1.47441401){\color[rgb]{0,0,0.78431373}\makebox(0,0)[lb]{\smash{V}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=22]{ngram_scheme.pdf}}%
+    \put(0.74788856,1.47440526){\color[rgb]{0,0,0.78431373}\makebox(0,0)[lb]{\smash{M}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=23]{ngram_scheme.pdf}}%
+    \put(0.80229974,1.47449965){\color[rgb]{0,0,0.78431373}\makebox(0,0)[lb]{\smash{P}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=24]{ngram_scheme.pdf}}%
+    \put(0.85660585,1.47449095){\color[rgb]{0,0,0.78431373}\makebox(0,0)[lb]{\smash{D}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=25]{ngram_scheme.pdf}}%
+    \put(0.58491513,1.40220736){\color[rgb]{0.66666667,0,0}\makebox(0,0)[lb]{\smash{M}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=26]{ngram_scheme.pdf}}%
+    \put(0.6392764,1.40221082){\color[rgb]{0.66666667,0,0}\makebox(0,0)[lb]{\smash{V}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=27]{ngram_scheme.pdf}}%
+    \put(0.6935825,1.40220207){\color[rgb]{0.66666667,0,0}\makebox(0,0)[lb]{\smash{M}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=28]{ngram_scheme.pdf}}%
+    \put(0.74799373,1.40229641){\color[rgb]{0.66666667,0,0}\makebox(0,0)[lb]{\smash{P}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=29]{ngram_scheme.pdf}}%
+    \put(0.80229974,1.40228766){\color[rgb]{0.66666667,0,0}\makebox(0,0)[lb]{\smash{D}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=30]{ngram_scheme.pdf}}%
+    \put(0.8565554,1.40232161){\color[rgb]{0.66666667,0,0}\makebox(0,0)[lb]{\smash{K}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=31]{ngram_scheme.pdf}}%
+    \put(0.58491513,1.33000757){\color[rgb]{0.70588235,0,0.82352941}\makebox(0,0)[lb]{\smash{V}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=32]{ngram_scheme.pdf}}%
+    \put(0.63922124,1.32999883){\color[rgb]{0.70588235,0,0.82352941}\makebox(0,0)[lb]{\smash{M}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=33]{ngram_scheme.pdf}}%
+    \put(0.69363247,1.33009319){\color[rgb]{0.70588235,0,0.82352941}\makebox(0,0)[lb]{\smash{P}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=34]{ngram_scheme.pdf}}%
+    \put(0.74793843,1.33008443){\color[rgb]{0.70588235,0,0.82352941}\makebox(0,0)[lb]{\smash{D}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=35]{ngram_scheme.pdf}}%
+    \put(0.80219409,1.33011837){\color[rgb]{0.70588235,0,0.82352941}\makebox(0,0)[lb]{\smash{K}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=36]{ngram_scheme.pdf}}%
+    \put(0.85654463,1.33020964){\color[rgb]{0.70588235,0,0.82352941}\makebox(0,0)[lb]{\smash{V}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=37]{ngram_scheme.pdf}}%
+    \put(0.53121546,1.46905299){\color[rgb]{0,0,0.78431373}\makebox(0,0)[lb]{\smash{N}}}%
+    \put(0.53121546,1.39781295){\color[rgb]{0.66666667,0,0}\makebox(0,0)[lb]{\smash{N}}}%
+    \put(0.53121546,1.32657286){\color[rgb]{0.70588235,0,0.82352941}\makebox(0,0)[lb]{\smash{N}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=38]{ngram_scheme.pdf}}%
+    \put(-0.11925939,1.71108894){\color[rgb]{0,0,0}\rotatebox{90}{\makebox(0,0)[lt]{\begin{minipage}{6.16317793\unitlength}\raggedright {\end{minipage}}}}%
+    \put(-5.03339135,0.87335168){\color[rgb]{0,0,0}\rotatebox{-90}{\makebox(0,0)[lt]{\begin{minipage}{6.16317793\unitlength}\raggedright {\end{minipage}}}}%
+    \put(-0.11925939,0.99676788){\color[rgb]{0,0,0}\rotatebox{90}{\makebox(0,0)[lt]{\begin{minipage}{6.16317793\unitlength}\raggedright {\end{minipage}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=39]{ngram_scheme.pdf}}%
+    \put(0.1593263,0.76201898){\color[rgb]{0,0,0.78431373}\makebox(0,0)[lb]{\smash{2}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=40]{ngram_scheme.pdf}}%
+    \put(0.21363246,0.76201023){\color[rgb]{0,0,0.78431373}\makebox(0,0)[lb]{\smash{3}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=41]{ngram_scheme.pdf}}%
+    \put(0.26799367,0.76201364){\color[rgb]{0,0,0.78431373}\makebox(0,0)[lb]{\smash{2}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=42]{ngram_scheme.pdf}}%
+    \put(0.32229978,0.76200494){\color[rgb]{0,0,0.78431373}\makebox(0,0)[lb]{\smash{5}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=43]{ngram_scheme.pdf}}%
+    \put(0.37671103,0.76209928){\color[rgb]{0,0,0.78431373}\makebox(0,0)[lb]{\smash{2}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=44]{ngram_scheme.pdf}}%
+    \put(0.43101704,0.76209058){\color[rgb]{0,0,0.78431373}\makebox(0,0)[lb]{\smash{6}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=45]{ngram_scheme.pdf}}%
+    \put(0.1593263,0.689807){\color[rgb]{0.66666667,0,0}\makebox(0,0)[lb]{\smash{3}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=46]{ngram_scheme.pdf}}%
+    \put(0.21368756,0.68981046){\color[rgb]{0.66666667,0,0}\makebox(0,0)[lb]{\smash{2}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=47]{ngram_scheme.pdf}}%
+    \put(0.26799372,0.68980171){\color[rgb]{0.66666667,0,0}\makebox(0,0)[lb]{\smash{5}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=48]{ngram_scheme.pdf}}%
+    \put(0.3224049,0.68989605){\color[rgb]{0.66666667,0,0}\makebox(0,0)[lb]{\smash{2}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=49]{ngram_scheme.pdf}}%
+    \put(0.37671103,0.68988735){\color[rgb]{0.66666667,0,0}\makebox(0,0)[lb]{\smash{6}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=50]{ngram_scheme.pdf}}%
+    \put(0.43096659,0.68992125){\color[rgb]{0.66666667,0,0}\makebox(0,0)[lb]{\smash{3}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=51]{ngram_scheme.pdf}}%
+    \put(0.1593263,0.61760722){\color[rgb]{0.70588235,0,0.82352941}\makebox(0,0)[lb]{\smash{2}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=52]{ngram_scheme.pdf}}%
+    \put(0.21363246,0.61759846){\color[rgb]{0.70588235,0,0.82352941}\makebox(0,0)[lb]{\smash{5}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=53]{ngram_scheme.pdf}}%
+    \put(0.26804364,0.61769286){\color[rgb]{0.70588235,0,0.82352941}\makebox(0,0)[lb]{\smash{2}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=54]{ngram_scheme.pdf}}%
+    \put(0.32234965,0.61768412){\color[rgb]{0.70588235,0,0.82352941}\makebox(0,0)[lb]{\smash{6}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=55]{ngram_scheme.pdf}}%
+    \put(0.37660528,0.61771801){\color[rgb]{0.70588235,0,0.82352941}\makebox(0,0)[lb]{\smash{3}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=56]{ngram_scheme.pdf}}%
+    \put(0.43095582,0.61780933){\color[rgb]{0.70588235,0,0.82352941}\makebox(0,0)[lb]{\smash{2}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=57]{ngram_scheme.pdf}}%
+    \put(0.10562646,0.75665526){\color[rgb]{0,0,0.78431373}\makebox(0,0)[lb]{\smash{P}}}%
+    \put(0.10562646,0.68541522){\color[rgb]{0.66666667,0,0}\makebox(0,0)[lb]{\smash{P}}}%
+    \put(0.10562646,0.61417518){\color[rgb]{0.70588235,0,0.82352941}\makebox(0,0)[lb]{\smash{P}}}%
+    \put(0.58491618,0.76201887){\color[rgb]{0,0,0.78431373}\makebox(0,0)[lb]{\smash{2}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=58]{ngram_scheme.pdf}}%
+    \put(0.63922228,0.76201017){\color[rgb]{0,0,0.78431373}\makebox(0,0)[lb]{\smash{5\\ }}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=59]{ngram_scheme.pdf}}%
+    \put(0.69358355,0.76201359){\color[rgb]{0,0,0.78431373}\makebox(0,0)[lb]{\smash{3}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=60]{ngram_scheme.pdf}}%
+    \put(0.74788961,0.76200483){\color[rgb]{0,0,0.78431373}\makebox(0,0)[lb]{\smash{5}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=61]{ngram_scheme.pdf}}%
+    \put(0.80230079,0.76209923){\color[rgb]{0,0,0.78431373}\makebox(0,0)[lb]{\smash{2}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=62]{ngram_scheme.pdf}}%
+    \put(0.85660689,0.76209052){\color[rgb]{0,0,0.78431373}\makebox(0,0)[lb]{\smash{6}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=63]{ngram_scheme.pdf}}%
+    \put(0.58491618,0.68980693){\color[rgb]{0.66666667,0,0}\makebox(0,0)[lb]{\smash{5}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=64]{ngram_scheme.pdf}}%
+    \put(0.63927744,0.68981039){\color[rgb]{0.66666667,0,0}\makebox(0,0)[lb]{\smash{3}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=65]{ngram_scheme.pdf}}%
+    \put(0.69358355,0.68980164){\color[rgb]{0.66666667,0,0}\makebox(0,0)[lb]{\smash{5}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=66]{ngram_scheme.pdf}}%
+    \put(0.74799478,0.68989599){\color[rgb]{0.66666667,0,0}\makebox(0,0)[lb]{\smash{2}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=67]{ngram_scheme.pdf}}%
+    \put(0.80230079,0.68988723){\color[rgb]{0.66666667,0,0}\makebox(0,0)[lb]{\smash{6}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=68]{ngram_scheme.pdf}}%
+    \put(0.85655644,0.68992118){\color[rgb]{0.66666667,0,0}\makebox(0,0)[lb]{\smash{2}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=69]{ngram_scheme.pdf}}%
+    \put(0.58491618,0.61760715){\color[rgb]{0.70588235,0,0.82352941}\makebox(0,0)[lb]{\smash{3}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=70]{ngram_scheme.pdf}}%
+    \put(0.63922228,0.61759841){\color[rgb]{0.70588235,0,0.82352941}\makebox(0,0)[lb]{\smash{5}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=71]{ngram_scheme.pdf}}%
+    \put(0.69363351,0.61769276){\color[rgb]{0.70588235,0,0.82352941}\makebox(0,0)[lb]{\smash{2}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=72]{ngram_scheme.pdf}}%
+    \put(0.74793948,0.617684){\color[rgb]{0.70588235,0,0.82352941}\makebox(0,0)[lb]{\smash{6}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=73]{ngram_scheme.pdf}}%
+    \put(0.80219513,0.61771795){\color[rgb]{0.70588235,0,0.82352941}\makebox(0,0)[lb]{\smash{2}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=74]{ngram_scheme.pdf}}%
+    \put(0.85654567,0.61780921){\color[rgb]{0.70588235,0,0.82352941}\makebox(0,0)[lb]{\smash{3}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=75]{ngram_scheme.pdf}}%
+    \put(0.53121651,0.75665256){\color[rgb]{0,0,0.78431373}\makebox(0,0)[lb]{\smash{N}}}%
+    \put(0.53121651,0.68541252){\color[rgb]{0.66666667,0,0}\makebox(0,0)[lb]{\smash{N}}}%
+    \put(0.53121651,0.61417243){\color[rgb]{0.70588235,0,0.82352941}\makebox(0,0)[lb]{\smash{N}}}%
+    \put(0.01096754,0.74647288){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.16070292\unitlength}\raggedright D)\end{minipage}}}%
+    \put(0.01349996,1.72246147){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.16070292\unitlength}\raggedright A)\end{minipage}}}%
+    \put(0.14038693,1.65076793){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{PVPMPDLK}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=76]{ngram_scheme.pdf}}%
+    \put(0.14217988,1.75084921){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.33124278\unitlength}\raggedright Amyloid (positive)\end{minipage}}}%
+    \put(0.55015514,1.65077063){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{PMVMPDKV}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=77]{ngram_scheme.pdf}}%
+    \put(0.54898347,1.75084879){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.43884544\unitlength}\raggedright Non-amyloid (negative)\end{minipage}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=78]{ngram_scheme.pdf}}%
+    \put(0.01096754,1.09919024){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.16070292\unitlength}\raggedright C)\end{minipage}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=79]{ngram_scheme.pdf}}%
+    \put(0.33260249,1.24773308){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.33124278\unitlength}\raggedright ID\end{minipage}}}%
+    \put(0.42467282,1.2484422){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.33124278\unitlength}\raggedright Amino acids\end{minipage}}}%
+    \put(0.34384042,0.93259825){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.33124278\unitlength}\raggedright 6\end{minipage}}}%
+    \put(0.42511318,0.93259825){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.33124278\unitlength}\raggedright D, E, N, Q, S, T\end{minipage}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=80]{ngram_scheme.pdf}}%
+    \put(0.34368087,0.98528668){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.33124278\unitlength}\raggedright 5\end{minipage}}}%
+    \put(0.42495363,0.98528668){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.33124278\unitlength}\raggedright A, C, H, M\end{minipage}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=81]{ngram_scheme.pdf}}%
+    \put(0.34368086,1.03775992){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.33124278\unitlength}\raggedright 4\end{minipage}}}%
+    \put(0.42495363,1.03775992){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.33124278\unitlength}\raggedright F, W, Y\end{minipage}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=82]{ngram_scheme.pdf}}%
+    \put(0.34368087,1.09023317){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.33124278\unitlength}\raggedright 3\end{minipage}}}%
+    \put(0.42495363,1.09023317){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.33124278\unitlength}\raggedright I, L, V\end{minipage}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=83]{ngram_scheme.pdf}}%
+    \put(0.34368087,1.14284635){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.33124278\unitlength}\raggedright 2\end{minipage}}}%
+    \put(0.42495364,1.14284635){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.33124278\unitlength}\raggedright K, P, R\end{minipage}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=84]{ngram_scheme.pdf}}%
+    \put(0.34368087,1.19559946){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.33124278\unitlength}\raggedright 1\end{minipage}}}%
+    \put(0.42495364,1.19559946){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.33124278\unitlength}\raggedright G\end{minipage}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=85]{ngram_scheme.pdf}}%
+    \put(0.00854895,0.32267378){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.16070292\unitlength}\raggedright E)\end{minipage}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=86]{ngram_scheme.pdf}}%
+  \end{picture}%
+\endgroup%

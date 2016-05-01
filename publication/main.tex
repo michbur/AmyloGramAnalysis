@@ -3,6 +3,7 @@
 \usepackage{booktabs}
 \usepackage{colortbl, xcolor}
 \usepackage{tabularx}
+\usepackage{svg}
 \usepackage{multirow}
 \pubdate{31 July 2009}
 \pubyear{2009}
@@ -225,7 +226,8 @@ than 0.95 for normalized values (Tab.~\ref{tab:properties}).
 \subsection{Training of learners}
 
 \begin{figure}[!tpb]
-\includegraphics[width=\columnwidth]{figures/ngram_scheme.png}
+\centering
+    \includesvg{figures/ngram_scheme.pdf_tex}
   \caption{AAThe scheme of n-gram extraction. A) Input data - peptides with a 
 known amyloidogenicity status. B) Each peptide sequence was divided into 
 overlapping hexamers. The amyloidogenicity status of a source sequence was used 
