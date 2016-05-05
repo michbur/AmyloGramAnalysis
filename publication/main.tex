@@ -107,23 +107,25 @@ the novel feature selection algorithm called Quick Permutation Test (QuiPT).
 
   Several studies highlighted that three-dimensional protein structure depends 
 not on the exact sequence of amino acids, but on their general physicochemical 
-properties. Hence, a reduced amino acid alphabet, where a single element 
+properties. Hence, an encoding (reduced amino acid alphabet), where a single 
+element 
 represents several amino acids, still retains the information about protein 
 folding~\citep{murphy_simplified_2000}. Since amyloid aggregates, especially 
 their hot spots regions, have very specific spatial organization, we 
 investigated if it also can be described using a shorter alphabet. Instead of 
-relying on general similarities of amino acids, we created our own reduced amino 
-acid alphabets based on the combinations of various physico-chemical properties that might be associated with amyloidogenicity. Due to that we discovered which of these
+relying on general similarities of amino acids, we created our own encodings 
+based on the combinations of various physico-chemical properties that might be 
+associated with amyloidogenicity. Due to that we discovered which of these
 properties best discriminate between amyloids and non-amyloids.
 
   Our model of amyloidogenicity consist of n-gram datasets extracted from 
-sequences encoded using different reduced amino acid alphabets. The information 
+sequences encoded using different encodings. The information 
 in models was further used to train predictors of amyloids based on random 
 forest~\citep{breiman_random_2001}. We trained several iterations of each 
 classifier using peptides of different length to identify the optimal number of 
 residues consisting the information of the hot spot presence or absence. 
 Through the cross-validation of predictors we determined the best-performing 
-classifier, its reduced amino acid alphabet and set of important n-grams.
+classifier, its encoding and set of important n-grams.
 
 
 \section{Methods}
@@ -156,7 +158,7 @@ sequences (1430 peptides in total).
 
 The amyloidogenicity of a given peptide may not depend on the exact sequence of 
 amino acids, but on its more general properties. To verify this hypothesis, we 
- created 524 284 reduced amino acid alphabets (encodings) with different lengths 
+ created 524 284 encodings with different lengths 
 % * <kotulska@gmail.com> 2016-04-24T18:24:54.684Z:
 %
 % rzeczywi?cie a? tyle alfabet?w by?o ?
@@ -198,8 +200,7 @@ duplicates, we obtained 18 535 unique encodings.
   Stability & Side-chain contribution to protein stability (kJ/mol) \citep{takano_new_2001} \\
   \bottomrule
 \end{tabularx}
-\caption{Physicochemical properties used in the creation of reduced amino acid 
-alphabets.} 
+\caption{Physicochemical properties used to create encodings.} 
 \label{tab:properties}
 \end{table}
 
@@ -225,21 +226,17 @@ than 0.95 for normalized values (Tab.~\ref{tab:properties}).
 \subsection{Training of learners}
 
 \begin{figure}[!tpb]
-\centering
-    \includegraphics[width=\columnwidth]{figures/ngram_scheme.png}
-  \caption{The scheme of n-gram extraction. 
-A) Input data - peptides with a known amyloidogenicity status. 
-B) Each peptide sequence was divided into overlapping hexamers. 
-The amyloidogenicity status of a source sequence was used 
-as the amyloidogenicity status of a derived hexamer. 
-C) An encoding was created using a combination of physicochemical properties.
-D) The alphabet of hexamers was reduced according to an encoding.
-E) From each hexamer we extracted continuous 1-, 2- and 3-grams. We selected also gapped 2-grams with 
->>>>>>> a1b76d241f318e608ab111863ff1745dd68154fe
+\centerline{\includegraphics[width=\columnwidth]{figures/ngram_scheme.eps}}
+  \caption{The scheme of n-gram extraction. A) Input data - peptides with a 
+known amyloidogenicity status. B) Each peptide sequence was divided into 
+overlapping hexamers. The amyloidogenicity status of a source sequence was used 
+as the amyloidogenicity status of a derived hexamer. C) An encoding was created 
+using a combination of physicochemical properties (PP). D) The alphabet of 
+hexamers was reduced according to an encoding. E) From each hexamer we 
+extracted continuous 1-, 2- and 3-grams. We selected also gapped 2-grams with 
 the length of gap equal from 1 to 3 residues and gapped 3-grams with a single 
 gap between the first and the second or the second and the third element of the 
-n-gram.}
-\label{fig:ngram_scheme}
+n-gram.}\label{fig:ngram_scheme}
 \end{figure}
 
   During the training phase, we extracted overlapping hexamers from each sequence. 
@@ -345,8 +342,8 @@ information) as the criterion of the importance of a specific n-gram. In the
 next step, we used n-grams with the p-value smaller than 0.05 to build a random 
 forest classifier using ranger \textbf{R} package~\citep{wright_ranger:_2015}. 
 
-  Furthermore, we repeated the procedure described above on two typical reduced 
-alphabets of amino acids derived from the literature to check if the process of 
+  Furthermore, we repeated the procedure described above on two typical 
+encodings derived from the literature to check if the process of 
 % * <kotulska@gmail.com> 2016-03-29T13:34:31.436Z:
 %
 % > wo typical reduced 
@@ -447,7 +444,7 @@ sequences: 6, 7-10, 11-15 and 16-25. The number of sequences from the given
 % ^.
 length range was roughly comparable between folds of cross-validation.
   
-  To choose the most adequate reduced amino acid alphabet, we ranked the values 
+  To choose the most adequate encoding, we ranked the values 
 % * <kotulska@gmail.com> 2016-04-24T19:15:40.710Z:
 %
 % > reduced amino acid alphabet
@@ -497,7 +494,7 @@ where $l$ is equal to the number of physicochemical properties of concern.
 
 \subsection{Benchmark of AmyloGram}
 
-The best-performing reduced amino acid alphabet chosen during the 
+The best-performing encoding chosen during the 
 cross-validation was later used to train AmyloGram, n-gram based predictor of 
 amyloidogenicity.
 
@@ -594,7 +591,7 @@ simplest cases of predicting amyloidogenicity, i.e. for the shortest sequences (
 residues). Of course, the decision rules were the easiest to extract when also 
 the learning data set had only sequences of the same lengths, but the results 
 were quite comparable even if the training set contained longer sequences. Also 
-in this situation, the majority of reduced amino acid alphabets behaved like the 
+in this situation, the majority of encodings behaved like the 
 selected encoding and also had higher AUC than in other scenarios.
 % * <kotulska@gmail.com> 2016-04-24T20:02:20.724Z:
 %
@@ -643,7 +640,7 @@ full amino acid alphabet it was easier to point the non-amyloidogenic sequences
 instead of recognizing amyloids.
 
   The encodings found in the literature perform substantively worse than other 
-analyzed reduced amino acid alphabets in all categories. It indicates that 
+analyzed encodings in all categories. It indicates that 
 classical divisions of amino acids do not create groups suitable for the 
 recognition of amyloids. This observation is well-supported by the 
 specificity-sensitivity plot (Fig.~\ref{fig:sesp_plot}), where classifiers 
@@ -696,7 +693,7 @@ represents a gap in a n-gram.}\label{fig:ngrams}
 % Rysunek do dyskusji
 %
 % ^.
-The reduced amino acid alphabet chosen during the analysis has six subgroups 
+The encoding chosen during the analysis has six subgroups 
 (Tab.~\ref{tab:best_enc}). Two subgroups, 3 and 4 contain strongly hydrophobic 
 amino acids, while 1 and 5 are mostly hydrophilic. In addition to this, subgroup 
 1 and 4 have amino acid with the highest average flexibility. The least flexible 
@@ -706,7 +703,7 @@ amino acid in subgroup 1. The glycine has also the highest thermodynamic beta
 sheet propensity, which has the lowest values for subgroups 3 and 4.
 
   In total, eleven combinations of physicochemical properties created the best 
-performing reduced amino acid alphabet. Only four features appeared in all 
+performing encoding. Only four features appeared in all 
 combinations: hydrophobicity index~\citep{argos_structural_1982}, average 
 flexibility indices~\citep{bhaskaran_positional_1988}, polarizability 
 parameter~\citep{charton_structural_1982} and thermodynamic $\beta$-sheet 
@@ -806,10 +803,10 @@ efficient predictor of amyloidogenic sequences called AmyLoad. One of the
 strength of our approach is its highly interpretable outcome, which hopefully 
 sheds new light on the process of amyloid aggregation.
 
-  The idea of using the reduced amino acid alphabets is not new, but we employed 
+  The idea of using the encodings is not new, but we employed 
 innovative framework to generate and validate several thousands of possible 
 amino acid encodings. Due to this approach, we are able to specify important 
-physicochemical properties that define the best-performing alphabet.  We 
+physicochemical properties that define the best-performing alphabet. We 
 confirmed the relevance of properties commonly associated with amyloidogenicity 
 as hydrophobicity and discover new ones, as flexibility.  
 
@@ -830,7 +827,7 @@ neighborhood, the presence of aromatic and hydrophobic amino acids
 
   Since the best-performing classifier was trained on the alphabet of length 
 six, but still outperformed predictors learning on the raw amino acid sequence, 
-we cannot surely determine the optimal length of a reduced amino acid alphabet 
+we cannot surely determine the optimal length of a encoding 
 for detection of amyloids. It is plausible that such alphabet is longer than 
 six residues. Nevertheless, the alphabet of length six is enough to find 
 n-grams separating efficiently amyloids and non-amyloids. 
