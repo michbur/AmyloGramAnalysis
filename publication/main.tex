@@ -1,5 +1,6 @@
 \documentclass[a4,center,fleqn]{NAR}
-\copyrightyear{2015} \pubyear{2015}
+\copyrightyear{2015} 
+\pubyear{2015}
 \usepackage{booktabs}
 \usepackage{colortbl, xcolor}
 \usepackage{tabularx}
@@ -8,6 +9,8 @@
 \pubyear{2009}
 \jvolume{37}
 \jissue{12}
+
+\bibpunct{(}{)}{,}{n}{,}{,}
 
 \newcommand*{\bigcdot}{\raisebox{-0.25ex}{\scalebox{1.5}{$\cdot$}}}
 
@@ -342,8 +345,8 @@ information) as the criterion of the importance of a specific n-gram. In the
 next step, we used n-grams with the p-value smaller than 0.05 to build a random 
 forest classifier using ranger \textbf{R} package~\citep{wright_ranger:_2015}. 
 
-  Furthermore, we repeated the procedure described above on two typical 
-encodings derived from the literature to check if the process of 
+  Furthermore, we repeated the procedure described above on two encodings 
+derived from the literature to check if the process of 
 % * <kotulska@gmail.com> 2016-03-29T13:34:31.436Z:
 %
 % > wo typical reduced 
@@ -847,6 +850,6 @@ institutional grant No. 347.
 This research was partially funded by the KNOW Consortium and
 National Science Center (2015/17/N/NZ2/01845).
 
-\bibliographystyle{unsrtnat}
+\bibliographystyle{NAR-natbib}
 \bibliography{amyloids}
 \end{document}
