@@ -227,11 +227,15 @@ than 0.95 for normalized values (Tab.~\ref{tab:properties}).
 \begin{figure}[!tpb]
 \centering
     \includegraphics[width=\columnwidth]{figures/ngram_scheme.png}
-  \caption{The scheme of n-gram extraction. A) Input data - peptides with a 
-known amyloidogenicity status. B) Each peptide sequence was divided into 
-overlapping hexamers. The amyloidogenicity status of a source sequence was used 
-as the amyloidogenicity status of a derived hexamer. C) From each hexamer we 
-extracted continuous 1-, 2- and 3-grams. We selected also gapped 2-grams with 
+  \caption{The scheme of n-gram extraction. 
+A) Input data - peptides with a known amyloidogenicity status. 
+B) Each peptide sequence was divided into overlapping hexamers. 
+The amyloidogenicity status of a source sequence was used 
+as the amyloidogenicity status of a derived hexamer. 
+C) An encoding was created using a combination of physicochemical properties.
+D) The alphabet of hexamers was reduced according to an encoding.
+E) From each hexamer we extracted continuous 1-, 2- and 3-grams. We selected also gapped 2-grams with 
+>>>>>>> a1b76d241f318e608ab111863ff1745dd68154fe
 the length of gap equal from 1 to 3 residues and gapped 3-grams with a single 
 gap between the first and the second or the second and the third element of the 
 n-gram.}
