@@ -23,7 +23,6 @@ format_property_table <- function(ftraits) {
                  "Values of Wc in proteins from class Beta, cutoff 12 A, separation 15 (Wozniak-Kotulska, 2014)")
   traits_names <- c(sapply(aaindex, function(i) i[["D"]]), 
                     add_names)
-  unname(traits_names[ftraits])
   
   prop_id <- c(2, 5, 7, 12, 16, 17, #contactivity,
                4, 6, 10, #beta freq

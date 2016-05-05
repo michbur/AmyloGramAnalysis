@@ -140,17 +140,8 @@ amyloidogenic sequences and 1039 non-amyloidogenic sequences (1457 peptides in
 total).
 
   Sequences shorter than 6 amino acids and longer than 25 amino acids were 
-removed from the data set. The former were too short to be processed in the 
-% * <kotulska@gmail.com> 2016-04-24T19:08:24.912Z:
-%
-% > removed from the data set. The former were too short to be processed in the 
-% > devised analysis framework and the latter were too diversified and rare, 
-% > hampering the proper analysis.
-%
-% Gdzie? tu przyda?by si? rozk?ad d?ugo?ci peptyd?w, ze szczeg?lnym uwzgl?dnieniem granic 3 zbior?w.
-%
-% ^.
-devised analysis framework and the latter were too diversified and rare, 
+removed from the data set. The former were too short to be processed in the
+devised n-gram analysis framework and the latter were too diversified and rare, 
 hampering the proper analysis.
 
   The final data set contained 397 amyloidogenic and 1033 non-amyloidogenic 
@@ -160,22 +151,23 @@ sequences (1430 peptides in total).
 
 The amyloidogenicity of a given peptide may not depend on the exact sequence of 
 amino acids, but on its more general properties. To verify this hypothesis, we 
- created 524 284 encodings with different lengths 
-% * <kotulska@gmail.com> 2016-04-24T18:24:54.684Z:
-%
-% rzeczywi?cie a? tyle alfabet?w by?o ?
-%
-% ^.
-(from three to six letters) using Ward's 
-clusterization~\citep{joe_h._ward_jr_hierarchical_1963} on the selected physicochemical 
-properties from AAIndex database~\citep{kawashima_aaindex:_2008}. We handpicked 
-several measures belonging to more general categories important in the  
-amyloidogenicity, such as size, hydrophobicity, solvent surface area, frequency 
-in $\beta$-sheets and contactivity. As a rule of thumb, we limited it to 
-properties introduced after 1980 when, thanks to the technological advancements, 
-the measurements were more accurate.
+handpicked from AAIndex database~\citep{kawashima_aaindex:_2008} 26 measures 
+belonging to more general categories important in the  amyloidogenicity, such as 
+size, hydrophobicity, solvent surface area, frequency in $\beta$-sheets and 
+contactivity. As a rule of thumb, we limited it to properties introduced after 
+1980 when, thanks to the technological advancements, the measurements were more 
+accurate.
 
-  The majority of encodings had at least one duplicate. In such a case, only a 
+  Since correlated measures create very similar encodings, we further reduced 
+the number of properties to 17 by selecting measures with the absolute value of 
+Pearson's correlation coefficient larger than 0.95 for normalized values 
+(Tab.~\ref{tab:properties}). Next, we created 524 284 encodings with different 
+lengths (from three to six letters) using Ward's 
+clusterization~\citep{joe_h._ward_jr_hierarchical_1963} on combinations of
+physicochemical properties. We considered combinations of all possible sizes 
+(1-17).
+
+  The majority of encodings had at least one duplicate. In such case, only a 
 single representative was included in the cross-validation. After filtering 
 duplicates, we obtained 18 535 unique encodings.
 \begin{table}[bth]
@@ -205,25 +197,6 @@ duplicates, we obtained 18 535 unique encodings.
 \caption{Physicochemical properties used to create encodings.} 
 \label{tab:properties}
 \end{table}
-
-  Since correlated or, contrarily, uncorrelated measures create very similar 
-% * <kotulska@gmail.com> 2016-04-24T18:32:46.307Z:
-%
-% > uncorrelated
-%
-% czy jest jaki? zwi?zek z tym czy skorelowane lub (!) nieskorelowane?
-%
-% ^.
-encodings, we further reduced the number of properties to 17 by selecting 
-% * <kotulska@gmail.com> 2016-04-24T18:35:48.137Z:
-%
-% > educed the number of properties to 17 
-%
-% od ilu w?a?ciwo?ci startowa?o?
-%
-% ^.
-measures with the absolute value of Pearson's correlation coefficient larger 
-than 0.95 for normalized values (Tab.~\ref{tab:properties}).
 
 \subsection{Training of learners}
 
