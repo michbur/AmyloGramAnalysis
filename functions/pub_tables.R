@@ -104,14 +104,22 @@ slice(bench_measures, c(1L:2, 4, 15L:17)) %>%
 
 # sizes of training sets, requires analysis.R --------------
 
-# data.frame(len = seq_lengths, et = ets) %>% 
-#   mutate(len_group = cut(seq_lengths, breaks = c(5, 6, 10, 15, 25)),
-#          nhexamers = len - 5) %>% 
-#   group_by(len_group, et) %>% 
-#   summarise(total_hexamers = sum(nhexamers), total = length(nhexamers)) %>% 
-#   group_by(et) %>% 
-#   mutate(total_hexamers = cumsum(total_hexamers),
-#          etnice = ifelse(et == 1, "Amyloid", "Non-amyloid")) %>% 
-#   ungroup %>% 
-#   select(len_group, etnice, total, total_hexamers) %>% 
-#   xtable
+test_sizes <- data.frame(len = seq_lengths, et = ets) %>% 
+  mutate(len_group = cut(seq_lengths, breaks = c(5, 6, 10, 15, 25)),
+         nhexamers = len - 5) %>% 
+  group_by(len_group, et) %>% 
+  summarise(total_hexamers = sum(nhexamers), total = length(nhexamers)) %>% 
+  mutate(set = "Test",
+           etnice = ifelse(et == 1, "Amyloid", "Non-amyloid")) %>% 
+  ungroup %>% 
+  select(set, len_group, etnice, total, total_hexamers) %>% 
+  na.omit
+
+filter(test_sizes, len_group != "(15,25]") %>% 
+  mutate(set = "Train") %>% 
+  group_by(etnice) %>% 
+  mutate(total = cumsum(total), total_hexamers = cumsum(total_hexamers),
+         len_group = factor(len_group, labels = c("(5,6]", "(5,10]", "(5,15]"))) %>% 
+  rbind(., test_sizes) %>% 
+  xtable(digits = 0) %>% 
+  print(include.rownames = FALSE)

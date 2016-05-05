@@ -103,23 +103,22 @@ by performing 3D structure based analysis~\citep{zambrano_aggrescan3d_2015}.
 bioinformatics, n-grams (k-mers) are continuous or discontinuous sequences of 
 $n$ elements. Employed as a feature extraction method, n-grams are widely used 
 in analysis of biological sequences. Our choice of n-grams was driven by their 
-highly interpretable nature. This is a valuable feature since we are interested 
-in identification of motifs that are most relevant to amyloidogenic properties 
-of peptides. Out of several possible n-grams the most relevant features using 
-the novel feature selection algorithm called Quick Permutation Test (QuiPT).
+highly interpretable nature. This is a valuable feature, because we are 
+interested in identification of motifs that are most relevant to amyloidogenic 
+properties of peptides. The most discriminating n-grams were extracted using a 
+novel feature selection algorithm called Quick Permutation Test (QuiPT).
 
   Several studies highlighted that three-dimensional protein structure depends 
 not on the exact sequence of amino acids, but on their general physicochemical 
 properties. Hence, an encoding (reduced amino acid alphabet), where a single 
-element 
-represents several amino acids, still retains the information about protein 
-folding~\citep{murphy_simplified_2000}. Since amyloid aggregates, especially 
-their hot spots regions, have very specific spatial organization, we 
+element represents several amino acids, still retains the information about 
+protein folding~\citep{murphy_simplified_2000}. Since amyloid aggregates, 
+especially their hot spots regions, have very specific spatial organization, we 
 investigated if it also can be described using a shorter alphabet. Instead of 
-relying on general similarities of amino acids, we created our own encodings 
-based on the combinations of various physico-chemical properties that might be 
-associated with amyloidogenicity. Due to that we discovered which of these
-properties best discriminate between amyloids and non-amyloids.
+relying on general similarities of amino acids, we created multiple reduced 
+alphabets based on the combinations of various physicochemical properties that 
+might be associated with amyloidogenicity. Due to that we discovered which of 
+these properties best discriminate between amyloids and non-amyloids.
 
   Our model of amyloidogenicity consist of n-gram datasets extracted from 
 sequences encoded using different encodings. The information 
@@ -242,38 +241,12 @@ gap between the first and the second or the second and the third element of the
 n-gram.}\label{fig:ngram_scheme}
 \end{figure}
 
-  During the training phase, we extracted overlapping hexamers from each sequence. 
-% * <kotulska@gmail.com> 2016-04-24T19:06:07.738Z:
-%
-% > During 
-%
-% Przed tym tekstem dałabym informacje o 3 zbiorach z różnymi granicami d?ugo?ci. Wtedy fałszywe pozytywy w zbiorze "do 15" nie sa tak groźne i niesprawdzalne
-%
-% ^.
-Each hexamer was tagged with the same etiquette (amyloid/nonamyloid) as the 
-source peptide. For example, the amyloidogenic sequence of length 6 residues 
-yields only one 
-% * <kotulska@gmail.com> 2016-03-29T12:38:15.711Z:
-%
-% > original peptide
-%
-% czemu? co to oznacza?
-%
-% ^ <michalburdukiewicz@gmail.com> 2016-03-31T16:51:58.668Z:
-%
-% każdy heksamer dostał taką samą etykietę jak peptyd z którego pochodzi. Np. z peptydu amyloidogennego o długości 8 wyodrębniono 3 heksamery i każdemu z nich przypisano etykietę "amyloidogenny"
-%
-% ^ <kotulska@gmail.com> 2016-04-24T18:39:00.872Z:
-%
-% trochę przybliżone
-%
-% ^ <kotulska@gmail.com> 2016-04-24T18:39:40.601Z:
-%
-% ale dalej tekst to stwierdza, wiec ok
-%
-% ^.
-hexamer tagged as "amyloid" and a non-amyloidogenic sequence of 8 residues yields 
-3 hexamers, all marked as "non-amyloids". (Fig.~\ref{fig:ngram_scheme} A and B). 
+  During the training phase, we extracted overlapping hexamers from each 
+sequence. Each hexamer was tagged with the same etiquette (amyloid/nonamyloid) 
+as the source peptide. For example, the amyloidogenic sequence of length 6 
+residues yields only one hexamer tagged as "amyloid" and a non-amyloidogenic 
+sequence of 8 residues yields 3 hexamers, all marked as "non-amyloids". 
+(Fig.~\ref{fig:ngram_scheme} A and B). 
 
   Assuming that in longer amyloids only a short part of the sequence is 
 responsible for amyloidogenicity, our method might result in many false 
@@ -282,17 +255,9 @@ predictions as it was evaluated elsewhere \citep{kotulska_amyloid_2013}. To
 diminish this problem and ease the extraction of hot spots, we restricted the 
 maximum length of peptides in training data set to fifteen amino acids.
 
-% * <kotulska@gmail.com> 2016-04-24T18:48:29.955Z:
-%
-% > evade 
-%
-% proponuj? "weaken". Wyja?ni? podczas spotkania
-%
-% ^.
-
   To study further the problem of the length of an amyloidogenicity signal, we 
 created three learning sets with the sequences of different lengths 
-(Tab.~\ref{tab:training_sets}). The smallest data set contains only the 
+(Tab.~\ref{tab:data_sets}). The smallest data set contains only the 
 sequences of length 6. Assuming that the minimum length of the amyloidogenicity 
 signal is six residues, we expect no false positive hexamers. Moreover, we 
 created two training sets with the progressively more liberal limit of the 
@@ -300,44 +265,51 @@ maximum sequence length (6-10 residues and 6-15 residues).
 
 \begin{table}[]
 \centering
-\caption{Sizes of training data sets used in the analysis.}
-\label{tab:training_sets}
-\begin{tabular}{clrr}
+\small
+\caption{Sizes of training and test data sets used in the analysis.}
+\label{tab:data_sets}
+\begin{tabular}{cccll}
 \hline
-Length range & Status & $n$ (sequences) & n (hexamers) \\ \hline
-\multirow{2}{*}{6} & Non-amyloid & 841 & 841 \\
- & Amyloid & 247 & 247 \\
-\hline
-\multirow{2}{*}{6-10} & Non-amyloid & 123 & 1412 \\
- & Amyloid & 65 & 475 \\
-\hline
-\multirow{2}{*}{6-15} & Non-amyloid & 28 & 1653 \\
- & Amyloid & 30 & 720.00 \\
-\hline
+Set & Length range & Status & Sequences & Hexamers \\ 
+\toprule
+\multirow{6}{*}{Training} & \multirow{2}{*}{(5,6{]}} & Non-amyloid & 841 & 841 
+\\
+ &  & \cellcolor[gray]{0.85}Amyloid & \cellcolor[gray]{0.85}247 & 
+\cellcolor[gray]{0.85}247 \\
+ \cline{2-5}
+ & \multirow{2}{*}{(5,10{]}} & Non-amyloid & 964 & 1412 \\
+ &  & \cellcolor[gray]{0.85}Amyloid & \cellcolor[gray]{0.85}312 & 
+\cellcolor[gray]{0.85}475 \\
+ \cline{2-5}
+ & \multirow{2}{*}{(5,15{]}} & Non-amyloid & 992 & 1653 \\
+ &  & \cellcolor[gray]{0.85}Amyloid & \cellcolor[gray]{0.85}342 & 
+\cellcolor[gray]{0.85}720 \\
+ \hline
+ \hline
+\multirow{8}{*}{Test} & \multirow{2}{*}{(5,6{]}} & Non-amyloid & 841 & 841 \\
+ &  & \cellcolor[gray]{0.85}Amyloid & \cellcolor[gray]{0.85}247 & 
+\cellcolor[gray]{0.85}247 \\
+ \cline{2-5}
+ & \multirow{2}{*}{(6,10{]}} & Non-amyloid & 123 & 571 \\
+ &  & \cellcolor[gray]{0.85}Amyloid & \cellcolor[gray]{0.85}65 & 
+\cellcolor[gray]{0.85}228 \\
+ \cline{2-5}
+ & \multirow{2}{*}{(10,15{]}} & Non-amyloid & 28 & 241 \\
+ &  & \cellcolor[gray]{0.85}Amyloid & \cellcolor[gray]{0.85}30 & 
+\cellcolor[gray]{0.85}245 \\
+ \cline{2-5}
+ & \multirow{2}{*}{(15,25{]}} & Non-amyloid & 41 & 571 \\
+ &  & \cellcolor[gray]{0.85}Amyloid & \cellcolor[gray]{0.85}55 & 
+\cellcolor[gray]{0.85}778 \\
+ \bottomrule
 \end{tabular}
 \end{table}
 
-% * <kotulska@gmail.com> 2016-04-24T18:52:11.280Z:
-%
-% > set 
-%
-% sets? Tam sa 3 zbiory i ten 15-aminokwasowy jest najdłuzszy. Dla heksamerów nie mamy takiego problemu
-%
-% ^.
-the extraction of probable hot-spots.
-
-  From each hexamer we extracted n-grams of the following lengths: 1, 2 and 3. In 
-the case of 2- and 3-grams, we separately counted both gapped and continuous 
-n-grams. For 2-grams we considered n-grams with gaps of lengths from 1 to 3 and for 
-% * <kotulska@gmail.com> 2016-04-24T18:50:10.873Z:
-%
-% > counted 
-%
-% w jakim sensie "counted" ?
-%
-% ^.
-3-grams with a single gap between the first and the second or the second and the 
-third element (see Fig.~\ref{fig:ngram_scheme}).
+  From each hexamer we extracted n-grams of the following lengths: 1, 2 and 3. 
+In the case of 2- and 3-grams, we separately counted both gapped and continuous 
+n-grams. For 2-grams we considered n-grams with gaps of lengths from 1 to 3 and 
+for 3-grams with a single gap between the first and the second or the second and 
+the third element (see Fig.~\ref{fig:ngram_scheme}).
 
   All n-grams extracted from the hexamers in the training data set were filtered 
 using described below Quick Permutation Test with the information gain (mutual 
@@ -346,22 +318,9 @@ next step, we used n-grams with the p-value smaller than 0.05 to build a random
 forest classifier using ranger \textbf{R} package~\citep{wright_ranger:_2015}. 
 
   Furthermore, we repeated the procedure described above on two encodings 
-derived from the literature to check if the process of 
-% * <kotulska@gmail.com> 2016-03-29T13:34:31.436Z:
-%
-% > wo typical reduced 
-% > alphabets of amino acids derived from the literature
-%
-% Niezbyt rozumiem. Trzeba byloby dorzucic cytowanie i kr?tkie wyjasnienie
-%
-% ^ <kotulska@gmail.com> 2016-04-05T09:14:55.483Z:
-%
-% Do dyskusji
-%
-% ^.
-amyloidogenicity does require nonstandard groupings of amino acids. We also 
-added the full amino acid alphabet to assess the advantages of the amino acid 
-encoding.
+derived from the literature to check if the process of amyloidogenicity does 
+require nonstandard groupings of amino acids. We also added the full amino acid 
+alphabet to assess the advantages of the amino acid encoding.
 
 \subsection{Quick Permutation Test (QuiPT)}
 
@@ -430,36 +389,23 @@ single hexamer), repeated the cross-validation fifteen times for each classifier
 to obtain more precise estimates of performance measures for each classifier. 
 
   During the testing phase, if at least one hexamer extracted from a peptide was 
-assesed as amyloidogenic, the whole sequence was denoted as amyloid. Otherwise,
+assessed as amyloidogenic, the whole sequence was denoted as amyloid. Otherwise,
 the peptide was classified as non-amyloid. The results were later confronted with 
 the known etiquettes of the peptides to compute the performance measures.
 
   To evaluate if our classifiers are able to use decision rules extracted from 
 sequences of given length to correctly classify longer or shorter sequences, we 
 calculate performance measures separately for four ranges of lengths of 
-sequences: 6, 7-10, 11-15 and 16-25. The number of sequences from the given 
-% * <kotulska@gmail.com> 2016-04-24T19:10:19.839Z:
-%
-% > The number of sequences 
-%
-% Chyba dobrze by?oby te ilo?ci sekwencji wyra?nie poda?
-%
-% ^.
-length range was roughly comparable between folds of cross-validation.
+sequences: 6, 7-10, 11-15 and 16-25 (Tab.~\ref{tab:data_sets}). The number of 
+sequences from the given length range was roughly comparable between folds of 
+cross-validation.
   
-  To choose the most adequate encoding, we ranked the values 
-% * <kotulska@gmail.com> 2016-04-24T19:15:40.710Z:
-%
-% > reduced amino acid alphabet
-%
-% jak rozumiem to jest synonim do "encoding". Jesli tak, to  wczesniej trzeba też wprowadzić to pojecie.
-%
-% ^.
-of Area under Curve - AUC (with rank 1 for the best AUC, rank 2 for the second 
-best AUC and so on) for each range of sequence length in the testing data set. 
-The encoding with the lowest sum of ranks from all sequence length categories 
-was selected as the best one. For this encoding, we choose the range of peptides 
-length in the training set providing the best AUC in cross-validation.
+  To choose the most adequate encoding, we ranked the values of Area under Curve 
+- AUC (with rank 1 for the best AUC, rank 2 for the second best AUC and so on) 
+for each range of sequence length in the testing data set. The encoding with the 
+lowest sum of ranks from all sequence length categories was selected as the best 
+one. For this encoding, we choose the range of peptides length in the training 
+set providing the best AUC in cross-validation.
 
 \subsection{Encoding distance}
 The encoding distance is a measure defining the similarity between two 
@@ -497,9 +443,8 @@ where $l$ is equal to the number of physicochemical properties of concern.
 
 \subsection{Benchmark of AmyloGram}
 
-The best-performing encoding chosen during the 
-cross-validation was later used to train AmyloGram, n-gram based predictor of 
-amyloidogenicity.
+The best-performing encoding chosen during the cross-validation was later used 
+to train AmyloGram, n-gram based predictor of amyloidogenicity.
 
   We used \textit{pep424} data set~\citep{walsh_pasta_2014} to compare the 
 performance of AmyloGram and other predictors of amyloidogenicity. Since the 
@@ -516,8 +461,7 @@ AmyLoad, we removed them from the training data set. After purification, the
 learning data set had 269 positive sequences and 746 negative sequences longer 
 than five residues and shorter than fifteen residues. Aside from the 
 preparation of the training data, we exactly repeated the procedure of n-gram 
-extraction as described above (see Fig.~\ref{fig:ngram_scheme}). 
-
+extraction as described above (see Fig.~\ref{fig:ngram_scheme}).
 
 \section{Results and discussion}
 
@@ -526,23 +470,7 @@ extraction as described above (see Fig.~\ref{fig:ngram_scheme}).
 \begin{figure*}[!tpb]
 \centerline{\includegraphics{figures/AUC_boxplot.eps}}
 \caption{Distribution of AUC values of all classifiers based on reduced amino acid 
-alphabets for every possible combination of training and testing data set. 
-% * <kotulska@gmail.com> 2016-03-29T14:05:35.815Z:
-%
-% > \caption{Distribution of AUC values of different reduced amino acid alphabets 
-% > for different lengths of sequences in the training and testing data sets.
-%
-% Jak odczytywa? boxplot skoro na wykresie s? 4 alfabety? 
-%
-% ^ <michalburdukiewicz@gmail.com> 2016-03-31T17:22:30.733Z:
-%
-% Ka?dy z podwykres?w przedstawia wszystkie alfabety. Wi?kszo?? z nich jest niewidoczna, bo jest "ukryta" w wykresie pude?kowym. Kolorami zaznaczy?em alfabety z literatury, najlepszy alfabet i pe?ny alfabet.
-%
-% ^ <kotulska@gmail.com> 2016-04-05T09:15:11.449Z:
-%
-% Do dyskusji
-%
-% ^.
+alphabets for every possible combination of training and testing data set.
 for different lengths of sequences in the training and testing data sets. 
 The left and right hinges of boxes correspond to the 0.25 and .75 quartiles. 
 The bar inside the box represents the median. All gray points corresponds to
@@ -567,14 +495,7 @@ good specificity and sensitivity.}\label{fig:sesp_plot}
 \end{figure*}
 
 The selected encoding performed better than other reduced alphabets considering 
-all sequence length ranges in training and testing data set. It had the AUC 
-% * <kotulska@gmail.com> 2016-04-24T19:59:22.357Z:
-%
-% > ll sequence length ranges in training and testing data set
-%
-% Na kt?rym zbiorze danych?
-%
-% ^.
+all sequence length ranges in training and testing data set. It had the AUC
 always in the fourth quartile (Fig.~\ref{fig:AUC_boxplot}). For the 
 best-performing encoding the most problematic was correct prediction of the 
 amyloidogenicity in the longest peptide data set 16-25, not when learned on very 
@@ -583,27 +504,11 @@ typical for most of the analyzed encodings.
 
   The chosen encoding reaches the highest values of AUC in the relatively 
 simplest cases of predicting amyloidogenicity, i.e. for the shortest sequences (6 
-% * <kotulska@gmail.com> 2016-04-24T20:01:17.085Z:
-%
-% > The chosen encoding reaches the highest values of AUC in the relatively 
-% > simplest cases of predicting amyloidogenicity, i.e. for
-%
-% Przerobione zdanie, czy zachowa?am intencj??
-%
-% ^.
 residues). Of course, the decision rules were the easiest to extract when also 
 the learning data set had only sequences of the same lengths, but the results 
 were quite comparable even if the training set contained longer sequences. Also 
 in this situation, the majority of encodings behaved like the 
 selected encoding and also had higher AUC than in other scenarios.
-% * <kotulska@gmail.com> 2016-04-24T20:02:20.724Z:
-%
-% > educed amino acid alphabets behaved like the 
-% > selected encoding
-%
-% jaka r?znica miedzy tymi dwoma wielko?ciami?
-%
-% ^.
 
   Considering only the AUC value, the most problematic testing data were 
 sequences longer than 15 amino acids, where the classifiers trained on the 
@@ -643,11 +548,11 @@ full amino acid alphabet it was easier to point the non-amyloidogenic sequences
 instead of recognizing amyloids.
 
   The encodings found in the literature perform substantively worse than other 
-analyzed encodings in all categories. It indicates that 
-classical divisions of amino acids do not create groups suitable for the 
-recognition of amyloids. This observation is well-supported by the 
-specificity-sensitivity plot (Fig.~\ref{fig:sesp_plot}), where classifiers 
-trained with this encodings of amino acids groups with the worst performers.
+analyzed encodings in all categories. It indicates that descriptive divisions of 
+amino acids do not create groups suitable for the recognition of amyloids. This 
+observation is well-supported by the specificity-sensitivity plot 
+(Fig.~\ref{fig:sesp_plot}), where classifiers trained with this encodings of 
+amino acids groups belong to the worst performers.
 
 \subsection{The best-performing encoding and important n-grams}
 
@@ -691,11 +596,7 @@ are amino acids encoded using the best-performing reduced amino acid
 alphabet (see Tab.~\ref{tab:best_enc}). A vertical bar 
 represents a gap in a n-gram.}\label{fig:ngrams}
 \end{figure}
-% * <kotulska@gmail.com> 2016-04-24T20:11:19.495Z:
-%
-% Rysunek do dyskusji
-%
-% ^.
+
 The encoding chosen during the analysis has six subgroups 
 (Tab.~\ref{tab:best_enc}). Two subgroups, 3 and 4 contain strongly hydrophobic 
 amino acids, while 1 and 5 are mostly hydrophilic. In addition to this, subgroup 
@@ -715,19 +616,7 @@ propensity~\citep{kim_thermodynamic_1993}.
   We calculated encoding distances between the best-performing reduced amino 
 acid alphabet and other encodings (Fig.~\ref{fig:ed_AUC}). To compute the scale 
 factor, we used described above features common for all encodings identical to 
-the best-performing one. The value of AUC is significantly lower for more 
-% * <kotulska@gmail.com> 2016-03-29T15:01:01.743Z:
-%
-% > encodings identical to 
-% > the best-performing one.
-%
-% co to s? kodowania identyczne z najlepszym? Jest ich wi?cej najlepszych?
-%
-% ^ <michalburdukiewicz@gmail.com> 2016-03-31T17:13:57.599Z:
-%
-% r??ne cechy fizykochemiczne mog? da? takie samo kodowanie aminokwas?w, co znaczy, ?e cz??? alfabet?w mia?a swoje duplikaty. Alfabet, kt?ry mia? najlepszy performance m?g? powsta? z 11 r??nych kombinacji cech fizykochemicznych. Akapit wy?ej omawiamy cechy fizykochemiczne wsp?lne, kt?re wyst?pi?y w ka?dej z tych kombinacji.
-%
-% ^.
+the best-performing one. The value of AUC is significantly lower for more
 distant encodings ($-0.4370$ Pearson's correlation coefficient, p-value smaller 
 than $2.2 \times 10^{-16}$). Such relationship between AUC and encoding distance 
 confirms that only reduced alphabets sufficiently similar to the best-performing 
@@ -818,13 +707,6 @@ might be interpreted as short motifs highly relevant to amyloidogenicity or
 nonamyloidogenicity of the peptide. 65 important n-grams revealed that mostly 
 alifatic and nonpolar amino acids as isoleucine, leucine and valine are 
 responsible for the hydrophobic character of amyloids. Only in their 
-% * <kotulska@gmail.com> 2016-04-24T20:09:14.313Z:
-%
-% > yloids. 
-%
-% Brakuje mi informacji o strukturze odleg?o?ciowej najlepszych n-gram?w.
-%
-% ^.
 neighborhood, the presence of aromatic and hydrophobic amino acids 
 (phenylalanine, tyrosine, tryptophan) is also a sign of a potential amyloid. 
 
@@ -835,11 +717,6 @@ for detection of amyloids. It is plausible that such alphabet is longer than
 six residues. Nevertheless, the alphabet of length six is enough to find 
 n-grams separating efficiently amyloids and non-amyloids. 
 
-% * <kotulska@gmail.com> 2016-03-29T14:58:53.648Z:
-%
-% Trzeba stre?ci? najwa?niejsze kroki analizy i podsumowa? wyniki
-%
-% ^.
 
 \section*{Funding}
 
