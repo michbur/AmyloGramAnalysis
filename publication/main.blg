@@ -3,44 +3,44 @@ Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
 The top-level auxiliary file: main.aux
 The style file: NAR-natbib.bst
 Database file #1: amyloids.bib
-You've used 32 entries,
+You've used 33 entries,
             1918 wiz_defined-function locations,
-            688 strings with 10827 characters,
-and the built_in function-call counts, 8180 in all, are:
-= -- 874
-> -- 346
+            694 strings with 11098 characters,
+and the built_in function-call counts, 8459 in all, are:
+= -- 901
+> -- 360
 < -- 2
-+ -- 127
-- -- 95
-* -- 831
-:= -- 1242
-add.period$ -- 32
-call.type$ -- 32
++ -- 132
+- -- 99
+* -- 863
+:= -- 1285
+add.period$ -- 33
+call.type$ -- 33
 change.case$ -- 0
 chr.to.int$ -- 0
-cite$ -- 32
-duplicate$ -- 309
-empty$ -- 750
-format.name$ -- 95
-if$ -- 1862
+cite$ -- 33
+duplicate$ -- 318
+empty$ -- 776
+format.name$ -- 99
+if$ -- 1925
 int.to.chr$ -- 0
-int.to.str$ -- 32
-missing$ -- 33
-newline$ -- 164
-num.names$ -- 32
-pop$ -- 43
+int.to.str$ -- 33
+missing$ -- 34
+newline$ -- 169
+num.names$ -- 33
+pop$ -- 44
 preamble$ -- 1
 purify$ -- 0
 quote$ -- 0
-skip$ -- 145
+skip$ -- 148
 stack$ -- 0
-substring$ -- 635
-swap$ -- 57
+substring$ -- 659
+swap$ -- 58
 text.length$ -- 2
 text.prefix$ -- 0
 top$ -- 0
 type$ -- 0
 warning$ -- 0
-while$ -- 83
-width$ -- 34
-write$ -- 290
+while$ -- 85
+width$ -- 35
+write$ -- 299

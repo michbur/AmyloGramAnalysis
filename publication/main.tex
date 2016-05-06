@@ -18,14 +18,17 @@
 
 \title{Prediction of amyloidogenicity based on the n-gram analysis}
 
-\author{Micha\l{} Burdukiewicz\,$^{1}$, Piotr Sobczyk\,$^{2}$, Pawe\l{} Mackiewicz\,$^{1}$ and Ma\l{}gorzata Kotulska\,$^{3}$
+\author{Micha\l{} Burdukiewicz\,$^{1}$, Piotr Sobczyk\,$^{2}$, Pawe\l{} 
+Mackiewicz\,$^{1}$ and Ma\l{}gorzata Kotulska\,$^{3}$
 \footnote{To whom correspondence should be addressed.
 Email: malgorzata.kotulska@pwr.edu.pl}}
 
 \address{
 $^{1}$University of Wroc\l{}aw, Department of Genomics,
-$^{2}$Wroc\l{}aw University of Science and Technology, Department of Mathematics and 
-$^{3}$Wroc\l{}aw University of Science and Technology, Department of Biomedical Engineering, Faculty of Fundamental Problems of Technology
+$^{2}$Wroc\l{}aw University of Science and Technology, Department of Mathematics 
+and 
+$^{3}$Wroc\l{}aw University of Science and Technology, Department of Biomedical 
+Engineering, Faculty of Fundamental Problems of Technology
 }
 
 \history{Received on XXXXX; revised on XXXXX; accepted on XXXXX}
@@ -51,7 +54,8 @@ Alzheimer's disease, Parkinson's disease, amyotrophic lateral sclerosis and
 Huntington's disease, as well as many other conditions. They also include 
 diseases other than neurological, for example diabetes type 2 or certain types 
 of a cataract. Cells in tissues with amyloid fibrils exhibit very high 
-mortality. However, the mechanisms of the cytotoxicity have not been discovered. 
+mortality. However, the mechanisms of the cytotoxicity have not been 
+discovered. 
 Unfortunately dissolution of the aggregates is very difficult. Amyloids are 
 resistant to activity of proteolytic enzymes and chemical compounds due to the 
 specific and highly ordered structure of their steric zipper.
@@ -76,12 +80,14 @@ clusters or amyloid (highly ordered) unbranched fibrils. Independently of the
 protein sequence and its original structure, aggregates always display a common 
 cross-$\beta$ structure. The distinctive structure of the steric zipper enables 
 the selective detection of amyloids from amorphous aggregates using either a 
-variety of microscopic techniques or fluorescence of probes with which they form 
+variety of microscopic techniques or fluorescence of probes with which they 
+form 
 compounds.
 
     Currently, it is believed that short peptide sequences of amyloidogenic 
 properties (called hot spots) can be responsible for aggregation of amyloid 
-proteins.  Previous studies have suggested that amyloidogenic fragments may have 
+proteins.  Previous studies have suggested that amyloidogenic fragments may 
+have 
 regular characteristics, not only with regard to averaged physicochemical 
 properties of their amino acids, but also the order of amino acids in the 
 sequence. There have been attempts to predict the sequence of such peptides by 
@@ -94,7 +100,8 @@ bryan_stitcher:_2012, odonnell_method_2011}. Statistical approaches include
 production of frequency profiles, such as the WALTZ method 
 \citep{beerten_waltz-db:_2015} and machine learning methods, which have been 
 used by our team \citep{stanislawski_machine_2013, gasior_fish_2014}. 
-AGGRESCAN3D has been proposed to estimate more accurately aggregation propensity 
+AGGRESCAN3D has been proposed to estimate more accurately aggregation 
+propensity 
 by performing 3D structure based analysis~\citep{zambrano_aggrescan3d_2015}. 
 
 \enlargethispage{-65.1pt}
@@ -120,7 +127,7 @@ alphabets based on the combinations of various physicochemical properties that
 might be associated with amyloidogenicity. Due to that we discovered which of 
 these properties best discriminate between amyloids and non-amyloids.
 
-  Our model of amyloidogenicity consist of n-gram datasets extracted from 
+  Our model of amyloidogenicity consist of n-gram data sets extracted from 
 sequences encoded using different encodings. The information 
 in models was further used to train predictors of amyloids based on random 
 forest~\citep{breiman_random_2001}. We trained several iterations of each 
@@ -134,7 +141,8 @@ classifier, its encoding and set of important n-grams.
 \subsection{Data set}
 
 The data used in the study was extracted from AmyLoad data 
-base~\citep{wozniak_amyload:_2015}. Aside from eight sequences shorter than five 
+base~\citep{wozniak_amyload:_2015}. Aside from eight sequences shorter than 
+five 
 residues that were removed from the final data set, we obtained 418 
 amyloidogenic sequences and 1039 non-amyloidogenic sequences (1457 peptides in 
 total).
@@ -152,22 +160,25 @@ sequences (1430 peptides in total).
 The amyloidogenicity of a given peptide may not depend on the exact sequence of 
 amino acids, but on its more general properties. To verify this hypothesis, we 
 handpicked 20 measures from AAIndex database~\citep{kawashima_aaindex:_2008} 
-belonging to more general categories important in the  amyloidogenicity, such as 
-size, hydrophobicity, solvent surface area, frequency in $\beta$-sheets and 
+belonging to more general categories important in the  amyloidogenicity, such 
+as size, hydrophobicity, solvent surface area, frequency in $\beta$-sheets and 
 contactivity. As a rule of thumb, we limited it to properties introduced after 
 1980 when, thanks to the technological advancements, the measurements were more 
 accurate. The set of selected physicochemical properties was enriched by six 
 measures representing amino acid contact site 
 propensities~\cite{wozniak_characteristics_2014} giving in total 26 features.
 
-  Since correlated measures create very similar encodings, we further reduced 
+  Since highly correlated measures create very similar encodings, we further 
+reduced 
 the number of properties to 17 by selecting measures with the absolute value of 
 Pearson's correlation coefficient larger than 0.95 for normalized values 
-(Tab.~\ref{tab:properties}). Next, we created 524 284 encodings with different 
+(Tab.~\ref{tab:properties}). Next, we automatically created 524 284 encodings 
+with different 
 lengths (from three to six letters) using Ward's 
 clusterization~\citep{joe_h._ward_jr_hierarchical_1963} on combinations of 
-physicochemical properties. We considered combinations of all possible sizes 
-(1-17).
+physicochemical properties. We considered all combinations of 
+features with different sizes, so the encodings were created using all 
+combinations of $1, 2, \ldots, 16, 17$ features. 
 
   The majority of encodings had at least one duplicate. In such case, only a 
 single representative was included in the cross-validation. After filtering 
@@ -185,12 +196,14 @@ duplicates, we obtained 18 535 unique encodings.
   Contactivity & Accessible surface area \citep{radzicka_comparing_1988} \\ 
   \rowcolor[gray]{0.85}Contactivity & Buriability \citep{zhou_quantifying_2004} 
 \\ 
-  Contactivity & Values of Wc in proteins from class $\beta$, \newline  cutoff 12 A, separation 5 \citep{wozniak_characteristics_2014} \\ 
+  Contactivity & Values of Wc in proteins from class $\beta$, \newline  cutoff 
+12 A, separation 5 \citep{wozniak_characteristics_2014} \\ 
   \rowcolor[gray]{0.85}Contactivity & Values of Wc in proteins from class 
 $\beta$, \newline  cutoff 12 A, separation 15 
 \citep{wozniak_characteristics_2014} \\ 
 \hline 
-  $\beta$-frequency & Average relative probability of inner \newline beta-sheet \citep{kanehisa_local_1980} \\ 
+  $\beta$-frequency & Average relative probability of inner \newline beta-sheet 
+\citep{kanehisa_local_1980} \\ 
   \rowcolor[gray]{0.85}$\beta$-frequency & Relative frequency in $\beta$-sheet 
 \citep{prabhakaran_distribution_1990} \\ 
   $\beta$-frequency & Thermodynamic $\beta$-sheet propensity 
@@ -198,7 +211,8 @@ $\beta$, \newline  cutoff 12 A, separation 15
 \hline 
  \rowcolor[gray]{0.85} Hydrophobicity & Hydrophobicity index 
 \citep{argos_structural_1982} \\ 
-  Hydrophobicity & Optimal matching hydrophobicity \citep{sweet_correlation_1983} \\ 
+  Hydrophobicity & Optimal matching hydrophobicity 
+\citep{sweet_correlation_1983} \\ 
   \rowcolor[gray]{0.85}Hydrophobicity & Hydrophobicity-related index 
 \citep{kidera_statistical_1985} \\ 
   Hydrophobicity & Scaled side chain hydrophobicity values 
@@ -211,7 +225,8 @@ $\beta$, \newline  cutoff 12 A, separation 15
   \rowcolor[gray]{0.85}Size & Average volumes of residues 
 \citep{pontius_deviations_1996} \\ 
 \hline 
-  Stability & Side-chain contribution to protein stability (kJ/mol) \citep{takano_new_2001} \\
+  Stability & Side-chain contribution to protein stability (kJ/mol) 
+\citep{takano_new_2001} \\
   \bottomrule
 \end{tabularx}
 \caption{Selected 17 physicochemical properties used to create encodings.} 
@@ -223,15 +238,15 @@ $\beta$, \newline  cutoff 12 A, separation 15
 \begin{figure} 
 \centerline{\includegraphics[width=\columnwidth]{figures/ngram_scheme.eps}} 
 \caption{The scheme of n-gram extraction. A) Input data: peptides with a known 
-amyloidogenicity status. B) Extraction of everlapping hexamers. The 
+amyloidogenicity status. B) Extraction of overlapping hexamers. The 
 amyloidogenicity status of a source sequence was used as the amyloidogenicity 
 status of a derived hexamer. C) Creation of an encoding using a combination of 
 physicochemical properties (PP). D) Reduction of the amino acid alphabet 
 according to an encoding. E) Extraction of n-grams. From each hexamer we 
 extracted countinous n-grams of lengths 1, 2 and 3. In addition, we selected 
 gapped 2-grams with the length of gap equal from 1 to 3 residues and gapped 
-3-grams with a single gap between the first and the second or the second and the 
-third element of the n-gram.}\label{fig:ngram_scheme} 
+3-grams with a single gap between the first and the second or the second and 
+the third element of the n-gram.}\label{fig:ngram_scheme} 
 \end{figure}
 
   During the training phase, we extracted overlapping hexamers from each 
@@ -301,10 +316,12 @@ Set & Length range & Status & Sequences & Hexamers \\
   From each hexamer we extracted n-grams of the following lengths: 1, 2 and 3. 
 In the case of 2- and 3-grams, we separately counted both gapped and continuous 
 n-grams. For 2-grams we considered n-grams with gaps of lengths from 1 to 3 and 
-for 3-grams with a single gap between the first and the second or the second and 
+for 3-grams with a single gap between the first and the second or the second 
+and 
 the third element (see Fig.~\ref{fig:ngram_scheme}).
 
-  All n-grams extracted from the hexamers in the training data set were filtered 
+  All n-grams extracted from the hexamers in the training data set were 
+filtered 
 using described below Quick Permutation Test with the information gain (mutual 
 information) as the criterion of the importance of a specific n-gram. In the 
 next step, we used n-grams with the p-value smaller than 0.05 to build a random 
@@ -337,22 +354,26 @@ entry $n_{10}$ is the number of cases when target is $1$ and feature is $0$.
 \end{center}
 
   Under the hypothesis that $x$ an $y$ are independent, the probability of 
-observing such a contingency table is given by the multinomial distribution. The 
+observing such a contingency table is given by the multinomial distribution. 
+The 
 idea of permutation test is to reshuffle feature and target labels, while 
-keeping the total number of positives in both of them fixed. When we impose this 
+keeping the total number of positives in both of them fixed. When we impose 
+this 
 constraint on the multinomial distribution, then the probability of occurrence 
 for a given contingency table depends only on one entry, say $n_{1,1}$, and is 
 fairly easy to compute. After computing Information Gain (IG) for each possible 
 value of $n_{1,1} \in [0,\min(n_{\bigcdot, 1}, n_{1, \bigcdot})]$, we get the 
 distribution of Information Gain under hypothesis that target and feature are 
-independent. We reject null hypothesis, when IG for a feature we test is above a 
+independent. We reject null hypothesis, when IG for a feature we test is above 
+a 
 required quantile from IG distribution.
 
   Having the analytical formula for the distribution, enables us to perform 
 permutation test much quicker. Furthermore, we get exact quantiles even for 
 extreme tails of the distribution, which is not guaranteed by random 
 permutations. In fact, imagine performing the test with $\alpha=10^{-8}$, which 
-is not an uncommon value, e.g. when one adjusts for multiple testing. Even for a 
+is not an uncommon value, e.g. when one adjusts for multiple testing. Even for 
+a 
 huge number of permutations like $m=10^8$, the standard deviation of quantile 
 estimate in permutation test, $\frac{p(1-p)}{m}$, is roughly equal to $\alpha$ 
 itself.
@@ -363,7 +384,8 @@ statistics depends only on $n_{\cdot, 1}$ -- the number of positive cases in a
 feature. Though we test millions of features, there are just few distributions 
 that we need to compute, as usually number of positives in k-mer feature is 
 small. We take advantage of this fact and we compute quantiles for just a 
-handful of distributions. Therefore complexity of our algorithm is roughly equal 
+handful of distributions. Therefore complexity of our algorithm is roughly 
+equal 
 $O(n\cdot p)$.
 
   Lastly, let us point out that QuiPT is very similar to Fisher's exact test. 
@@ -378,13 +400,16 @@ The ability to correctly predict amyloidogenicity was assessed during the
 five-fold cross-validation. The peptides were assigned randomly to 
 subsamples. Since this approach may result in the uneven number of hexamers 
 between subsamples (single peptide longer than six resides yields more than 
-single hexamer), repeated the cross-validation fifteen times for each classifier 
+single hexamer), repeated the cross-validation fifteen times for each 
+classifier 
 to obtain more precise estimates of performance measures for each classifier. 
 
-  During the testing phase, if at least one hexamer extracted from a peptide was 
-assessed as amyloidogenic, the whole sequence was denoted as amyloid. Otherwise,
-the peptide was classified as non-amyloid. The results were later confronted with 
-the known etiquettes of the peptides to compute the performance measures.
+  During the testing phase, if at least one hexamer extracted from a peptide 
+was 
+assessed as amyloidogenic, the whole sequence was denoted as amyloid. 
+Otherwise, 
+the peptide was classified as non-amyloid. The results were later confronted 
+with the known etiquettes of the peptides to compute the performance measures.
 
   To evaluate if our classifiers are able to use decision rules extracted from 
 sequences of given length to correctly classify longer or shorter sequences, we 
@@ -393,10 +418,13 @@ sequences: 6, 7-10, 11-15 and 16-25 (Tab.~\ref{tab:data_sets}). The number of
 sequences from the given length range was roughly comparable between folds of 
 cross-validation.
   
-  To choose the most adequate encoding, we ranked the values of Area under Curve 
+  To choose the most adequate encoding, we ranked the values of Area under 
+Curve 
 - AUC (with rank 1 for the best AUC, rank 2 for the second best AUC and so on) 
-for each range of sequence length in the testing data set. The encoding with the 
-lowest sum of ranks from all sequence length categories was selected as the best 
+for each range of sequence length in the testing data set. The encoding with 
+the 
+lowest sum of ranks from all sequence length categories was selected as the 
+best 
 one. For this encoding, we choose the range of peptides length in the training 
 set providing the best AUC in cross-validation.
 
@@ -427,14 +455,14 @@ $$
 where $l$ is equal to the number of physicochemical properties of concern. It 
 may be interpreted as the minimum distance AAAAAAA
 
-\subsection{Benchmark of AmyloGram}
+\subsection{Benchmark of AmyGram}
 
 The best-performing encoding chosen during the cross-validation was later used 
-to train AmyloGram, n-gram based predictor of amyloidogenicity.
+to train AmyGram, n-gram based predictor of amyloidogenicity.
 
   We used \textit{pep424} data set~\citep{walsh_pasta_2014} to compare the 
-performance of AmyloGram and other predictors of amyloidogenicity. Since the 
-model of AmyloGram does not cover peptides shorter than five amino acids, we 
+performance of AmyGram and other predictors of amyloidogenicity. Since the 
+model of AmyGram does not cover peptides shorter than five amino acids, we 
 removed them from the total benchmark data set. It should have not affect the 
 comparison as only five sequences were eliminated (around 1\% of the original 
 data set). Additionally, we also benchmarked three predictors learned on the 
@@ -455,7 +483,8 @@ extraction as described above (see Fig.~\ref{fig:ngram_scheme}).
 
 \begin{figure*}[!tpb]
 \centerline{\includegraphics{figures/AUC_boxplot.eps}}
-\caption{Distribution of AUC values of all classifiers based on reduced amino acid 
+\caption{Distribution of AUC values of all classifiers based on reduced amino 
+acid 
 alphabets for every possible combination of training and testing data set.
 for different lengths of sequences in the training and testing data sets. 
 The left and right hinges of boxes correspond to the 0.25 and .75 quartiles. 
@@ -484,12 +513,14 @@ The selected encoding performed better than other reduced alphabets considering
 all sequence length ranges in training and testing data set. It had the AUC
 always in the fourth quartile (Fig.~\ref{fig:AUC_boxplot}). For the 
 best-performing encoding the most problematic was correct prediction of the 
-amyloidogenicity in the longest peptide data set 16-25, not when learned on very 
+amyloidogenicity in the longest peptide data set 16-25, not when learned on 
+very 
 short sequences, but for longer ones (6-10 and 6-15). Such a behavior was 
 typical for most of the analyzed encodings.
 
   The chosen encoding reaches the highest values of AUC in the relatively 
-simplest cases of predicting amyloidogenicity, i.e. for the shortest sequences (6 
+simplest cases of predicting amyloidogenicity, i.e. for the shortest sequences 
+(6 
 residues). Of course, the decision rules were the easiest to extract when also 
 the learning data set had only sequences of the same lengths, but the results 
 were quite comparable even if the training set contained longer sequences. Also 
@@ -498,7 +529,8 @@ selected encoding and also had higher AUC than in other scenarios.
 
   Considering only the AUC value, the most problematic testing data were 
 sequences longer than 15 amino acids, where the classifiers trained on the 
-shortest sequences available (six residues) were performing the best. That might 
+shortest sequences available (six residues) were performing the best. That 
+might 
 indicate that our n-gram approach extracts the important features the better, 
 the shorter are sequences in training data set. For example, in the 
 amyloidogenic peptide of length 15, only a very specific region of residues 
@@ -511,7 +543,8 @@ adequate, with the median values of AUC higher than 0.7 for every testing set.
   In addition to the high AUC, the best encoding had also very good sensitivity 
 and specificity regardless of the length of sequences in training and testing 
 set (Fig.~\ref{fig:sesp_plot}). The classifiers trained on the peptides of 
-length 6 tend to have the best specificity, while predictors learned on the long 
+length 6 tend to have the best specificity, while predictors learned on the 
+long 
 sequences have the best sensitivity. Albeit the classifiers trained on 
 six-residue-long sequences have generally better AUC, training on the sequences 
 ranging from six to ten residues seem to yield the most balanced classifiers 
@@ -520,21 +553,24 @@ with optimal sensitivity and specificity.
   We also evaluated classifiers based on the full amino acid alphabet. In most 
 cases they were also placed in the fourth quartile considering their AUC value 
 (Fig.~\ref{fig:AUC_boxplot}). Nevertheless, they never predicted 
-amyloidogenicity better than the selected encoding. It suggests that despite the 
+amyloidogenicity better than the selected encoding. It suggests that despite 
+the 
 predictive power of n-grams based on full alphabet, the encoding allows better 
 generalization of the prediction rules and in the consequence a better 
 performance.
 
   Similarly to the best-performing encoding, the sensitivity of classifiers 
 based on the full amino acid alphabet decreased with the length of sequences in 
-the training data set (Fig.~\ref{fig:sesp_plot}). Furthermore, these classifiers 
+the training data set (Fig.~\ref{fig:sesp_plot}). Furthermore, these 
+classifiers 
 always seemed to  have one of the worst sensitivities among all analyzed 
 predictors, especially when tested on longer amyloids. It means that using the 
 full amino acid alphabet it was easier to point the non-amyloidogenic sequences 
 instead of recognizing amyloids.
 
   The encodings found in the literature perform substantively worse than other 
-analyzed encodings in all categories. It indicates that descriptive divisions of 
+analyzed encodings in all categories. It indicates that descriptive divisions 
+of 
 amino acids do not create groups suitable for the recognition of amyloids. This 
 observation is well-supported by the specificity-sensitivity plot 
 (Fig.~\ref{fig:sesp_plot}), where classifiers trained with this encodings of 
@@ -576,7 +612,8 @@ Subgroup ID & Amino acids \\
 
 \begin{figure}[!tpb]
 \centerline{\includegraphics{figures/ngrams.eps}}
-\caption{The frequency of important n-grams used by the best-performing classifier 
+\caption{The frequency of important n-grams used by the best-performing 
+classifier 
 in amyloid and non-amyloid sequences. The elements of n-grams 
 are amino acids encoded using the best-performing reduced amino acid 
 alphabet (see Tab.~\ref{tab:best_enc}). A vertical bar 
@@ -585,8 +622,10 @@ represents a gap in a n-gram.}\label{fig:ngrams}
 
 The encoding chosen during the analysis has six subgroups 
 (Tab.~\ref{tab:best_enc}). Two subgroups, 3 and 4 contain strongly hydrophobic 
-amino acids, while 1 and 5 are mostly hydrophilic. In addition to this, subgroup 
-1 and 4 have amino acid with the highest average flexibility. The least flexible 
+amino acids, while 1 and 5 are mostly hydrophilic. In addition to this, 
+subgroup 
+1 and 4 have amino acid with the highest average flexibility. The least 
+flexible 
 amino acids are in subgroup 5. The most polarizable amino acids belong to 
 subgroup 4, while the lowest polarizability is typical for glycine, the only 
 amino acid in subgroup 1. The glycine has also the highest thermodynamic beta 
@@ -613,11 +652,13 @@ amyloids.
   We selected 65 n-grams that have p-values smaller than 0.05 in the all folds 
 in all repetitions of cross-validation regardless of the length of sequences in 
 the training set (see Fig.~\ref{fig:ngrams}). The frequency of the n-grams was 
-computed for all sequences derived from AmyLoad database. The n-grams typical of 
+computed for all sequences derived from AmyLoad database. The n-grams typical 
+of 
 amyloidogenic sequences (with the highest frequency in amyloids) incorporate 
 mostly highly hydrophobic, typical for $\beta$-structures amino acids from 
 subgroups 3 and 4. The important n-grams occurring frequent in amyloids often 
-have repeats of 3, suggesting that the presence of amino acids belonging to this 
+have repeats of 3, suggesting that the presence of amino acids belonging to 
+this 
 subgroup might be one of the most effective predictors of amyloidogenicity.
 
   N-grams typical of non-amyloidogenic peptides have mostly elements 
@@ -625,7 +666,7 @@ belonging to subgroups 2 and 6. The amino acids of these subgroups are strongly
 hydrophilic and highly flexible, in the opposite to the residues typical for 
 amyloids.
 
-\subsection{Benchmark of AmyloGram}
+\subsection{Benchmark of AmyGram}
 
 % latex table generated in R 3.2.3 by xtable 1.8-2 package
 % Tue Mar  8 14:17:55 2016
@@ -633,7 +674,7 @@ amyloids.
 \centering
 \small
 \caption{Results of benchmark on \textit{pep424} data set for PASTA2, 
-FoldAmyloid, AmyloGram and random forest predictor learned on n-grams extracted 
+FoldAmyloid, AmyGram and random forest predictor learned on n-grams extracted 
 without any amino acid encoding from the sequences of the length specified in 
 the brackets (FA).} 
 \label{tab:bench_summary}
@@ -641,40 +682,67 @@ the brackets (FA).}
   \toprule
 Classifier & AUC & MCC & Sensitivity & Specificity \\ 
   \midrule
-AmyloGram & \textbf{0.8972} & \textbf{0.6307} & 0.8658 & 0.7889 \\ 
+AmyGram & \textbf{0.8972} & \textbf{0.6307} & 0.8658 & 0.7889 \\ 
    \rowcolor[gray]{0.85}full alphabet (6) & 0.8411 & 0.5427 & 0.4966 & 
 \textbf{0.9593} \\ 
   full alphabet (6-10) & 0.8581 & 0.5698 & 0.7517 & 0.8259 \\ 
-   \rowcolor[gray]{0.85}full alphabet (6-15) & 0.8610 & 0.5490 & 0.8188 & 0.7519 
-\\ 
+   \rowcolor[gray]{0.85}full alphabet (6-15) & 0.8610 & 0.5490 & 0.8188 & 
+0.7519 \\ 
 \hline \hline
   PASTA2 & 0.8550 & 0.4291 & 0.3826 & 0.9519 \\ 
    \rowcolor[gray]{0.85}FoldAmyloid & 0.7351 & 0.4526 & 0.7517 & 0.7185 \\ 
-  appnn & 0.8343 & 0.5823 & \textbf{0.8859} & 0.7222 \\ 
+  APPNN & 0.8343 & 0.5823 & \textbf{0.8859} & 0.7222 \\ 
    \bottomrule
 \end{tabular}
 \end{table}
 
-The benchmark covered Amylogram as well as two best-performing peer-reviewed 
-predictors of amyloidogenicity: PASTA2~\citep{walsh_pasta_2014} and 
-FoldAmyloid~\citep{garbuzynskiy_foldamyloid:_2010}. We analyzed Area Under the 
-Curve (AUC), Matthew's Correlation Coefficient (MCC), Sensitivity and 
-Specificity (see Tab.~\ref{tab:bench_summary}). We used default settings for 
-FoldAmyloid, while PASTA2 evaluated input data in the 'Peptides' mode.
+The benchmark covered AmyGram as well as three peer-reviewed predictors of 
+amyloidogenicity: PASTA2~\citep{walsh_pasta_2014}, 
+FoldAmyloid~\citep{garbuzynskiy_foldamyloid:_2010} and 
+APPNN~\citep{familia_prediction_2015}. Other classifiers published before were 
+not included in the benchmark, because their performance on \textit{pep424} 
+data set is already known and lower than the performance of PASTA2 and 
+FoldAmyloid~\citep{walsh_pasta_2014}.
+
+  We analyzed Area Under the Curve (AUC), Matthew's Correlation Coefficient 
+(MCC), Sensitivity and Specificity (see Tab.~\ref{tab:bench_summary}). We used 
+default settings for FoldAmyloid, while PASTA2 evaluated input data in the 
+'Peptides' mode.
+
+  Since PASTA2 does not return a probability of belonging to specific category, 
+we normalized the output data and used to compute the AUC values. The advised 
+energy threshold (-5) was also normalized in the same manner and used as 
+cut-off in computations of specificity, sensitivity and MCC. The resulting 
+value 
+of specificity 0.9519 is close to value provided by authors (0.95) and assures 
+correctness of our computations. In case of other classifiers, we assumed 0.5 
+cut-off.
     
-  In case of this dataset, n-gram extraction method was efficient enough to 
+  In case of this data set, n-gram extraction method was efficient enough to 
 produce classifiers able to outperformed published methods. Two of three n-gram 
 based classifiers trained on the full alphabet have AUC higher than PASTA2 and 
 all three were more successful than FoldAmyloid. They also maintained they high 
 Specificity as seen previously during cross-validation.
     
   Although the proposed n-gram extraction creates accurate classifiers, the 
-encoding of amino acids further increases the efficiency of prediction. 
-AmyloGram has the highest AUC, MCC and Sensitivity among all tested classifiers. 
-Is has lower specificity than two classifiers trained on the full alphabet, but 
-still outperforms other published method in this category. It is important to 
-highlight that AmyloGram is the most  of analyzed classifiers, having 
-the best Specificity/Sensitivity trade-off, as indicated by the value of MCC.
+encoding of amino acids further increases the general efficiency of prediction. 
+AmyGram has the highest AUC and MCC among all tested classifiers. Is has 
+lower specificity than two classifiers trained on the full alphabet, but still 
+outperforms other published method in this category. It is important to 
+highlight that AmyGram is the most balanced among all analyzed classifiers, 
+having the best Specificity/Sensitivity trade-off, as indicated by the value of 
+MCC.
+
+  The specificity of AmyGram is lower than the specificity of PASTA2, which 
+is the consequence of the usage of a threshold value optimized for 0.95 
+specificity for the latter. If the AmyGram also utilizes such threshold, it 
+has much higher sensitivity (0.5518) than PASTA2. Hence, assuming thresholds 
+where both predictors detect with the same accurateness true non-amyloids, 
+AmyGram predicts more true amyloids. 
+ 
+  Among all considered predictors of amyloidogenicity, APPNN has the highest 
+sensitivity. Nevertheless, its AUC is worse than AUCs of all n-gram-based 
+predictors as well as PASTA2 indicating lower overall performance.
 
 \section{Conclusion}
 
