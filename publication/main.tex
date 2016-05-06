@@ -220,18 +220,18 @@ $\beta$, \newline  cutoff 12 A, separation 15
 
 \subsection{Training of learners}
 
-\begin{figure}[!tpb]
-\centerline{\includegraphics[width=\columnwidth]{figures/ngram_scheme.eps}}
-  \caption{The scheme of n-gram extraction. A) Input data - peptides with a 
-known amyloidogenicity status. B) Each peptide sequence was divided into 
-overlapping hexamers. The amyloidogenicity status of a source sequence was used 
-as the amyloidogenicity status of a derived hexamer. C) An encoding was created 
-using a combination of physicochemical properties (PP). D) The alphabet of 
-hexamers was reduced according to an encoding. E) From each hexamer we 
-extracted continuous 1-, 2- and 3-grams. We selected also gapped 2-grams with 
-the length of gap equal from 1 to 3 residues and gapped 3-grams with a single 
-gap between the first and the second or the second and the third element of the 
-n-gram.}\label{fig:ngram_scheme}
+\begin{figure} 
+\centerline{\includegraphics[width=\columnwidth]{figures/ngram_scheme.eps}} 
+\caption{The scheme of n-gram extraction. A) Input data: peptides with a known 
+amyloidogenicity status. B) Extraction of everlapping hexamers. The 
+amyloidogenicity status of a source sequence was used as the amyloidogenicity 
+status of a derived hexamer. C) Creation of an encoding using a combination of 
+physicochemical properties (PP). D) Reduction of the amino acid alphabet 
+according to an encoding. E) Extraction of n-grams. From each hexamer we 
+extracted countinous n-grams of lengths 1, 2 and 3. In addition, we selected 
+gapped 2-grams with the length of gap equal from 1 to 3 residues and gapped 
+3-grams with a single gap between the first and the second or the second and the 
+third element of the n-gram.}\label{fig:ngram_scheme} 
 \end{figure}
 
   During the training phase, we extracted overlapping hexamers from each 
@@ -256,7 +256,7 @@ signal is six residues, we expect no false positive hexamers. Moreover, we
 created two training sets with the progressively more liberal limit of the 
 maximum sequence length (6-10 residues and 6-15 residues).
 
-\begin{table}[]
+\begin{table}
 \centering
 \small
 \caption{Sizes of training and test data sets used in the analysis.}
@@ -424,7 +424,8 @@ s_{ab} = \sum^n_{i = 1}  \left( \min_{j=1,\dots,m} \left(\sqrt{\sum^l p_{i}^2}
 - \sqrt{\sum^l p_{j}^2} \right) \right)
 $$
  
-where $l$ is equal to the number of physicochemical properties of concern.
+where $l$ is equal to the number of physicochemical properties of concern. It 
+may be interpreted as the minimum distance 
 
 \subsection{Benchmark of AmyloGram}
 
@@ -600,13 +601,14 @@ propensity~\citep{kim_thermodynamic_1993}.
 
   We calculated encoding distances between the best-performing reduced amino 
 acid alphabet and other encodings (Fig.~\ref{fig:ed_AUC}). To compute the scale 
-factor, we used described above features common for all encodings identical to 
-the best-performing one. The value of AUC is significantly lower for more
-distant encodings ($-0.4370$ Pearson's correlation coefficient, p-value smaller 
-than $2.2 \times 10^{-16}$). Such relationship between AUC and encoding distance 
-confirms that only reduced alphabets sufficiently similar to the best-performing 
-encoding are able to remove unnecessary diversity while preserving information 
-important for recognition of amyloids.
+factor, we used normalized values of described above four features shared by 
+all encodings identical to the best-performing one. The value of AUC is 
+significantly lower for more distant encodings ($-0.4370$ Pearson's correlation 
+coefficient, p-value smaller than $2.2 \times 10^{-16}$). Such relationship 
+between AUC and encoding distance indicates that only reduced alphabets 
+sufficiently similar to the best-performing encoding are able to remove 
+unnecessary diversity while preserving information important for recognition of 
+amyloids.
 
   We selected 65 n-grams that have p-values smaller than 0.05 in the all folds 
 in all repetitions of cross-validation regardless of the length of sequences in 

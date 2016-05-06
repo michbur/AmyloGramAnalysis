@@ -86,7 +86,7 @@ get_last <- function(x, what) {
   splitted[length(splitted)]
 }
 
-bench_res <- HMeasure(dat[[1]], dat[-1])[["metrics"]] %>%
+bench_res <- HMeasure(dat[[1]], dat[-1], threshold = c(0.6226317, rep(0.5, ncol(dat) - 2)))[["metrics"]] %>%
   mutate(MCC = calc_mcc(TP, TN, FP, FN), classifier = rownames(.)) %>%
   select(classifier, AUC, MCC, Sens, Spec) %>%
   group_by(classifier) %>%
@@ -94,12 +94,12 @@ bench_res <- HMeasure(dat[[1]], dat[-1])[["metrics"]] %>%
          nice_name = strsplit(as.character(classifier), "_")[[1]][1]) %>%
   mutate(nice_name = get_last(nice_name, "class")) %>%
   mutate(nice_name = ifelse(nice_name == "raw", "full alphabet", nice_name)) %>%
-  ungroup %>%
+  ungroup %>% 
   mutate(pos = as.numeric(pos),
          nice_name = factor(nice_name, 
-                            levels = c("PASTA2", "FoldAmyloid", "14592", "14596", "14533", "18297", 
+                            levels = c("PASTA2", "FoldAmyloid", "appnn", "14592", "14596", "14533", "18297", 
                                        "full alphabet", "16548"))) %>%
   arrange(nice_name) %>%
-  slice(1L:17)
+  slice(1L:18)
 
 write.csv(bench_res, "./results/benchmark_allpreds.csv", row.names = FALSE)
