@@ -172,8 +172,8 @@ ed_dat <- inner_join(amyloids %>%
                        group_by(enc_adj) %>%
                        summarise(AUC_mean = mean(AUC_mean), et=et[1]), normalized_distances)
 
-ed_dat[["et"]] <- factor(ed_dat[["et"]], labels = c("Reduced alphabet", "Best performing reduced alphabet",
-                                                    "Reduced alphabet\nfrom literature", "Full alphabet"))
+ed_dat[["et"]] <- factor(ed_dat[["et"]], labels = c("Encoding", "Best-performing encoding",
+                                                    "Encoding\nfrom literature", "Full alphabet"))
 
 cor.test(~ AUC_mean + ed, ed_dat)
 

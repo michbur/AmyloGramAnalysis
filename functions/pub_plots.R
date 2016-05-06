@@ -8,8 +8,8 @@ amyloids_plot <- select(amyloids, AUC_mean, MCC_mean, Sens_mean, Spec_mean, pos,
   mutate(len_range = factor(len_range, levels = c("[5,6]", "(6,10]", "(10,15]", "(15,25]")),
          pos = factor(pos, labels = paste0("Training peptide length: ", 
                                            c("6", "6-10", "6-15"))),
-         et = factor(et, labels = c("Reduced alphabet", "Best performing reduced alphabet",
-                                    "Reduced alphabet from literature", "Full alphabet"))) %>%
+         et = factor(et, labels = c("Encoding", "Best-performing encoding",
+                                    "Encoding from literature", "Full alphabet"))) %>%
   mutate(len_range = factor(len_range, 
                             labels = paste0("Testing peptide length: ", c("6 ", "7-10", "11-15", "16-25"))))
 
@@ -27,7 +27,7 @@ sesp_plot <- ggplot(sesp_dat, aes(x = Spec_mean, y = Sens_mean, color = et, shap
   scale_x_continuous("Mean specificity") +
   facet_grid(pos ~ len_range) +
   my_theme +
-  geom_point(data = filter(sesp_dat, et != "Reduced alphabet"), 
+  geom_point(data = filter(sesp_dat, et != "Encoding"), 
              aes(x = Spec_mean, y = Sens_mean, color = et))
 
 png("./publication/figures/sesp_plot.png", height = 4, width = 6.5, unit = "in", res = 200)
@@ -40,7 +40,7 @@ dev.off()
 
 AUC_boxplot <- ggplot(amyloids_plot, aes(x = len_range, y = AUC_mean)) +
   geom_boxplot(outlier.color = "grey", outlier.shape = 1) +
-  geom_point(data = filter(amyloids_plot, et != "Reduced alphabet"), 
+  geom_point(data = filter(amyloids_plot, et != "Encoding"), 
              aes(x = len_range, y = AUC_mean, color = et, shape = et)) +
   scale_x_discrete("") +
   scale_y_continuous("Mean AUC") +
@@ -59,7 +59,7 @@ dev.off()
 
 MCC_boxplot <- ggplot(amyloids_plot, aes(x = len_range, y = MCC_mean)) +
   geom_boxplot(outlier.color = "grey", outlier.shape = 1) +
-  geom_point(data = filter(amyloids_plot, et != "Reduced alphabet"), 
+  geom_point(data = filter(amyloids_plot, et != "Encoding"), 
              aes(x = len_range, y = MCC_mean, color = et, shape = et)) +
   scale_x_discrete("") +
   scale_y_continuous("Mean MCC") +
@@ -113,7 +113,7 @@ ed_AUC_plot <- ggplot(ed_dat, aes(x=ed, y=AUC_mean, color=et, shape = et)) +
   xlab("Normalized encoding distance") +
   ylab("AUC") +
   my_theme +
-  geom_point(data = filter(ed_dat, et != "Reduced alphabet"), 
+  geom_point(data = filter(ed_dat, et != "Encoding"), 
              aes(x = ed, y = AUC_mean, color = et)) +
   guides(color=guide_legend(ncol=2))
 
