@@ -425,7 +425,7 @@ s_{ab} = \sum^n_{i = 1}  \left( \min_{j=1,\dots,m} \left(\sqrt{\sum^l p_{i}^2}
 $$
  
 where $l$ is equal to the number of physicochemical properties of concern. It 
-may be interpreted as the minimum distance 
+may be interpreted as the minimum distance AAAAAAA
 
 \subsection{Benchmark of AmyloGram}
 
@@ -631,6 +631,7 @@ amyloids.
 % Tue Mar  8 14:17:55 2016
 \begin{table}[ht]
 \centering
+\small
 \caption{Results of benchmark on \textit{pep424} data set for PASTA2, 
 FoldAmyloid, AmyloGram and random forest predictor learned on n-grams extracted 
 without any amino acid encoding from the sequences of the length specified in 
@@ -640,16 +641,16 @@ the brackets (FA).}
   \toprule
 Classifier & AUC & MCC & Sensitivity & Specificity \\ 
   \midrule
-AmyloGram & \textbf{0.8972} & \textbf{0.6307} & \textbf{0.8658} & 0.7889 \\ 
-   \rowcolor[gray]{0.85}FA (6) & 0.8411 & 0.5427 & 0.4966 & 
+AmyloGram & \textbf{0.8972} & \textbf{0.6307} & 0.8658 & 0.7889 \\ 
+   \rowcolor[gray]{0.85}full alphabet (6) & 0.8411 & 0.5427 & 0.4966 & 
 \textbf{0.9593} \\ 
-  FA (6-10) & 0.8581 & 0.5698 & 0.7517 & 0.8259 \\ 
-   \rowcolor[gray]{0.85}FA (6-15) & 0.8610 & 0.5490 & 0.8188 & 
-0.7519 \\ 
+  full alphabet (6-10) & 0.8581 & 0.5698 & 0.7517 & 0.8259 \\ 
+   \rowcolor[gray]{0.85}full alphabet (6-15) & 0.8610 & 0.5490 & 0.8188 & 0.7519 
+\\ 
 \hline \hline
-   PASTA2 & 0.8550 & 0.5227 & 0.7987 & 0.7444 \\ 
-  \rowcolor[gray]{0.85}FoldAmyloid & 0.7351 & 0.4526 & 0.7517 & 0.7185 \\ 
-
+  PASTA2 & 0.8550 & 0.4291 & 0.3826 & 0.9519 \\ 
+   \rowcolor[gray]{0.85}FoldAmyloid & 0.7351 & 0.4526 & 0.7517 & 0.7185 \\ 
+  appnn & 0.8343 & 0.5823 & \textbf{0.8859} & 0.7222 \\ 
    \bottomrule
 \end{tabular}
 \end{table}

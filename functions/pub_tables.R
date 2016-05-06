@@ -87,7 +87,7 @@ cat(group2df(aa_groups[[best_enc]], caption = "The best-performing encoding.",
 
 # benchmark table --------------------------------------------
 
-slice(bench_measures, c(1L:2, 4, 15L:17)) %>%
+slice(bench_measures, c(1L:3, 5, 16L:18)) %>%
   mutate(pos = factor(pos, labels = c("6", "6-10", "6-15"))) %>%
   mutate(nice_name = paste0(nice_name, " (", pos, ")")) %>%
   select(nice_name, AUC, MCC, Sens, Spec) %>%
@@ -95,7 +95,7 @@ slice(bench_measures, c(1L:2, 4, 15L:17)) %>%
   mutate(nice_name = sub("14592 (6-10)", "AmyloGram", as.character(nice_name), fixed = TRUE)) %>%
   rename(Classifier = nice_name, "AUC" = AUC, "MCC" = MCC, 
          "Sensitivity" = Sens, "Specificity" = Spec) %>%
-  slice(c(3, 1L:2, 4L:6)) %>%
+  slice(c(4, 5L:7, 1L:3)) %>%
   format_table("Results of benchmark on \\textit{pep424} data set for AmyloGram, PASTA2, FoldAmyloid and 
                random forest predictor learned on n-grams extracted without any amino acid 
                encoding from the sequences of the length specified in the brackets.", 
