@@ -65,15 +65,17 @@ decide_reg <- function(x) {
   }
 }
 
-reg33_al_comp <- data.frame(reg33_seq = sapply(status_reg33_AmyloGram, paste0, collapse = ""),
-           mixed = sapply(status_reg33_AmyloGram, function(single_seq)
-             length(unique(single_seq)) > 1
-           ),
-           AmyLoad_status = ets[reg33_AmyloGram],
-           reg33_status = sapply(status_reg33_AmyloGram, decide_reg)
+reg33_al_comp <- data.frame(seq_name = names(seqs_list[reg33_AmyloGram]),
+                            seq = sapply(seqs_list[reg33_AmyloGram], paste0, collapse = ""),
+                            reg33_status = sapply(status_reg33_AmyloGram, paste0, collapse = ""),
+                            mixed = sapply(status_reg33_AmyloGram, function(single_seq)
+                              length(unique(single_seq)) > 1
+                            ),
+                            AmyLoad_et = ets[reg33_AmyloGram],
+                            reg33_et = sapply(status_reg33_AmyloGram, decide_reg)
 )
 
-table(reg33_al_comp[, c("AmyLoad_status", "reg33_status")])
+table(reg33_al_comp[, c("AmyLoad_et", "reg33_et")])
 
 # write.csv2(data.frame(name = all_names, reg33 = sapply(seq_list, paste0, collapse = "")), 
 #            file = "reg33vsAmyLoad.csv",
