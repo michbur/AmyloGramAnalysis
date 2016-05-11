@@ -26,6 +26,19 @@ r33_status <-lapply(1L:length(hotspot_pos), function(i) {
   bin_peptide
 })
 
+#lower-upper
+r33_lu <-lapply(1L:length(hotspot_pos), function(i) {
+  new_peptide <- r33_seqs[[i]]
+  for (j in 1L:ncol(hotspot_pos[[i]])) {
+    id_row <- hotspot_pos[[i]][, j]
+    # important +1 to get proper position of 
+    new_peptide[id_row[1]:id_row[2] + 1] <- tolower(new_peptide[id_row[1]:id_row[2] + 1])
+  }
+  new_peptide
+})
+
+write.fasta(r33_lu, r33_raw[["name"]], "./benchmark/reg33_lu.fasta")
+
 raw_seqs_list <- c(read.fasta("./data/amyloid_pos_full.fasta",seqtype = "AA"),
                    read.fasta("./data/amyloid_neg_full.fasta",seqtype = "AA"))
 #sequences longer than 5 aa and shorter than 26 aa
@@ -72,7 +85,8 @@ reg33_al_comp <- data.frame(seq_name = names(seqs_list[reg33_AmyloGram]),
                               length(unique(single_seq)) > 1
                             ),
                             AmyLoad_et = ets[reg33_AmyloGram],
-                            reg33_et = sapply(status_reg33_AmyloGram, decide_reg)
+                            reg33_et = sapply(status_reg33_AmyloGram, decide_reg),
+                            stringsAsFactors = FALSE
 )
 
 table(reg33_al_comp[, c("AmyLoad_et", "reg33_et")])
