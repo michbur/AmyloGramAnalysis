@@ -3,9 +3,25 @@
 # add 1 do indices
 # overlapping regions - what to do?
 
-library(dplyr)
-library(seqinr)
-library(biogram)
+source("./functions/choose_properties.R")
+source("./functions/create_encodings.R")
+source("./functions/encode_amyloids.R")
+source("./functions/cv.R")
+source("./functions/cv_analysis.R")
+source("./functions/make_classifier.R")
+
+
+require(seqinr)
+require(dplyr)
+require(pbapply)
+require(biogram)
+require(ranger)
+require(hmeasure)
+require(pbapply)
+
+load("aa_groups.RData")
+aa_groups <- string2list(aa_groups)
+
 
 r33_raw <- readLines("./benchmark/reg33.txt") %>% matrix(ncol = 3, byrow = TRUE) %>% 
   data.frame(stringsAsFactors = FALSE) %>% 
@@ -101,24 +117,29 @@ as.data.frame(table(reg33_al_comp[, c("AmyLoad_et", "reg33_et")]), responseName 
 
 # training of AmyloGram ---------------------------
 
-seqs_list[!reg33_AmyloGram]
+
 ets[!reg33_AmyloGram]
 
-seq_hex <- seq2ngrams(r33_seqs[[1]], 6, a()[-1]) %>% 
+seqs_m <- tolower(t(sapply(seqs_list[!reg33_AmyloGram], function(i)
+  c(i, rep(NA, max(lengths(seqs_list[!reg33_AmyloGram])) - length(i))))))
+
+
+
+
+single_r33_id <- 1
+
+seq_hex <- seq2ngrams(r33_seqs[[single_r33_id]], 6, a()[-1]) %>% 
   decode_ngrams() %>% 
   strsplit("") %>% 
   do.call(rbind, .)
 
-seq_hex_status <- seq2ngrams(r33_status[[1]], 6, C(0, 1)) %>% 
+seq_hex_status <- seq2ngrams(r33_status[[single_r33_id]], 6, C(0, 1)) %>% 
   decode_ngrams() %>% 
   strsplit("") %>% 
   do.call(rbind, .) %>% 
   as.numeric %>% 
-  matrix(ncol = 6) 
+  matrix(ncol = 6) %>% 
+  rowMeans()
 
-lapply(1L:nrow(seq_hex_status), function(single_hex_id)
-  c(rep(NA, single_hex_id - 1), seq_hex_status[single_hex_id, ], rep(NA, nrow(seq_hex_status) - single_hex_id))
-) %>% 
-  do.call(rbind, .) %>% 
-  colMeans(na.rm = TRUE)
+
 
