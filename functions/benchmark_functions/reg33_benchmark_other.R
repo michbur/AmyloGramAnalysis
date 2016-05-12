@@ -2,7 +2,6 @@
 # it's named 33, but has 34 proteins
 # add 1 do indices
 # overlapping regions - what to do?
-#read reg33 file
 
 library(dplyr)
 library(seqinr)
@@ -11,6 +10,9 @@ library(seqinr)
 r33_raw <- readLines("./benchmark/reg33.txt") %>% matrix(ncol = 3, byrow = TRUE) %>% 
   data.frame(stringsAsFactors = FALSE) %>% 
   rename(name = X1, seq = X2, pos = X3)
+# after analysis of table in PLoS article, r33_raw[c(5, 17), ] are wrongly annotated
+# c("Serum Amyloid A", "Beta2-microglobulin")
+
 hotspot_pos <- lapply(strsplit(r33_raw[, "pos"], " "), function(i) matrix(as.numeric(i), nrow = 2))
 #check the lengths
 r33_seqs <- strsplit(r33_raw[["seq"]], "")
@@ -87,7 +89,8 @@ reg33_al_comp <- data.frame(seq_name = names(seqs_list[reg33_AmyloGram]),
                             AmyLoad_et = ets[reg33_AmyloGram],
                             reg33_et = sapply(status_reg33_AmyloGram, decide_reg),
                             stringsAsFactors = FALSE
-)
+) %>% mutate(AmyLoad_et = factor(AmyLoad_et, labels = c("Non-amyloid", "Amyloid")),
+             AmyLoad_et = factor(AmyLoad_et, labels = c("Non-amyloid", "Amyloid")))
 
 table(reg33_al_comp[, c("AmyLoad_et", "reg33_et")])
 
