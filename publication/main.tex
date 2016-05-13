@@ -58,7 +58,7 @@ mortality. However, the mechanisms of the cytotoxicity have not been
 discovered. 
 Unfortunately dissolution of the aggregates is very difficult. Amyloids are 
 resistant to activity of proteolytic enzymes and chemical compounds due to the 
-specific and highly ordered structure of their steric zipper.
+specific and highly ordered structure of their steric zipper. However, strategies to prevent amyloid formation have been proposed~\citep{hard_inhibition_2012}.
 
   The aggregation occurs when a cell environment fosters the partial unfolding 
 of protein chains or their fragmentation, in a way that the parts prone to 
@@ -106,6 +106,10 @@ by performing 3D structure based analysis~\citep{zambrano_aggrescan3d_2015}.
 
 \enlargethispage{-65.1pt}
 
+  The majority of methods described above uses theoretical knowledge to 
+specify decision rules determining the presence of the hot spot. The aim of our 
+study is opposite, because out of thousands of created hot spot models we choose 
+the most appropriat
   In this study we present an n-gram model of amyloidogenic sequences. In 
 bioinformatics, n-grams (k-mers) are continuous or discontinuous sequences of 
 $n$ elements. Employed as a feature extraction method, n-grams are widely used 
@@ -122,8 +126,8 @@ element represents several amino acids, still retains the information about
 protein folding~\citep{murphy_simplified_2000}. Since amyloid aggregates, 
 especially their hot spots regions, have very specific spatial organization, we 
 investigated if it also can be described using a shorter alphabet. Instead of 
-relying on general similarities of amino acids, we created multiple reduced 
-alphabets based on the combinations of various physicochemical properties that 
+relying on general similarities of amino acids, we created multiple encodings 
+based on the combinations of various physicochemical properties that 
 might be associated with amyloidogenicity. Due to that we discovered which of 
 these properties best discriminate between amyloids and non-amyloids.
 
@@ -387,17 +391,18 @@ small. We take advantage of this fact and we compute quantiles for just a
 handful of distributions. Therefore complexity of our algorithm is roughly 
 equal 
 $O(n\cdot p)$.
-
   Lastly, let us point out that QuiPT is very similar to Fisher's exact test. 
 From the derivation provided in e.g.~\citep{lehmann_testing_2008}, it becomes 
 obvious, that QuiPT is a heuristics for an unsolved problem of a two-tailed 
 Fisher's exact test. In this heuristics, extremity of a contingency table, is 
 defined by its Information Gain.
+% * <stefan.roediger@b-tu.de> 2016-05-09T18:17:50.376Z:
+%
+% ^.
 
 \subsection{Cross-validation and selection of the best-performing encoding}
 
-The ability to correctly predict amyloidogenicity was assessed during the 
-five-fold cross-validation. The peptides were assigned randomly to 
+The ability to correctly predict amyloidogenicity was assessed during the five-fold cross-validation. The peptides were assigned randomly to 
 subsamples. Since this approach may result in the uneven number of hexamers 
 between subsamples (single peptide longer than six resides yields more than 
 single hexamer), repeated the cross-validation fifteen times for each 
@@ -432,7 +437,7 @@ set providing the best AUC in cross-validation.
 The encoding distance is a measure defining the similarity between two 
 encodings. It has zero value for identical encodings and grows with the 
 differences between encodings. It was introduced to verify if the reduced 
-alphabets very similar to the best-performing encoding will also have good 
+alphabets, which are very similar to the best-performing encoding, will also have good 
 prediction performance.
 
   We define the encoding distance as the minimum number of amino acids that 
@@ -452,8 +457,9 @@ s_{ab} = \sum^n_{i = 1}  \left( \min_{j=1,\dots,m} \left(\sqrt{\sum^l p_{i}^2}
 - \sqrt{\sum^l p_{j}^2} \right) \right)
 $$
  
-where $l$ is equal to the number of physicochemical properties of concern. It 
-may be interpreted as the minimum distance AAAAAAA
+where $l$ is equal to the number of physicochemical properties of concern. Hence, 
+the nromalizing factor may be interpreted as the minimum change of the mean physicochemical 
+properties between groups.
 
 \subsection{Benchmark of AmyGram}
 
@@ -539,7 +545,6 @@ overlapping hexamers are extracted, only part of them may carry the true signal
 of amyloidogenicity, but all are marked as amyloids. Despite this problem, the 
 overall prediction of classifiers learned on the long sequences was still 
 adequate, with the median values of AUC higher than 0.7 for every testing set. 
-
   In addition to the high AUC, the best encoding had also very good sensitivity 
 and specificity regardless of the length of sequences in training and testing 
 set (Fig.~\ref{fig:sesp_plot}). The classifiers trained on the peptides of 
@@ -725,7 +730,7 @@ all three were more successful than FoldAmyloid. They also maintained they high
 Specificity as seen previously during cross-validation.
     
   Although the proposed n-gram extraction creates accurate classifiers, the 
-encoding of amino acids further increases the general efficiency of prediction. 
+encoding of amino acids further increases the general prediction efficiency. 
 AmyGram has the highest AUC and MCC among all tested classifiers. Is has 
 lower specificity than two classifiers trained on the full alphabet, but still 
 outperforms other published method in this category. It is important to 
@@ -751,7 +756,7 @@ efficient predictor of amyloidogenic sequences called AmyLoad. One of the
 strength of our approach is its highly interpretable outcome, which hopefully 
 sheds new light on the process of amyloid aggregation.
 
-  The idea of using the encodings is not new, but we employed 
+  The idea of using the encodings is a proven concept. We employed it in our 
 innovative framework to generate and validate several thousands of possible 
 amino acid encodings. Due to this approach, we are able to specify important 
 physicochemical properties that define the best-performing alphabet. We 
