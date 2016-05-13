@@ -117,29 +117,40 @@ as.data.frame(table(reg33_al_comp[, c("AmyLoad_et", "reg33_et")]), responseName 
 
 # training of AmyloGram ---------------------------
 
+seq_hex <- lapply(r33_seqs, function(single_seq)
+  seq2ngrams(single_seq, 6, a()[-1]) %>% 
+    decode_ngrams() %>% 
+    strsplit("") %>% 
+    do.call(rbind, .)
+) %>% 
+  do.call(rbind, .) %>% 
+  apply(2, tolower)
 
-ets[!reg33_AmyloGram]
-
-seqs_m <- tolower(t(sapply(seqs_list[!reg33_AmyloGram], function(i)
-  c(i, rep(NA, max(lengths(seqs_list[!reg33_AmyloGram])) - length(i))))))
-
-
-
-
-single_r33_id <- 1
-
-seq_hex <- seq2ngrams(r33_seqs[[single_r33_id]], 6, a()[-1]) %>% 
-  decode_ngrams() %>% 
-  strsplit("") %>% 
-  do.call(rbind, .)
-
-seq_hex_status <- seq2ngrams(r33_status[[single_r33_id]], 6, C(0, 1)) %>% 
+seq_hex_status <- lapply(r33_status, function(single_status)
+  seq2ngrams(single_status, 6, C(0, 1)) %>% 
   decode_ngrams() %>% 
   strsplit("") %>% 
   do.call(rbind, .) %>% 
   as.numeric %>% 
   matrix(ncol = 6) %>% 
   rowMeans()
+)
+
+reg33_preds <- make_classifier_whole_protein(tolower(t(sapply(seqs_list[!reg33_AmyloGram], 
+                                                function(i) c(i, rep(NA, max(lengths(seqs_list[!reg33_AmyloGram])) - length(i)))))), 
+                               ets[!reg33_AmyloGram], 
+                               unname(lengths(seqs_list[!reg33_AmyloGram])), 
+                               6, 
+                               aa_groups[14592], 
+                               seq_hex
+)
 
 
+reg33_AmyloGram <- lapply(1L:length(seq_hex_status), function(i)
+  data.frame(prot = i, status = seq_hex_status[[i]])) %>% 
+  do.call(rbind, .) %>% 
+  mutate(pred = reg33_preds) %>% 
+  mutate(status_bin = round(status, 0))
 
+
+HMeasure(reg33_AmyloGram[["status_bin"]], reg33_AmyloGram[["pred"]])[["metrics"]]
