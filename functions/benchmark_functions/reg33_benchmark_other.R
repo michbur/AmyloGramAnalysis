@@ -152,5 +152,41 @@ reg33_AmyloGram <- lapply(1L:length(seq_hex_status), function(i)
   mutate(pred = reg33_preds) %>% 
   mutate(status_bin = round(status, 0))
 
+reg33_AmyloGram_bench <- filter(reg33_AmyloGram, prot != 28)
 
-HMeasure(reg33_AmyloGram[["status_bin"]], reg33_AmyloGram[["pred"]])[["metrics"]]
+#HMeasure(reg33_AmyloGram_bench[["status_bin"]], reg33_AmyloGram_bench[["pred"]], threshold = 0.5)[["metrics"]]
+
+reg33_measures <- lapply(unique(reg33_AmyloGram_bench[["prot"]]), function(i) {
+  dat <- reg33_AmyloGram_bench[reg33_AmyloGram_bench[["prot"]] == i, ]
+  tryCatch(HMeasure(dat[["status_bin"]], dat[["pred"]])[["metrics"]], 
+           warning = function(w) 
+             list(HMeasure(dat[["status_bin"]], dat[["pred"]])[["metrics"]], w))
+})
+
+#check if scores were switched
+reverted <- !sapply(reg33_measures, is.data.frame)
+
+reg33_full_preds <- data.frame(prot = unique(reg33_AmyloGram_bench[["prot"]]),
+                               reverted = reverted,
+                               len = as.vector(table(reg33_AmyloGram_bench[["prot"]])) + 5,
+                               hs_mean_len = sapply(hotspot_pos, function(i) mean(i[2, ] - i[1, ]))[-28],
+                               hs_max_len = sapply(hotspot_pos, function(i) max(i[2, ] - i[1, ]))[-28],
+                               do.call(rbind, lapply(1L:length(reverted), function(single_range_id) {
+                                 if(reverted[single_range_id]) {
+                                   reg33_measures[[single_range_id]][[1]]
+                                 } else {
+                                   reg33_measures[[single_range_id]]
+                                 }
+                               }))
+) %>% mutate(len_d = cut(len, c(20, 51, 101, 170, 300, 600, 800)),
+             hs_mean_len_d = cut(hs_max_len, breaks = c(2, 6, 10, 15, 25, 50, 150)))
+
+ggplot(reg33_full_preds, aes(x = as.factor(len), y = AUC, fill = reverted)) +
+  geom_bar(stat = "identity") +
+  coord_cartesian(ylim = c(0.5, 1)) 
+
+
+ggplot(reg33_full_preds, aes(x = len, y = AUC, color = reverted)) +
+  geom_point(size = 5) +
+  facet_wrap(~ hs_mean_len_d)
+  
