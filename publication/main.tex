@@ -461,14 +461,14 @@ where $l$ is equal to the number of physicochemical properties of concern. Hence
 the nromalizing factor may be interpreted as the minimum change of the mean physicochemical 
 properties between groups.
 
-\subsection{Benchmark of AmyGram}
+\subsection{Benchmark of AmyloGram}
 
 The best-performing encoding chosen during the cross-validation was later used 
-to train AmyGram, n-gram based predictor of amyloidogenicity.
+to train AmyloGram, n-gram based predictor of amyloidogenicity.
 
   We used \textit{pep424} data set~\citep{walsh_pasta_2014} to compare the 
-performance of AmyGram and other predictors of amyloidogenicity. Since the 
-model of AmyGram does not cover peptides shorter than five amino acids, we 
+performance of AmyloGram and other predictors of amyloidogenicity. Since the 
+model of AmyloGram does not cover peptides shorter than five amino acids, we 
 removed them from the total benchmark data set. It should have not affect the 
 comparison as only five sequences were eliminated (around 1\% of the original 
 data set). Additionally, we also benchmarked three predictors learned on the 
@@ -671,7 +671,7 @@ belonging to subgroups 2 and 6. The amino acids of these subgroups are strongly
 hydrophilic and highly flexible, in the opposite to the residues typical for 
 amyloids.
 
-\subsection{Benchmark of AmyGram}
+\subsection{Benchmark of AmyloGram}
 
 % latex table generated in R 3.2.3 by xtable 1.8-2 package
 % Tue Mar  8 14:17:55 2016
@@ -679,7 +679,7 @@ amyloids.
 \centering
 \small
 \caption{Results of benchmark on \textit{pep424} data set for PASTA2, 
-FoldAmyloid, AmyGram and random forest predictor learned on n-grams extracted 
+FoldAmyloid, AmyloGram and random forest predictor learned on n-grams extracted 
 without any amino acid encoding from the sequences of the length specified in 
 the brackets (FA).} 
 \label{tab:bench_summary}
@@ -687,7 +687,7 @@ the brackets (FA).}
   \toprule
 Classifier & AUC & MCC & Sensitivity & Specificity \\ 
   \midrule
-AmyGram & \textbf{0.8972} & \textbf{0.6307} & 0.8658 & 0.7889 \\ 
+AmyloGram & \textbf{0.8972} & \textbf{0.6307} & 0.8658 & 0.7889 \\ 
    \rowcolor[gray]{0.85}full alphabet (6) & 0.8411 & 0.5427 & 0.4966 & 
 \textbf{0.9593} \\ 
   full alphabet (6-10) & 0.8581 & 0.5698 & 0.7517 & 0.8259 \\ 
@@ -701,7 +701,7 @@ AmyGram & \textbf{0.8972} & \textbf{0.6307} & 0.8658 & 0.7889 \\
 \end{tabular}
 \end{table}
 
-The benchmark covered AmyGram as well as three peer-reviewed predictors of 
+The benchmark covered AmyloGram as well as three peer-reviewed predictors of 
 amyloidogenicity: PASTA2~\citep{walsh_pasta_2014}, 
 FoldAmyloid~\citep{garbuzynskiy_foldamyloid:_2010} and 
 APPNN~\citep{familia_prediction_2015}. Other classifiers published before were 
@@ -731,19 +731,19 @@ Specificity as seen previously during cross-validation.
     
   Although the proposed n-gram extraction creates accurate classifiers, the 
 encoding of amino acids further increases the general prediction efficiency. 
-AmyGram has the highest AUC and MCC among all tested classifiers. Is has 
+AmyloGram has the highest AUC and MCC among all tested classifiers. Is has 
 lower specificity than two classifiers trained on the full alphabet, but still 
 outperforms other published method in this category. It is important to 
-highlight that AmyGram is the most balanced among all analyzed classifiers, 
+highlight that AmyloGram is the most balanced among all analyzed classifiers, 
 having the best Specificity/Sensitivity trade-off, as indicated by the value of 
 MCC.
 
-  The specificity of AmyGram is lower than the specificity of PASTA2, which 
+  The specificity of AmyloGram is lower than the specificity of PASTA2, which 
 is the consequence of the usage of a threshold value optimized for 0.95 
-specificity for the latter. If the AmyGram also utilizes such threshold, it 
+specificity for the latter. If the AmyloGram also utilizes such threshold, it 
 has much higher sensitivity (0.5518) than PASTA2. Hence, assuming thresholds 
 where both predictors detect with the same accurateness true non-amyloids, 
-AmyGram predicts more true amyloids. 
+AmyloGram predicts more true amyloids. 
  
   Among all considered predictors of amyloidogenicity, APPNN has the highest 
 sensitivity. Nevertheless, its AUC is worse than AUCs of all n-gram-based 
@@ -752,7 +752,7 @@ predictors as well as PASTA2 indicating lower overall performance.
 \section{Conclusion}
 
 Thanks to the reduction of amino acid alphabet, we were able to create the 
-efficient predictor of amyloidogenic sequences called AmyLoad. One of the 
+efficient predictor of amyloidogenic sequences called AmyloGram. One of the 
 strength of our approach is its highly interpretable outcome, which hopefully 
 sheds new light on the process of amyloid aggregation.
 
