@@ -10,7 +10,6 @@ source("./functions/cv.R")
 source("./functions/cv_analysis.R")
 source("./functions/make_classifier.R")
 
-
 require(seqinr)
 require(dplyr)
 require(pbapply)
@@ -128,29 +127,31 @@ seq_hex <- lapply(r33_seqs, function(single_seq)
 
 seq_hex_status <- lapply(r33_status, function(single_status)
   seq2ngrams(single_status, 6, C(0, 1)) %>% 
-  decode_ngrams() %>% 
-  strsplit("") %>% 
-  do.call(rbind, .) %>% 
-  as.numeric %>% 
-  matrix(ncol = 6) %>% 
-  rowMeans()
+    decode_ngrams() %>% 
+    strsplit("") %>% 
+    do.call(rbind, .) %>% 
+    as.numeric %>% 
+    matrix(ncol = 6) %>% 
+    rowMeans()
 )
 
-reg33_preds <- make_classifier_whole_protein(tolower(t(sapply(seqs_list[!reg33_AmyloGram], 
-                                                function(i) c(i, rep(NA, max(lengths(seqs_list[!reg33_AmyloGram])) - length(i)))))), 
-                               ets[!reg33_AmyloGram], 
-                               unname(lengths(seqs_list[!reg33_AmyloGram])), 
-                               6, 
-                               aa_groups[14592], 
-                               seq_hex
-)
-
+# reg33_preds <- make_classifier_whole_protein(tolower(t(sapply(seqs_list[!reg33_AmyloGram], 
+#                                                               function(i) c(i, rep(NA, max(lengths(seqs_list[!reg33_AmyloGram])) - length(i)))))), 
+#                                              ets[!reg33_AmyloGram], 
+#                                              unname(lengths(seqs_list[!reg33_AmyloGram])), 
+#                                              6, 
+#                                              aa_groups[14592], 
+#                                              seq_hex
+# )
+# 
+# save(reg33_preds, file = "./results/reg33_preds.RData")
+load("./results/reg33_preds.RData")
 
 reg33_AmyloGram <- lapply(1L:length(seq_hex_status), function(i)
   data.frame(prot = i, status = seq_hex_status[[i]])) %>% 
   do.call(rbind, .) %>% 
   mutate(pred = reg33_preds) %>% 
-  mutate(status_bin = round(status, 0))
+  mutate(status_bin = floor(status))
 
 reg33_AmyloGram_bench <- filter(reg33_AmyloGram, prot != 28)
 
@@ -179,14 +180,15 @@ reg33_full_preds <- data.frame(prot = unique(reg33_AmyloGram_bench[["prot"]]),
                                  }
                                }))
 ) %>% mutate(len_d = cut(len, c(20, 51, 101, 170, 300, 600, 800)),
-             hs_mean_len_d = cut(hs_max_len, breaks = c(2, 6, 10, 15, 25, 50, 150)))
+             hs_mean_len_d = cut(hs_mean_len, breaks = c(2, 6, 10, 15, 25, 50, 150)))
 
 ggplot(reg33_full_preds, aes(x = as.factor(len), y = AUC, fill = reverted)) +
   geom_bar(stat = "identity") +
   coord_cartesian(ylim = c(0.5, 1)) 
 
-
 ggplot(reg33_full_preds, aes(x = len, y = AUC, color = reverted)) +
   geom_point(size = 5) +
-  facet_wrap(~ hs_mean_len_d)
-  
+  facet_wrap(~ hs_mean_len_d, nrow = 1) +
+  geom_hline(data = group_by(reg33_full_preds, hs_mean_len_d) %>% 
+               summarise(mAUC = mean(AUC)),
+             aes(yintercept = mAUC), linetype = "dashed")
