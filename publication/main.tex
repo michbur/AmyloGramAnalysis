@@ -18,16 +18,18 @@
 
 \title{Prediction of amyloidogenicity based on the n-gram analysis}
 
-\author{Micha\l{} Burdukiewicz\,$^{1}$, Piotr Sobczyk\,$^{2}$, Pawe\l{} 
-Mackiewicz\,$^{1}$ and Ma\l{}gorzata Kotulska\,$^{3}$
+\author{Micha\l{} Burdukiewicz\,$^{1}$, Piotr Sobczyk\,$^{2}$, 
+Stefan R\"{o}diger\,$^{3}$,
+Pawe\l{} Mackiewicz\,$^{1}$ and Ma\l{}gorzata Kotulska\,$^{4}$
 \footnote{To whom correspondence should be addressed.
 Email: malgorzata.kotulska@pwr.edu.pl}}
 
 \address{
 $^{1}$University of Wroc\l{}aw, Department of Genomics,
 $^{2}$Wroc\l{}aw University of Science and Technology, Department of Mathematics 
+$^{3}$Brandenburg University of Technology Cottbus-Senftenberg, Institute of Biotechnology
 and 
-$^{3}$Wroc\l{}aw University of Science and Technology, Department of Biomedical 
+$^{4}$Wroc\l{}aw University of Science and Technology, Department of Biomedical 
 Engineering, Faculty of Fundamental Problems of Technology
 }
 
@@ -145,13 +147,12 @@ classifier, its encoding and set of important n-grams.
 \subsection{Data set}
 
 The data used in the study was extracted from AmyLoad data 
-base~\citep{wozniak_amyload:_2015}. Aside from eight sequences shorter than 
-five 
-residues that were removed from the final data set, we obtained 418 
-amyloidogenic sequences and 1039 non-amyloidogenic sequences (1457 peptides in 
+base~\citep{wozniak_amyload:_2015}. We obtained 418 
+amyloidogenic peptides and 1039 non-amyloidogenic peptides (1465 peptides in 
 total).
 
-  Sequences shorter than 6 amino acids and longer than 25 amino acids were 
+  Sequences shorter than six amino acids and longer than 25 amino acids 
+(8 and 27 sequences respectively) were 
 removed from the data set. The former were too short to be processed in the
 devised n-gram analysis framework and the latter were too diversified and rare, 
 hampering the proper analysis.
