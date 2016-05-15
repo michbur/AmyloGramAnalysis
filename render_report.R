@@ -10,3 +10,5 @@ if(Sys.info()["nodename"] == "MICHALKOMP" )
 opts_knit$set(root.dir = pathway)
 
 render("./reports/methods.Rmd")
+
+render("./reports/reg33_analysis/reg33.Rmd")

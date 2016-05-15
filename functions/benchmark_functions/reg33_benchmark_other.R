@@ -182,13 +182,15 @@ reg33_full_preds <- data.frame(prot = unique(reg33_AmyloGram_bench[["prot"]]),
 ) %>% mutate(len_d = cut(len, c(20, 51, 101, 170, 300, 600, 800)),
              hs_mean_len_d = cut(hs_mean_len, breaks = c(2, 6, 10, 15, 25, 50, 150)))
 
-ggplot(reg33_full_preds, aes(x = as.factor(len), y = AUC, fill = reverted)) +
-  geom_bar(stat = "identity") +
-  coord_cartesian(ylim = c(0.5, 1)) 
-
-ggplot(reg33_full_preds, aes(x = len, y = AUC, color = reverted)) +
-  geom_point(size = 5) +
-  facet_wrap(~ hs_mean_len_d, nrow = 1) +
-  geom_hline(data = group_by(reg33_full_preds, hs_mean_len_d) %>% 
-               summarise(mAUC = mean(AUC)),
-             aes(yintercept = mAUC), linetype = "dashed")
+# library(ggplot2)
+# 
+# ggplot(reg33_full_preds, aes(x = as.factor(len), y = AUC, fill = reverted)) +
+#   geom_bar(stat = "identity") +
+#   coord_cartesian(ylim = c(0.5, 1)) 
+# 
+# ggplot(reg33_full_preds, aes(x = len, y = AUC, color = reverted)) +
+#   geom_point(size = 5) +
+#   facet_wrap(~ hs_mean_len_d, nrow = 1) +
+#   geom_hline(data = group_by(reg33_full_preds, hs_mean_len_d) %>% 
+#                summarise(mAUC = mean(AUC)),
+#              aes(yintercept = mAUC), linetype = "dashed")
