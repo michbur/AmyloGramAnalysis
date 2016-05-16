@@ -103,6 +103,14 @@ decide_reg <- function(x) {
   }
 }
 
+# duplicates: remove using data.frame(sort(table(reg33_al_comp[["seq"]]), decreasing = TRUE))
+
+# hot spot fraction
+calc_frac_hs <- function(x) {
+  status <- as.numeric(unlist(strsplit(x, split = "")))
+  sum(status)/length(status)
+}
+
 reg33_al_comp <- data.frame(seq_name = names(seqs_list[reg33_AmyloGram]),
                             seq = sapply(seqs_list[reg33_AmyloGram], paste0, collapse = ""),
                             reg33_status = sapply(status_reg33_AmyloGram, paste0, collapse = ""),
@@ -110,7 +118,16 @@ reg33_al_comp <- data.frame(seq_name = names(seqs_list[reg33_AmyloGram]),
                             reg33_et = sapply(status_reg33_AmyloGram, decide_reg),
                             stringsAsFactors = FALSE
 ) %>% mutate(AmyLoad_et = factor(AmyLoad_et, labels = c("Non-amyloid", "Amyloid")),
-             reg33_et = factor(reg33_et, labels = c("Non-amyloid", "Amyloid", "Mixed")))
+             reg33_et = factor(reg33_et, labels = c("Non-amyloid", "Amyloid", "Mixed")),
+             concordance = as.character(AmyLoad_et) == as.character(reg33_et)) %>% 
+  slice(-c(16, 99, 272, 421)) %>% 
+  group_by(seq) %>% 
+  mutate(frac_hs = calc_frac_hs(reg33_status),
+         AmyLoad_et_bin = ifelse(AmyLoad_et == "Amyloid", 1, 0),
+         CI = abs(AmyLoad_et_bin - frac_hs)) %>% 
+  ungroup %>% 
+  select(-AmyLoad_et_bin, -frac_hs)
+
 
 as.data.frame(table(reg33_al_comp[, c("AmyLoad_et", "reg33_et")]), responseName = "Count")
 

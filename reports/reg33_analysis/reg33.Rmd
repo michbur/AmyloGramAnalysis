@@ -10,13 +10,26 @@ output:
 knitr::opts_chunk$set(echo = TRUE)
 source("./functions/benchmark_functions/reg33_benchmark_other.R")
 
+library(DT)
+options(DT.options = list(dom = "Brtip",
+                          buttons = c("copy", "csv", "excel", "print")
+))
+
 add_nothing <- function(x)
   apply(matrix(c(x, rep("", (floor(length(x)/40) + 1)*40 - length(x))), ncol = 40,
          byrow = TRUE), 1, paste0, collapse = "")
 
 ```
 
+## AmyLoad annotations
+
+Problematic peptide (two annotations in AmyLoad): VTQEFW.
+
 ## reg33
+
+The reg33 data set is used to benchmark PASTA2, specifically to assess the ability to detect hot spots in the sequences of whole proteins. This data set was published [along with AMYLPRED2](http://journals.plos.org/plosone/article?id=10.1371/journal.pone.0054175).  
+
+### Wrongly annotated sequences in reg33
 
 The data from reg33 publication was annotated twice regarding the position of hot spots. We compared two annotations and found only one protein where two annotations are not in the agreement.  
 
@@ -26,7 +39,7 @@ Small letters - hot spots as indicated by indices in publication.
 Sequences (images):  
 Bold text - hot spot.
 
-### Serum Amyloid A
+#### Serum Amyloid A
 
 ![Serum Amyloid A](Serum_Amyloid_A.png)
 
@@ -37,8 +50,7 @@ cat(add_nothing(r33_lu[[5]]), sep = "  \n")
 Image: **RSFF**  
 Indices: R**SFF**  
 
-
-### &beta;2-microglobulin
+#### &beta;2-microglobulin
 
 ![Beta2-microgobulin](Beta2-microglobulin.png)
 
@@ -52,5 +64,22 @@ Indices: GK**SN**
 Image: **LSQ**PKIVKWDRDM  
 Indices: **LSQ**P**KIVKWD**RDM  
   
+### reg33 vs AmyLoad  
 
 
+```{r reg33vAmyLoad_pivot, echo = FALSE,results='asis'}
+pivot_table <- as.data.frame(table(reg33_al_comp[, c("AmyLoad_et", "reg33_et")]), responseName = "Count")
+kable(pivot_table)
+```
+
+`r sum(pivot_table[["Count"]])` peptides from AmyLoad are subsequences of proteins in reg33. `r sum(pivot_table[c(1, 4), "Count"])` peptides have the same annotation in both data sets and the rest (`r sum(pivot_table[-c(1, 4), "Count"])`) have different annotations. The "Mixed" annotation means that in a peptide according to reg33 only a part of residues belongs to a hot spot.
+
+```{r reg33vAmyLoad, echo = FALSE}
+datatable(reg33_al_comp, escape = FALSE, extensions = 'Buttons', 
+            filter = "top", rownames = FALSE) %>% 
+  formatRound("CI", digits = 4)
+```
+
+CI is concordance index, a difference of the average status of a protein in reg33 and a status in AmyLoad database.
+
+The AmyLoad and reg33 are in the large disagreement.
