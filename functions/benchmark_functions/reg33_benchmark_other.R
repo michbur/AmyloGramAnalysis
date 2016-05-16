@@ -72,6 +72,15 @@ ets <- c(rep(1, length(read.fasta("./data/amyloid_pos_full.fasta",seqtype = "AA"
 ets <- ets[purified_seqs_id]
 
 
+# reg33 hot spots ------------------------------------
+
+hs_lens <- lapply(hotspot_pos, function(i) i[2, ] - i[1, ])
+
+reg33_summary <- data.frame(hs_len = unlist(hs_lens),
+                            prot_len = rep(lengths(r33_seqs), lengths(hs_lens)),
+                            prot_name = rep(r33_raw[["name"]], lengths(hs_lens)))
+
+
 # comparison of AmyLoad and reg33 ----------------------------------
 
 # TRUE if the sequence from AmyloGram is also in reg33

@@ -29,6 +29,13 @@ Problematic peptide (two annotations in AmyLoad): VTQEFW.
 
 The reg33 data set is used to benchmark PASTA2, specifically to assess the ability to detect hot spots in the sequences of whole proteins. This data set was published [along with AMYLPRED2](http://journals.plos.org/plosone/article?id=10.1371/journal.pone.0054175).  
 
+```{r reg33, echo = FALSE, results='markup'}
+library(rbokeh)
+
+figure() %>%
+  ly_points(prot_len, hs_len, data = reg33_summary, hover = c(prot_len, hs_len, prot_name))
+```
+
 ### Wrongly annotated sequences in reg33
 
 The data from reg33 publication was annotated twice regarding the position of hot spots. We compared two annotations and found only one protein where two annotations are not in the agreement.  
@@ -65,7 +72,6 @@ Image: **LSQ**PKIVKWDRDM
 Indices: **LSQ**P**KIVKWD**RDM  
   
 ### reg33 vs AmyLoad  
-
 
 ```{r reg33vAmyLoad_pivot, echo = FALSE,results='asis'}
 pivot_table <- as.data.frame(table(reg33_al_comp[, c("AmyLoad_et", "reg33_et")]), responseName = "Count")
