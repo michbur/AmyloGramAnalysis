@@ -18,11 +18,25 @@ add_nothing <- function(x)
 
 ## reg33
 
+The data from reg33 publication was annotated twice regarding the position of hot spots. We compared two annotations and found only one protein where two annotations are not in the agreement.  
+
 Sequences (text):  
 Small letters - hot spots as indicated by indices in publication.  
 
 Sequences (images):  
 Bold text - hot spot.
+
+### Serum Amyloid A
+
+![Serum Amyloid A](Serum_Amyloid_A.png)
+
+```{r serum, echo = FALSE, results='markup'}
+cat(add_nothing(r33_lu[[5]]), sep = "  \n")
+```
+
+Image: **RSFF**  
+Indices: R**SFF**  
+
 
 ### &beta;2-microglobulin
 
@@ -32,9 +46,11 @@ Bold text - hot spot.
 cat(add_nothing(r33_lu[[17]]), sep = "  \n")
 ```
 
-Image: GK**SN**  
-Indices: GKS**N**  
+Image: GKS**N**  
+Indices: GK**SN**  
 
 Image: **LSQ**PKIVKWDRDM  
 Indices: **LSQ**P**KIVKWD**RDM  
+  
+
 
