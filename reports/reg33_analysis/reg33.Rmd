@@ -107,8 +107,9 @@ read.csv("./benchmark/reg33_other.csv") %>%
         #calc_measures_reg33(reg33_AmyloGram, 0.5),
         calc_measures_reg33(reg33_AmyloGram, 0.36),
         calc_measures_reg33(reg33_AmyloGram, 0.29)) %>% 
-  print(head = FALSE) %>% 
-  kable
+  datatable(escape = FALSE, extensions = 'Buttons', 
+            filter = "top", rownames = FALSE) %>% 
+  formatRound(2L:4, digits = 4)
 ```
 
 ### Length of sequences  
@@ -146,6 +147,3 @@ The prediction seems to be the worse for proteins with the longest hot spots. Th
 * long hot spots were wrongly detected with experimental methods.  
 
 When proteins with hot spots longer than 26 are rmeoved from the data set, the general AUC is **`r round(HMeasure(reg33_AmyloGram_bench_short[["status_bin"]], reg33_AmyloGram_bench_short[["pred"]], threshold = 0.5)[["metrics"]][["AUC"]], 4)`**.
-
-### Comparison with Pasta2
-
