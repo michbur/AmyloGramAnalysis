@@ -136,7 +136,7 @@ reg33_al_comp <- data.frame(seq_name = names(seqs_list[reg33_AmyloGram]),
          AmyLoad_et_bin = ifelse(AmyLoad_et == "Amyloid", 1, 0),
          CI = abs(AmyLoad_et_bin - frac_hs)) %>% 
   ungroup %>% 
-  select(-AmyLoad_et_bin, -frac_hs)
+  select(-AmyLoad_et_bin, -frac_hs, -concordance)
 
 
 as.data.frame(table(reg33_al_comp[, c("AmyLoad_et", "reg33_et")]), responseName = "Count")
@@ -209,4 +209,19 @@ reg33_full_preds <- data.frame(prot = unique(reg33_AmyloGram_bench[["prot"]]),
 ) %>% mutate(len_d = cut(len, c(20, 51, 101, 170, 300, 600, 800)),
              hs_mean_len_d = cut(hs_mean_len, breaks = c(2, 6, 10, 15, 25, 50, 150)))
 
+# only hot spots shorter than 26 aa
+reg33_AmyloGram_bench_short <- filter(reg33_AmyloGram, prot %in% which(sapply(hotspot_pos, function(i) mean(i[2, ] - i[1, ])) < 26))
+HMeasure(reg33_AmyloGram_bench_short[["status_bin"]], reg33_AmyloGram_bench_short[["pred"]], threshold = 0.5)[["metrics"]]
 
+calc_measures_reg33 <- function(x, cutoff = 0.5) {
+  x[["pred_bin"]] <- as.numeric(x[["pred"]] > cutoff)
+  conf_mat <- as.data.frame(table(pred = x[["pred_bin"]], et = x[["status_bin"]]), responseName = "count")
+  conf_mat[["count"]] <- as.numeric(conf_mat[["count"]])
+  
+  data.frame(classifier = paste0("AmyloGram (", cutoff, ")"),
+             Sensitivity = conf_mat[4, "count"]/(conf_mat[4, "count"] + conf_mat[3, "count"]), 
+             Specificity = conf_mat[1, "count"]/(conf_mat[1, "count"] + conf_mat[2, "count"]),
+             MCC = calc_mcc(conf_mat[4, "count"], conf_mat[1, "count"], conf_mat[2, "count"], conf_mat[3, "count"]))
+}
+
+calc_measures_reg33(reg33_AmyloGram)

@@ -96,19 +96,45 @@ CI is concordance index, a difference of the average status of a protein in reg3
 
 ## Performance of AmyloGram on reg33
 
+AmyloGram cannot be simply used to detect hot spots from reg33 proteins, because it does not predict if a single residue belongs to a hot spot, but rather assess the state of whole hexamer. To check te general performance of AmyloGram, we extracted overlapping hexamers from reg33 proteins. The state of the hexamer was equal to the state of majority of residues in the hexamer. For example, if four or more residues were belonging to a hot spot, the state of hexamer was assigned as "Amyloidogenic". 
+
+The AUC of AmyloGram was **`r round(HMeasure(reg33_AmyloGram_bench[["status_bin"]], reg33_AmyloGram_bench[["pred"]], threshold = 0.5)[["metrics"]][["AUC"]], 4)`**, which is somehow expected since the algorithm was not trained on this type of data and is rather optimized to predict amyloidogenicity of peptides.
+
+### Length of sequences  
+
 ```{r AG_general, echo = FALSE}
 ggplot(reg33_full_preds, aes(x = as.factor(len), y = AUC, fill = reverted)) +
   geom_bar(stat = "identity") +
   coord_cartesian(ylim = c(0.5, 1)) +
+  scale_x_discrete("Protein length") +
+  scale_fill_discrete("Reverted predictor") +
   my_theme
 ```
 
+The performance of AUC seems to not depend on the length of analyzed proteins.  
+
+### Length of hot spots  
+
 ```{r AG_specific, echo = FALSE}
+levels(reg33_full_preds[["hs_mean_len_d"]]) <- paste0("Hot spot length:\n", levels(reg33_full_preds[["hs_mean_len_d"]]))
+
 ggplot(reg33_full_preds, aes(x = len, y = AUC, color = reverted)) +
   geom_point(size = 5) +
   facet_wrap(~ hs_mean_len_d, nrow = 1) +
   geom_hline(data = group_by(reg33_full_preds, hs_mean_len_d) %>% 
                summarise(mAUC = mean(AUC)),
              aes(yintercept = mAUC), linetype = "dashed") +
+  scale_x_continuous("Protein length") +
+  scale_color_discrete("Reverted predictor") +
   my_theme
 ```
+
+The prediction seems to be the worse for proteins with the longest hot spots. There are two possible explanations:  
+
+* AmyloGram cannot detect long hot spots;  
+* long hot spots were wrongly detected with experimental methods.  
+
+When proteins with hot spots longer than 26 are rmeoved from the data set, the general AUC is **`r round(HMeasure(reg33_AmyloGram_bench_short[["status_bin"]], reg33_AmyloGram_bench_short[["pred"]], threshold = 0.5)[["metrics"]][["AUC"]], 4)`**.
+
+### Comparison with Pasta2
+
