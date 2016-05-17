@@ -78,7 +78,8 @@ hs_lens <- lapply(hotspot_pos, function(i) i[2, ] - i[1, ])
 
 reg33_summary <- data.frame(hs_len = unlist(hs_lens),
                             prot_len = rep(lengths(r33_seqs), lengths(hs_lens)),
-                            prot_name = rep(r33_raw[["name"]], lengths(hs_lens)))
+                            prot_name = rep(r33_raw[["name"]], lengths(hs_lens)),
+                            hs_n = factor(rep(lengths(hs_lens), lengths(hs_lens))))
 
 
 # comparison of AmyLoad and reg33 ----------------------------------

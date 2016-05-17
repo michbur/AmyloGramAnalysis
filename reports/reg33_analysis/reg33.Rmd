@@ -27,13 +27,16 @@ Problematic peptide (two annotations in AmyLoad): VTQEFW.
 
 ## reg33
 
-The reg33 data set is used to benchmark PASTA2, specifically to assess the ability to detect hot spots in the sequences of whole proteins. This data set was published [along with AMYLPRED2](http://journals.plos.org/plosone/article?id=10.1371/journal.pone.0054175).  
+The reg33 dataset is used to benchmark PASTA2, specifically to assess the ability to detect hot spots in the sequences of whole proteins. This dataset was published [along with AMYLPRED2](http://journals.plos.org/plosone/article?id=10.1371/journal.pone.0054175).  
 
 ```{r reg33, echo = FALSE, results='markup'}
-library(rbokeh)
+library(scatterD3)
 
-figure() %>%
-  ly_points(prot_len, hs_len, data = reg33_summary, hover = c(prot_len, hs_len, prot_name))
+scatterD3(data = reg33_summary, x = prot_len, y = hs_len, col_var = hs_n,
+          tooltip_text = reg33_summary[["prot_name"]],
+          xlab = "Protein length", ylab = "Hot spot length", col_lab = "Number of hot spots", 
+          xlim = c(0, max(reg33_summary[["prot_len"]])*1.05),
+          ylim = c(0, max(reg33_summary[["hs_len"]])*1.05))
 ```
 
 ### Wrongly annotated sequences in reg33
@@ -78,7 +81,7 @@ pivot_table <- as.data.frame(table(reg33_al_comp[, c("AmyLoad_et", "reg33_et")])
 kable(pivot_table)
 ```
 
-`r sum(pivot_table[["Count"]])` peptides from AmyLoad are subsequences of proteins in reg33. `r sum(pivot_table[c(1, 4), "Count"])` peptides have the same annotation in both data sets and the rest (`r sum(pivot_table[-c(1, 4), "Count"])`) have different annotations. The "Mixed" annotation means that in a peptide according to reg33 only a part of residues belongs to a hot spot.
+`r sum(pivot_table[["Count"]])` peptides from AmyLoad are subsequences of proteins in reg33. `r sum(pivot_table[c(1, 4), "Count"])` peptides have the same annotation in both datasets and the rest (`r sum(pivot_table[-c(1, 4), "Count"])`) have different annotations. The "Mixed" annotation means that in a peptide according to reg33 only a part of residues belongs to a hot spot.
 
 ```{r reg33vAmyLoad, echo = FALSE}
 datatable(reg33_al_comp, escape = FALSE, extensions = 'Buttons', 
@@ -86,6 +89,6 @@ datatable(reg33_al_comp, escape = FALSE, extensions = 'Buttons',
   formatRound("CI", digits = 4)
 ```
 
-CI is concordance index, a difference of the average status of a protein in reg33 and a status in AmyLoad database.
+CI is concordance index, a difference of the average status of a protein in reg33 and a status in AmyLoad database. CI equal to 0 means that the sequences in both datasets have the same etiquette (amyloids/nonamyloid). CI equal to 1 means that a sequence has totally oppossed etiquettes. CI larger than 0.5 means that the bigger part of the sequence described in reg33 has the different annotation than in the AmyLoad database.
 
-The AmyLoad and reg33 are in the large disagreement.
+`r sum(reg33_al_comp[["CI"]] > 0.5)` sequences (`r round(sum(reg33_al_comp[["CI"]] > 0.5)/length(seqs_list) * 100, 2)`%) in the AmyLoad database have drastically different annotations than in the reg33 dataset.
