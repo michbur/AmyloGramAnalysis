@@ -100,6 +100,17 @@ AmyloGram cannot be simply used to detect hot spots from reg33 proteins, because
 
 The AUC of AmyloGram was **`r round(HMeasure(reg33_AmyloGram_bench[["status_bin"]], reg33_AmyloGram_bench[["pred"]], threshold = 0.5)[["metrics"]][["AUC"]], 4)`**, which is somehow expected since the algorithm was not trained on this type of data and is rather optimized to predict amyloidogenicity of peptides.
 
+```{r reg33_perf, echo = FALSE}
+read.csv("./benchmark/reg33_other.csv") %>% 
+  select(-Q2) %>% 
+  rbind(., 
+        #calc_measures_reg33(reg33_AmyloGram, 0.5),
+        calc_measures_reg33(reg33_AmyloGram, 0.36),
+        calc_measures_reg33(reg33_AmyloGram, 0.29)) %>% 
+  print(head = FALSE) %>% 
+  kable
+```
+
 ### Length of sequences  
 
 ```{r AG_general, echo = FALSE}

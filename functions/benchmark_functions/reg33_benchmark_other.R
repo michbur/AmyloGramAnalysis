@@ -218,10 +218,13 @@ calc_measures_reg33 <- function(x, cutoff = 0.5) {
   conf_mat <- as.data.frame(table(pred = x[["pred_bin"]], et = x[["status_bin"]]), responseName = "count")
   conf_mat[["count"]] <- as.numeric(conf_mat[["count"]])
   
-  data.frame(classifier = paste0("AmyloGram (", cutoff, ")"),
-             Sensitivity = conf_mat[4, "count"]/(conf_mat[4, "count"] + conf_mat[3, "count"]), 
-             Specificity = conf_mat[1, "count"]/(conf_mat[1, "count"] + conf_mat[2, "count"]),
+  data.frame(Method = paste0("AmyloGram (", cutoff, ")"),
+             Sensitivity = conf_mat[4, "count"]/(conf_mat[4, "count"] + conf_mat[3, "count"]) * 100, 
+             Specificity = conf_mat[1, "count"]/(conf_mat[1, "count"] + conf_mat[2, "count"]) * 100,
              MCC = calc_mcc(conf_mat[4, "count"], conf_mat[1, "count"], conf_mat[2, "count"], conf_mat[3, "count"]))
 }
 
-calc_measures_reg33(reg33_AmyloGram)
+# AmyloGram_cutoffs <- lapply(1L:99/100, function(i) calc_measures_reg33(reg33_AmyloGram, i)) %>% 
+#   do.call(rbind, .)
+
+
