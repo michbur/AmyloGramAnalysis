@@ -9,6 +9,7 @@ output:
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 source("./functions/benchmark_functions/reg33_benchmark_other.R")
+source("./functions/plot_tools.R")
 
 library(DT)
 options(DT.options = list(dom = "Brtip",
@@ -92,3 +93,22 @@ datatable(reg33_al_comp, escape = FALSE, extensions = 'Buttons',
 CI is concordance index, a difference of the average status of a protein in reg33 and a status in AmyLoad database. CI equal to 0 means that the sequences in both datasets have the same etiquette (amyloids/nonamyloid). CI equal to 1 means that a sequence has totally oppossed etiquettes. CI larger than 0.5 means that the bigger part of the sequence described in reg33 has the different annotation than in the AmyLoad database.
 
 `r sum(reg33_al_comp[["CI"]] > 0.5)` sequences (`r round(sum(reg33_al_comp[["CI"]] > 0.5)/length(seqs_list) * 100, 2)`%) in the AmyLoad database have drastically different annotations than in the reg33 dataset.
+
+## Performance of AmyloGram on reg33
+
+```{r AG_general, echo = FALSE}
+ggplot(reg33_full_preds, aes(x = as.factor(len), y = AUC, fill = reverted)) +
+  geom_bar(stat = "identity") +
+  coord_cartesian(ylim = c(0.5, 1)) +
+  my_theme
+```
+
+```{r AG_specific, echo = FALSE}
+ggplot(reg33_full_preds, aes(x = len, y = AUC, color = reverted)) +
+  geom_point(size = 5) +
+  facet_wrap(~ hs_mean_len_d, nrow = 1) +
+  geom_hline(data = group_by(reg33_full_preds, hs_mean_len_d) %>% 
+               summarise(mAUC = mean(AUC)),
+             aes(yintercept = mAUC), linetype = "dashed") +
+  my_theme
+```
