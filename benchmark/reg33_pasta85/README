@@ -1,0 +1,60 @@
+Title: Understanding the SELF-aggregation archive
+Author: Ian Walsh
+Date 25th Feb 2014
+
+
+This file describes the files in the downloadable archive on the main output page. 
+In particular, for the SELF-aggregation predictions.  
+
+The best way to describe it is with an example. Consider the following 3 proteins: 
+
+>human_amyloid
+DAEFRHDSGYEVHHQKLVFFAEDVGSNKGAIIGLMVGGVV
+>HETs_prion
+MKIDAIVGRNSAKDIRTEERARVQLGNVVTAAALHGGIRISDQTTNSVETVVGKGESRVLIGNEYGGKGFWDNHHHHHH
+>spP37840
+MDVFMKGLSKAKEGVVAAAEKTKQGVAEAAGKTKEGVLYVGSKTKEGVVHGVATVAEKTKEQVTNVGGAVVTGVTAVAQKTVEGAGSIAAATGFVKKDQLGKNEEGAPQEGILEDMPVDPDNEAYEMPSEEGYQDYEPEA
+
+and assume we simply want to calculate the aggregation on each individually (Regular mode in input).
+
+The following files are archieved (these files are also used for nicer web output): 
+
+HETs_prion.fasta.espritz				: The disorder prediction
+HETs_prion.fasta.fastss					: the secondary structure prediction
+HETs_prion.fasta.seq.aggr_profile.dat			: the aggregation probability profile
+HETs_prion.fasta.seq.aggr_profile.dat.free_energy	: the aggregation free energy profile
+HETs_prion.fasta.seq.best_pairings_list.dat		: the best self aggregation pairing 
+HETs_prion.fasta.seq.pairing_mat.dat			: the self probability matrix
+HETs_prion.fasta.seq.pairing_mat.dat.free_energy	: the self free energy matrix
+human_amyloid.fasta.espritz				: as above
+human_amyloid.fasta.fastss				: as above
+human_amyloid.fasta.seq.aggr_profile.dat		: as above
+human_amyloid.fasta.seq.aggr_profile.dat.free_energy	: as above
+human_amyloid.fasta.seq.best_pairings_list.dat		: as above
+human_amyloid.fasta.seq.pairing_mat.dat			: as above
+human_amyloid.fasta.seq.pairing_mat.dat.free_energy	: as above
+spP37840.fasta.espritz					: as above
+spP37840.fasta.fastss					: as above
+spP37840.fasta.seq.aggr_profile.dat			: as above
+spP37840.fasta.seq.aggr_profile.dat.free_energy		: as above
+spP37840.fasta.seq.best_pairings_list.dat		: as above
+spP37840.fasta.seq.pairing_mat.dat			: as above
+spP37840.fasta.seq.pairing_mat.dat.free_energy		: as above
+
+
+The disorder prediction has two colmns:
+D/O  Real_number
+where D is classified as disorder and the 2nd column is the probability of disorder. 
+
+
+An example secondary structure prediction snippet is: 
+H	0.00515906	B	0.00187079	C	0.99297
+H	0.188254	B	0.178247	C	0.633498
+H	0.355256	B	0.361836	C	0.282908
+H	0.417733	B	0.383424	C	0.198842
+H	0.434197	B	0.361897	C	0.203906
+H	0.418984	B	0.261658	C	0.319358
+
+where the real numbers represent probability of helix, strand and coil from left to right. 
+
+
