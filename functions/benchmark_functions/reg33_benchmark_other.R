@@ -57,7 +57,7 @@ write.fasta(r33_lu, r33_raw[["name"]], "./benchmark/reg33_lu.fasta")
 
 
 # uppercase sequences for benchmark -----------------------------
-write.fasta(r33_seqs, r33_raw[["name"]], "./benchmark/reg33.fasta")
+write.fasta(r33_seqs, paste0("prot", 1L:length(r33_seqs)), "./benchmark/reg33.fasta")
 
 
 # AmyLoad sequences ---------------------------------
