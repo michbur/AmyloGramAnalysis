@@ -227,4 +227,16 @@ calc_measures_reg33 <- function(x, cutoff = 0.5) {
 # AmyloGram_cutoffs <- lapply(1L:99/100, function(i) calc_measures_reg33(reg33_AmyloGram, i)) %>% 
 #   do.call(rbind, .)
 
+file_names <- list.files("./benchmark/reg33_pasta85/")[grepl("fasta.seq.aggr_profile.dat.free_energy", list.files("./benchmark/reg33_pasta85/"))]
 
+pasta2_energy85 <- lapply(file_names, function(i) {
+  data.frame(prot = as.numeric(strsplit(substr(i, 5, nchar(i)), ".", fixed = TRUE)[[1]][1]),
+             pred = as.numeric(readLines(paste0("./benchmark/reg33_pasta85/", i)))
+  )
+}) %>% 
+  do.call(rbind, .) %>% 
+  arrange(prot) %>% 
+  mutate(status_bin = unlist(r33_status),
+         pred = pred)
+
+calc_measures_reg33(pasta2_energy85, -1.4)
