@@ -19,8 +19,6 @@ get_train_seqs <- function(file_name, pattern_vector) {
   
   seq_pasted <- sapply(seq, function(i) paste0(i, collapse = ""))
   
-  browser()
-  
   seq_duplicated <- lapply(seq_pasted, function(i)
     grep(i, pattern_vector)) %>% unlist %>% unique
   
