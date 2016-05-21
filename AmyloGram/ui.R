@@ -1,8 +1,8 @@
 library(shiny)
-library(DT)
-
 
 shinyUI(fluidPage(
+  
+  headerPanel("AmyloGram"),
   
   sidebarLayout(
     sidebarPanel(
