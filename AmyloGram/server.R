@@ -6,6 +6,15 @@ load("AmyloGram.RData")
 
 options(shiny.maxRequestSize=10*1024^2)
 
+options(DT.options = list(dom = "Brtip",
+                          buttons = c("copy", "csv", "excel", "print")
+))
+
+my_DT <- function(x)
+  datatable(x, escape = FALSE, extensions = 'Buttons', 
+            filter = "top", rownames = FALSE)
+
+
 shinyServer(function(input, output) {
   
   prediction <- reactive({
@@ -31,18 +40,19 @@ shinyServer(function(input, output) {
     }
   })
   
-  output$dynamic_ui <- renderUI({
-    if(!is.null(prediction())) {
-      div(tags$h3("Download results"),
-          tags$p(""),
-          downloadButton("download_short", "Download output"),
-          tags$p("Refresh page (press F5) to start a new query with signalHsmm."))
-    }
+  decision <- reactive({
+    make_decision(prediction(), 0.5)
   })
   
   
-  output$pred_table <- renderTable({
-    prediction()
+  output$dynamic_ui <- renderUI({
+    if(!is.null(prediction())) {
+          tags$p("Refresh page (press F5) to start a new query with signalHsmm.")
+    }
+  })
+  
+  output$pred_table <- DT::renderDataTable({
+    formatRound(my_DT(decision()), 2, 4)
   })
   
   output$dynamic_tabset <- renderUI({
@@ -59,29 +69,9 @@ shinyServer(function(input, output) {
       
       
     } else {
-      tabPanel("Short output", tableOutput("pred_table"))
+      tabPanel("Short output", DT::dataTableOutput("pred_table"))
     }
   })
   
-  #name for downloads
-  file_name <- reactive({
-    if(is.null(input[["seq_file"]][["name"]])) {
-      part_name <- "AmyloGram_results"
-    } else {
-      part_name <- strsplit(input[["seq_file"]][["name"]], ".", fixed = TRUE)[[1]][1]
-    }
-    part_name
-  })
-  
-  
-  output$download_short <- downloadHandler(
-    filename  = function() { 
-      paste0(file_name(), "_pred.csv") 
-    },
-    content <- function(file) {
-      write.csv(prediction(), file)
-    }
-  )
-  
-  
+
 })

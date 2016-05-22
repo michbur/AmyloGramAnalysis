@@ -57,9 +57,12 @@ predict_AmyloGram <- function(model, seqs_list) {
                       prot = unlist(lapply(1L:length(test_lengths), function(i) rep(i, test_lengths[i])))
   )
   
-  data.frame(seq_name = names(seqs_list),
-             prob = vapply(unique(preds[["prot"]]), function(single_prot)
+  data.frame(Name = names(seqs_list),
+             Probability = vapply(unique(preds[["prot"]]), function(single_prot)
                max(preds[preds[["prot"]] == single_prot, "prob"]),
                0)
   )
 }
+
+make_decision <- function(x, cutoff) 
+  data.frame(x, Amyloidogenic = x[["Probability"]] > cutoff)

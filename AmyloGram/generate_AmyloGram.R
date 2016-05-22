@@ -43,9 +43,6 @@ balance_spec_sens <- function(x, cutoffs) {
 
 spec_sens <- balance_spec_sens(rep424_preds, 1L:99/100)
 
-make_decision(predict_AmyloGram(AmyloGram_model, test_dat[1L:10]), 0.5)
-
-make_decision <- function(x, cutoff) 
-  data.frame(x, amyloidogenic = x[["prob"]] > cutoff)
+#make_decision(predict_AmyloGram(AmyloGram_model, test_dat[1L:10]), 0.5)
 
 save(spec_sens, AmyloGram_model, file = "./AmyloGram/AmyloGram.RData")
