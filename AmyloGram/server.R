@@ -1,17 +1,10 @@
 library(shiny)
-library(seqinr)
-library(biogram)
-library(randomForest)
-library(dplyr)
-library(signalHsmm)
-library(shinyAce)
 library(markdown)
+library(DT)
 source("functions.R")
 load("AmyloGram.RData")
 
 options(shiny.maxRequestSize=10*1024^2)
-
-
 
 shinyServer(function(input, output) {
   
@@ -27,12 +20,16 @@ shinyServer(function(input, output) {
     })
     
     if(exists("res")) {
-      predict_classifier(res)
+      if(length(res) > 300) {
+        #dummy error, just to stop further processing
+        stop("Too many sequences.")
+      } else {
+        predict_AmyloGram(AmyloGram_model, res)
+      }
     } else {
       NULL
     }
   })
-  
   
   output$dynamic_ui <- renderUI({
     if(!is.null(prediction())) {
@@ -51,16 +48,18 @@ shinyServer(function(input, output) {
   output$dynamic_tabset <- renderUI({
     if(is.null(prediction())) {
       
-      tabPanel("Paste sequences here:", aceEditor("text_area", value="", height = 150),
+      tabPanel(title = "Sequence input",
+               h3("Paste sequences (FASTA format required) into the field below:"), 
+               tags$style(type="text/css", "textarea {width:100%}"),
+               tags$textarea(id = "text_area", rows = 22, cols = 60, ""),
+               p(""),
                actionButton("use_area", "Submit data from field above"),
                p(""),
                fileInput('seq_file', 'Submit .fasta or .txt file:'))
       
       
     } else {
-      tabsetPanel(
-        tabPanel("Summary", tableOutput("pred_table"))
-      )
+      tabPanel("Short output", tableOutput("pred_table"))
     }
   })
   
