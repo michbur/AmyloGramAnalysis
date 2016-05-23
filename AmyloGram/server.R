@@ -20,20 +20,20 @@ shinyServer(function(input, output) {
   prediction <- reactive({
     
     if (!is.null(input[["seq_file"]]))
-      res <- read_txt(input[["seq_file"]][["datapath"]])
+      input_sequences <- read_txt(input[["seq_file"]][["datapath"]])
     input[["use_area"]]
     isolate({
       if (!is.null(input[["text_area"]]))
         if(input[["text_area"]] != "")
-          res <- read_txt(textConnection(input[["text_area"]]))
+          input_sequences <- read_txt(textConnection(input[["text_area"]]))
     })
     
-    if(exists("res")) {
-      if(length(res) > 300) {
+    if(exists("input_sequences")) {
+      if(length(input_sequences) > 300) {
         #dummy error, just to stop further processing
         stop("Too many sequences.")
       } else {
-        predict_AmyloGram(AmyloGram_model, res)
+        predict_AmyloGram(AmyloGram_model, input_sequences)
       }
     } else {
       NULL
@@ -41,7 +41,8 @@ shinyServer(function(input, output) {
   })
   
   decision <- reactive({
-    make_decision(prediction(), 0.5)
+    if(!is.null(prediction()))
+      make_decision(prediction(), 0.5)
   })
   
   
