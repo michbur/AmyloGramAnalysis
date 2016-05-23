@@ -65,4 +65,4 @@ predict_AmyloGram <- function(model, seqs_list) {
 }
 
 make_decision <- function(x, cutoff) 
-  data.frame(x, Amyloidogenic = x[["Probability"]] > cutoff)
+  data.frame(x, Amyloidogenic = factor(ifelse(x[["Probability"]] > cutoff, "yes", "no")))

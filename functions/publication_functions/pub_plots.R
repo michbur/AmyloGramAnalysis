@@ -100,6 +100,9 @@ ngram_plot <- ggplot(ngram_freq_plot, aes(x = decoded_name, y = value, fill = va
   my_theme + 
   theme(panel.grid.major.y = element_line(color = "NA")) 
 
+# in case we need to get n-grams in a tabular format
+#writeLines(as.character(ngram_freq_plot[["decoded_name"]]), "n_gramy_Ania.txt")
+
 cairo_ps("./publication/figures/ngrams.eps", height = 8.5, width = 2.5)
 print(ngram_plot)
 dev.off()

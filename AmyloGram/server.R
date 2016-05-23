@@ -29,7 +29,7 @@ shinyServer(function(input, output) {
     })
     
     if(exists("input_sequences")) {
-      if(length(input_sequences) > 300) {
+      if(length(input_sequences) > 100) {
         #dummy error, just to stop further processing
         stop("Too many sequences.")
       } else {
@@ -60,9 +60,8 @@ shinyServer(function(input, output) {
     if(is.null(prediction())) {
       
       tabPanel(title = "Sequence input",
-               h3("Paste sequences (FASTA format required) into the field below:"), 
-               tags$style(type="text/css", "textarea {width:100%}"),
-               tags$textarea(id = "text_area", rows = 22, cols = 60, ""),
+               tags$textarea(id = "text_area", style = "width:100%",
+                             placeholder="Paste sequences (FASTA format required) here...", rows = 22, cols = 60, ""),
                p(""),
                actionButton("use_area", "Submit data from field above"),
                p(""),
