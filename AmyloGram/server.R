@@ -42,7 +42,7 @@ shinyServer(function(input, output) {
   
   decision <- reactive({
     if(!is.null(prediction()))
-      make_decision(prediction(), 0.5)
+      make_decision(prediction(), input[["cutoff"]])
   })
   
   
@@ -80,6 +80,9 @@ shinyServer(function(input, output) {
     } else {
       tabPanel("Short output", 
                DT::dataTableOutput("pred_table"),
+               HTML("Adjust cutoff to obtain required specificity and sensitivity. <br> The cutoff value affects decisions made by AmyloGram."),
+               br(),
+               br(),
                fluidRow(
                  column(3, numericInput("cutoff", value = 0.5, 
                                         label = "Cutoff", min = 0.01, max = 0.95, step = 0.01)),
