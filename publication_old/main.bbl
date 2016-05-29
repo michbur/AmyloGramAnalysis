@@ -1,0 +1,199 @@
+\begin{thebibliography}{}
+
+\bibitem[Argos {\em et~al.}(1982)Argos, Rao, and
+  Hargrave]{argos_structural_1982}
+Argos, P., Rao, J.~K., and Hargrave, P.~A. (1982).
+\newblock Structural prediction of membrane-bound proteins.
+\newblock {\em European journal of biochemistry / FEBS\/}, {\bf 128}(2-3),
+  565--575.
+
+\bibitem[Beerten {\em et~al.}(2015)Beerten, Van~Durme, Gallardo, Capriotti,
+  Serpell, Rousseau, and Schymkowitz]{beerten_waltz-db:_2015}
+Beerten, J., Van~Durme, J., Gallardo, R., Capriotti, E., Serpell, L., Rousseau,
+  F., and Schymkowitz, J. (2015).
+\newblock {WALTZ}-{DB}: a benchmark database of amyloidogenic hexapeptides.
+\newblock {\em Bioinformatics (Oxford, England)\/}, {\bf 31}(10), 1698--1700.
+
+\bibitem[Bhaskaran and Ponnuswamy(1988)Bhaskaran and
+  Ponnuswamy]{bhaskaran_positional_1988}
+Bhaskaran, R. and Ponnuswamy, P. (1988).
+\newblock Positional flexibilities of amino acid residues in globular proteins.
+\newblock {\em International Journal of Peptide and Protein Research\/}, {\bf
+  32}(4), 241--255.
+
+\bibitem[Black and Mould(1991)Black and Mould]{black_development_1991}
+Black, S.~D. and Mould, D.~R. (1991).
+\newblock Development of hydrophobicity parameters to analyze proteins which
+  bear post- or cotranslational modifications.
+\newblock {\em Analytical Biochemistry\/}, {\bf 193}(1), 72--82.
+
+\bibitem[Breiman(2001)Breiman]{breiman_random_2001}
+Breiman, L. (2001).
+\newblock Random {Forests}.
+\newblock {\em Machine Learning\/}, {\bf 45}(1), 5--32.
+
+\bibitem[Bryan {\em et~al.}(2012)Bryan, O'Donnell, Menke, Cowen, Lindquist, and
+  Berger]{bryan_stitcher:_2012}
+Bryan, A.~W., O'Donnell, C.~W., Menke, M., Cowen, L.~J., Lindquist, S., and
+  Berger, B. (2012).
+\newblock {STITCHER}: {Dynamic} assembly of likely amyloid and prion
+  β-structures from secondary structure predictions.
+\newblock {\em Proteins\/}, {\bf 80}(2), 410--420.
+
+\bibitem[Charton and Charton(1982)Charton and Charton]{charton_structural_1982}
+Charton, M. and Charton, B.~I. (1982).
+\newblock The structural dependence of amino acid hydrophobicity parameters.
+\newblock {\em Journal of Theoretical Biology\/}, {\bf 99}(4), 629--644.
+
+\bibitem[Garbuzynskiy {\em et~al.}(2010)Garbuzynskiy, Lobanov, and
+  Galzitskaya]{garbuzynskiy_foldamyloid:_2010}
+Garbuzynskiy, S.~O., Lobanov, M.~Y., and Galzitskaya, O.~V. (2010).
+\newblock {FoldAmyloid}: a method of prediction of amyloidogenic regions from
+  protein sequence.
+\newblock {\em Bioinformatics (Oxford, England)\/}, {\bf 26}(3), 326--332.
+
+\bibitem[Gasior and Kotulska(2014)Gasior and Kotulska]{gasior_fish_2014}
+Gasior, P. and Kotulska, M. (2014).
+\newblock {FISH} {Amyloid} – a new method for finding amyloidogenic segments
+  in proteins based on site specific co-occurence of aminoacids.
+\newblock {\em BMC Bioinformatics\/}, {\bf 15}(1), 54.
+
+\bibitem[Goldschmidt {\em et~al.}(2010)Goldschmidt, Teng, Riek, and
+  Eisenberg]{goldschmidt_identifying_2010}
+Goldschmidt, L., Teng, P.~K., Riek, R., and Eisenberg, D. (2010).
+\newblock Identifying the amylome, proteins capable of forming amyloid-like
+  fibrils.
+\newblock {\em Proceedings of the National Academy of Sciences\/}, {\bf
+  107}(8), 3487--3492.
+
+\bibitem[Jr(1963)Jr]{jr_hierarchical_1963}
+Jr, J. H.~W. (1963).
+\newblock Hierarchical {Grouping} to {Optimize} an {Objective} {Function}.
+\newblock {\em Journal of the American Statistical Association\/}, {\bf
+  58}(301), 236--244.
+
+\bibitem[Kanehisa and Tsong(1980)Kanehisa and Tsong]{kanehisa_local_1980}
+Kanehisa, M.~I. and Tsong, T.~Y. (1980).
+\newblock Local hydrophobicity stabilizes secondary structures in proteins.
+\newblock {\em Biopolymers\/}, {\bf 19}(9), 1617--1628.
+
+\bibitem[Kawashima {\em et~al.}(2008)Kawashima, Pokarowski, Pokarowska,
+  Kolinski, Katayama, and Kanehisa]{kawashima_aaindex:_2008}
+Kawashima, S., Pokarowski, P., Pokarowska, M., Kolinski, A., Katayama, T., and
+  Kanehisa, M. (2008).
+\newblock {AAindex}: amino acid index database, progress report 2008.
+\newblock {\em Nucleic Acids Research\/}, {\bf 36}(suppl 1), D202--D205.
+
+\bibitem[Kidera {\em et~al.}(1985)Kidera, Konishi, Oka, Ooi, and
+  Scheraga]{kidera_statistical_1985}
+Kidera, A., Konishi, Y., Oka, M., Ooi, T., and Scheraga, H.~A. (1985).
+\newblock Statistical analysis of the physical properties of the 20 naturally
+  occurring amino acids.
+\newblock {\em Journal of Protein Chemistry\/}, {\bf 4}(1), 23--55.
+
+\bibitem[Kim and Berg(1993)Kim and Berg]{kim_thermodynamic_1993}
+Kim, C.~A. and Berg, J.~M. (1993).
+\newblock Thermodynamic beta-sheet propensities measured using a zinc-finger
+  host peptide.
+\newblock {\em Nature\/}, {\bf 362}(6417), 267--270.
+
+\bibitem[Murphy {\em et~al.}(2000)Murphy, Wallqvist, and
+  Levy]{murphy_simplified_2000}
+Murphy, L.~R., Wallqvist, A., and Levy, R.~M. (2000).
+\newblock Simplified amino acid alphabets for protein fold recognition and
+  implications for folding.
+\newblock {\em Protein Engineering\/}, {\bf 13}(3), 149--152.
+
+\bibitem[Nishikawa and Ooi(1986)Nishikawa and Ooi]{nishikawa_radial_1986}
+Nishikawa, K. and Ooi, T. (1986).
+\newblock Radial locations of amino acid residues in a globular protein:
+  correlation with the sequence.
+\newblock {\em Journal of Biochemistry\/}, {\bf 100}(4), 1043--1047.
+
+\bibitem[O'Donnell {\em et~al.}(2011)O'Donnell, Waldispühl, Lis, Halfmann,
+  Devadas, Lindquist, and Berger]{odonnell_method_2011}
+O'Donnell, C.~W., Waldispühl, J., Lis, M., Halfmann, R., Devadas, S.,
+  Lindquist, S., and Berger, B. (2011).
+\newblock A method for probing the mutational landscape of amyloid structure.
+\newblock {\em Bioinformatics\/}, {\bf 27}(13), i34--i42.
+
+\bibitem[Pontius {\em et~al.}(1996)Pontius, Richelle, and
+  Wodak]{pontius_deviations_1996}
+Pontius, J., Richelle, J., and Wodak, S.~J. (1996).
+\newblock Deviations from {Standard} {Atomic} {Volumes} as a {Quality}
+  {Measure} for {Protein} {Crystal} {Structures}.
+\newblock {\em Journal of Molecular Biology\/}, {\bf 264}(1), 121--136.
+
+\bibitem[Prabhakaran(1990)Prabhakaran]{prabhakaran_distribution_1990}
+Prabhakaran, M. (1990).
+\newblock The distribution of physical, chemical and conformational properties
+  in signal and nascent peptides.
+\newblock {\em The Biochemical Journal\/}, {\bf 269}(3), 691--696.
+
+\bibitem[Radzicka and Wolfenden(1988)Radzicka and
+  Wolfenden]{radzicka_comparing_1988}
+Radzicka, A. and Wolfenden, R. (1988).
+\newblock Comparing the polarities of the amino acids: side-chain distribution
+  coefficients between the vapor phase, cyclohexane, 1-octanol, and neutral
+  aqueous solution.
+\newblock {\em Biochemistry\/}, {\bf 27}(5), 1664--1670.
+
+\bibitem[Stanislawski {\em et~al.}(2013)Stanislawski, Kotulska, and
+  Unold]{stanislawski_machine_2013}
+Stanislawski, J., Kotulska, M., and Unold, O. (2013).
+\newblock Machine learning methods can replace 3d profile method in
+  classification of amyloidogenic hexapeptides.
+\newblock {\em BMC Bioinformatics\/}, {\bf 14}, 21.
+
+\bibitem[Sweet and Eisenberg(1983)Sweet and Eisenberg]{sweet_correlation_1983}
+Sweet, R.~M. and Eisenberg, D. (1983).
+\newblock Correlation of sequence hydrophobicities measures similarity in
+  three-dimensional protein structure.
+\newblock {\em Journal of Molecular Biology\/}, {\bf 171}(4), 479--488.
+
+\bibitem[Takano and Yutani(2001)Takano and Yutani]{takano_new_2001}
+Takano, K. and Yutani, K. (2001).
+\newblock A new scale for side-chain contribution to protein stability based on
+  the empirical stability analysis of mutant proteins.
+\newblock {\em Protein Engineering\/}, {\bf 14}(8), 525--528.
+
+\bibitem[Walsh {\em et~al.}(2014)Walsh, Seno, Tosatto, and
+  Trovato]{walsh_pasta_2014}
+Walsh, I., Seno, F., Tosatto, S. C.~E., and Trovato, A. (2014).
+\newblock {PASTA} 2.0: an improved server for protein aggregation prediction.
+\newblock {\em Nucleic Acids Research\/}, page gku399.
+
+\bibitem[Wozniak and Kotulska(2014)Wozniak and
+  Kotulska]{wozniak_characteristics_2014}
+Wozniak, P.~P. and Kotulska, M. (2014).
+\newblock Characteristics of protein residue-residue contacts and their
+  application in contact prediction.
+\newblock {\em Journal of Molecular Modeling\/}, {\bf 20}(11).
+
+\bibitem[Wozniak and Kotulska(2015)Wozniak and Kotulska]{wozniak_amyload:_2015}
+Wozniak, P.~P. and Kotulska, M. (2015).
+\newblock {AmyLoad}: website dedicated to amyloidogenic protein fragments.
+\newblock {\em Bioinformatics (Oxford, England)\/}.
+
+\bibitem[Wright and Ziegler(2015)Wright and Ziegler]{wright_ranger:_2015}
+Wright, M.~N. and Ziegler, A. (2015).
+\newblock ranger: {A} {Fast} {Implementation} of {Random} {Forests} for {High}
+  {Dimensional} {Data} in {C}++ and {R}.
+\newblock {\em arXiv:1508.04409 [stat]\/}.
+\newblock arXiv: 1508.04409.
+
+\bibitem[Zambrano {\em et~al.}(2015)Zambrano, Jamroz, Szczasiuk, Pujols,
+  Kmiecik, and Ventura]{zambrano_aggrescan3d_2015}
+Zambrano, R., Jamroz, M., Szczasiuk, A., Pujols, J., Kmiecik, S., and Ventura,
+  S. (2015).
+\newblock {AGGRESCAN}3d ({A}3d): server for prediction of aggregation
+  properties of protein structures.
+\newblock {\em Nucleic Acids Research\/}, page gkv359.
+
+\bibitem[Zhou and Zhou(2004)Zhou and Zhou]{zhou_quantifying_2004}
+Zhou, H. and Zhou, Y. (2004).
+\newblock Quantifying the effect of burial of amino acid residues on protein
+  stability.
+\newblock {\em Proteins\/}, {\bf 54}(2), 315--322.
+
+\end{thebibliography}

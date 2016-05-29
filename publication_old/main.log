@@ -1,0 +1,724 @@
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2016.3.1)  3 APR 2016 20:47
+entering extended mode
+ restricted \write18 enabled.
+ %&-line parsing enabled.
+**main.tex
+(./main.tex
+LaTeX2e <2011/06/27>
+Babel <3.9h> and hyphenation patterns for 2 languages loaded.
+(./bioinfo.cls
+Document Class: bioinfo 2003/02/08 0.1
+(/usr/share/texlive/texmf-dist/tex/latex/base/inputenc.sty
+Package: inputenc 2008/03/30 v1.1d Input encoding file
+\inpenc@prehook=\toks14
+\inpenc@posthook=\toks15
+) (./crop.sty
+Package: crop 2001/11/16 v1.6 cropmarks (mf)
+\CROP@width=\dimen102
+\CROP@height=\dimen103
+\CROP@index=\count79
+
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/graphics.sty
+Package: graphics 2009/02/05 v1.0o Standard LaTeX Graphics (DPC,SPQR)
+
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/trig.sty
+Package: trig 1999/03/16 v1.09 sin cos tan (DPC)
+)
+(/usr/share/texlive/texmf-dist/tex/latex/latexconfig/graphics.cfg
+File: graphics.cfg 2010/04/23 v1.9 graphics configuration of TeX Live
+)
+Package graphics Info: Driver file: pdftex.def on input line 91.
+
+(/usr/share/texlive/texmf-dist/tex/latex/pdftex-def/pdftex.def
+File: pdftex.def 2011/05/27 v0.06d Graphics/color for pdfTeX
+
+(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/infwarerr.sty
+Package: infwarerr 2010/04/08 v1.3 Providing info/warning/error messages (HO)
+)
+(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/ltxcmds.sty
+Package: ltxcmds 2011/11/09 v1.22 LaTeX kernel commands for general use (HO)
+)
+\Gread@gobject=\count80
+))
+\CROP@offset=\count81
+Package crop Info: Local config file crop.cfg used on input line 344.
+ (./crop.cfg))
+Package crop Info: using pdf(la)tex graphics driver on input line 31.
+ (./graphicx.sty
+Package: graphicx 1999/02/16 v1.0f Enhanced LaTeX Graphics (DPC,SPQR)
+ (/usr/share/texlive/texmf-dist/tex/latex/graphics/keyval.sty
+Package: keyval 1999/03/16 v1.13 key=value parser (DPC)
+\KV@toks@=\toks16
+)
+\Gin@req@height=\dimen104
+\Gin@req@width=\dimen105
+) (/usr/share/texlive/texmf-dist/tex/latex/amsmath/amsmath.sty
+Package: amsmath 2013/01/14 v2.14 AMS math features
+\@mathmargin=\skip41
+
+For additional information on amsmath, use the `?' option.
+(/usr/share/texlive/texmf-dist/tex/latex/amsmath/amstext.sty
+Package: amstext 2000/06/29 v2.01
+
+(/usr/share/texlive/texmf-dist/tex/latex/amsmath/amsgen.sty
+File: amsgen.sty 1999/11/30 v2.0
+\@emptytoks=\toks17
+\ex@=\dimen106
+))
+(/usr/share/texlive/texmf-dist/tex/latex/amsmath/amsbsy.sty
+Package: amsbsy 1999/11/29 v1.2d
+\pmbraise@=\dimen107
+)
+(/usr/share/texlive/texmf-dist/tex/latex/amsmath/amsopn.sty
+Package: amsopn 1999/12/14 v2.01 operator names
+)
+\inf@bad=\count82
+LaTeX Info: Redefining \frac on input line 210.
+\uproot@=\count83
+\leftroot@=\count84
+LaTeX Info: Redefining \overline on input line 306.
+\classnum@=\count85
+\DOTSCASE@=\count86
+LaTeX Info: Redefining \ldots on input line 378.
+LaTeX Info: Redefining \dots on input line 381.
+LaTeX Info: Redefining \cdots on input line 466.
+\Mathstrutbox@=\box26
+\strutbox@=\box27
+\big@size=\dimen108
+LaTeX Font Info:    Redeclaring font encoding OML on input line 566.
+LaTeX Font Info:    Redeclaring font encoding OMS on input line 567.
+\macc@depth=\count87
+\c@MaxMatrixCols=\count88
+\dotsspace@=\muskip10
+\c@parentequation=\count89
+\dspbrk@lvl=\count90
+\tag@help=\toks18
+\row@=\count91
+\column@=\count92
+\maxfields@=\count93
+\andhelp@=\toks19
+\eqnshift@=\dimen109
+\alignsep@=\dimen110
+\tagshift@=\dimen111
+\tagwidth@=\dimen112
+\totwidth@=\dimen113
+\lineht@=\dimen114
+\@envbody=\toks20
+\multlinegap=\skip42
+\multlinetaggap=\skip43
+\mathdisplay@stack=\toks21
+LaTeX Info: Redefining \[ on input line 2665.
+LaTeX Info: Redefining \] on input line 2666.
+) (./array.sty
+Package: array 1998/05/13 v2.3m Tabular extension package (FMi)
+\col@sep=\dimen115
+\extrarowheight=\dimen116
+\NC@list=\toks22
+\extratabsurround=\skip44
+\backup@length=\skip45
+)
+(./color.sty
+Package: color 1999/02/16 v1.0i Standard LaTeX Color (DPC)
+ (/usr/share/texlive/texmf-dist/tex/latex/latexconfig/color.cfg
+File: color.cfg 2007/01/18 v1.5 color configuration of teTeX/TeXLive
+)
+Package color Info: Driver file: pdftex.def on input line 125.
+)
+(/usr/share/texlive/texmf-dist/tex/latex/amsfonts/amssymb.sty
+Package: amssymb 2013/01/14 v3.01 AMS font symbols
+
+(/usr/share/texlive/texmf-dist/tex/latex/amsfonts/amsfonts.sty
+Package: amsfonts 2013/01/14 v3.01 Basic AMSFonts support
+\symAMSa=\mathgroup4
+\symAMSb=\mathgroup5
+LaTeX Font Info:    Overwriting math alphabet `\mathfrak' in version `bold'
+(Font)                  U/euf/m/n --> U/euf/b/n on input line 106.
+))
+(./flushend.sty
+Package: flushend 1997/10/01
+\@aaa=\box28
+\@ccc=\box29
+\@viper=\box30
+\hold@viper=\box31
+\atColsBreak=\toks23
+\@extra@skip=\dimen117
+\@nd@page@rule=\dimen118
+) (./stfloats.sty
+Package: stfloats 1999/10/22
+\@dblbotnum=\count94
+\c@dblbotnumber=\count95
+)
+(/usr/share/texlive/texmf-dist/tex/latex/amscls/amsthm.sty
+Package: amsthm 2004/08/06 v2.20
+\thm@style=\toks24
+\thm@bodyfont=\toks25
+\thm@headfont=\toks26
+\thm@notefont=\toks27
+\thm@headpunct=\toks28
+\thm@preskip=\skip46
+\thm@postskip=\skip47
+\thm@headsep=\skip48
+\dth@everypar=\toks29
+) (./chngpage.sty
+Package: chngpage 2001/01/31 v1.1b change page layout
+\c@cp@cnt=\count96
+\c@cp@tempcnt=\count97
+)
+(/usr/share/texlive/texmf-dist/tex/latex/psnfss/times.sty
+Package: times 2005/04/12 PSNFSS-v9.2a (SPQR) 
+)
+(/usr/share/texlive/texmf-dist/tex/latex/base/fontenc.sty
+Package: fontenc 2005/09/27 v1.99g Standard LaTeX package
+
+(/usr/share/texlive/texmf-dist/tex/latex/ly1/ly1enc.def
+File: ly1enc.def 2009/07/22 v0.7 TeX 'n ANSI encoding (DPC/KB)
+)
+LaTeX Font Info:    Try loading font information for LY1+ptm on input line 100.
+
+
+(/usr/share/texlive/texmf-dist/tex/latex/ly1/ly1ptm.fd
+File: ly1ptm.fd 2001/02/01 font definitions for LY1/ptm using Berry names.
+))
+\c@section=\count98
+\c@subsection=\count99
+\c@subsubsection=\count100
+\c@paragraph=\count101
+\c@subparagraph=\count102
+\c@figure=\count103
+\c@table=\count104
+\dropfromtop=\skip49
+\extraspace=\skip50
+\aboveskipchk=\skip51
+\abovecaptionskip=\skip52
+\belowcaptionskip=\skip53
+\rotdimen=\dimen119
+\tempdime=\dimen120
+\temptbox=\box32
+ (./natbib.sty
+Package: natbib 2000/07/24 7.0a (PWD)
+\bibhang=\skip54
+\bibsep=\skip55
+LaTeX Info: Redefining \cite on input line 508.
+\c@NAT@ctr=\count105
+))
+(/usr/share/texlive/texmf-dist/tex/latex/booktabs/booktabs.sty
+Package: booktabs 2005/04/14 v1.61803 publication quality tables
+\heavyrulewidth=\dimen121
+\lightrulewidth=\dimen122
+\cmidrulewidth=\dimen123
+\belowrulesep=\dimen124
+\belowbottomsep=\dimen125
+\aboverulesep=\dimen126
+\abovetopsep=\dimen127
+\cmidrulesep=\dimen128
+\cmidrulekern=\dimen129
+\defaultaddspace=\dimen130
+\@cmidla=\count106
+\@cmidlb=\count107
+\@aboverulesep=\dimen131
+\@belowrulesep=\dimen132
+\@thisruleclass=\count108
+\@lastruleclass=\count109
+\@thisrulewidth=\dimen133
+)
+(/usr/share/texlive/texmf-dist/tex/latex/colortbl/colortbl.sty
+Package: colortbl 2012/02/13 v1.0a Color table columns (DPC)
+\everycr=\toks30
+\minrowclearance=\skip56
+)
+(/usr/share/texmf/tex/latex/xcolor/xcolor.sty
+Package: xcolor 2007/01/21 v2.11 LaTeX color extensions (UK)
+
+(/usr/share/texlive/texmf-dist/tex/latex/latexconfig/color.cfg
+File: color.cfg 2007/01/18 v1.5 color configuration of teTeX/TeXLive
+)
+Package xcolor Info: Driver file: pdftex.def on input line 225.
+LaTeX Info: Redefining \color on input line 702.
+Package xcolor Info: Model `cmy' substituted by `cmy0' on input line 1337.
+Package xcolor Info: Model `hsb' substituted by `rgb' on input line 1341.
+Package xcolor Info: Model `RGB' extended on input line 1353.
+Package xcolor Info: Model `HTML' substituted by `rgb' on input line 1355.
+Package xcolor Info: Model `Hsb' substituted by `hsb' on input line 1356.
+Package xcolor Info: Model `tHsb' substituted by `hsb' on input line 1357.
+Package xcolor Info: Model `HSB' substituted by `hsb' on input line 1358.
+Package xcolor Info: Model `Gray' substituted by `gray' on input line 1359.
+Package xcolor Info: Model `wave' substituted by `hsb' on input line 1360.
+)
+(/usr/share/texlive/texmf-dist/tex/latex/tools/tabularx.sty
+Package: tabularx 1999/01/07 v2.07 `tabularx' package (DPC)
+\TX@col@width=\dimen134
+\TX@old@table=\dimen135
+\TX@old@col=\dimen136
+\TX@target=\dimen137
+\TX@delta=\dimen138
+\TX@cols=\count110
+\TX@ftn=\toks31
+) (./main.aux)
+\openout1 = `main.aux'.
+
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 15.
+LaTeX Font Info:    ... okay on input line 15.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 15.
+LaTeX Font Info:    ... okay on input line 15.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 15.
+LaTeX Font Info:    ... okay on input line 15.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 15.
+LaTeX Font Info:    ... okay on input line 15.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 15.
+LaTeX Font Info:    ... okay on input line 15.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 15.
+LaTeX Font Info:    ... okay on input line 15.
+LaTeX Font Info:    Checking defaults for LY1/ptm/m/n on input line 15.
+LaTeX Font Info:    ... okay on input line 15.
+
+(/usr/share/texlive/texmf-dist/tex/context/base/supp-pdf.mkii
+[Loading MPS to PDF converter (version 2006.09.02).]
+\scratchcounter=\count111
+\scratchdimen=\dimen139
+\scratchbox=\box33
+\nofMPsegments=\count112
+\nofMParguments=\count113
+\everyMPshowfont=\toks32
+\MPscratchCnt=\count114
+\MPscratchDim=\dimen140
+\MPnumerator=\count115
+\makeMPintoPDFobject=\count116
+\everyMPtoPDFconversion=\toks33
+) (/usr/share/texlive/texmf-dist/tex/generic/oberdiek/pdftexcmds.sty
+Package: pdftexcmds 2011/11/29 v0.20 Utility functions of pdfTeX for LuaTeX (HO
+)
+
+(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/ifluatex.sty
+Package: ifluatex 2010/03/01 v1.3 Provides the ifluatex switch (HO)
+Package ifluatex Info: LuaTeX not detected.
+)
+(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/ifpdf.sty
+Package: ifpdf 2011/01/30 v2.3 Provides the ifpdf switch (HO)
+Package ifpdf Info: pdfTeX in PDF mode is detected.
+)
+Package pdftexcmds Info: LuaTeX not detected.
+Package pdftexcmds Info: \pdf@primitive is available.
+Package pdftexcmds Info: \pdf@ifprimitive is available.
+Package pdftexcmds Info: \pdfdraftmode found.
+)
+(/usr/share/texlive/texmf-dist/tex/latex/oberdiek/epstopdf-base.sty
+Package: epstopdf-base 2010/02/09 v2.5 Base part for package epstopdf
+
+(/usr/share/texlive/texmf-dist/tex/latex/oberdiek/grfext.sty
+Package: grfext 2010/08/19 v1.1 Manage graphics extensions (HO)
+
+(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/kvdefinekeys.sty
+Package: kvdefinekeys 2011/04/07 v1.3 Define keys (HO)
+))
+(/usr/share/texlive/texmf-dist/tex/latex/oberdiek/kvoptions.sty
+Package: kvoptions 2011/06/30 v3.11 Key value format for package options (HO)
+
+(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/kvsetkeys.sty
+Package: kvsetkeys 2012/04/25 v1.16 Key value parser (HO)
+
+(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/etexcmds.sty
+Package: etexcmds 2011/02/16 v1.5 Avoid name clashes with e-TeX commands (HO)
+Package etexcmds Info: Could not find \expanded.
+(etexcmds)             That can mean that you are not using pdfTeX 1.50 or
+(etexcmds)             that some package has redefined \expanded.
+(etexcmds)             In the latter case, load this package earlier.
+)))
+Package grfext Info: Graphics extension search list:
+(grfext)             [.png,.pdf,.jpg,.mps,.jpeg,.jbig2,.jb2,.PNG,.PDF,.JPG,.JPE
+G,.JBIG2,.JB2,.eps]
+(grfext)             \AppendGraphicsExtensions on input line 452.
+
+(/usr/share/texlive/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg
+File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
+e
+))
+LaTeX Font Info:    Try loading font information for LY1+phv on input line 48.
+
+(/usr/share/texlive/texmf-dist/tex/latex/ly1/ly1phv.fd
+File: ly1phv.fd 2001/02/01 scalable font definitions for LY1/phv using Berry na
+mes.
+)
+Package epstopdf Info: Source file: <OUP_First_SBk_Bot_8401.eps>
+(epstopdf)                    date: 2016-02-10 11:51:44
+(epstopdf)                    size: 407286 bytes
+(epstopdf)             Output file: <OUP_First_SBk_Bot_8401-eps-converted-to.pd
+f>
+(epstopdf)                    date: 2016-02-10 11:51:44
+(epstopdf)                    size: 9259 bytes
+(epstopdf)             Command: <repstopdf --outfile=OUP_First_SBk_Bot_8401-eps
+-converted-to.pdf OUP_First_SBk_Bot_8401.eps>
+(epstopdf)             \includegraphics on input line 48.
+Package epstopdf Info: Output file is already uptodate.
+
+<OUP_First_SBk_Bot_8401-eps-converted-to.pdf, id=1, 54.2025pt x 54.2025pt>
+File: OUP_First_SBk_Bot_8401-eps-converted-to.pdf Graphic file (type pdf)
+
+<use OUP_First_SBk_Bot_8401-eps-converted-to.pdf>
+Package pdftex.def Info: OUP_First_SBk_Bot_8401-eps-converted-to.pdf used on in
+put line 48.
+(pdftex.def)             Requested size: 54.20236pt x 54.20236pt.
+LaTeX Font Info:    Font shape `LY1/phv/bx/n' in size <8> not available
+(Font)              Font shape `LY1/phv/b/n' tried instead on input line 48.
+LaTeX Font Info:    Font shape `LY1/phv/bx/n' in size <18> not available
+(Font)              Font shape `LY1/phv/b/n' tried instead on input line 48.
+LaTeX Font Info:    Font shape `LY1/phv/bx/n' in size <12> not available
+(Font)              Font shape `LY1/phv/b/n' tried instead on input line 48.
+LaTeX Font Info:    Try loading font information for U+msa on input line 48.
+
+(/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsa.fd
+File: umsa.fd 2013/01/14 v3.01 AMS symbols A
+)
+LaTeX Font Info:    Try loading font information for U+msb on input line 48.
+
+(/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsb.fd
+File: umsb.fd 2013/01/14 v3.01 AMS symbols B
+)
+LaTeX Font Info:    Font shape `LY1/phv/bx/n' in size <9> not available
+(Font)              Font shape `LY1/phv/b/n' tried instead on input line 48.
+LaTeX Font Info:    Font shape `LY1/phv/bx/n' in size <7> not available
+(Font)              Font shape `LY1/phv/b/n' tried instead on input line 48.
+
+
+LaTeX Font Warning: Font shape `OT1/cmr/m/n' in size <6.5> not available
+(Font)              size <6> substituted on input line 48.
+
+
+LaTeX Font Warning: Font shape `OML/cmm/m/it' in size <6.5> not available
+(Font)              size <6> substituted on input line 48.
+
+
+LaTeX Font Warning: Font shape `OMS/cmsy/m/n' in size <6.5> not available
+(Font)              size <6> substituted on input line 48.
+
+LaTeX Font Info:    Calculating math sizes for size <8.5> on input line 48.
+
+LaTeX Font Warning: Font shape `OT1/cmr/m/n' in size <8.5> not available
+(Font)              size <8> substituted on input line 48.
+
+
+LaTeX Font Warning: Font shape `OT1/cmr/m/n' in size <4.25> not available
+(Font)              size <5> substituted on input line 48.
+
+
+LaTeX Font Warning: Font shape `OML/cmm/m/it' in size <8.5> not available
+(Font)              size <8> substituted on input line 48.
+
+
+LaTeX Font Warning: Font shape `OML/cmm/m/it' in size <4.25> not available
+(Font)              size <5> substituted on input line 48.
+
+
+LaTeX Font Warning: Font shape `OMS/cmsy/m/n' in size <8.5> not available
+(Font)              size <8> substituted on input line 48.
+
+
+LaTeX Font Warning: Font shape `OMS/cmsy/m/n' in size <4.25> not available
+(Font)              size <5> substituted on input line 48.
+
+LaTeX Font Info:    Font shape `LY1/phv/bx/n' in size <10> not available
+(Font)              Font shape `LY1/phv/b/n' tried instead on input line 48.
+LaTeX Font Info:    Font shape `LY1/phv/m/it' in size <9> not available
+(Font)              Font shape `LY1/phv/m/sl' tried instead on input line 48.
+
+Underfull \hbox (badness 10000) detected at line 48
+[]
+ []
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+Underfull \hbox (badness 1622) in paragraph at lines 77--86
+\LY1/ptm/m/n/8 from amorphous aggregates using either a variety of microscopic
+ []
+
+
+Underfull \hbox (badness 1210) in paragraph at lines 87--121
+\LY1/ptm/m/n/8 properties (called hot-spots) can be responsible for aggregation
+ of
+ []
+
+
+Underfull \hbox (badness 1728) in paragraph at lines 87--121
+\LY1/ptm/m/n/8 fragments may have regular characteristics, not only with regard
+
+ []
+
+
+Underfull \hbox (badness 1635) in paragraph at lines 87--121
+\LY1/ptm/m/n/8 to averaged physicochemical properties of their amino acids, but
+
+ []
+
+
+Underfull \hbox (badness 1168) in paragraph at lines 87--121
+\LY1/ptm/m/n/8 also the order of amino acids in the sequence. There have been
+ []
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+Overfull \hbox (1.12001pt too wide) has occurred while \output is active
+ []
+ []
+
+[1{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}
+
+
+
+ <./OUP_First_SBk_Bot_8401-eps-converted-to.pdf>]
+Underfull \hbox (badness 2478) in paragraph at lines 156--161
+\LY1/ptm/m/n/8 The data used in the study was extracted from AmyLoad data
+ []
+
+LaTeX Font Info:    Try loading font information for LY1+phb on input line 212.
+
+LaTeX Font Info:    No file LY1phb.fd. on input line 212.
+
+LaTeX Font Warning: Font shape `LY1/phb/m/n' undefined
+(Font)              using `LY1/ptm/m/n' instead on input line 212.
+
+
+LaTeX Font Warning: Font shape `LY1/phb/bx/n' undefined
+(Font)              using `LY1/phb/m/n' instead on input line 212.
+
+<figures/ngram_scheme.png, id=21, 1984.41376pt x 858.20625pt>
+File: figures/ngram_scheme.png Graphic file (type png)
+
+<use figures/ngram_scheme.png>
+Package pdftex.def Info: figures/ngram_scheme.png used on input line 224.
+(pdftex.def)             Requested size: 234.0pt x 101.18626pt.
+LaTeX Font Info:    Font shape `LY1/phv/bx/n' in size <6.5> not available
+(Font)              Font shape `LY1/phv/b/n' tried instead on input line 232.
+
+Underfull \hbox (badness 4120) in paragraph at lines 236--258
+\LY1/ptm/m/n/8 (amyloid/nonamyloid) as the source peptide. For example, the
+ []
+
+LaTeX Font Info:    Font shape `LY1/phv/m/it' in size <8> not available
+(Font)              Font shape `LY1/phv/m/sl' tried instead on input line 258.
+
+Overfull \hbox (252.0pt too wide) has occurred while \output is active
+[][] 
+ []
+
+[2]
+LaTeX Font Info:    Font shape `LY1/ptm/bx/n' in size <8> not available
+(Font)              Font shape `LY1/ptm/b/n' tried instead on input line 274.
+
+
+Package natbib Warning: Citation `lehmann2008testing' on page 3 undefined on in
+put line 342.
+
+
+Overfull \hbox (252.0pt too wide) has occurred while \output is active
+[][] 
+ []
+
+[3 <./figures/ngram_scheme.png>]
+Package epstopdf Info: Source file: <figures/AUC_boxplot.eps>
+(epstopdf)                    date: 2016-03-10 16:21:53
+(epstopdf)                    size: 797528 bytes
+(epstopdf)             Output file: <figures/AUC_boxplot-eps-converted-to.pdf>
+(epstopdf)                    date: 2016-03-10 16:21:58
+(epstopdf)                    size: 153707 bytes
+(epstopdf)             Command: <repstopdf --outfile=figures/AUC_boxplot-eps-co
+nverted-to.pdf figures/AUC_boxplot.eps>
+(epstopdf)             \includegraphics on input line 424.
+Package epstopdf Info: Output file is already uptodate.
+
+<figures/AUC_boxplot-eps-converted-to.pdf, id=34, 469.755pt x 252.945pt>
+File: figures/AUC_boxplot-eps-converted-to.pdf Graphic file (type pdf)
+
+<use figures/AUC_boxplot-eps-converted-to.pdf>
+Package pdftex.def Info: figures/AUC_boxplot-eps-converted-to.pdf used on input
+ line 424.
+(pdftex.def)             Requested size: 469.75386pt x 252.94438pt.
+
+<figures/sesp_plot.png, id=35, 469.755pt x 289.08pt>
+File: figures/sesp_plot.png Graphic file (type png)
+
+<use figures/sesp_plot.png>
+Package pdftex.def Info: figures/sesp_plot.png used on input line 447.
+(pdftex.def)             Requested size: 469.75386pt x 289.07928pt.
+Package epstopdf Info: Source file: <figures/ed_AUC.eps>
+(epstopdf)                    date: 2016-03-10 14:33:23
+(epstopdf)                    size: 2146877 bytes
+(epstopdf)             Output file: <figures/ed_AUC-eps-converted-to.pdf>
+(epstopdf)                    date: 2016-03-10 14:33:30
+(epstopdf)                    size: 571446 bytes
+(epstopdf)             Command: <repstopdf --outfile=figures/ed_AUC-eps-convert
+ed-to.pdf figures/ed_AUC.eps>
+(epstopdf)             \includegraphics on input line 522.
+Package epstopdf Info: Output file is already uptodate.
+
+<figures/ed_AUC-eps-converted-to.pdf, id=36, 216.81pt x 289.08pt>
+File: figures/ed_AUC-eps-converted-to.pdf Graphic file (type pdf)
+
+<use figures/ed_AUC-eps-converted-to.pdf>
+Package pdftex.def Info: figures/ed_AUC-eps-converted-to.pdf used on input line
+ 522.
+(pdftex.def)             Requested size: 216.80946pt x 289.07928pt.
+Package epstopdf Info: Source file: <figures/ngrams.eps>
+(epstopdf)                    date: 2016-04-02 15:13:02
+(epstopdf)                    size: 22173 bytes
+(epstopdf)             Output file: <figures/ngrams-eps-converted-to.pdf>
+(epstopdf)                    date: 2016-04-02 15:14:12
+(epstopdf)                    size: 7378 bytes
+(epstopdf)             Command: <repstopdf --outfile=figures/ngrams-eps-convert
+ed-to.pdf figures/ngrams.eps>
+(epstopdf)             \includegraphics on input line 554.
+Package epstopdf Info: Output file is already uptodate.
+
+<figures/ngrams-eps-converted-to.pdf, id=37, 180.675pt x 614.295pt>
+File: figures/ngrams-eps-converted-to.pdf Graphic file (type pdf)
+
+<use figures/ngrams-eps-converted-to.pdf>
+Package pdftex.def Info: figures/ngrams-eps-converted-to.pdf used on input line
+ 554.
+(pdftex.def)             Requested size: 180.67455pt x 614.29349pt.
+
+Underfull \hbox (badness 1888) in paragraph at lines 578--599
+[]\LY1/ptm/m/n/8 We calculated encoding distances between the best-performing
+ []
+
+
+Underfull \hbox (badness 1478) in paragraph at lines 578--599
+\LY1/ptm/m/n/8 correlation coefficient, p-value smaller than $\OT1/cmr/m/n/8 2\
+OML/cmm/m/it/8 :\OT1/cmr/m/n/8 2 \OMS/cmsy/m/n/8 ^^B \OT1/cmr/m/n/8 10[]$\LY1/p
+tm/m/n/8 ). Such
+ []
+
+
+Overfull \hbox (252.0pt too wide) has occurred while \output is active
+[][] 
+ []
+
+[4]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+Overfull \hbox (252.0pt too wide) has occurred while \output is active
+[][] 
+ []
+
+[5 <./figures/AUC_boxplot-eps-converted-to.pdf> <./figures/sesp_plot.png (PNG c
+opy)>]
+
+LaTeX Font Warning: Font shape `LY1/phb/m/it' undefined
+(Font)              using `LY1/phb/m/n' instead on input line 624.
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+Overfull \hbox (252.0pt too wide) has occurred while \output is active
+[][] 
+ []
+
+[6 <./figures/ed_AUC-eps-converted-to.pdf> <./figures/ngrams-eps-converted-to.p
+df>]
+Underfull \hbox (badness 2529) in paragraph at lines 655--662
+\LY1/ptm/m/n/8 the encoding of amino acids further increases the prediction of
+ []
+
+(./main.bbl
+LaTeX Font Info:    Font shape `LY1/ptm/bx/n' in size <7> not available
+(Font)              Font shape `LY1/ptm/b/n' tried instead on input line 7.
+
+Underfull \hbox (badness 1509) in paragraph at lines 50--54
+\LY1/ptm/m/n/7 a method of prediction of amyloidogenic regions from protein seq
+uence.
+ []
+
+
+Overfull \hbox (252.0pt too wide) has occurred while \output is active
+[][] 
+ []
+
+[7])
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+Extra height:10.0pt when 33.25949pt
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+Extra height:10.0pt when 34.25949pt
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+Extra height:10.0pt when 35.25949pt
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+Extra height:10.0pt when 36.25949pt
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+Extra height:0.0pt when 37.25949pt
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+(2)Left:37.25949pt Right:30.519pt Output:37.25949pt
+- LAST -
+Extra skip:0.0pt
+Left:37.25949pt
+Right:30.519pt
+Output:37.25949pt
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+Overfull \hbox (252.0pt too wide) has occurred while \output is active
+[][] 
+ []
+
+[8
+
+]
+
+Package natbib Warning: There were undefined citations.
+
+(./main.aux)
+
+LaTeX Font Warning: Size substitutions with differences
+(Font)              up to 0.75pt have occurred.
+
+
+LaTeX Font Warning: Some font shapes were not available, defaults substituted.
+
+ ) 
+Here is how much of TeX's memory you used:
+ 4299 strings out of 495028
+ 53454 string characters out of 6181498
+ 127622 words of memory out of 5000000
+ 7389 multiletter control sequences out of 15000+600000
+ 55711 words of font info for 96 fonts, out of 8000000 for 9000
+ 18 hyphenation exceptions out of 8191
+ 38i,13n,35p,948b,367s stack positions out of 5000i,500n,10000p,200000b,80000s
+{/usr/share/texlive/texmf-dist/fonts/enc/dvips/ly1/texnansi.enc}</usr/share/t
+exlive/texmf-dist/fonts/type1/public/amsfonts/cmextra/cmbsy9.pfb></usr/share/te
+xlive/texmf-dist/fonts/type1/public/amsfonts/cmextra/cmex8.pfb></usr/share/texl
+ive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb></usr/share/texlive/tex
+mf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/share/texlive/texmf-dist
+/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/share/texlive/texmf-dist/fonts/t
+ype1/public/amsfonts/cm/cmr8.pfb></usr/share/texlive/texmf-dist/fonts/type1/pub
+lic/amsfonts/cm/cmsy6.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/ams
+fonts/cm/cmsy8.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/helvetic/uhvb
+8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/helvetic/uhvr8a.pfb></usr
+/share/texlive/texmf-dist/fonts/type1/urw/helvetic/uhvr8ac.pfb></usr/share/texl
+ive/texmf-dist/fonts/type1/urw/helvetic/uhvro8a.pfb></usr/share/texlive/texmf-d
+ist/fonts/type1/urw/helvetic/uhvro8ac.pfb></usr/share/texlive/texmf-dist/fonts/
+type1/urw/times/utmb8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times
+/utmr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
+Output written on main.pdf (8 pages, 1180877 bytes).
+PDF statistics:
+ 125 PDF objects out of 1000 (max. 8388607)
+ 86 compressed objects within 1 object stream
+ 0 named destinations out of 1000 (max. 500000)
+ 31 words of extra memory for PDF output out of 10000 (max. 10000000)
+
