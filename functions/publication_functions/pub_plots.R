@@ -91,9 +91,12 @@ ngram_freq_plot <- mutate(ngram_freq, decoded_name = gsub("_", "|", decoded_name
   droplevels %>%
   mutate(variable = factor(variable, labels = c("Amyloid", "Non-amyloid")))
 
-ngram_plot <- ggplot(ngram_freq_plot, aes(x = decoded_name, y = value, fill = variable)) +
-  geom_bar(position = "dodge", stat = "identity") +
+ngram_plot <- ggplot(ngram_freq_plot, aes(x = decoded_name, y = value)) +
+  geom_bar(aes(fill = variable), position = "dodge", stat = "identity") +
+  geom_point(data = group_by(ngram_freq_plot, decoded_name)  %>% filter(value == max(value)),
+             aes(y = value + 0.03, shape = association)) +
   scale_fill_manual("", values = c("gold", "darkmagenta")) +
+  scale_shape_manual("Motif:", breaks = c("Amyloidogenic", "Non-amyloidogenic"), values = c(16, 17, NA)) +
   scale_y_continuous("Frequency", limits = c(0, 0.95)) +
   scale_x_discrete("") +
   coord_flip() +
