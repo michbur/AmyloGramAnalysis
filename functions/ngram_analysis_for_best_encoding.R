@@ -1,4 +1,3 @@
-
 source("./functions/choose_properties.R")
 source("./functions/create_encodings.R")
 source("./functions/encode_amyloids.R")
@@ -130,46 +129,48 @@ positive_ngrams_count_best_encoding <- count_specified(seqs_deg[which(ets==1),],
 negative_ngrams_count_best_encoding <- count_specified(seqs_deg[which(ets==0),], ngrams_best_enc) 
 
 dane=rbind(
-  data.frame(v=positive_ngrams_count_best_encoding$v, j
-             =positive_ngrams_count_best_encoding$j,
-             type="pos", 
-             nseq=397),
-  data.frame(v=negative_ngrams_count_best_encoding$v, 
-             j=negative_ngrams_count_best_encoding$j,
-             type="neg", 
-             nseq=1033)
+  data.frame(v = positive_ngrams_count_best_encoding$v, 
+             j = positive_ngrams_count_best_encoding$j,
+             type = "pos", 
+             nseq = 397),
+  data.frame(v = negative_ngrams_count_best_encoding$v, 
+             j = negative_ngrams_count_best_encoding$j,
+             type = "neg", 
+             nseq = 1033)
 )
 
-#negative number means that occurs more frequently in amyloids
-relative_frequency_gap <- dane%>%group_by(type,j) %>%
-  summarise(count=sum(v>0)/mean(nseq)) %>%
-  group_by(j) %>%
-  summarise(count_freq=diff(count)) %>%
-  mutate(name=ngrams_best_enc,
-         decoded_name=decode_ngrams(name)) %>%
-  arrange(desc(abs(count_freq))) %>%
-  select(decoded_name, count_freq)
+save(dane, file = "./results/imp_ngrams_counts.RData")
 
-relative_frequency_p_vals <- dane%>%group_by(type,j) %>%
-  summarise(count=sum(v>0),
-            nseq=mean(nseq)) %>%
-  group_by(j) %>%
-  summarise(pval=prop.test(count, nseq)$p.value) %>%
-  mutate(name=ngrams_best_enc,
-         decoded_name=decode_ngrams(name)) %>%
-  arrange(pval) %>%
-  select(decoded_name, pval) 
-relative_frequency_p_vals
+ngram_count_df <- dane
+# lengths of n-grams
+imp_ngram_len <- nchar(decode_ngrams(ngrams_best_enc))
 
-ngram_freq_final_tab <- dane%>%group_by(type,j) %>%
-  summarise(count=sum(v>0)/mean(nseq)) %>%
+# protein lengths
+pos_prot_len <- apply(seqs_deg[which(ets==1),], 1, function(i) sum(!is.na(i)))
+neg_prot_len <- apply(seqs_deg[which(ets==0),], 1, function(i) sum(!is.na(i))) 
+
+total_ngram_number <- c(sapply(imp_ngram_len, function(i)
+  pos_prot_len - i + 1) %>% 
+    colSums,
+  sapply(imp_ngram_len, function(i)
+    neg_prot_len - i + 1) %>% 
+    colSums
+)
+
+ngram_freq_final_tab <- dane %>% 
+  group_by(type,j) %>%
+  summarise(count_raw=sum(v>0)) %>% 
+  ungroup %>% 
+  mutate(ngram_number = total_ngram_number,
+         count = count_raw/ngram_number) %>%
   dcast(j ~ type) %>%
   mutate(name=ngrams_best_enc,
          decoded_name=decode_ngrams(name),
          diff_freq = pos - neg) %>%
-  arrange(desc(diff_freq)) %>%
+  arrange(diff_freq*pos) %>%
   inner_join(relative_frequency_p_vals) %>%
   select(decoded_name, diff_freq, pval, pos, neg)
+
 
 # n-gram patterns from literature -----------------------------------------
 # "Sequence determinants of amyloid fibril formation"
@@ -210,8 +211,6 @@ degenerate_pattern <- function(x)
 amyl_deg <- as.matrix(expand.grid(degenerate_pattern(amyl_raw)))
 namyl_deg <- as.matrix(expand.grid(degenerate_pattern(namyl_raw)))
 
-ngram_freq <- read.csv("./results/ngram_freq.csv")
-
 remove_redundant_space <- function(ngrams) 
   unlist(lapply(ngrams, function(x) {
     if(grepl(pattern = "\\_?\\|\\_?", x)) {
@@ -220,9 +219,6 @@ remove_redundant_space <- function(ngrams)
       x
     }
   }))
-
-
-
 
 get_patterns <- function(ns, ds, seqs) {
   lapply(1L:length(ns), function(i) {
@@ -241,7 +237,7 @@ amyl_ngrams <- get_patterns(ns, ds, amyl_deg) %>% unlist %>% unique
 namyl_ngrams <- get_patterns(ns, ds, namyl_deg) %>% unlist %>% unique
 
 ngram_freq_final_tab[["association"]] <- ((ngram_freq[["decoded_name"]] %in% amyl_ngrams) +
-  (ngram_freq[["decoded_name"]] %in% namyl_ngrams) * -1) %>% 
+                                            (ngram_freq[["decoded_name"]] %in% namyl_ngrams) * -1) %>% 
   factor(labels = c("Non-amyloidogenic", "Not found", "Amyloidogenic"))
 
 write.csv(ngram_freq_final_tab, file = "./results/ngram_freq.csv", row.names = FALSE)

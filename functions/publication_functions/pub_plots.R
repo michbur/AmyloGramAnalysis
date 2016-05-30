@@ -94,19 +94,19 @@ ngram_freq_plot <- mutate(ngram_freq, decoded_name = gsub("_", "|", decoded_name
 ngram_plot <- ggplot(ngram_freq_plot, aes(x = decoded_name, y = value)) +
   geom_bar(aes(fill = variable), position = "dodge", stat = "identity") +
   geom_point(data = group_by(ngram_freq_plot, decoded_name)  %>% filter(value == max(value)),
-             aes(y = value + 0.03, shape = association)) +
+             aes(y = value + 0.002, shape = association)) +
   scale_fill_manual("", values = c("gold", "darkmagenta")) +
   scale_shape_manual("Motif:", breaks = c("Amyloidogenic", "Non-amyloidogenic"), values = c(16, 17, NA)) +
-  scale_y_continuous("Frequency", limits = c(0, 0.95)) +
+  scale_y_continuous("Frequency") +
   scale_x_discrete("") +
   coord_flip() +
-  my_theme + 
-  theme(panel.grid.major.y = element_line(color = "NA")) 
+  my_theme +
+  theme(panel.grid.major.y = element_line(color = "lightgrey", size = 0.5)) 
 
 # in case we need to get n-grams in a tabular format
 #writeLines(as.character(ngram_freq_plot[["decoded_name"]]), "n_gramy_Ania.txt")
 
-cairo_ps("./publication/figures/ngrams.eps", height = 8.5, width = 2.5)
+cairo_ps("./publication/figures/ngrams.eps", height = 8, width = 2.5)
 print(ngram_plot)
 dev.off()
 

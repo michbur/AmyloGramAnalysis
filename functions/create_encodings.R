@@ -23,7 +23,7 @@ create_traits_combination <- function(ftraits) {
 #' Create encodings
 #'
 #' Creates encodings (3-6 groups long) from list of traits.
-#' @param vtraits a vector of trait indices in the expanded aaindex table
+#' @param ftraits a vector of trait indices in the expanded aaindex table
 #' create by \code{\link{choose_properties}}.
 #' @param list_duplicates if \code{TRUE} returns also a list of duplicates.
 #' @return a named vector of encodings (for example 
