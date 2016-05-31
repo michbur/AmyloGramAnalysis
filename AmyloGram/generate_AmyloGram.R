@@ -20,17 +20,17 @@ ets <- c(rep(1, length(read.fasta("./data/amyloid_pos_benchmark.fasta",seqtype =
 ets <- ets[purified_seqs_id]
 
 test_dat <- read.fasta("./benchmark/pep424_better_names.fasta")
-test_dat_m <- tolower(t(sapply(test_dat, function(i)
-  c(i, rep(NA, max(lengths(test_dat)) - length(i))))))
 
 AmyloGram_model <- make_AmyloGram(seqs_list, ets, 10, best_encoding)
 
 rep424_preds <- predict_AmyloGram(AmyloGram_model, test_dat)
-rep424_preds[["status_bin"]] <- 
+rep424_preds[["status_bin"]] <- read.csv("./results/benchmark_otherpreds.csv")[[1]]
+
+write.csv(rep424_preds, file = "./results/AmyloGram_pep424preds.csv", row.names = FALSE)
 
 balance_spec_sens <- function(x, cutoffs) {
   do.call(rbind, lapply(cutoffs, function(cutoff) {
-    x[["pred_bin"]] <- as.numeric(x[["prob"]] > cutoff)
+    x[["pred_bin"]] <- as.numeric(x[["Probability"]] > cutoff)
     conf_mat <- as.data.frame(table(pred = x[["pred_bin"]], et = x[["status_bin"]]), responseName = "count")
     conf_mat[["count"]] <- as.numeric(conf_mat[["count"]])
     
