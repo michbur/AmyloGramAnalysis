@@ -56,6 +56,11 @@ best_positions <- amyloids %>%
 
 best_enc <- best_positions[["enc_adj"]]
 
+# amyloids %>% 
+#   filter(enc_adj == best_enc) %>% 
+#   arrange(AUC_mean) %>% 
+#   print(head = FALSE)
+
 load("./results/cv_results_full.RData")
 
 full_alphabet <- lapply(1L:length(cv_results_full[[1]]), function(single_replicate_id) {
