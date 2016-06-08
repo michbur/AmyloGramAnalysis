@@ -17,10 +17,14 @@ library(dplyr)
 
 # read data ----------------------------------------
 
-amyloids <- read.csv("results/all_summaries.csv")
+amyloids <- read.csv("results/all_summaries.csv") %>% 
+  select(-enc, -partition) %>% 
+  arrange(enc_adj, pos, len_range) 
+
 load("aa_groups.RData")
 aa_groups <- string2list(aa_groups)
-
+aa_groups[1L:2] <- c(aa1 = string2list(gsub("-", "_", tolower("ADEGHKNPQRST-C-FY-ILMV-W"))),
+                     aa2 = string2list(gsub("-", "_", tolower("AG-C-DEKNPQRST-FILMVWY-H"))))
 
 #############this part is copied from function choose_properties ################
 prop_MK <- read.csv2("AA_index_mk2.csv") %>% filter(!is.na(chosen))
@@ -76,6 +80,28 @@ full_alphabet <- lapply(1L:length(cv_results_full[[1]]), function(single_replica
   ungroup %>% 
   mutate(pos = c(6, 10, 15)[replicate])
 
+load("./results/cv_results_stand.RData")
+
+stand_alphabet <- lapply(cv_results_stand, function(single_enc)
+  lapply(1L:length(single_enc), function(single_replicate_id) {
+    lapply(1L:5, function(single_fold) 
+      data.frame(single_enc[[single_replicate_id]][[single_fold]][[1]], replicate = floor((single_replicate_id - 1)/15) + 1)
+    )
+  }) %>% unlist(recursive = FALSE) %>%
+    do.call(rbind, .) %>% 
+    mutate(MCC = calc_mcc(TP, TN, FP, FN)) %>%
+    select(replicate, len_range, AUC, MCC, Sens, Spec) %>%
+    group_by(replicate, len_range) %>%
+    summarize_each(funs(mean = liberal_mean, sd = liberal_sd), AUC, MCC, Sens, Spec) %>%
+    ungroup %>% 
+    mutate(pos = c(6, 10, 15)[replicate])) %>% 
+  do.call(rbind, .) %>% 
+  mutate(enc_adj = c(rep(1, 12), rep(2, 12))) %>% 
+  select(replicate, len_range, enc_adj, pos, AUC_mean, MCC_mean, 
+         Sens_mean, Spec_mean, AUC_sd, MCC_sd, Sens_sd, Spec_sd) %>% 
+  arrange(enc_adj, pos, len_range) 
+
+amyloids[amyloids[["enc_adj"]] %in% c(1, 2), ] <- stand_alphabet
 
 # properites of benc encoding  --------------------------------------
 
