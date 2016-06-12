@@ -52,9 +52,9 @@ seqs_m <- tolower(t(sapply(seqs_list, function(i)
   c(i, rep(NA, max(lengths(seqs_list)) - length(i))))))
 
 
-#ids <- split(1:length(aa_groups), rep(1L:ntiles, each=length(aa_groups)/ntiles+1))
+ids <- split(1:length(aa_groups), rep(1L:ntiles, each=length(aa_groups)/ntiles+1))
 #for single aa_group around 85 sec
-#extracted_ngrams <- extract_ngrams(seqs_m, aa_groups[ids[[idx2]]])
+extracted_ngrams <- extract_ngrams(seqs_m, aa_groups[ids[[idx2]]])
 
 #for single aa_group around 85 sec
 #extracted_ngrams <- extract_ngrams(seqs_m, aa_groups)
@@ -68,11 +68,11 @@ seq_lengths <- unname(lengths(seqs_list))
 
 all_folds <- create_all_folds(ets, seq_lengths)
 
-# cv_results <- do_cv(all_folds[idx], extracted_ngrams, create_hv(seqs_m))
-# filename <- paste0("./results/cv_results_full_", idx, "_", idx2, ".Rdata")
-# print(filename)
-# save(cv_results, file = filename)
-# print("success")
+cv_results <- do_cv(all_folds[idx], extracted_ngrams, create_hv(seqs_m))
+filename <- paste0("./results/cv_results_full_", idx, "_", idx2, ".Rdata")
+print(filename)
+save(cv_results, file = filename)
+print("success")
 
 # cv_results <- do_cv(all_folds, extracted_ngrams, create_hv(seqs_m))
 # cv_summary <- summarize_cv_results(cv_results, reps_ids = get_reps_ids())
@@ -90,10 +90,10 @@ all_folds <- create_all_folds(ets, seq_lengths)
 
 # alternative alphabets from literature
 
-stand_enc <- c(string2list(gsub("-", "_", tolower("ADEGHKNPQRST-C-FY-ILMV-W"))),
-  string2list(gsub("-", "_", tolower("AG-C-DEKNPQRST-FILMVWY-H"))))
+# stand_enc <- c(string2list(gsub("-", "_", tolower("ADEGHKNPQRST-C-FY-ILMV-W"))),
+#   string2list(gsub("-", "_", tolower("AG-C-DEKNPQRST-FILMVWY-H"))))
+# 
+# extracted_ngrams_stand <- extract_ngrams(seqs_m, stand_enc)
+# cv_results_stand <- do_cv(all_folds, extracted_ngrams_stand, create_hv(seqs_m))
+# save(cv_results_stand, file = "./results/cv_results_stand.RData")
 
-extracted_ngrams_stand <- extract_ngrams(seqs_m, stand_enc)
-cv_results_stand <- do_cv(all_folds, extracted_ngrams_stand, create_hv(seqs_m))
-save(cv_results_stand, file = "./results/cv_results_stand.RData")
-save(cv_results_stand, file = "/home/michal/Dropbox/cv_results_stand.RData")
