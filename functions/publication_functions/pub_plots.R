@@ -13,6 +13,8 @@ amyloids_plot <- select(amyloids, AUC_mean, MCC_mean, Sens_mean, Spec_mean, pos,
   mutate(len_range = factor(len_range, 
                             labels = paste0("Test peptide length: ", c("6 ", "7-10", "11-15", "16-25"))))
 
+write.csv(amyloids_plot, file = "./results/amyloid_plot_data.csv")
+
 # Fig 1 all encodings sens/spec  ----------------------------------------
 
 sesp_dat <- amyloids_plot
