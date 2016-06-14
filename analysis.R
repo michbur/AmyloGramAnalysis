@@ -77,7 +77,7 @@ print("success")
 # cv_results <- do_cv(all_folds, extracted_ngrams, create_hv(seqs_m))
 # cv_summary <- summarize_cv_results(cv_results, reps_ids = get_reps_ids())
 
-cv_summary <- summarize_cv_results(cv_results, get_reps_ids)
+# cv_summary <- summarize_cv_results(cv_results, get_reps_ids)
 
 # negative control - full amino acid alphabet
 
@@ -87,3 +87,13 @@ cv_summary <- summarize_cv_results(cv_results, get_reps_ids)
 # extracted_ngrams_full <- extract_ngrams(seqs_m, full_aa)
 # cv_results_full <- do_cv(all_folds, extracted_ngrams_full, create_hv(seqs_m))
 # save(cv_results_full, file = "./results/cv_results_full.RData")
+
+# alternative alphabets from literature
+
+# stand_enc <- c(string2list(gsub("-", "_", tolower("ADEGHKNPQRST-C-FY-ILMV-W"))),
+#   string2list(gsub("-", "_", tolower("AG-C-DEKNPQRST-FILMVWY-H"))))
+# 
+# extracted_ngrams_stand <- extract_ngrams(seqs_m, stand_enc)
+# cv_results_stand <- do_cv(all_folds, extracted_ngrams_stand, create_hv(seqs_m))
+# save(cv_results_stand, file = "./results/cv_results_stand.RData")
+

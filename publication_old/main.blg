@@ -3,44 +3,47 @@ Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
 The top-level auxiliary file: main.aux
 The style file: NAR-natbib.bst
 Database file #1: amyloids.bib
-You've used 33 entries,
+Warning--I didn't find a database entry for "paz_sequence_2004"
+Warning--I didn't find a database entry for "tsolis_consensus_2013"
+You've used 34 entries,
             1918 wiz_defined-function locations,
-            694 strings with 11098 characters,
-and the built_in function-call counts, 8459 in all, are:
-= -- 901
-> -- 360
+            704 strings with 11383 characters,
+and the built_in function-call counts, 8712 in all, are:
+= -- 929
+> -- 368
 < -- 2
-+ -- 132
-- -- 99
-* -- 863
-:= -- 1285
-add.period$ -- 33
-call.type$ -- 33
++ -- 135
+- -- 101
+* -- 890
+:= -- 1322
+add.period$ -- 34
+call.type$ -- 34
 change.case$ -- 0
 chr.to.int$ -- 0
-cite$ -- 33
-duplicate$ -- 318
-empty$ -- 776
-format.name$ -- 99
-if$ -- 1925
+cite$ -- 34
+duplicate$ -- 327
+empty$ -- 801
+format.name$ -- 101
+if$ -- 1982
 int.to.chr$ -- 0
-int.to.str$ -- 33
-missing$ -- 34
-newline$ -- 169
-num.names$ -- 33
-pop$ -- 44
+int.to.str$ -- 34
+missing$ -- 35
+newline$ -- 174
+num.names$ -- 34
+pop$ -- 45
 preamble$ -- 1
 purify$ -- 0
 quote$ -- 0
-skip$ -- 148
+skip$ -- 152
 stack$ -- 0
-substring$ -- 659
-swap$ -- 58
+substring$ -- 684
+swap$ -- 59
 text.length$ -- 2
 text.prefix$ -- 0
 top$ -- 0
 type$ -- 0
 warning$ -- 0
-while$ -- 85
-width$ -- 35
-write$ -- 299
+while$ -- 88
+width$ -- 36
+write$ -- 308
+(There were 2 warnings)

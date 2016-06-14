@@ -1,0 +1,122 @@
+\relax 
+\citation{hard_inhibition_2012}
+\citation{garbuzynskiy_foldamyloid:_2010}
+\citation{bryan_stitcher:_2012}
+\citation{goldschmidt_identifying_2010}
+\citation{odonnell_method_2011}
+\citation{beerten_waltz-db:_2015}
+\citation{gasior_fish_2014}
+\citation{stanislawski_machine_2013}
+\citation{zambrano_aggrescan3d_2015}
+\@writefile{toc}{\contentsline {article}{Prediction of amyloidogenicity based on the n-gram analysis}{1}}
+\@writefile{toc}{\contentsline {section}{Introduction}{1}}
+\citation{murphy_simplified_2000}
+\citation{breiman_random_2001}
+\citation{wozniak_amyload:_2015}
+\citation{kawashima_aaindex:_2008}
+\citation{wozniak_characteristics_2014}
+\citation{joe_h._ward_jr_hierarchical_1963}
+\citation{bhaskaran_positional_1988}
+\citation{nishikawa_radial_1986}
+\citation{radzicka_comparing_1988}
+\citation{zhou_quantifying_2004}
+\citation{wozniak_characteristics_2014}
+\citation{wozniak_characteristics_2014}
+\citation{kanehisa_local_1980}
+\citation{prabhakaran_distribution_1990}
+\citation{kim_thermodynamic_1993}
+\citation{argos_structural_1982}
+\citation{sweet_correlation_1983}
+\citation{kidera_statistical_1985}
+\citation{black_development_1991}
+\citation{charton_structural_1982}
+\citation{radzicka_comparing_1988}
+\citation{pontius_deviations_1996}
+\citation{takano_new_2001}
+\citation{kotulska_amyloid_2013}
+\@writefile{toc}{\contentsline {section}{Methods}{2}}
+\@writefile{toc}{\contentsline {subsection}{Data set}{2}}
+\@writefile{toc}{\contentsline {subsection}{Encodings of amino acids}{2}}
+\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces Selected 17 physicochemical properties used to create amino acid encodings.}}{2}}
+\newlabel{tab:properties}{{1}{2}}
+\@writefile{toc}{\contentsline {subsection}{Training sets}{2}}
+\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces The scheme of n-gram extraction from studied peptide sequences. A) Source data: peptides with known amyloidogenicity status and indicated overlapping hexamers. B) Extraction of the overlapping hexamers and ascription to them of the amyloidogenicity status taken from their source peptide (P-positive, N - negative). C) Clusterization of amino acids into an encoding using a combination of various physicochemical properties (PP). D) Reduction of the amino acid alphabet in hexamers. E) Extraction of n-grams. From each hexamer, we extracted continuous n-grams with the length n = 1, 2 or 3. In addition, we selected gapped 2-grams with a gap of the length from 1 to 3 residues and gapped 3-grams with a single gap between the first and the second or the second and the third element of the n-gram. F) Selection of informative n-grams with Quick Permutation Test (QuiPT). G) Training of a random forest classifier using n-grams selected in the previous step.}}{3}}
+\newlabel{fig:ngram_scheme}{{1}{3}}
+\@writefile{lot}{\contentsline {table}{\numberline {2}{\ignorespaces Characteristics of training and test data sets used in the analysis.}}{3}}
+\newlabel{tab:data_sets}{{2}{3}}
+\@writefile{toc}{\contentsline {subsection}{Quick Permutation Test (QuiPT)}{3}}
+\citation{lehmann_testing_2008}
+\citation{wright_ranger:_2015}
+\citation{walsh_pasta_2014}
+\@writefile{toc}{\contentsline {subsection}{Random forest classifier}{4}}
+\@writefile{toc}{\contentsline {subsection}{Cross-validation and selection of the best-performing encoding}{4}}
+\@writefile{toc}{\contentsline {subsection}{Encoding distance}{4}}
+\@writefile{toc}{\contentsline {subsection}{Benchmark of AmyloGram}{4}}
+\citation{paz_sequence_2004}
+\citation{paz_sequence_2004}
+\citation{argos_structural_1982}
+\citation{bhaskaran_positional_1988}
+\citation{charton_structural_1982}
+\citation{kim_thermodynamic_1993}
+\@writefile{toc}{\contentsline {section}{Results and discussion}{5}}
+\@writefile{toc}{\contentsline {subsection}{Performance of the best encoding}{5}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces The encoding distance and AUC of the reduced alphabets studied in the cross-validation. Classifiers with the smallest encoding distance to the best classifier have the highest AUC.}}{5}}
+\newlabel{fig:ed_AUC}{{4}{5}}
+\@writefile{toc}{\contentsline {subsection}{The best-performing encoding and important n-grams}{5}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Distribution of mean AUC values of classifiers with various encodings for every possible combination of training and testing data set including different lengths of sequences. The left and right hinges of boxes correspond to the 0.25 and 0.75 quartiles. The bar inside the box represents the median. The gray circles correspond to the encodings with the AUC outside the 0.95 confidence interval. The best-performing encoding was best by average for various ranges of sequence length in the testing data set. }}{6}}
+\newlabel{fig:AUC_boxplot}{{2}{6}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Sensitivity and specificity of classifiers with various encodings for every possible combination of sequence lengths in the training and testing data sets. The classifier based on the best-performing encoding always have good specificity and sensitivity.}}{6}}
+\newlabel{fig:sesp_plot}{{3}{6}}
+\citation{walsh_pasta_2014}
+\citation{garbuzynskiy_foldamyloid:_2010}
+\citation{familia_prediction_2015}
+\citation{walsh_pasta_2014}
+\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces The frequency of important n-grams used by the best-performing classifier in amyloid and non-amyloid sequences. The elements of n-grams are amino acids encoded using the best-performing reduced amino acid alphabet (see Tab.\nobreakspace  {}3\hbox {}). A vertical bar represents a gap in a n-gram between its elements. The frequency was computed using the total number of occurrences divided by the number of possible n-grams of this length. Dots and triangles denote n-grams occurring in motifs found in respectively amyloidogenic and non-amyloidogenic sequences\nobreakspace  {}\citep  {paz_sequence_2004}.}}{7}}
+\newlabel{fig:ngrams}{{5}{7}}
+\@writefile{lot}{\contentsline {table}{\numberline {3}{\ignorespaces The best-performing encoding.}}{7}}
+\newlabel{tab:best_enc}{{3}{7}}
+\@writefile{toc}{\contentsline {subsection}{Benchmark of AmyloGram}{7}}
+\citation{tsolis_consensus_2013}
+\bibstyle{NAR-natbib}
+\bibdata{amyloids}
+\bibcite{hard_inhibition_2012}{{1}{}{{}}{{}}}
+\bibcite{garbuzynskiy_foldamyloid:_2010}{{2}{}{{}}{{}}}
+\bibcite{bryan_stitcher:_2012}{{3}{}{{}}{{}}}
+\bibcite{goldschmidt_identifying_2010}{{4}{}{{}}{{}}}
+\bibcite{odonnell_method_2011}{{5}{}{{}}{{}}}
+\@writefile{lot}{\contentsline {table}{\numberline {4}{\ignorespaces Results of benchmark on \textit  {pep424} data set for PASTA2, FoldAmyloid, AmyloGram and random forest predictor learned on n-grams extracted for full amino acid alphabet from the sequences with the length specified in the brackets (FA).}}{8}}
+\newlabel{tab:bench_summary}{{4}{8}}
+\@writefile{toc}{\contentsline {subsection}{AmyloGram web server}{8}}
+\@writefile{toc}{\contentsline {section}{Conclusion}{8}}
+\@writefile{toc}{\contentsline {section}{\numberline {\relax }REFERENCES}{8}}
+\bibcite{beerten_waltz-db:_2015}{{6}{}{{}}{{}}}
+\bibcite{gasior_fish_2014}{{7}{}{{}}{{}}}
+\bibcite{stanislawski_machine_2013}{{8}{}{{}}{{}}}
+\bibcite{zambrano_aggrescan3d_2015}{{9}{}{{}}{{}}}
+\bibcite{murphy_simplified_2000}{{10}{}{{}}{{}}}
+\bibcite{breiman_random_2001}{{11}{}{{}}{{}}}
+\bibcite{wozniak_amyload:_2015}{{12}{}{{}}{{}}}
+\bibcite{kawashima_aaindex:_2008}{{13}{}{{}}{{}}}
+\bibcite{wozniak_characteristics_2014}{{14}{}{{}}{{}}}
+\bibcite{joe_h._ward_jr_hierarchical_1963}{{15}{}{{}}{{}}}
+\bibcite{bhaskaran_positional_1988}{{16}{}{{}}{{}}}
+\bibcite{nishikawa_radial_1986}{{17}{}{{}}{{}}}
+\bibcite{radzicka_comparing_1988}{{18}{}{{}}{{}}}
+\bibcite{zhou_quantifying_2004}{{19}{}{{}}{{}}}
+\bibcite{kanehisa_local_1980}{{20}{}{{}}{{}}}
+\bibcite{prabhakaran_distribution_1990}{{21}{}{{}}{{}}}
+\bibcite{kim_thermodynamic_1993}{{22}{}{{}}{{}}}
+\bibcite{argos_structural_1982}{{23}{}{{}}{{}}}
+\bibcite{sweet_correlation_1983}{{24}{}{{}}{{}}}
+\bibcite{kidera_statistical_1985}{{25}{}{{}}{{}}}
+\bibcite{black_development_1991}{{26}{}{{}}{{}}}
+\bibcite{charton_structural_1982}{{27}{}{{}}{{}}}
+\bibcite{pontius_deviations_1996}{{28}{}{{}}{{}}}
+\bibcite{takano_new_2001}{{29}{}{{}}{{}}}
+\bibcite{kotulska_amyloid_2013}{{30}{}{{}}{{}}}
+\bibcite{lehmann_testing_2008}{{31}{}{{}}{{}}}
+\bibcite{wright_ranger:_2015}{{32}{}{{}}{{}}}
+\bibcite{walsh_pasta_2014}{{33}{}{{}}{{}}}
+\bibcite{familia_prediction_2015}{{34}{}{{}}{{}}}
+\global\NAT@numberstrue
+\global\@namedef{@lastpage}{9}
