@@ -21,16 +21,17 @@ sesp_dat <- amyloids_plot
 levels(sesp_dat[["pos"]]) <- c("Training peptide\nlength: 6", "Training peptide\nlength: 6-10", 
                                "Training peptide\nlength: 6-15")
 
-sesp_plot <- ggplot(sesp_dat, aes(x = Spec_mean, y = Sens_mean, color = et, shape = et)) +
-  geom_point() +
-  scale_color_manual("", values = c("grey", "red", "blue", "green")) +
-  scale_shape_manual("", values = c(1, 16, 15, 15)) +
+sesp_plot <- ggplot(sesp_dat, aes(x = Spec_mean, y = Sens_mean, color = et)) +
+  geom_density_2d(color = "grey", contour = TRUE) +
+  #stat_density2d(aes(fill=..level..), color = "red", contour = TRUE, geom="polygon") +
+  scale_alpha_continuous(range = c(0.35, 1)) +
   scale_y_continuous("Mean sensitivity") +
   scale_x_continuous("Mean specificity") +
+  geom_point(data = filter(sesp_dat, et != "Encoding"), aes(shape = et)) +
+  scale_color_manual("", values = c("red", "blue", "green")) +
+  scale_shape_manual("", values = c(16, 15, 15)) +
   facet_grid(pos ~ len_range) +
-  my_theme +
-  geom_point(data = filter(sesp_dat, et != "Encoding"), 
-             aes(x = Spec_mean, y = Sens_mean, color = et))
+  my_theme 
 
 png("./publication/figures/sesp_plot.png", height = 4, width = 6.5, unit = "in", res = 200)
 #cairo_ps("./pub_figures/sesp_plot.eps", height = 4, width = 8)
