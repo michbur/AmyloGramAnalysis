@@ -11,7 +11,15 @@ amyloids_plot <- select(amyloids, AUC_mean, MCC_mean, Sens_mean, Spec_mean, pos,
          et = factor(et, labels = c("Encoding", "Best-performing encoding",
                                     "Standard encoding", "Full alphabet"))) %>%
   mutate(len_range = factor(len_range, 
-                            labels = paste0("Test peptide length: ", c("6 ", "7-10", "11-15", "16-25"))))
+                            labels = paste0("Test peptide length: ", c("6 ", "7-10", "11-15", "16-25"))),
+         et2 = ifelse(enc_adj == 1L, "Standard encoding (Kosiol et al., 2004)", as.character(et)),
+         et2 = ifelse(enc_adj == 2L, "Standard encoding (Melo and Marti-Renom, 2006)", as.character(et2)),
+         et2 = factor(et2, levels = c("Encoding", 
+                                      "Best-performing encoding", 
+                                      "Full alphabet", 
+                                      "Standard encoding (Kosiol et al., 2004)", 
+                                      "Standard encoding (Melo and Marti-Renom, 2006)")),
+         et = et2)
 
 write.csv(amyloids_plot, file = "./results/amyloid_plot_data.csv")
 
@@ -22,14 +30,17 @@ levels(sesp_dat[["pos"]]) <- c("Training peptide\nlength: 6", "Training peptide\
                                "Training peptide\nlength: 6-15")
 
 sesp_plot <- ggplot(sesp_dat, aes(x = Spec_mean, y = Sens_mean, color = et)) +
-  geom_density_2d(color = "grey", contour = TRUE) +
-  #stat_density2d(aes(fill=..level..), color = "red", contour = TRUE, geom="polygon") +
+  #geom_density_2d(color = "grey", contour = TRUE) +
+  #stat_density2d(aes(fill=..level..), color = "grey", contour = TRUE, geom="polygon") +
   scale_alpha_continuous(range = c(0.35, 1)) +
   scale_y_continuous("Mean sensitivity") +
   scale_x_continuous("Mean specificity") +
+  geom_point(data = sesp_dat, aes(shape = et)) +
   geom_point(data = filter(sesp_dat, et != "Encoding"), aes(shape = et)) +
-  scale_color_manual("", values = c("red", "blue", "green")) +
-  scale_shape_manual("", values = c(16, 15, 15)) +
+  guides(color = guide_legend(nrow = 2), shape = guide_legend(nrow = 2)) +
+  scale_shape_manual("", values = c(1, 16, 16, 17, 15), drop = FALSE) +
+  scale_color_manual("", values = c("grey", "red", "green", "blue", "blue"), drop = FALSE) +
+  scale_size_manual("", values = c(1, 1, 1, 1.5, 1.5), drop = FALSE) +
   facet_grid(pos ~ len_range) +
   my_theme 
 
@@ -42,16 +53,18 @@ dev.off()
 # Fig 2 AUC boxplot  ----------------------------------------
 
 AUC_boxplot <- ggplot(amyloids_plot, aes(x = len_range, y = AUC_mean)) +
-  geom_boxplot(outlier.color = "grey", outlier.shape = 1) +
-  geom_point(data = filter(amyloids_plot, et != "Encoding"), 
-             aes(x = len_range, y = AUC_mean, color = et, shape = et)) +
+  geom_boxplot(outlier.color = "grey", outlier.shape = 1, outlier.size = 1) +
+  geom_point(data = filter(amyloids_plot, et2 != "Encoding"), 
+             aes(x = len_range, y = AUC_mean, color = et2, shape = et2, size = et2)) +
   scale_x_discrete("") +
   scale_y_continuous("Mean AUC") +
-  scale_shape_manual("", values = c(1, 16, 15, 15), drop = FALSE) +
-  scale_color_manual("", values = c("grey", "red", "blue", "green"), drop = FALSE) +
+  guides(color = guide_legend(nrow = 2), shape = guide_legend(nrow = 2)) +
+  scale_shape_manual("", values = c(1, 16, 16, 17, 15), drop = FALSE) +
+  scale_color_manual("", values = c("grey", "red", "green", "blue", "blue"), drop = FALSE) +
+  scale_size_manual("", values = c(1, 1, 1, 1.5, 1.5), drop = FALSE) +
   facet_wrap(~ pos, nrow = 3) +
   my_theme + 
-  coord_flip()
+  coord_flip() 
 
 cairo_ps("./publication/figures/AUC_boxplot.eps", height = 3.5, width = 6.5)
 #png("./pub_figures/AUC_boxplot.png", height = 648, width = 648)
@@ -124,7 +137,10 @@ ed_AUC_plot <- ggplot(ed_dat, aes(x=ed, y=AUC_mean, color=et, shape = et)) +
   my_theme +
   geom_point(data = filter(ed_dat, et != "Encoding"), 
              aes(x = ed, y = AUC_mean, color = et)) +
-  guides(color=guide_legend(ncol=2))
+  guides(color = guide_legend(nrow = 2), shape = guide_legend(nrow = 2)) +
+  scale_shape_manual("", values = c(1, 16, 16, 17, 15), drop = FALSE) +
+  scale_color_manual("", values = c("grey", "red", "green", "blue", "blue"), drop = FALSE) +
+  scale_size_manual("", values = c(1, 1, 1, 1.5, 1.5), drop = FALSE) 
 
 cairo_ps("./publication/figures/ed_AUC.eps", height = 4, width = 3)
 print(ed_AUC_plot)
