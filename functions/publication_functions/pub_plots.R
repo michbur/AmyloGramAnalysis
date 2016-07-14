@@ -128,6 +128,16 @@ dev.off()
 
 # Fig 6 encoding distance  ----------------------------------------
 
+ed_dat <- ed_dat %>% 
+  mutate(et2 = ifelse(enc_adj == 1L, "Standard encoding (Kosiol et al., 2004)", as.character(et)),
+         et2 = ifelse(enc_adj == 2L, "Standard encoding (Melo and Marti-Renom, 2006)", as.character(et2)),
+         et2 = factor(et2, levels = c("Encoding", 
+                                      "Best-performing encoding", 
+                                      "Full alphabet", 
+                                      "Standard encoding (Kosiol et al., 2004)", 
+                                      "Standard encoding (Melo and Marti-Renom, 2006)")),
+         et = et2)
+
 ed_AUC_plot <- ggplot(ed_dat, aes(x=ed, y=AUC_mean, color=et, shape = et)) + 
   geom_point() +
   scale_color_manual("", values = c("grey", "red", "blue", "green")) +
