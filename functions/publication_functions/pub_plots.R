@@ -147,7 +147,7 @@ ed_AUC_plot <- ggplot(ed_dat, aes(x=ed, y=AUC_mean, color=et, shape = et)) +
   my_theme +
   geom_point(data = filter(ed_dat, et != "Encoding"), 
              aes(x = ed, y = AUC_mean, color = et)) +
-  guides(color = guide_legend(nrow = 2), shape = guide_legend(nrow = 2)) +
+  guides(color = guide_legend(nrow = 2), shape = guide_legend(nrow = 5)) +
   scale_shape_manual("", values = c(1, 16, 16, 17, 15), drop = FALSE) +
   scale_color_manual("", values = c("grey", "red", "green", "blue", "blue"), drop = FALSE) +
   scale_size_manual("", values = c(1, 1, 1, 1.5, 1.5), drop = FALSE) 
