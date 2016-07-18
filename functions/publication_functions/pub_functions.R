@@ -156,7 +156,8 @@ ngram_freq <- read.csv("./results/ngram_freq.csv")
 
 # very time consuming, load from file instead
 # distances = lapply(aa_groups, function(enc) calc_ed(aa_groups[[best_enc]], enc))
-# save(distances, file="results/distances.Rdata")
+# distances_si = lapply(aa_groups, function(enc) calc_si(aa_groups[[best_enc]], enc))
+# save(distances, distances_si, file="results/distances.Rdata")
 load(file = "results/distances.Rdata")
 
 selected_props <- aaprop[frequencies %>% top_n(5) %>% select(X) %>% unlist, ]
@@ -205,8 +206,23 @@ ed_dat <- inner_join(amyloids %>%
 
 ed_dat[["et"]] <- factor(ed_dat[["et"]], labels = c("Encoding", "Best-performing encoding",
                                                     "Encoding\nfrom literature", "Full alphabet"))
-
 cor.test(~ AUC_mean + ed, ed_dat)
+
+# similarity index distances -------------------------------
+
+df_si <- data.frame(enc_adj = c(seq_along(aa_groups), 0), 
+                    si = c(unlist(distances_si), calc_si(aa_groups[[best_enc]], full_alphabet_groups))
+)
+
+si_dat <- inner_join(amyloids %>% 
+                       mutate(et = factor(ifelse(enc_adj %in% best_enc, "best", ifelse(enc_adj %in% 1L:2, "literature", "")))) %>%
+                       select(len_range, enc_adj, AUC_mean, et) %>%
+                       rbind(select(full_alphabet, AUC_mean, len_range) %>% 
+                               mutate(et = "full alphabet", enc_adj = 0)) %>%
+                       group_by(enc_adj) %>%
+                       summarise(AUC_mean = mean(AUC_mean), et=et[1]), df_si)
+
+cor.test(~ AUC_mean + si, si_dat)
 
 # results of benchmark --------------------------------------
 
