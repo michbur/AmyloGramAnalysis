@@ -156,5 +156,32 @@ cairo_ps("./publication/figures/ed_AUC.eps", height = 4, width = 3)
 print(ed_AUC_plot)
 dev.off()
 
+# Fig 6 alternative (similarity index)  ----------------------------------------
+
+si_dat <- si_dat %>% 
+  mutate(et2 = ifelse(enc_adj == 1L, "Standard encoding (Kosiol et al., 2004)", as.character(et)),
+         et2 = ifelse(enc_adj == 2L, "Standard encoding (Melo and Marti-Renom, 2006)", as.character(et2)),
+         et2 = factor(et2, levels = c("Encoding", 
+                                      "Best-performing encoding", 
+                                      "Full alphabet", 
+                                      "Standard encoding (Kosiol et al., 2004)", 
+                                      "Standard encoding (Melo and Marti-Renom, 2006)")),
+         et = et2)
+
+si_AUC_plot <- ggplot(si_dat, aes(x=si, y=AUC_mean, color=et, shape = et)) + 
+  geom_point() +
+  scale_color_manual("", values = c("grey", "red", "blue", "green")) +
+  scale_shape_manual("", values = c(1, 16, 15, 15), drop = FALSE) +
+  xlab("Similarity index") +
+  ylab("AUC") +
+  my_theme +
+  geom_point(data = filter(si_dat, et != "Encoding"), 
+             aes(x = si, y = AUC_mean, color = et)) +
+  guides(color = guide_legend(nrow = 2), shape = guide_legend(nrow = 5)) +
+  scale_shape_manual("", values = c(1, 16, 16, 17, 15), drop = FALSE) +
+  scale_color_manual("", values = c("grey", "red", "green", "blue", "blue"), drop = FALSE) +
+  scale_size_manual("", values = c(1, 1, 1, 1.5, 1.5), drop = FALSE) 
+
+
 # save(amyloids_plot, best_enc_props, ngram_freq_plot, ed_dat,
 #      file = "./presentation/presentation.RData")

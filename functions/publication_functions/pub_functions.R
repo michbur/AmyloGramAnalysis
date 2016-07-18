@@ -221,6 +221,8 @@ si_dat <- inner_join(amyloids %>%
                                mutate(et = "full alphabet", enc_adj = 0)) %>%
                        group_by(enc_adj) %>%
                        summarise(AUC_mean = mean(AUC_mean), et=et[1]), df_si)
+si_dat[["et"]] <- factor(si_dat[["et"]], labels = c("Encoding", "Best-performing encoding",
+                                                    "Encoding\nfrom literature", "Full alphabet"))
 
 cor.test(~ AUC_mean + si, si_dat)
 
