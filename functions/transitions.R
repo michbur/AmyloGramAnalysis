@@ -32,8 +32,35 @@ trans_df <- rbind(trans_df0, trans_df1) %>%
   group_by(trans) %>% 
   mutate(dist = factor(dist), 
          all_zero = sum(freq) == 0) %>% 
-  filter(!all_zero)
+  filter(!all_zero) %>% 
+  mutate(start = substr(as.character(trans), 0, 1),
+         end = substr(as.character(trans), 2, 2))
 
 ggplot(trans_df, aes(x = dist, y = freq, fill = status)) +
   geom_bar(stat = "identity", position = "dodge") +
   facet_wrap(~ trans)
+
+adj_matrix <- trans_df0 %>% 
+  mutate(start = substr(as.character(trans), 0, 1),
+         end = substr(as.character(trans), 2, 2)) %>% 
+  select(freq, status, start, end) %>% 
+  acast(start ~ end ~ status, value.var = "freq")
+
+library(circlize)
+
+chod_colors <- adjustcolor(rainbow(length(adj_matrix[, , 1]), start = 0.1, end = 0.9), alpha.f = 0.5)
+dim(chod_colors) = dim(adj_matrix[, , 1]) 
+
+chordDiagram(adj_matrix[, , 1], 
+             col = chod_colors)
+
+
+chordDiagram(adj_matrix[, , 1], 
+             grid.col = chod_colors[colSums(adj_matrix[, , 1]) != 0],
+             grid.border = chod_colors[colSums(adj_matrix[, , 1]) != 0],
+             row.col = chod_colors[colSums(adj_matrix[, , 1]) != 0],
+             column.col = chod_colors[colSums(adj_matrix[, , 1]) != 0])
+chordDiagram(adj_matrix[, , 2], 
+             grid.col = chod_colors[colSums(adj_matrix[, , 2]) != 0], 
+             row.col = chod_colors[colSums(adj_matrix[, , 2]) != 0],
+             column.col = chod_colors[colSums(adj_matrix[, , 2]) != 0])
