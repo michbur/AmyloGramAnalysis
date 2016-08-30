@@ -128,7 +128,9 @@ dev.off()
 
 # Fig 6 encoding distance  ----------------------------------------
 
-ed_dat <- ed_dat %>% 
+# careful - check if similarity index is used instead of the encoding distance
+
+si_dat <- si_dat %>% 
   mutate(et2 = ifelse(enc_adj == 1L, "Standard encoding (Kosiol et al., 2004)", as.character(et)),
          et2 = ifelse(enc_adj == 2L, "Standard encoding (Melo and Marti-Renom, 2006)", as.character(et2)),
          et2 = factor(et2, levels = c("Encoding", 
@@ -138,15 +140,15 @@ ed_dat <- ed_dat %>%
                                       "Standard encoding (Melo and Marti-Renom, 2006)")),
          et = et2)
 
-ed_AUC_plot <- ggplot(ed_dat, aes(x=ed, y=AUC_mean, color=et, shape = et)) + 
+ed_AUC_plot <- ggplot(si_dat, aes(x=si, y=AUC_mean, color=et, shape = et)) + 
   geom_point() +
   scale_color_manual("", values = c("grey", "red", "blue", "green")) +
   scale_shape_manual("", values = c(1, 16, 15, 15), drop = FALSE) +
-  xlab("Normalized encoding distance") +
+  xlab("Similarity index") +
   ylab("AUC") +
   my_theme +
   geom_point(data = filter(ed_dat, et != "Encoding"), 
-             aes(x = ed, y = AUC_mean, color = et)) +
+             aes(x = si, y = AUC_mean, color = et)) +
   guides(color = guide_legend(nrow = 2), shape = guide_legend(nrow = 5)) +
   scale_shape_manual("", values = c(1, 16, 16, 17, 15), drop = FALSE) +
   scale_color_manual("", values = c("grey", "red", "green", "blue", "blue"), drop = FALSE) +
