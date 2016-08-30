@@ -140,6 +140,8 @@ si_dat <- si_dat %>%
                                       "Standard encoding (Melo and Marti-Renom, 2006)")),
          et = et2)
 
+write.csv2(si_dat, row.names = FALSE, file = "./results/si_dat.csv")
+
 ed_AUC_plot <- ggplot(si_dat, aes(x=si, y=AUC_mean, color=et, shape = et)) + 
   geom_point() +
   scale_color_manual("", values = c("grey", "red", "blue", "green")) +
@@ -147,7 +149,7 @@ ed_AUC_plot <- ggplot(si_dat, aes(x=si, y=AUC_mean, color=et, shape = et)) +
   xlab("Similarity index") +
   ylab("AUC") +
   my_theme +
-  geom_point(data = filter(ed_dat, et != "Encoding"), 
+  geom_point(data = filter(si_dat, et != "Encoding"), 
              aes(x = si, y = AUC_mean, color = et)) +
   guides(color = guide_legend(nrow = 2), shape = guide_legend(nrow = 5)) +
   scale_shape_manual("", values = c(1, 16, 16, 17, 15), drop = FALSE) +
