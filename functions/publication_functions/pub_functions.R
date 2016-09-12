@@ -226,6 +226,17 @@ si_dat[["et"]] <- factor(si_dat[["et"]], labels = c("Encoding", "Best-performing
 
 cor.test(~ AUC_mean + si, si_dat)
 
+# Pearson's product-moment correlation
+# 
+# data:  AUC_mean and si
+# t = 80.641, df = 18536, p-value < 2.2e-16
+# alternative hypothesis: true correlation is not equal to 0
+# 95 percent confidence interval:
+#  0.4988838 0.5201983
+# sample estimates:
+#       cor 
+# 0.5096192 
+
 # results of benchmark --------------------------------------
 
 bench_measures <- read.csv("./results/benchmark_allpreds.csv")
