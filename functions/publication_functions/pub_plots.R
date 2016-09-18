@@ -62,7 +62,7 @@ sesp_plot <- ggplot(sesp_dat, aes(x = Spec_mean, y = Sens_mean, color = et)) +
 
 
 #png("./publication/figures/sesp_plot.png", height = 4, width = 6.5, unit = "in", res = 200)
-cairo_ps("./pub_figures/sesp_plot.eps", height = 4, width = 6.5)
+cairo_ps("./publication/figures/sesp_plot.eps", height = 4, width = 6.5)
 # should be eps, but it's too big for overleaf
 print(sesp_plot)
 dev.off()
@@ -146,7 +146,7 @@ ngram_plot <- ggplot(ngram_freq_plot, aes(x = decoded_name, y = value)) +
 # in case we need to get n-grams in a tabular format
 #writeLines(as.character(ngram_freq_plot[["decoded_name"]]), "n_gramy_Ania.txt")
 
-cairo_ps("./publication/figures/ngrams.eps", height = 8, width = 2.5)
+cairo_ps("./publication/figures/ngrams.eps", height = 8, width = 4)
 print(ngram_plot)
 dev.off()
 
