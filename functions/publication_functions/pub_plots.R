@@ -29,20 +29,37 @@ sesp_dat <- amyloids_plot
 levels(sesp_dat[["pos"]]) <- c("Training peptide\nlength: 6", "Training peptide\nlength: 6-10", 
                                "Training peptide\nlength: 6-15")
 
+# sesp_plot <- ggplot(sesp_dat, aes(x = Spec_mean, y = Sens_mean, color = et)) +
+#   #geom_density_2d(color = "grey", contour = TRUE) +
+#   #stat_density2d(aes(fill=..level..), color = "grey", contour = TRUE, geom="polygon") +
+#   scale_alpha_continuous(range = c(0.35, 1)) +
+#   scale_y_continuous("Mean sensitivity") +
+#   scale_x_continuous("Mean specificity") +
+#   geom_point(data = sesp_dat, aes(shape = et)) +
+#   geom_point(data = filter(sesp_dat, et != "Encoding"), aes(shape = et)) +
+#   guides(color = guide_legend(nrow = 2), shape = guide_legend(nrow = 2)) +
+#   scale_shape_manual("", values = c(1, 16, 16, 17, 15), drop = FALSE) +
+#   scale_color_manual("", values = c("grey", "red", "green", "blue", "blue"), drop = FALSE) +
+#   scale_size_manual("", values = c(1, 1, 1, 1.5, 1.5), drop = FALSE) +
+#   facet_grid(pos ~ len_range) +
+#   my_theme 
+
+
 sesp_plot <- ggplot(sesp_dat, aes(x = Spec_mean, y = Sens_mean, color = et)) +
-  #geom_density_2d(color = "grey", contour = TRUE) +
-  #stat_density2d(aes(fill=..level..), color = "grey", contour = TRUE, geom="polygon") +
-  scale_alpha_continuous(range = c(0.35, 1)) +
+  geom_bin2d(bins = 30, color = "black") + 
+  scale_fill_continuous("Count", low = "gray83", high = "gray44") +
   scale_y_continuous("Mean sensitivity") +
   scale_x_continuous("Mean specificity") +
-  geom_point(data = sesp_dat, aes(shape = et)) +
-  geom_point(data = filter(sesp_dat, et != "Encoding"), aes(shape = et)) +
-  guides(color = guide_legend(nrow = 2), shape = guide_legend(nrow = 2)) +
-  scale_shape_manual("", values = c(1, 16, 16, 17, 15), drop = FALSE) +
-  scale_color_manual("", values = c("grey", "red", "green", "blue", "blue"), drop = FALSE) +
-  scale_size_manual("", values = c(1, 1, 1, 1.5, 1.5), drop = FALSE) +
+  geom_point(data = droplevels(filter(sesp_dat, et != "Encoding")),
+             aes(x = Spec_mean, y = Sens_mean, color = et2, shape = et2), size = 4) +
+  guides(color = guide_legend(nrow = 2), shape = guide_legend(nrow = 2), 
+         fill = guide_colorbar(barwidth = unit(50, "line"))) +
+  scale_shape_manual("", values = c(16, 15, 17, 17), drop = FALSE) +
+  scale_color_manual("", values = c("red", "green", "blue", "blue"), drop = FALSE) +
+  scale_size_manual("", values = c(1, 1, 1.5, 1.5), drop = FALSE) +
   facet_grid(pos ~ len_range) +
-  my_theme 
+  my_theme
+
 
 png("./publication/figures/sesp_plot.png", height = 4, width = 6.5, unit = "in", res = 200)
 #cairo_ps("./pub_figures/sesp_plot.eps", height = 4, width = 8)
@@ -99,13 +116,21 @@ ggplot(best_enc_props, aes(x = as.factor(id), y = value, label = aa)) +
 
 # Fig 5 n-grams  ----------------------------------------
 
-ngram_freq_plot <- mutate(ngram_freq, decoded_name = gsub("_", "|", decoded_name)) %>%
+gr_aa <- group_by(best_enc_aa, id) %>% 
+  summarise(gr = paste0("(", paste0(aa, collapse = ", "), ")"))
+
+ngram_freq_plot <- mutate(ngram_freq, decoded_name = gsub("_", " - ", decoded_name)) %>%
   mutate(decoded_name = factor(decoded_name, levels = as.character(decoded_name)),
          amyloid = diff_freq > 0) %>%
   melt() %>%
   filter(variable %in% c("pos", "neg")) %>%
   droplevels %>%
   mutate(variable = factor(variable, labels = c("Amyloid", "Non-amyloid")))
+
+for(i in 1L:6)
+  levels(ngram_freq_plot[["decoded_name"]]) <- gsub(as.character(i), gr_aa[i, "gr"],
+    levels(ngram_freq_plot[["decoded_name"]]))
+                                                    
 
 ngram_plot <- ggplot(ngram_freq_plot, aes(x = decoded_name, y = value)) +
   geom_bar(aes(fill = variable), position = "dodge", stat = "identity") +
@@ -116,8 +141,7 @@ ngram_plot <- ggplot(ngram_freq_plot, aes(x = decoded_name, y = value)) +
   scale_y_continuous("Frequency") +
   scale_x_discrete("") +
   coord_flip() +
-  my_theme +
-  theme(panel.grid.major.y = element_line(color = "lightgrey", size = 0.5)) 
+  my_theme 
 
 # in case we need to get n-grams in a tabular format
 #writeLines(as.character(ngram_freq_plot[["decoded_name"]]), "n_gramy_Ania.txt")
@@ -142,23 +166,19 @@ si_dat <- si_dat %>%
 
 write.csv2(si_dat, row.names = FALSE, file = "./results/si_dat.csv")
 
-ed_AUC_plot <- ggplot(si_dat, aes(x=si, y=AUC_mean, color=et, shape = et)) + 
-  geom_point() +
-  scale_color_manual("", values = c("grey", "red", "blue", "green")) +
-  scale_shape_manual("", values = c(1, 16, 15, 15), drop = FALSE) +
-  xlab("Similarity") +
-  ylab("AUC") +
-  my_theme +
-  geom_point(data = filter(si_dat, et != "Encoding"), 
-             aes(x = si, y = AUC_mean, color = et)) +
-  guides(color = guide_legend(nrow = 2), shape = guide_legend(nrow = 5)) +
-  scale_shape_manual("", values = c(1, 16, 16, 17, 15), drop = FALSE) +
-  scale_color_manual("", values = c("grey", "red", "green", "blue", "blue"), drop = FALSE) +
-  scale_size_manual("", values = c(1, 1, 1, 1.5, 1.5), drop = FALSE) 
-
-cairo_ps("./publication/figures/ed_AUC.eps", height = 4, width = 3)
-print(ed_AUC_plot)
-dev.off()
+# ed_AUC_plot <- ggplot(si_dat, aes(x=si, y=AUC_mean, color=et, shape = et)) + 
+#   geom_point() +
+#   scale_color_manual("", values = c("grey", "red", "blue", "green")) +
+#   scale_shape_manual("", values = c(1, 16, 15, 15), drop = FALSE) +
+#   xlab("Similarity") +
+#   ylab("AUC") +
+#   my_theme +
+#   geom_point(data = filter(si_dat, et != "Encoding"), 
+#              aes(x = si, y = AUC_mean, color = et)) +
+#   guides(color = guide_legend(nrow = 2), shape = guide_legend(nrow = 5)) +
+#   scale_shape_manual("", values = c(1, 16, 16, 17, 15), drop = FALSE) +
+#   scale_color_manual("", values = c("grey", "red", "green", "blue", "blue"), drop = FALSE) +
+#   scale_size_manual("", values = c(1, 1, 1, 1.5, 1.5), drop = FALSE) 
 
 # Fig 6 alternative (similarity index)  ----------------------------------------
 
@@ -172,19 +192,37 @@ si_dat <- si_dat %>%
                                       "Standard encoding (Melo and Marti-Renom, 2006)")),
          et = et2)
 
-si_AUC_plot <- ggplot(si_dat, aes(x=si, y=AUC_mean, color=et, shape = et)) + 
-  geom_point() +
-  scale_color_manual("", values = c("grey", "red", "blue", "green")) +
-  scale_shape_manual("", values = c(1, 16, 15, 15), drop = FALSE) +
-  xlab("Similarity index") +
+# si_AUC_plot <- ggplot(si_dat, aes(x=si, y=AUC_mean, color=et, shape = et)) + 
+#   geom_point() +
+#   scale_color_manual("", values = c("grey", "red", "blue", "green")) +
+#   scale_shape_manual("", values = c(1, 16, 15, 15), drop = FALSE) +
+#   xlab("Similarity index") +
+#   ylab("AUC") +
+#   my_theme +
+#   geom_point(data = filter(si_dat, et != "Encoding"), 
+#              aes(x = si, y = AUC_mean, color = et)) +
+#   guides(color = guide_legend(nrow = 2), shape = guide_legend(nrow = 5)) +
+#   scale_shape_manual("", values = c(1, 16, 16, 17, 15), drop = FALSE) +
+#   scale_color_manual("", values = c("grey", "red", "green", "blue", "blue"), drop = FALSE) +
+#   scale_size_manual("", values = c(1, 1, 1, 1.5, 1.5), drop = FALSE) 
+
+si_AUC_plot <- ggplot(si_dat, aes(x=si, y=AUC_mean)) + 
+  geom_bin2d(bins = 30, color = "black") + 
+  scale_fill_continuous("Count", low = "gray83", high = "gray44") +
+  xlab("Similarity") +
   ylab("AUC") +
   my_theme +
-  geom_point(data = filter(si_dat, et != "Encoding"), 
-             aes(x = si, y = AUC_mean, color = et)) +
-  guides(color = guide_legend(nrow = 2), shape = guide_legend(nrow = 5)) +
-  scale_shape_manual("", values = c(1, 16, 16, 17, 15), drop = FALSE) +
-  scale_color_manual("", values = c("grey", "red", "green", "blue", "blue"), drop = FALSE) +
-  scale_size_manual("", values = c(1, 1, 1, 1.5, 1.5), drop = FALSE) 
+  geom_point(data = droplevels(filter(si_dat, et != "Encoding")),
+             aes(x = si, y = AUC_mean, color = et2, shape = et2), size = 4) +
+  guides(color = guide_legend(nrow = 2), shape = guide_legend(nrow = 2), 
+         fill = guide_colorbar(barwidth = unit(50, "line"))) +
+  scale_shape_manual("", values = c(16, 15, 17, 17), drop = FALSE) +
+  scale_color_manual("", values = c("red", "green", "blue", "blue"), drop = FALSE) +
+  scale_size_manual("", values = c(1, 1, 1.5, 1.5), drop = FALSE)
+
+cairo_ps("./publication/figures/ed_AUC.eps", height = 4, width = 3)
+print(si_AUC_plot)
+dev.off()
 
 
 # save(amyloids_plot, best_enc_props, ngram_freq_plot, ed_dat,
