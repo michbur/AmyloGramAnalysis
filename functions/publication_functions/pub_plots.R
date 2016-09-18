@@ -146,7 +146,7 @@ ed_AUC_plot <- ggplot(si_dat, aes(x=si, y=AUC_mean, color=et, shape = et)) +
   geom_point() +
   scale_color_manual("", values = c("grey", "red", "blue", "green")) +
   scale_shape_manual("", values = c(1, 16, 15, 15), drop = FALSE) +
-  xlab("Similarity index") +
+  xlab("Similarity") +
   ylab("AUC") +
   my_theme +
   geom_point(data = filter(si_dat, et != "Encoding"), 
