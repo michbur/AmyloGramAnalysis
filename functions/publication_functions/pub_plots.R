@@ -53,7 +53,7 @@ sesp_plot <- ggplot(sesp_dat, aes(x = Spec_mean, y = Sens_mean, color = et)) +
   geom_point(data = droplevels(filter(sesp_dat, et != "Encoding")),
              aes(x = Spec_mean, y = Sens_mean, color = et2, shape = et2)) +
   guides(color = guide_legend(nrow = 2), shape = guide_legend(nrow = 2), 
-         fill = guide_colorbar(barwidth = unit(50, "line"))) +
+         fill = guide_colorbar(barwidth = unit(5, "line"))) +
   scale_shape_manual("", values = c(16, 15, 17, 17), drop = FALSE) +
   scale_color_manual("", values = c("firebrick1", "lawngreen", "dodgerblue", "dodgerblue"), drop = FALSE) +
   scale_size_manual("", values = c(0.5, 0.5, 0.75, 0.75), drop = FALSE) +
@@ -215,7 +215,7 @@ si_AUC_plot <- ggplot(si_dat, aes(x=si, y=AUC_mean)) +
   geom_point(data = droplevels(filter(si_dat, et != "Encoding")),
              aes(x = si, y = AUC_mean, color = et2, shape = et2), size = 4) +
   guides(color = guide_legend(nrow = 2), shape = guide_legend(nrow = 2), 
-         fill = guide_colorbar(barwidth = unit(50, "line"))) +
+         fill = guide_colorbar(barwidth = unit(5, "line"))) +
   scale_shape_manual("", values = c(16, 15, 17, 17), drop = FALSE) +
   scale_color_manual("", values = c("firebrick1", "lawngreen", "dodgerblue", "dodgerblue"), drop = FALSE) +
   scale_size_manual("", values = c(0.5, 0.5, 0.75, 0.75), drop = FALSE)
