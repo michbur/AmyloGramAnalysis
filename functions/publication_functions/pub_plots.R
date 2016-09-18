@@ -53,7 +53,7 @@ sesp_plot <- ggplot(sesp_dat, aes(x = Spec_mean, y = Sens_mean, color = et)) +
   geom_point(data = droplevels(filter(sesp_dat, et != "Encoding")),
              aes(x = Spec_mean, y = Sens_mean, color = et2, shape = et2)) +
   guides(color = guide_legend(nrow = 2), shape = guide_legend(nrow = 2), 
-         fill = guide_colorbar(barwidth = unit(5, "line"))) +
+         fill = guide_colorbar(barwidth = unit(10, "line"))) +
   scale_shape_manual("", values = c(16, 15, 17, 17), drop = FALSE) +
   scale_color_manual("", values = c("firebrick1", "lawngreen", "dodgerblue", "dodgerblue"), drop = FALSE) +
   scale_size_manual("", values = c(0.5, 0.5, 0.75, 0.75), drop = FALSE) +
@@ -141,12 +141,13 @@ ngram_plot <- ggplot(ngram_freq_plot, aes(x = decoded_name, y = value)) +
   scale_y_continuous("Frequency") +
   scale_x_discrete("") +
   coord_flip() +
-  my_theme 
+  my_theme + 
+  theme(axis.text.y = element_text(size=5))
 
 # in case we need to get n-grams in a tabular format
 #writeLines(as.character(ngram_freq_plot[["decoded_name"]]), "n_gramy_Ania.txt")
 
-cairo_ps("./publication/figures/ngrams.eps", height = 8, width = 4)
+cairo_ps("./publication/figures/ngrams.eps", height = 8, width = 3.5)
 print(ngram_plot)
 dev.off()
 
@@ -213,9 +214,9 @@ si_AUC_plot <- ggplot(si_dat, aes(x=si, y=AUC_mean)) +
   ylab("AUC") +
   my_theme +
   geom_point(data = droplevels(filter(si_dat, et != "Encoding")),
-             aes(x = si, y = AUC_mean, color = et2, shape = et2), size = 4) +
+             aes(x = si, y = AUC_mean, color = et2, shape = et2)) +
   guides(color = guide_legend(nrow = 2), shape = guide_legend(nrow = 2), 
-         fill = guide_colorbar(barwidth = unit(5, "line"))) +
+         fill = guide_colorbar(barwidth = unit(10, "line"))) +
   scale_shape_manual("", values = c(16, 15, 17, 17), drop = FALSE) +
   scale_color_manual("", values = c("firebrick1", "lawngreen", "dodgerblue", "dodgerblue"), drop = FALSE) +
   scale_size_manual("", values = c(0.5, 0.5, 0.75, 0.75), drop = FALSE)
