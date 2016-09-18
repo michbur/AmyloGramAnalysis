@@ -51,7 +51,7 @@ sesp_plot <- ggplot(sesp_dat, aes(x = Spec_mean, y = Sens_mean, color = et)) +
   scale_y_continuous("Mean sensitivity") +
   scale_x_continuous("Mean specificity") +
   geom_point(data = droplevels(filter(sesp_dat, et != "Encoding")),
-             aes(x = Spec_mean, y = Sens_mean, color = et2, shape = et2), size = 4) +
+             aes(x = Spec_mean, y = Sens_mean, color = et2, shape = et2)) +
   guides(color = guide_legend(nrow = 2), shape = guide_legend(nrow = 2), 
          fill = guide_colorbar(barwidth = unit(50, "line"))) +
   scale_shape_manual("", values = c(16, 15, 17, 17), drop = FALSE) +
