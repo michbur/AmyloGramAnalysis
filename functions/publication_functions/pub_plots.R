@@ -61,8 +61,8 @@ sesp_plot <- ggplot(sesp_dat, aes(x = Spec_mean, y = Sens_mean, color = et)) +
   my_theme
 
 
-png("./publication/figures/sesp_plot.png", height = 4, width = 6.5, unit = "in", res = 200)
-#cairo_ps("./pub_figures/sesp_plot.eps", height = 4, width = 8)
+#png("./publication/figures/sesp_plot.png", height = 4, width = 6.5, unit = "in", res = 200)
+cairo_ps("./pub_figures/sesp_plot.eps", height = 4, width = 6.5)
 # should be eps, but it's too big for overleaf
 print(sesp_plot)
 dev.off()
