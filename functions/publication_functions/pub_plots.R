@@ -21,7 +21,7 @@ amyloids_plot <- select(amyloids, AUC_mean, MCC_mean, Sens_mean, Spec_mean, pos,
                                       "Standard encoding (Melo and Marti-Renom, 2006)")),
          et = et2)
 
-write.csv(amyloids_plot, file = "./results/amyloid_plot_data.csv")
+# write.csv(amyloids_plot, file = "./results/amyloid_plot_data.csv")
 
 # Fig 1 all encodings sens/spec  ----------------------------------------
 
