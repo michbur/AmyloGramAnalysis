@@ -46,17 +46,18 @@ levels(sesp_dat[["pos"]]) <- c("Training peptide\nlength: 6", "Training peptide\
 
 
 sesp_plot <- ggplot(sesp_dat, aes(x = Spec_mean, y = Sens_mean, color = et)) +
-  geom_bin2d(bins = 30, color = "black") + 
-  scale_fill_continuous("Count", low = "beige", high = "orange3") +
+  geom_bin2d(bins = 20, color = "black") + 
+  scale_fill_continuous("Number of encodings", low = "beige", high = "orange3") +
   scale_y_continuous("Mean sensitivity") +
-  scale_x_continuous("Mean specificity") +
+  scale_x_continuous("Mean specificity\n") +
   geom_point(data = droplevels(filter(sesp_dat, et != "Encoding")),
-             aes(x = Spec_mean, y = Sens_mean, color = et2, shape = et2)) +
+             aes(x = Spec_mean, y = Sens_mean, color = et2, shape = et2),
+             fill = "dodgerblue") +
   guides(color = guide_legend(nrow = 2), shape = guide_legend(nrow = 2), 
          fill = guide_colorbar(barwidth = unit(10, "line"))) +
-  scale_shape_manual("", values = c(16, 18, 17, 17), drop = FALSE) +
+  scale_shape_manual("", values = c(16, 18, 24, 25), drop = FALSE) +
   scale_color_manual("", values = c("firebrick1", "lawngreen", "dodgerblue", "dodgerblue"), drop = FALSE) +
-  scale_size_manual("", values = c(0.5, 0.5, 0.75, 0.75) + 0.5, drop = FALSE) +
+  scale_size_manual("", values = c(0.5, 0.5, 0.5, 0.5) + 0.5, drop = FALSE) +
   facet_grid(pos ~ len_range) +
   my_theme
 
@@ -72,13 +73,14 @@ dev.off()
 AUC_boxplot <- ggplot(amyloids_plot, aes(x = len_range, y = AUC_mean)) +
   geom_boxplot(outlier.color = "grey", outlier.shape = 1, outlier.size = 1) +
   geom_point(data = filter(amyloids_plot, et2 != "Encoding"), 
-             aes(x = len_range, y = AUC_mean, color = et2, shape = et2, size = et2)) +
+             aes(x = len_range, y = AUC_mean, color = et2, shape = et2, size = et2),
+             fill = "dodgerblue") +
   scale_x_discrete("") +
   scale_y_continuous("Mean AUC") +
   guides(color = guide_legend(nrow = 2), shape = guide_legend(nrow = 2)) +
-  scale_shape_manual("", values = c(1, 16, 18, 17, 17), drop = FALSE) +
+  scale_shape_manual("", values = c(1, 16, 18, 24, 25), drop = FALSE) +
   scale_color_manual("", values = c("grey", "firebrick1", "lawngreen", "dodgerblue", "dodgerblue"), drop = FALSE) +
-  scale_size_manual("", values = c(0.5, 0.5, 0.5, 0.75, 0.75) + 0.5, drop = FALSE) +
+  scale_size_manual("", values = c(0.5, 0.5, 0.5, 0.5, 0.5) + 0.5, drop = FALSE) +
   facet_wrap(~ pos, nrow = 3) +
   my_theme + 
   coord_flip() 
@@ -117,7 +119,7 @@ ggplot(best_enc_props, aes(x = as.factor(id), y = value, label = aa)) +
 # Fig 5 n-grams  ----------------------------------------
 
 gr_aa <- group_by(best_enc_aa, id) %>% 
-  summarise(gr = paste0("{", paste0(aa, collapse = ", "), "}"))
+  summarise(gr = paste0("{", paste0(aa, collapse = ", "), "}")) 
 
 ngram_freq_plot <- mutate(ngram_freq, decoded_name = gsub("_", " - ", decoded_name)) %>%
   mutate(decoded_name = factor(decoded_name, levels = as.character(decoded_name)),
@@ -130,19 +132,42 @@ ngram_freq_plot <- mutate(ngram_freq, decoded_name = gsub("_", " - ", decoded_na
 for(i in 1L:6)
   levels(ngram_freq_plot[["decoded_name"]]) <- gsub(as.character(i), gr_aa[i, "gr"],
     levels(ngram_freq_plot[["decoded_name"]]))
-                                                    
 
-ngram_plot <- ggplot(ngram_freq_plot, aes(x = decoded_name, y = value)) +
-  geom_bar(aes(fill = variable), position = "dodge", stat = "identity") +
-  geom_point(data = group_by(ngram_freq_plot, decoded_name)  %>% filter(value == max(value)),
-             aes(y = value + 0.004, shape = association)) +
-  scale_fill_manual("", values = c("gold", "darkmagenta")) +
-  scale_shape_manual("Motif:", breaks = c("Amyloidogenic", "Non-amyloidogenic"), values = c(16, 17, NA)) +
-  scale_y_continuous("Frequency") +
-  scale_x_discrete("") +
-  coord_flip() +
-  my_theme + 
-  theme(axis.text.y = element_text(size=5))
+labels_colors <- c("black", "chartreuse3", "dodgerblue2", "firebrick1", "darkorange", "darkseagreen4", "cyan3")
+
+gen_labels <- function(single_gr, x, gr_aa) {
+  new_lab <- x
+  for (other_gr in gr_aa[["gr"]][-single_gr])
+    levels(new_lab) <- gsub(as.character(other_gr), paste0(rep(" ", nchar(other_gr)), collapse = ""), 
+                            levels(new_lab), fixed = TRUE)
+  levels(new_lab) <- gsub("-", " ", levels(new_lab), fixed = TRUE)
+  new_lab
+}
+
+# generate list of labels where every element (amino acid group or dash) is present only once
+
+all_labels <- c(eval({
+  new_lab <- ngram_freq_plot[["decoded_name"]]
+  levels(new_lab) <- gsub("[,A-Z\\{}]", " ", levels(new_lab))
+  list(new_lab)
+}),
+lapply(1L:6, function(i) gen_labels(i, ngram_freq_plot[["decoded_name"]], gr_aa)))
+
+# create series of plots where only one element (group of amino acids or dash) is plotted 
+
+ngram_plots <- lapply(1L:7, function(i)
+  ggplot(ngram_freq_plot, aes(x = decoded_name, y = value)) +
+    geom_bar(aes(fill = variable), position = "dodge", stat = "identity") +
+    geom_point(data = group_by(ngram_freq_plot, decoded_name)  %>% filter(value == max(value)),
+               aes(y = value + 0.007, shape = association), size = 2) +
+    scale_fill_manual("", values = c("firebrick1", "dodgerblue2")) +
+    scale_shape_manual("Experimentally confirmed motif:", breaks = c("Amyloidogenic", "Non-amyloidogenic"), values = c(16, 17, NA)) +
+    scale_y_continuous("Frequency") +
+    scale_x_discrete("", labels = all_labels[[i]]) + 
+    theme(axis.text.y = element_text(size=5, colour = labels_colors[i], family = "mono", face = "bold")) +
+    coord_flip() +
+    my_theme
+  )
 
 # in case we need to get n-grams in a tabular format
 #writeLines(as.character(ngram_freq_plot[["decoded_name"]]), "n_gramy_Ania.txt")
@@ -153,14 +178,20 @@ g_legend<-function(a.gplot) {
   tmp$grobs[[leg]]
 }
 
-ngrams_plot_final <- arrangeGrob(ngram_plot + theme(legend.position="none"),
-                                 g_legend(ngram_plot), nrow = 2, 
-                                 heights=c(0.96, 0.04))
+ngrams_plots_final <- lapply(ngram_plots, function(i)
+  arrangeGrob(i + theme(legend.position="none"),
+              g_legend(ngram_plots[[1]]), nrow = 2, 
+              heights=c(0.96, 0.04))
+  )
+  
+# combine plots
 
-
-cairo_ps("./publication/figures/ngrams.eps", height = 8, width = 3.5)
-grid.draw(ngrams_plot_final)
+cairo_ps("./publication/figures/ngrams.eps", height = 8.5, width = 3.5)
+for(i in 1L:7) {
+  grid.draw(ngrams_plots_final[[i]])
+}
 dev.off()
+
 
 # Fig 6 alternative (similarity index)  ----------------------------------------
 
@@ -193,18 +224,19 @@ write.csv2(si_dat, row.names = FALSE, file = "./results/si_dat.csv")
 #   scale_size_manual("", values = c(1, 1, 1, 1.5, 1.5), drop = FALSE) 
 
 si_AUC_plot <- ggplot(si_dat, aes(x=si, y=AUC_mean)) + 
-  geom_bin2d(bins = 30, color = "black") + 
+  geom_bin2d(bins = 25, color = "black") + 
   scale_fill_continuous("Number of encodings", low = "beige", high = "orange3") +
   xlab("Similarity to the best-performing encoding\n") +
   ylab("AUC") +
   my_theme +
   geom_point(data = droplevels(filter(si_dat, et != "Encoding")),
-             aes(x = si, y = AUC_mean, color = et2, shape = et2)) +
+             aes(x = si, y = AUC_mean, color = et2, shape = et2),
+             fill = "dodgerblue") +
   guides(color = guide_legend(nrow = 4), shape = guide_legend(nrow = 4), 
          fill = guide_colorbar(barwidth = unit(6, "line"))) +
-  scale_shape_manual("", values = c(16, 18, 17, 17), drop = FALSE) +
+  scale_shape_manual("", values = c(16, 18, 24, 25), drop = FALSE) +
   scale_color_manual("", values = c("firebrick1", "lawngreen", "dodgerblue", "dodgerblue"), drop = FALSE) +
-  scale_size_manual("", values = c(0.5, 0.5, 0.75, 0.75) + 0.5, drop = FALSE)
+  scale_size_manual("", values = c(0.5, 0.5, 0.5, 0.5) + 0.5, drop = FALSE)
 
 cairo_ps("./publication/figures/ed_AUC.eps", height = 4, width = 3)
 print(si_AUC_plot)
