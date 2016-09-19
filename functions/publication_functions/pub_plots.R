@@ -76,7 +76,7 @@ AUC_boxplot <- ggplot(amyloids_plot, aes(x = len_range, y = AUC_mean)) +
   scale_x_discrete("") +
   scale_y_continuous("Mean AUC") +
   guides(color = guide_legend(nrow = 2), shape = guide_legend(nrow = 2)) +
-  scale_shape_manual("", values = c(1, 16, 16, 17, 18), drop = FALSE) +
+  scale_shape_manual("", values = c(1, 16, 18, 17, 17), drop = FALSE) +
   scale_color_manual("", values = c("grey", "firebrick1", "lawngreen", "dodgerblue", "dodgerblue"), drop = FALSE) +
   scale_size_manual("", values = c(0.5, 0.5, 0.5, 0.75, 0.75), drop = FALSE) +
   facet_wrap(~ pos, nrow = 3) +
@@ -147,8 +147,19 @@ ngram_plot <- ggplot(ngram_freq_plot, aes(x = decoded_name, y = value)) +
 # in case we need to get n-grams in a tabular format
 #writeLines(as.character(ngram_freq_plot[["decoded_name"]]), "n_gramy_Ania.txt")
 
+g_legend<-function(a.gplot) {
+  tmp <- ggplot_gtable(ggplot_build(a.gplot))
+  leg <- which(sapply(tmp$grobs, function(x) x$name) == "guide-box")
+  tmp$grobs[[leg]]
+}
+
+ngrams_plot_final <- grid.arrange(ngram_plot + theme(legend.position="none"),
+                                  g_legend(ngram_plot), nrow = 2, 
+                                  heights=c(0.9, 0.1))
+
+
 cairo_ps("./publication/figures/ngrams.eps", height = 8, width = 3.5)
-print(ngram_plot)
+plot(ngrams_plot_final)
 dev.off()
 
 # Fig 6 encoding distance  ----------------------------------------
