@@ -117,7 +117,7 @@ ggplot(best_enc_props, aes(x = as.factor(id), y = value, label = aa)) +
 # Fig 5 n-grams  ----------------------------------------
 
 gr_aa <- group_by(best_enc_aa, id) %>% 
-  summarise(gr = paste0("(", paste0(aa, collapse = ", "), ")"))
+  summarise(gr = paste0("{", paste0(aa, collapse = ", "), "}"))
 
 ngram_freq_plot <- mutate(ngram_freq, decoded_name = gsub("_", " - ", decoded_name)) %>%
   mutate(decoded_name = factor(decoded_name, levels = as.character(decoded_name)),
@@ -194,14 +194,14 @@ write.csv2(si_dat, row.names = FALSE, file = "./results/si_dat.csv")
 
 si_AUC_plot <- ggplot(si_dat, aes(x=si, y=AUC_mean)) + 
   geom_bin2d(bins = 30, color = "black") + 
-  scale_fill_continuous("Count", low = "beige", high = "orange3") +
-  xlab("Similarity") +
+  scale_fill_continuous("Number of encodings", low = "beige", high = "orange3") +
+  xlab("Similarity to the best-performing encoding\n") +
   ylab("AUC") +
   my_theme +
   geom_point(data = droplevels(filter(si_dat, et != "Encoding")),
              aes(x = si, y = AUC_mean, color = et2, shape = et2)) +
   guides(color = guide_legend(nrow = 4), shape = guide_legend(nrow = 4), 
-         fill = guide_colorbar(barwidth = unit(10, "line"))) +
+         fill = guide_colorbar(barwidth = unit(6, "line"))) +
   scale_shape_manual("", values = c(16, 18, 17, 17), drop = FALSE) +
   scale_color_manual("", values = c("firebrick1", "lawngreen", "dodgerblue", "dodgerblue"), drop = FALSE) +
   scale_size_manual("", values = c(0.5, 0.5, 0.75, 0.75) + 0.5, drop = FALSE)
