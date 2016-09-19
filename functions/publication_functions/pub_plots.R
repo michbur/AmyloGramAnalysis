@@ -54,7 +54,7 @@ sesp_plot <- ggplot(sesp_dat, aes(x = Spec_mean, y = Sens_mean, color = et)) +
              aes(x = Spec_mean, y = Sens_mean, color = et2, shape = et2)) +
   guides(color = guide_legend(nrow = 2), shape = guide_legend(nrow = 2), 
          fill = guide_colorbar(barwidth = unit(10, "line"))) +
-  scale_shape_manual("", values = c(16, 15, 17, 17), drop = FALSE) +
+  scale_shape_manual("", values = c(16, 18, 17, 17), drop = FALSE) +
   scale_color_manual("", values = c("firebrick1", "lawngreen", "dodgerblue", "dodgerblue"), drop = FALSE) +
   scale_size_manual("", values = c(0.5, 0.5, 0.75, 0.75), drop = FALSE) +
   facet_grid(pos ~ len_range) +
@@ -76,7 +76,7 @@ AUC_boxplot <- ggplot(amyloids_plot, aes(x = len_range, y = AUC_mean)) +
   scale_x_discrete("") +
   scale_y_continuous("Mean AUC") +
   guides(color = guide_legend(nrow = 2), shape = guide_legend(nrow = 2)) +
-  scale_shape_manual("", values = c(1, 16, 16, 17, 15), drop = FALSE) +
+  scale_shape_manual("", values = c(1, 16, 16, 17, 18), drop = FALSE) +
   scale_color_manual("", values = c("grey", "firebrick1", "lawngreen", "dodgerblue", "dodgerblue"), drop = FALSE) +
   scale_size_manual("", values = c(0.5, 0.5, 0.5, 0.75, 0.75), drop = FALSE) +
   facet_wrap(~ pos, nrow = 3) +
@@ -217,7 +217,7 @@ si_AUC_plot <- ggplot(si_dat, aes(x=si, y=AUC_mean)) +
              aes(x = si, y = AUC_mean, color = et2, shape = et2)) +
   guides(color = guide_legend(nrow = 2), shape = guide_legend(nrow = 2), 
          fill = guide_colorbar(barwidth = unit(10, "line"))) +
-  scale_shape_manual("", values = c(16, 15, 17, 17), drop = FALSE) +
+  scale_shape_manual("", values = c(16, 18, 17, 17), drop = FALSE) +
   scale_color_manual("", values = c("firebrick1", "lawngreen", "dodgerblue", "dodgerblue"), drop = FALSE) +
   scale_size_manual("", values = c(0.5, 0.5, 0.75, 0.75), drop = FALSE)
 
