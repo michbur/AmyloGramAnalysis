@@ -153,13 +153,13 @@ g_legend<-function(a.gplot) {
   tmp$grobs[[leg]]
 }
 
-ngrams_plot_final <- grid.arrange(ngram_plot + theme(legend.position="none"),
-                                  g_legend(ngram_plot), nrow = 2, 
-                                  heights=c(0.9, 0.1))
+ngrams_plot_final <- arrangeGrob(ngram_plot + theme(legend.position="none"),
+                                 g_legend(ngram_plot), nrow = 2, 
+                                 heights=c(0.9, 0.1))
 
 
 cairo_ps("./publication/figures/ngrams.eps", height = 8, width = 3.5)
-plot(ngrams_plot_final)
+grid.draw(ngrams_plot_final)
 dev.off()
 
 # Fig 6 encoding distance  ----------------------------------------
