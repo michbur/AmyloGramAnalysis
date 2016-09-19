@@ -56,7 +56,7 @@ sesp_plot <- ggplot(sesp_dat, aes(x = Spec_mean, y = Sens_mean, color = et)) +
          fill = guide_colorbar(barwidth = unit(10, "line"))) +
   scale_shape_manual("", values = c(16, 18, 17, 17), drop = FALSE) +
   scale_color_manual("", values = c("firebrick1", "lawngreen", "dodgerblue", "dodgerblue"), drop = FALSE) +
-  scale_size_manual("", values = c(0.5, 0.5, 0.75, 0.75), drop = FALSE) +
+  scale_size_manual("", values = c(0.5, 0.5, 0.75, 0.75) + 0.5, drop = FALSE) +
   facet_grid(pos ~ len_range) +
   my_theme
 
@@ -70,7 +70,7 @@ dev.off()
 # Fig 2 AUC boxplot  ----------------------------------------
 
 AUC_boxplot <- ggplot(amyloids_plot, aes(x = len_range, y = AUC_mean)) +
-  geom_boxplot(outlier.color = "grey", outlier.shape = 1, outlier.size = 0.5) +
+  geom_boxplot(outlier.color = "grey", outlier.shape = 1, outlier.size = 1) +
   geom_point(data = filter(amyloids_plot, et2 != "Encoding"), 
              aes(x = len_range, y = AUC_mean, color = et2, shape = et2, size = et2)) +
   scale_x_discrete("") +
@@ -78,7 +78,7 @@ AUC_boxplot <- ggplot(amyloids_plot, aes(x = len_range, y = AUC_mean)) +
   guides(color = guide_legend(nrow = 2), shape = guide_legend(nrow = 2)) +
   scale_shape_manual("", values = c(1, 16, 18, 17, 17), drop = FALSE) +
   scale_color_manual("", values = c("grey", "firebrick1", "lawngreen", "dodgerblue", "dodgerblue"), drop = FALSE) +
-  scale_size_manual("", values = c(0.5, 0.5, 0.5, 0.75, 0.75), drop = FALSE) +
+  scale_size_manual("", values = c(0.5, 0.5, 0.5, 0.75, 0.75) + 0.5, drop = FALSE) +
   facet_wrap(~ pos, nrow = 3) +
   my_theme + 
   coord_flip() 
@@ -135,7 +135,7 @@ for(i in 1L:6)
 ngram_plot <- ggplot(ngram_freq_plot, aes(x = decoded_name, y = value)) +
   geom_bar(aes(fill = variable), position = "dodge", stat = "identity") +
   geom_point(data = group_by(ngram_freq_plot, decoded_name)  %>% filter(value == max(value)),
-             aes(y = value + 0.002, shape = association)) +
+             aes(y = value + 0.004, shape = association)) +
   scale_fill_manual("", values = c("gold", "darkmagenta")) +
   scale_shape_manual("Motif:", breaks = c("Amyloidogenic", "Non-amyloidogenic"), values = c(16, 17, NA)) +
   scale_y_continuous("Frequency") +
@@ -155,14 +155,14 @@ g_legend<-function(a.gplot) {
 
 ngrams_plot_final <- arrangeGrob(ngram_plot + theme(legend.position="none"),
                                  g_legend(ngram_plot), nrow = 2, 
-                                 heights=c(0.9, 0.1))
+                                 heights=c(0.96, 0.04))
 
 
 cairo_ps("./publication/figures/ngrams.eps", height = 8, width = 3.5)
 grid.draw(ngrams_plot_final)
 dev.off()
 
-# Fig 6 encoding distance  ----------------------------------------
+# Fig 6 alternative (similarity index)  ----------------------------------------
 
 # careful - check if similarity index is used instead of the encoding distance
 
@@ -177,32 +177,6 @@ si_dat <- si_dat %>%
          et = et2)
 
 write.csv2(si_dat, row.names = FALSE, file = "./results/si_dat.csv")
-
-# ed_AUC_plot <- ggplot(si_dat, aes(x=si, y=AUC_mean, color=et, shape = et)) + 
-#   geom_point() +
-#   scale_color_manual("", values = c("grey", "firebrick1", "dodgerblue", "lawngreen")) +
-#   scale_shape_manual("", values = c(1, 16, 15, 15), drop = FALSE) +
-#   xlab("Similarity") +
-#   ylab("AUC") +
-#   my_theme +
-#   geom_point(data = filter(si_dat, et != "Encoding"), 
-#              aes(x = si, y = AUC_mean, color = et)) +
-#   guides(color = guide_legend(nrow = 2), shape = guide_legend(nrow = 5)) +
-#   scale_shape_manual("", values = c(1, 16, 16, 17, 15), drop = FALSE) +
-#   scale_color_manual("", values = c("grey", "firebrick1", "lawngreen", "dodgerblue", "dodgerblue"), drop = FALSE) +
-#   scale_size_manual("", values = c(1, 1, 1, 1.5, 1.5), drop = FALSE) 
-
-# Fig 6 alternative (similarity index)  ----------------------------------------
-
-si_dat <- si_dat %>% 
-  mutate(et2 = ifelse(enc_adj == 1L, "Standard encoding (Kosiol et al., 2004)", as.character(et)),
-         et2 = ifelse(enc_adj == 2L, "Standard encoding (Melo and Marti-Renom, 2006)", as.character(et2)),
-         et2 = factor(et2, levels = c("Encoding", 
-                                      "Best-performing encoding", 
-                                      "Full alphabet", 
-                                      "Standard encoding (Kosiol et al., 2004)", 
-                                      "Standard encoding (Melo and Marti-Renom, 2006)")),
-         et = et2)
 
 # si_AUC_plot <- ggplot(si_dat, aes(x=si, y=AUC_mean, color=et, shape = et)) + 
 #   geom_point() +
@@ -226,11 +200,11 @@ si_AUC_plot <- ggplot(si_dat, aes(x=si, y=AUC_mean)) +
   my_theme +
   geom_point(data = droplevels(filter(si_dat, et != "Encoding")),
              aes(x = si, y = AUC_mean, color = et2, shape = et2)) +
-  guides(color = guide_legend(nrow = 2), shape = guide_legend(nrow = 2), 
+  guides(color = guide_legend(nrow = 4), shape = guide_legend(nrow = 4), 
          fill = guide_colorbar(barwidth = unit(10, "line"))) +
   scale_shape_manual("", values = c(16, 18, 17, 17), drop = FALSE) +
   scale_color_manual("", values = c("firebrick1", "lawngreen", "dodgerblue", "dodgerblue"), drop = FALSE) +
-  scale_size_manual("", values = c(0.5, 0.5, 0.75, 0.75), drop = FALSE)
+  scale_size_manual("", values = c(0.5, 0.5, 0.75, 0.75) + 0.5, drop = FALSE)
 
 cairo_ps("./publication/figures/ed_AUC.eps", height = 4, width = 3)
 print(si_AUC_plot)
