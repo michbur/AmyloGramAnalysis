@@ -119,9 +119,9 @@ ggplot(best_enc_props, aes(x = as.factor(id), y = value, label = aa)) +
 # Fig 5 n-grams  ----------------------------------------
 
 gr_aa <- group_by(best_enc_aa, id) %>% 
-  summarise(gr = paste0("{", paste0(aa, collapse = ", "), "}")) 
+  summarise(gr = paste0("{", paste0(aa, collapse = ""), "}")) 
 
-ngram_freq_plot <- mutate(ngram_freq, decoded_name = gsub("_", " - ", decoded_name)) %>%
+ngram_freq_plot <- mutate(ngram_freq, decoded_name = gsub("_", "-", decoded_name)) %>%
   mutate(decoded_name = factor(decoded_name, levels = as.character(decoded_name)),
          amyloid = diff_freq > 0) %>%
   melt() %>%
@@ -157,10 +157,10 @@ lapply(1L:6, function(i) gen_labels(i, ngram_freq_plot[["decoded_name"]], gr_aa)
 
 ngram_plots <- lapply(1L:7, function(i)
   ggplot(ngram_freq_plot, aes(x = decoded_name, y = value)) +
-    geom_bar(aes(fill = variable), position = "dodge", stat = "identity") +
+    geom_bar(aes(fill = variable), position = "dodge", stat = "identity", color = "black", size = 0.1) +
     geom_point(data = group_by(ngram_freq_plot, decoded_name)  %>% filter(value == max(value)),
                aes(y = value + 0.007, shape = association), size = 2) +
-    scale_fill_manual("", values = c("firebrick1", "dodgerblue2")) +
+    scale_fill_manual("", values = c("white", "black")) +
     scale_shape_manual("Experimentally tested motif:", breaks = c("Amyloidogenic", "Non-amyloidogenic"), values = c(16, 17, NA)) +
     scale_y_continuous("Frequency") +
     scale_x_discrete("", labels = all_labels[[i]]) + 
