@@ -165,9 +165,10 @@ ngram_plots <- lapply(1L:7, function(i) {
   p <- ggplot(ngram_freq_plot, aes(x = decoded_name, y = value)) +
     geom_bar(aes(fill = variable), position = "dodge", stat = "identity", color = "black", size = 0.1) +
     geom_point(data = group_by(ngram_freq_plot, decoded_name)  %>% filter(value == max(value)),
-               aes(y = value + 0.007, shape = association), size = 2) +
+               aes(y = value + 0.007, shape = association), size = 2, stroke = 0.2, fill = "white") +
     scale_fill_manual("", values = c("white", "black")) +
-    scale_shape_manual("Experimentally tested motif:", breaks = c("Amyloidogenic", "Non-amyloidogenic"), values = c(16, 17, NA)) +
+    scale_shape_manual("Experimentally tested motif:", breaks = c("Amyloidogenic", "Non-amyloidogenic"), 
+                       values = c(21, 16, NA)) +
     scale_y_continuous("Frequency") +
     scale_x_discrete("", labels = all_labels[[i]]) + 
     theme(axis.text.y = element_text(size = 8, colour = labels_colors[i], family = "mono", face = "bold")) +
@@ -178,7 +179,9 @@ ngram_plots <- lapply(1L:7, function(i) {
 
 ngrams_plots_final <- lapply(1L:length(ngram_plots), function(i)
   if(i < 7) {
-  arrangeGrob(ngram_plots[[i]] + theme(legend.position="none") + scale_y_continuous(""),
+  arrangeGrob(ngram_plots[[i]] + 
+                theme(legend.position="none") + 
+                scale_y_continuous(""),
               rectGrob(x = unit(0.5, "npc"), y = unit(0.5, "npc"), gp = gpar(col = "white")), 
               nrow = 2, heights=c(0.96, 0.04))
   } else {
