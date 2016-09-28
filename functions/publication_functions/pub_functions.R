@@ -27,7 +27,7 @@ aa_groups[1L:2] <- c(aa1 = string2list(gsub("-", "_", tolower("ADEGHKNPQRST-C-FY
                      aa2 = string2list(gsub("-", "_", tolower("AG-C-DEKNPQRST-FILMVWY-H"))))
 
 #############this part is copied from function choose_properties ################
-prop_MK <- read.csv2("AA_index_mk2.csv") %>% filter(!is.na(chosen))
+prop_MK <- read.csv2("./data/AA_index_mk2.csv") %>% filter(!is.na(chosen))
 
 years <- prop_MK %>% select(name) %>% unlist %>% as.character %>% sapply(function(i) 
   strsplit(last(strsplit(i, ", ")[[1]]), ")", fixed = TRUE)[[1]][1]) %>%

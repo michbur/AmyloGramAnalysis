@@ -118,6 +118,12 @@ ggplot(best_enc_props, aes(x = as.factor(id), y = value, label = aa)) +
 
 # Fig 5 n-grams  ----------------------------------------
 
+g_legend<-function(a.gplot) {
+  tmp <- ggplot_gtable(ggplot_build(a.gplot))
+  leg <- which(sapply(tmp$grobs, function(x) x$name) == "guide-box")
+  tmp$grobs[[leg]]
+}
+
 gr_aa <- group_by(best_enc_aa, id) %>% 
   summarise(gr = paste0("{", paste0(aa, collapse = ""), "}")) 
 
@@ -131,9 +137,9 @@ ngram_freq_plot <- mutate(ngram_freq, decoded_name = gsub("_", "-", decoded_name
 
 for(i in 1L:6)
   levels(ngram_freq_plot[["decoded_name"]]) <- gsub(as.character(i), gr_aa[i, "gr"],
-    levels(ngram_freq_plot[["decoded_name"]]))
+                                                    levels(ngram_freq_plot[["decoded_name"]]))
 
-labels_colors <- c("black", "chartreuse3", "dodgerblue2", "firebrick1", "darkorange", "darkseagreen4", "cyan3")
+labels_colors <- c("black", "chartreuse3", "dodgerblue2", "firebrick1", "darkorange", "darkseagreen4", "darkorchid3")
 
 gen_labels <- function(single_gr, x, gr_aa) {
   new_lab <- x
@@ -155,8 +161,8 @@ lapply(1L:6, function(i) gen_labels(i, ngram_freq_plot[["decoded_name"]], gr_aa)
 
 # create series of plots where only one element (group of amino acids or dash) is plotted 
 
-ngram_plots <- lapply(1L:7, function(i)
-  ggplot(ngram_freq_plot, aes(x = decoded_name, y = value)) +
+ngram_plots <- lapply(1L:7, function(i) {
+  p <- ggplot(ngram_freq_plot, aes(x = decoded_name, y = value)) +
     geom_bar(aes(fill = variable), position = "dodge", stat = "identity", color = "black", size = 0.1) +
     geom_point(data = group_by(ngram_freq_plot, decoded_name)  %>% filter(value == max(value)),
                aes(y = value + 0.007, shape = association), size = 2) +
@@ -164,26 +170,25 @@ ngram_plots <- lapply(1L:7, function(i)
     scale_shape_manual("Experimentally tested motif:", breaks = c("Amyloidogenic", "Non-amyloidogenic"), values = c(16, 17, NA)) +
     scale_y_continuous("Frequency") +
     scale_x_discrete("", labels = all_labels[[i]]) + 
-    theme(axis.text.y = element_text(size=5, colour = labels_colors[i], family = "mono", face = "bold")) +
+    theme(axis.text.y = element_text(size = 8, colour = labels_colors[i], family = "mono", face = "bold")) +
     coord_flip() +
     my_theme
-  )
+})
 
-# in case we need to get n-grams in a tabular format
-#writeLines(as.character(ngram_freq_plot[["decoded_name"]]), "n_gramy_Ania.txt")
 
-g_legend<-function(a.gplot) {
-  tmp <- ggplot_gtable(ggplot_build(a.gplot))
-  leg <- which(sapply(tmp$grobs, function(x) x$name) == "guide-box")
-  tmp$grobs[[leg]]
-}
+ngrams_plots_final <- lapply(1L:length(ngram_plots), function(i)
+  if(i < 7) {
+  arrangeGrob(ngram_plots[[i]] + theme(legend.position="none") + scale_y_continuous(""),
+              rectGrob(x = unit(0.5, "npc"), y = unit(0.5, "npc"), gp = gpar(col = "white")), 
+              nrow = 2, heights=c(0.96, 0.04))
+  } else {
+    arrangeGrob(ngram_plots[[i]] + theme(legend.position="none"),
+                g_legend(ngram_plots[[1]]), 
+                nrow = 2, heights=c(0.96, 0.04))
+    
+  }
+)
 
-ngrams_plots_final <- lapply(ngram_plots, function(i)
-  arrangeGrob(i + theme(legend.position="none"),
-              g_legend(ngram_plots[[1]]), nrow = 2, 
-              heights=c(0.96, 0.04))
-  )
-  
 # combine plots
 
 cairo_ps("./publication/figures/ngrams.eps", height = 8.5, width = 3.5)
@@ -192,8 +197,14 @@ for(i in 1L:7) {
 }
 dev.off()
 
+
+
+# in case we need to get n-grams in a tabular format
+#writeLines(as.character(ngram_freq_plot[["decoded_name"]]), "n_gramy_Ania.txt")
+
 convert_factor <- function(x)
   factor(x, levels = c(1L:6, "|", "_"))
+
 
 block_df <- unique(ngram_freq[["decoded_name"]]) %>% 
   as.character() %>% 
