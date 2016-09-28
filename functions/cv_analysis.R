@@ -1,9 +1,10 @@
-# Functions here should not be used, because they were written with the different data structure in mind
+# Functions here should not be used, because they were written with the different data structure in mind. 
+# They are preserved only for a potential future use.
 
 #' Explain replicates of cross-validation
 #'
 #' Since the integration with WCSS, the exact structure of cross-validation results 
-#' might be obstruse, so this function additional information about the cross-validation 
+#' might be obstruse, so this function returns additional information about the cross-validation 
 #' replicates.
 #' 
 #' @return List of maximum lengths of sequences in training set.
