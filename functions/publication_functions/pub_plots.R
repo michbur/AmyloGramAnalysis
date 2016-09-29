@@ -39,7 +39,7 @@ levels(sesp_dat[["pos"]]) <- c("Training peptide\nlength: 6", "Training peptide\
 #   geom_point(data = filter(sesp_dat, et != "Encoding"), aes(shape = et)) +
 #   guides(color = guide_legend(nrow = 2), shape = guide_legend(nrow = 2)) +
 #   scale_shape_manual("", values = c(1, 16, 16, 17, 15), drop = FALSE) +
-#   scale_color_manual("", values = c("grey", "firebrick1", "lawngreen", "dodgerblue", "dodgerblue"), drop = FALSE) +
+#   scale_color_manual("", values = c("grey", "firebrick1", "green3", "dodgerblue", "dodgerblue"), drop = FALSE) +
 #   scale_size_manual("", values = c(1, 1, 1, 1.5, 1.5), drop = FALSE) +
 #   facet_grid(pos ~ len_range) +
 #   my_theme 
@@ -47,16 +47,17 @@ levels(sesp_dat[["pos"]]) <- c("Training peptide\nlength: 6", "Training peptide\
 
 sesp_plot <- ggplot(sesp_dat, aes(x = Spec_mean, y = Sens_mean, color = et)) +
   geom_bin2d(bins = 20, color = "black") + 
-  scale_fill_continuous("Number of encodings", low = "beige", high = "orange3") +
+  scale_fill_gradient2("Number of encodings", low = "beige", mid = "orange3", 
+                       high = "deeppink1", midpoint = 4500) +
   scale_y_continuous("Mean sensitivity") +
   scale_x_continuous("Mean specificity\n") +
   geom_point(data = droplevels(filter(sesp_dat, et != "Encoding")),
              aes(x = Spec_mean, y = Sens_mean, color = et2, shape = et2),
-             fill = "dodgerblue") +
+             fill = NA) +
   guides(color = guide_legend(nrow = 2), shape = guide_legend(nrow = 2), 
          fill = guide_colorbar(barwidth = unit(10, "line"))) +
-  scale_shape_manual("", values = c(16, 18, 24, 25), drop = FALSE) +
-  scale_color_manual("", values = c("firebrick1", "lawngreen", "dodgerblue", "dodgerblue"), drop = FALSE) +
+  scale_shape_manual("", values = c(21, 23, 24, 25), drop = FALSE) +
+  scale_color_manual("", values = c("firebrick1", "green3", "dodgerblue", "dodgerblue"), drop = FALSE) +
   scale_size_manual("", values = c(0.5, 0.5, 0.5, 0.5) + 0.5, drop = FALSE) +
   facet_grid(pos ~ len_range) +
   my_theme
@@ -74,12 +75,12 @@ AUC_boxplot <- ggplot(amyloids_plot, aes(x = len_range, y = AUC_mean)) +
   geom_boxplot(outlier.color = "grey", outlier.shape = 1, outlier.size = 1) +
   geom_point(data = filter(amyloids_plot, et2 != "Encoding"), 
              aes(x = len_range, y = AUC_mean, color = et2, shape = et2, size = et2),
-             fill = "dodgerblue") +
+             fill = NA) +
   scale_x_discrete("") +
   scale_y_continuous("Mean AUC") +
   guides(color = guide_legend(nrow = 2), shape = guide_legend(nrow = 2)) +
-  scale_shape_manual("", values = c(1, 16, 18, 24, 25), drop = FALSE) +
-  scale_color_manual("", values = c("grey", "firebrick1", "lawngreen", "dodgerblue", "dodgerblue"), drop = FALSE) +
+  scale_shape_manual("", values = c(1, 21, 23, 24, 25), drop = FALSE) +
+  scale_color_manual("", values = c("grey", "firebrick1", "green3", "dodgerblue", "dodgerblue"), drop = FALSE) +
   scale_size_manual("", values = c(0.5, 0.5, 0.5, 0.5, 0.5) + 0.5, drop = FALSE) +
   facet_wrap(~ pos, nrow = 3) +
   my_theme + 
@@ -99,7 +100,7 @@ MCC_boxplot <- ggplot(amyloids_plot, aes(x = len_range, y = MCC_mean)) +
   scale_x_discrete("") +
   scale_y_continuous("Mean MCC") +
   scale_shape_manual("", values = c(1, 16, 15, 15), drop = FALSE) +
-  scale_color_manual("", values = c("grey", "firebrick1", "dodgerblue", "lawngreen"), drop = FALSE) +
+  scale_color_manual("", values = c("grey", "firebrick1", "dodgerblue", "green3"), drop = FALSE) +
   facet_wrap(~ pos, nrow = 3) +
   my_theme + 
   coord_flip()
@@ -283,7 +284,7 @@ write.csv2(si_dat, row.names = FALSE, file = "./results/si_dat.csv")
 
 # si_AUC_plot <- ggplot(si_dat, aes(x=si, y=AUC_mean, color=et, shape = et)) + 
 #   geom_point() +
-#   scale_color_manual("", values = c("grey", "firebrick1", "dodgerblue", "lawngreen")) +
+#   scale_color_manual("", values = c("grey", "firebrick1", "dodgerblue", "green3")) +
 #   scale_shape_manual("", values = c(1, 16, 15, 15), drop = FALSE) +
 #   xlab("Similarity index") +
 #   ylab("AUC") +
@@ -292,22 +293,23 @@ write.csv2(si_dat, row.names = FALSE, file = "./results/si_dat.csv")
 #              aes(x = si, y = AUC_mean, color = et)) +
 #   guides(color = guide_legend(nrow = 2), shape = guide_legend(nrow = 5)) +
 #   scale_shape_manual("", values = c(1, 16, 16, 17, 15), drop = FALSE) +
-#   scale_color_manual("", values = c("grey", "firebrick1", "lawngreen", "dodgerblue", "dodgerblue"), drop = FALSE) +
+#   scale_color_manual("", values = c("grey", "firebrick1", "green3", "dodgerblue", "dodgerblue"), drop = FALSE) +
 #   scale_size_manual("", values = c(1, 1, 1, 1.5, 1.5), drop = FALSE) 
 
 si_AUC_plot <- ggplot(si_dat, aes(x=si, y=AUC_mean)) + 
   geom_bin2d(bins = 25, color = "black") + 
-  scale_fill_continuous("Number of encodings", low = "beige", high = "orange3") +
+  scale_fill_gradient2("Number of encodings", low = "beige", mid = "orange3", high = "deeppink1",
+                       midpoint = 500) +
   xlab("Similarity to the best-performing encoding\n") +
   ylab("AUC") +
   my_theme +
   geom_point(data = droplevels(filter(si_dat, et != "Encoding")),
              aes(x = si, y = AUC_mean, color = et2, shape = et2),
-             fill = "dodgerblue") +
+             fill = NA) +
   guides(color = guide_legend(nrow = 4), shape = guide_legend(nrow = 4), 
          fill = guide_colorbar(barwidth = unit(6, "line"))) +
-  scale_shape_manual("", values = c(16, 18, 24, 25), drop = FALSE) +
-  scale_color_manual("", values = c("firebrick1", "lawngreen", "dodgerblue", "dodgerblue"), drop = FALSE) +
+  scale_shape_manual("", values = c(21, 23, 24, 25), drop = FALSE) +
+  scale_color_manual("", values = c("firebrick1", "green3", "dodgerblue", "dodgerblue"), drop = FALSE) +
   scale_size_manual("", values = c(0.5, 0.5, 0.5, 0.5) + 0.5, drop = FALSE)
 
 cairo_ps("./publication/figures/ed_AUC.eps", height = 4, width = 3)
