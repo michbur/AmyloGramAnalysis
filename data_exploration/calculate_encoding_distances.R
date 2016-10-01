@@ -19,7 +19,7 @@ library(foreach)
 #### loading data and identifying best encoding #####
 
 amyloids <- read.csv("results/all_summaries.csv")
-load("aa_groups.RData")
+load("./data/aa_groups.RData")
 aa_groups <- string2list(aa_groups)
 
 best_positions <- amyloids %>% 
