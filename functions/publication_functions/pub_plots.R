@@ -12,13 +12,13 @@ amyloids_plot <- select(amyloids, AUC_mean, MCC_mean, Sens_mean, Spec_mean, pos,
                                     "Standard encoding", "Full alphabet"))) %>%
   mutate(len_range = factor(len_range, 
                             labels = paste0("Test peptide length: ", c("6 ", "7-10", "11-15", "16-25"))),
-         et2 = ifelse(enc_adj == 1L, "Standard encoding (Kosiol et al., 2004)", as.character(et)),
-         et2 = ifelse(enc_adj == 2L, "Standard encoding (Melo and Marti-Renom, 2006)", as.character(et2)),
+         et2 = ifelse(enc_adj == 1L, "Standard encoding (33)", as.character(et)),
+         et2 = ifelse(enc_adj == 2L, "Standard encoding (34)", as.character(et2)),
          et2 = factor(et2, levels = c("Encoding", 
                                       "Best-performing encoding", 
                                       "Full alphabet", 
-                                      "Standard encoding (Kosiol et al., 2004)", 
-                                      "Standard encoding (Melo and Marti-Renom, 2006)")),
+                                      "Standard encoding (33)", 
+                                      "Standard encoding (34)")),
          et = et2)
 
 # write.csv(amyloids_plot, file = "./results/amyloid_plot_data.csv")
@@ -271,13 +271,13 @@ dev.off()
 # careful - check if similarity index is used instead of the encoding distance
 
 si_dat <- si_dat %>% 
-  mutate(et2 = ifelse(enc_adj == 1L, "Standard encoding (Kosiol et al., 2004)", as.character(et)),
-         et2 = ifelse(enc_adj == 2L, "Standard encoding (Melo and Marti-Renom, 2006)", as.character(et2)),
+  mutate(et2 = ifelse(enc_adj == 1L, "Standard encoding (33)", as.character(et)),
+         et2 = ifelse(enc_adj == 2L, "Standard encoding (34)", as.character(et2)),
          et2 = factor(et2, levels = c("Encoding", 
                                       "Best-performing encoding", 
                                       "Full alphabet", 
-                                      "Standard encoding (Kosiol et al., 2004)", 
-                                      "Standard encoding (Melo and Marti-Renom, 2006)")),
+                                      "Standard encoding (33)", 
+                                      "Standard encoding (34)")),
          et = et2)
 
 write.csv2(si_dat, row.names = FALSE, file = "./results/si_dat.csv")
@@ -312,7 +312,7 @@ si_AUC_plot <- ggplot(si_dat, aes(x=si, y=AUC_mean)) +
   scale_color_manual("", values = c("firebrick1", "green3", "dodgerblue", "dodgerblue"), drop = FALSE) +
   scale_size_manual("", values = c(0.5, 0.5, 0.5, 0.5) + 0.5, drop = FALSE)
 
-cairo_ps("./publication/figures/ed_AUC.eps", height = 4, width = 3)
+cairo_ps("./publication/figures/ed_AUC.eps", height = 3.5, width = 3)
 print(si_AUC_plot)
 dev.off()
 
