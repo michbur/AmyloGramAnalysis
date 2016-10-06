@@ -170,7 +170,7 @@ ngram_plots <- lapply(1L:7, function(i) {
     geom_point(data = group_by(ngram_freq_plot, decoded_name)  %>% filter(value == max(value)),
                aes(y = value + 0.004, shape = association), size = 2, stroke = 0.2, fill = "white") +
     scale_fill_manual("", values = c("white", "black")) +
-    scale_shape_manual("Experimentally tested motif:", breaks = c("Amyloidogenic", "Non-amyloidogenic"), 
+    scale_shape_manual("Experimentally validated motif:", breaks = c("Amyloidogenic", "Non-amyloidogenic"), 
                        values = c(21, 16, NA)) +
     scale_y_continuous("Frequency") +
     scale_x_discrete("", labels = all_labels[[i]]) + 
