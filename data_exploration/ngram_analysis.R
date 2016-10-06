@@ -23,7 +23,7 @@ if(Sys.info()["nodename"] == "tobit" )
   pathway <- "~/Dropbox/amyloid_cv_results/"
 
 amyloids <- read.csv("results/all_summaries.csv")
-load("aa_groups.RData")
+load("./data/aa_groups.RData")
 aa_groups <- string2list(aa_groups)
 
 best_positions <- amyloids %>% 

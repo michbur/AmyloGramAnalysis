@@ -24,7 +24,7 @@ if(Sys.info()["nodename"] == "tobit" )
   pathway <- "~/Dropbox/amyloid_cv_results/"
 
 amyloids <- read.csv("results/all_summaries.csv")
-load("aa_groups.RData")
+load("./data/aa_groups.RData")
 aa_groups <- string2list(aa_groups)
 
 #we select best encodings, by their ranks of AUC, for different lengths of sequences
@@ -103,7 +103,7 @@ ngrams_best_enc <- lapply(1L:45, function(single_replicate_id) {
   as.character
 
 
-load("aa_groups.RData")
+load("./data/aa_groups.RData")
 aa_groups <- string2list(aa_groups)
 
 raw_seqs_list <- c(read.fasta("./data/amyloid_pos_full.fasta",seqtype = "AA"),

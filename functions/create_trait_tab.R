@@ -8,7 +8,7 @@ source("./functions/create_encodings.R")
 
 ftraits <- choose_properties()
 trait_combn <- create_traits_combination(ftraits)
-load("aa_groups.RData")
+load("./data/aa_groups.RData")
 aa_groups <- string2list(aa_groups)
 
 idk_tab <- sapply(names(aa_groups), function(i)

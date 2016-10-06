@@ -39,7 +39,7 @@ ftraits <- choose_properties()
 #time-consuming step commented out. Instead just load the results.
 #aa_groups <- create_encodings(ftraits)
 #save(aa_groups, file = "aa_groups.RData")
-load("aa_groups.RData")
+load("./data/aa_groups.RData")
 aa_groups <- string2list(aa_groups)
 
 raw_seqs_list <- c(read.fasta("./data/amyloid_pos_full.fasta",seqtype = "AA"),

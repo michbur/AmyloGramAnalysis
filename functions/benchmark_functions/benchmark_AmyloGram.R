@@ -14,7 +14,7 @@ require(ranger)
 require(hmeasure)
 require(pbapply)
 
-load("aa_groups.RData")
+load("./data/aa_groups.RData")
 aa_groups <- string2list(aa_groups)
 
 raw_seqs_list <- c(read.fasta("./data/amyloid_pos_benchmark.fasta", seqtype = "AA"),
