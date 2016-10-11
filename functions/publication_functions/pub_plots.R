@@ -26,8 +26,8 @@ amyloids_plot <- select(amyloids, AUC_mean, MCC_mean, Sens_mean, Spec_mean, pos,
 # Fig 1 all encodings sens/spec  ----------------------------------------
 
 sesp_dat <- amyloids_plot
-levels(sesp_dat[["pos"]]) <- c("Training peptide\nlength: 6", "Training peptide\nlength: 6-10", 
-                               "Training peptide\nlength: 6-15")
+levels(sesp_dat[["pos"]]) <- c("Training peptide length: 6", "Training peptide length: 6-10", 
+                               "Training peptide length: 6-15")
 
 # sesp_plot <- ggplot(sesp_dat, aes(x = Spec_mean, y = Sens_mean, color = et)) +
 #   #geom_density_2d(color = "grey", contour = TRUE) +
@@ -59,34 +59,36 @@ sesp_plot <- ggplot(sesp_dat, aes(x = Spec_mean, y = Sens_mean, color = et)) +
   scale_shape_manual("", values = c(21, 23, 24, 25), drop = FALSE) +
   scale_color_manual("", values = c("firebrick1", "green3", "dodgerblue", "dodgerblue"), drop = FALSE) +
   scale_size_manual("", values = c(0.5, 0.5, 0.5, 0.5) + 0.5, drop = FALSE) +
-  facet_grid(pos ~ len_range) +
+  facet_grid(len_range ~ pos) +
   my_theme
 
 
 #png("./publication/figures/sesp_plot.png", height = 4, width = 6.5, unit = "in", res = 200)
-cairo_ps("./publication/figures/sesp_plot.eps", height = 4.5, width = 6.5)
+cairo_ps("./publication/figures/sesp_plot.eps", height = 6, width = 5.2)
 # should be eps, but it's too big for overleaf
 print(sesp_plot)
 dev.off()
 
 # Fig 2 AUC boxplot  ----------------------------------------
 
-AUC_boxplot <- ggplot(amyloids_plot, aes(x = len_range, y = AUC_mean)) +
+amyloids_plot2 <- mutate(amyloids_plot, 
+                         len_range = factor(len_range, labels = sub("Test peptide length: ", "", levels(len_range))))
+
+AUC_boxplot <- ggplot(amyloids_plot2, aes(x = len_range, y = AUC_mean)) +
   geom_boxplot(outlier.color = "grey", outlier.shape = 1, outlier.size = 1) +
-  geom_point(data = filter(amyloids_plot, et2 != "Encoding"), 
+  geom_point(data = filter(amyloids_plot2, et2 != "Encoding"), 
              aes(x = len_range, y = AUC_mean, color = et2, shape = et2, size = et2),
              fill = NA) +
-  scale_x_discrete("") +
+  scale_x_discrete("Test peptide length") +
   scale_y_continuous("Mean AUC") +
   guides(color = guide_legend(nrow = 2), shape = guide_legend(nrow = 2)) +
   scale_shape_manual("", values = c(1, 21, 23, 24, 25), drop = FALSE) +
   scale_color_manual("", values = c("grey", "firebrick1", "green3", "dodgerblue", "dodgerblue"), drop = FALSE) +
   scale_size_manual("", values = c(0.5, 0.5, 0.5, 0.5, 0.5) + 0.5, drop = FALSE) +
-  facet_wrap(~ pos, nrow = 3) +
-  my_theme + 
-  coord_flip() 
+  facet_wrap(~ pos, ncol = 3) +
+  my_theme 
 
-cairo_ps("./publication/figures/AUC_boxplot.eps", height = 3.1, width = 6.5)
+cairo_ps("./publication/figures/AUC_boxplot.eps", height = 6, width = 5.2)
 #png("./pub_figures/AUC_boxplot.png", height = 648, width = 648)
 print(AUC_boxplot)
 dev.off()
@@ -197,7 +199,7 @@ ngrams_plots_final <- lapply(1L:length(ngram_plots), function(i)
 
 # combine plots
 
-cairo_ps("./publication/figures/ngrams.eps", height = 8.1, width = 3.5)
+cairo_ps("./publication/figures/ngrams.eps", height = 8, width = 5)
 for(i in 1L:7) {
   grid.draw(ngrams_plots_final[[i]])
 }
@@ -307,12 +309,14 @@ si_AUC_plot <- ggplot(si_dat, aes(x=si, y=AUC_mean)) +
              aes(x = si, y = AUC_mean, color = et2, shape = et2),
              fill = NA) +
   guides(color = guide_legend(nrow = 4), shape = guide_legend(nrow = 4), 
-         fill = guide_colorbar(barwidth = unit(6, "line"))) +
+         fill = guide_colorbar(barwidth = unit(0.5, "line"), barheight = unit(4, "line"))) +
   scale_shape_manual("", values = c(21, 23, 24, 25), drop = FALSE) +
   scale_color_manual("", values = c("firebrick1", "green3", "dodgerblue", "dodgerblue"), drop = FALSE) +
-  scale_size_manual("", values = c(0.5, 0.5, 0.5, 0.5) + 0.5, drop = FALSE)
+  scale_size_manual("", values = c(0.5, 0.5, 0.5, 0.5) + 0.5, drop = FALSE) +
+  theme(legend.position = "right",
+        legend.margin = unit(0.25, "lines"))
 
-cairo_ps("./publication/figures/ed_AUC.eps", height = 3.5, width = 3)
+cairo_ps("./publication/figures/ed_AUC.eps", height = 3.5, width = 5)
 print(si_AUC_plot)
 dev.off()
 
