@@ -23,7 +23,31 @@ amyloids_plot <- select(amyloids, AUC_mean, MCC_mean, Sens_mean, Spec_mean, pos,
 
 # write.csv(amyloids_plot, file = "./results/amyloid_plot_data.csv")
 
-# Fig 1 all encodings sens/spec  ----------------------------------------
+# Fig 2 AUC boxplot  ----------------------------------------
+
+amyloids_plot2 <- mutate(amyloids_plot, 
+                         len_range = factor(len_range, labels = sub("Test peptide length: ", "", levels(len_range))))
+
+AUC_boxplot <- ggplot(amyloids_plot2, aes(x = len_range, y = AUC_mean)) +
+  geom_boxplot(outlier.color = "grey", outlier.shape = 1, outlier.size = 1) +
+  geom_point(data = filter(amyloids_plot2, et2 != "Encoding"), 
+             aes(x = len_range, y = AUC_mean, color = et2, shape = et2, size = et2),
+             fill = NA) +
+  scale_x_discrete("Test peptide length") +
+  scale_y_continuous("Mean AUC") +
+  guides(color = guide_legend(nrow = 2), shape = guide_legend(nrow = 2)) +
+  scale_shape_manual("", values = c(1, 21, 23, 24, 25), drop = FALSE) +
+  scale_color_manual("", values = c("grey", "firebrick1", "green3", "dodgerblue", "dodgerblue"), drop = FALSE) +
+  scale_size_manual("", values = c(0.5, 0.5, 0.5, 0.5, 0.5) + 0.5, drop = FALSE) +
+  facet_wrap(~ pos, ncol = 3) +
+  my_theme 
+
+cairo_ps("./publication/figures/Fig2.eps", height = 3.5, width = 5.2)
+#png("./pub_figures/AUC_boxplot.png", height = 648, width = 648)
+print(AUC_boxplot)
+dev.off()
+
+# Fig 3 all encodings sens/spec  ----------------------------------------
 
 sesp_dat <- amyloids_plot
 levels(sesp_dat[["pos"]]) <- c("Training peptide length: 6", "Training peptide length: 6-10", 
@@ -64,36 +88,13 @@ sesp_plot <- ggplot(sesp_dat, aes(x = Spec_mean, y = Sens_mean, color = et)) +
 
 
 #png("./publication/figures/sesp_plot.png", height = 4, width = 6.5, unit = "in", res = 200)
-cairo_ps("./publication/figures/sesp_plot.eps", height = 6, width = 5.2)
+cairo_ps("./publication/figures/Fig3.eps", height = 7, width = 5.2)
 # should be eps, but it's too big for overleaf
 print(sesp_plot)
 dev.off()
 
-# Fig 2 AUC boxplot  ----------------------------------------
 
-amyloids_plot2 <- mutate(amyloids_plot, 
-                         len_range = factor(len_range, labels = sub("Test peptide length: ", "", levels(len_range))))
-
-AUC_boxplot <- ggplot(amyloids_plot2, aes(x = len_range, y = AUC_mean)) +
-  geom_boxplot(outlier.color = "grey", outlier.shape = 1, outlier.size = 1) +
-  geom_point(data = filter(amyloids_plot2, et2 != "Encoding"), 
-             aes(x = len_range, y = AUC_mean, color = et2, shape = et2, size = et2),
-             fill = NA) +
-  scale_x_discrete("Test peptide length") +
-  scale_y_continuous("Mean AUC") +
-  guides(color = guide_legend(nrow = 2), shape = guide_legend(nrow = 2)) +
-  scale_shape_manual("", values = c(1, 21, 23, 24, 25), drop = FALSE) +
-  scale_color_manual("", values = c("grey", "firebrick1", "green3", "dodgerblue", "dodgerblue"), drop = FALSE) +
-  scale_size_manual("", values = c(0.5, 0.5, 0.5, 0.5, 0.5) + 0.5, drop = FALSE) +
-  facet_wrap(~ pos, ncol = 3) +
-  my_theme 
-
-cairo_ps("./publication/figures/AUC_boxplot.eps", height = 6, width = 5.2)
-#png("./pub_figures/AUC_boxplot.png", height = 648, width = 648)
-print(AUC_boxplot)
-dev.off()
-
-# Fig 3 MCC boxplot  ----------------------------------------
+# Fig X MCC boxplot  ----------------------------------------
 
 MCC_boxplot <- ggplot(amyloids_plot, aes(x = len_range, y = MCC_mean)) +
   geom_boxplot(outlier.color = "grey", outlier.shape = 1) +
@@ -112,14 +113,13 @@ MCC_boxplot <- ggplot(amyloids_plot, aes(x = len_range, y = MCC_mean)) +
 # MCC_boxplot
 # dev.off()
 
-# Fig 4 properties  ----------------------------------------
+# Fig X properties  ----------------------------------------
 
 ggplot(best_enc_props, aes(x = as.factor(id), y = value, label = aa)) +
   geom_text(position = "dodge") +
   facet_wrap(~ gr, ncol = 2)
 
-
-# Fig 5 n-grams  ----------------------------------------
+# Fig 4 n-grams  ----------------------------------------
 
 g_legend<-function(a.gplot) {
   tmp <- ggplot_gtable(ggplot_build(a.gplot))
@@ -184,11 +184,11 @@ ngram_plots <- lapply(1L:7, function(i) {
 
 ngrams_plots_final <- lapply(1L:length(ngram_plots), function(i)
   if(i < 7) {
-  arrangeGrob(ngram_plots[[i]] + 
-                theme(legend.position="none") + 
-                scale_y_continuous(""),
-              rectGrob(x = unit(0.5, "npc"), y = unit(0.5, "npc"), gp = gpar(col = "white")), 
-              nrow = 2, heights=c(0.96, 0.04))
+    arrangeGrob(ngram_plots[[i]] + 
+                  theme(legend.position="none") + 
+                  scale_y_continuous(""),
+                rectGrob(x = unit(0.5, "npc"), y = unit(0.5, "npc"), gp = gpar(col = "white")), 
+                nrow = 2, heights=c(0.96, 0.04))
   } else {
     arrangeGrob(ngram_plots[[i]] + theme(legend.position="none"),
                 g_legend(ngram_plots[[1]]), 
@@ -199,7 +199,7 @@ ngrams_plots_final <- lapply(1L:length(ngram_plots), function(i)
 
 # combine plots
 
-cairo_ps("./publication/figures/ngrams.eps", height = 7.5, width = 5)
+cairo_ps("./publication/figures/Fig4.eps", height = 7.5, width = 5)
 for(i in 1L:7) {
   grid.draw(ngrams_plots_final[[i]])
 }
@@ -267,8 +267,11 @@ dev.off()
 #                       g_legend(ngram_plot), nrow = 2, ncol = 2, 
 #                       heights=c(0.90, 0.1)))
 
+# save(amyloids_plot, best_enc_props, ngram_freq_plot, ed_dat,
+#      file = "./presentation/presentation.RData")
 
-# Fig 6 alternative (similarity index)  ----------------------------------------
+
+# Fig 5 alternative (similarity index)  ----------------------------------------
 
 # careful - check if similarity index is used instead of the encoding distance
 
@@ -316,10 +319,7 @@ si_AUC_plot <- ggplot(si_dat, aes(x=si, y=AUC_mean)) +
   theme(legend.position = "right",
         legend.margin = unit(0.25, "lines"))
 
-cairo_ps("./publication/figures/ed_AUC.eps", height = 3.5, width = 5)
+cairo_ps("./publication/figures/Fig5.eps", height = 3.5, width = 5)
 print(si_AUC_plot)
 dev.off()
 
-
-# save(amyloids_plot, best_enc_props, ngram_freq_plot, ed_dat,
-#      file = "./presentation/presentation.RData")
