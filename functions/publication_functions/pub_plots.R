@@ -199,7 +199,7 @@ ngrams_plots_final <- lapply(1L:length(ngram_plots), function(i)
 
 # combine plots
 
-cairo_ps("./publication/figures/ngrams.eps", height = 8, width = 5)
+cairo_ps("./publication/figures/ngrams.eps", height = 7.5, width = 5)
 for(i in 1L:7) {
   grid.draw(ngrams_plots_final[[i]])
 }
