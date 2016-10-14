@@ -45,7 +45,7 @@ choose_properties <- function() {
   aa_nprop <- normalize_properties()
   
   #key for selecting properties - new (younger than 1980 years properties)
-  prop_MK <- read.csv2(".data/AA_index_mk2.csv") %>% filter(!is.na(chosen))
+  prop_MK <- read.csv2("./data/AA_index_mk2.csv") %>% filter(!is.na(chosen))
   
   years <- prop_MK %>% select(name) %>% unlist %>% as.character %>% sapply(function(i) 
     strsplit(last(strsplit(i, ", ")[[1]]), ")", fixed = TRUE)[[1]][1]) %>%
