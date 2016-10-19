@@ -12,13 +12,13 @@ amyloids_plot <- select(amyloids, AUC_mean, MCC_mean, Sens_mean, Spec_mean, pos,
                                     "Standard encoding", "Full alphabet"))) %>%
   mutate(len_range = factor(len_range, 
                             labels = paste0("Test peptide length: ", c("6 ", "7-10", "11-15", "16-25"))),
-         et2 = ifelse(enc_adj == 1L, "Standard encoding (Kosiol et al., 2004)", as.character(et)),
-         et2 = ifelse(enc_adj == 2L, "Standard encoding (Melo and Marti-Renom, 2006)", as.character(et2)),
+         et2 = ifelse(enc_adj == 1L, "Standard encoding (33)", as.character(et)),
+         et2 = ifelse(enc_adj == 2L, "Standard encoding (34)", as.character(et2)),
          et2 = factor(et2, levels = c("Encoding", 
                                       "Best-performing encoding", 
                                       "Full alphabet", 
-                                      "Standard encoding (Kosiol et al., 2004)", 
-                                      "Standard encoding (Melo and Marti-Renom, 2006)")),
+                                      "Standard encoding (33)", 
+                                      "Standard encoding (34)")),
          et = et2)
 
 # write.csv(amyloids_plot, file = "./results/amyloid_plot_data.csv")
@@ -64,7 +64,7 @@ sesp_plot <- ggplot(sesp_dat, aes(x = Spec_mean, y = Sens_mean, color = et)) +
 
 
 #png("./publication/figures/sesp_plot.png", height = 4, width = 6.5, unit = "in", res = 200)
-cairo_ps("./publication/figures/sesp_plot.eps", height = 5, width = 6.5)
+cairo_ps("./publication/figures/sesp_plot.eps", height = 4.5, width = 6.5)
 # should be eps, but it's too big for overleaf
 print(sesp_plot)
 dev.off()
@@ -86,7 +86,7 @@ AUC_boxplot <- ggplot(amyloids_plot, aes(x = len_range, y = AUC_mean)) +
   my_theme + 
   coord_flip() 
 
-cairo_ps("./publication/figures/AUC_boxplot.eps", height = 3.5, width = 6.5)
+cairo_ps("./publication/figures/AUC_boxplot.eps", height = 3.1, width = 6.5)
 #png("./pub_figures/AUC_boxplot.png", height = 648, width = 648)
 print(AUC_boxplot)
 dev.off()
@@ -170,7 +170,7 @@ ngram_plots <- lapply(1L:7, function(i) {
     geom_point(data = group_by(ngram_freq_plot, decoded_name)  %>% filter(value == max(value)),
                aes(y = value + 0.004, shape = association), size = 2, stroke = 0.2, fill = "white") +
     scale_fill_manual("", values = c("white", "black")) +
-    scale_shape_manual("Experimentally tested motif:", breaks = c("Amyloidogenic", "Non-amyloidogenic"), 
+    scale_shape_manual("Experimentally validated motif:", breaks = c("Amyloidogenic", "Non-amyloidogenic"), 
                        values = c(21, 16, NA)) +
     scale_y_continuous("Frequency") +
     scale_x_discrete("", labels = all_labels[[i]]) + 
@@ -182,11 +182,11 @@ ngram_plots <- lapply(1L:7, function(i) {
 
 ngrams_plots_final <- lapply(1L:length(ngram_plots), function(i)
   if(i < 7) {
-  arrangeGrob(ngram_plots[[i]] + 
-                theme(legend.position="none") + 
-                scale_y_continuous(""),
-              rectGrob(x = unit(0.5, "npc"), y = unit(0.5, "npc"), gp = gpar(col = "white")), 
-              nrow = 2, heights=c(0.96, 0.04))
+    arrangeGrob(ngram_plots[[i]] + 
+                  theme(legend.position="none") + 
+                  scale_y_continuous(""),
+                rectGrob(x = unit(0.5, "npc"), y = unit(0.5, "npc"), gp = gpar(col = "white")), 
+                nrow = 2, heights=c(0.96, 0.04))
   } else {
     arrangeGrob(ngram_plots[[i]] + theme(legend.position="none"),
                 g_legend(ngram_plots[[1]]), 
@@ -271,13 +271,13 @@ dev.off()
 # careful - check if similarity index is used instead of the encoding distance
 
 si_dat <- si_dat %>% 
-  mutate(et2 = ifelse(enc_adj == 1L, "Standard encoding (Kosiol et al., 2004)", as.character(et)),
-         et2 = ifelse(enc_adj == 2L, "Standard encoding (Melo and Marti-Renom, 2006)", as.character(et2)),
+  mutate(et2 = ifelse(enc_adj == 1L, "Standard encoding (33)", as.character(et)),
+         et2 = ifelse(enc_adj == 2L, "Standard encoding (34)", as.character(et2)),
          et2 = factor(et2, levels = c("Encoding", 
                                       "Best-performing encoding", 
                                       "Full alphabet", 
-                                      "Standard encoding (Kosiol et al., 2004)", 
-                                      "Standard encoding (Melo and Marti-Renom, 2006)")),
+                                      "Standard encoding (33)", 
+                                      "Standard encoding (34)")),
          et = et2)
 
 write.csv2(si_dat, row.names = FALSE, file = "./results/si_dat.csv")
@@ -312,7 +312,7 @@ si_AUC_plot <- ggplot(si_dat, aes(x=si, y=AUC_mean)) +
   scale_color_manual("", values = c("firebrick1", "green3", "dodgerblue", "dodgerblue"), drop = FALSE) +
   scale_size_manual("", values = c(0.5, 0.5, 0.5, 0.5) + 0.5, drop = FALSE)
 
-cairo_ps("./publication/figures/ed_AUC.eps", height = 4, width = 3)
+cairo_ps("./publication/figures/ed_AUC.eps", height = 3.5, width = 3)
 print(si_AUC_plot)
 dev.off()
 
