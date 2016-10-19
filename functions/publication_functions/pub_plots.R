@@ -12,13 +12,13 @@ amyloids_plot <- select(amyloids, AUC_mean, MCC_mean, Sens_mean, Spec_mean, pos,
                                     "Standard encoding", "Full alphabet"))) %>%
   mutate(len_range = factor(len_range, 
                             labels = paste0("Test peptide length: ", c("6 ", "7-10", "11-15", "16-25"))),
-         et2 = ifelse(enc_adj == 1L, "Standard encoding (33)", as.character(et)),
-         et2 = ifelse(enc_adj == 2L, "Standard encoding (34)", as.character(et2)),
+         et2 = ifelse(enc_adj == 1L, "Standard encoding (Kosiol, et al., 2004)", as.character(et)),
+         et2 = ifelse(enc_adj == 2L, "Standard encoding (Melo and Marti-Renom, 2006)", as.character(et2)),
          et2 = factor(et2, levels = c("Encoding", 
                                       "Best-performing encoding", 
                                       "Full alphabet", 
-                                      "Standard encoding (33)", 
-                                      "Standard encoding (34)")),
+                                      "Standard encoding (Kosiol, et al., 2004)", 
+                                      "Standard encoding (Melo and Marti-Renom, 2006)")),
          et = et2)
 
 # write.csv(amyloids_plot, file = "./results/amyloid_plot_data.csv")
@@ -26,8 +26,8 @@ amyloids_plot <- select(amyloids, AUC_mean, MCC_mean, Sens_mean, Spec_mean, pos,
 # Fig 1 all encodings sens/spec  ----------------------------------------
 
 sesp_dat <- amyloids_plot
-levels(sesp_dat[["pos"]]) <- c("Training peptide\nlength: 6", "Training peptide\nlength: 6-10", 
-                               "Training peptide\nlength: 6-15")
+levels(sesp_dat[["pos"]]) <- c("Training peptide length: 6", "Training peptide length: 6-10", 
+                               "Training peptide length: 6-15")
 
 # sesp_plot <- ggplot(sesp_dat, aes(x = Spec_mean, y = Sens_mean, color = et)) +
 #   #geom_density_2d(color = "grey", contour = TRUE) +
@@ -45,29 +45,88 @@ levels(sesp_dat[["pos"]]) <- c("Training peptide\nlength: 6", "Training peptide\
 #   my_theme 
 
 
-sesp_plot <- ggplot(sesp_dat, aes(x = Spec_mean, y = Sens_mean, color = et)) +
-  geom_bin2d(bins = 20, color = "black") + 
-  scale_fill_gradient2("Number of encodings", low = "beige", mid = "orange3", 
-                       high = "deeppink1", midpoint = 4500) +
-  scale_y_continuous("Mean sensitivity") +
-  scale_x_continuous("Mean specificity\n") +
-  geom_point(data = droplevels(filter(sesp_dat, et != "Encoding")),
-             aes(x = Spec_mean, y = Sens_mean, color = et2, shape = et2),
-             fill = NA) +
-  guides(color = guide_legend(nrow = 2), shape = guide_legend(nrow = 2), 
-         fill = guide_colorbar(barwidth = unit(10, "line"))) +
-  scale_shape_manual("", values = c(21, 23, 24, 25), drop = FALSE) +
-  scale_color_manual("", values = c("firebrick1", "green3", "dodgerblue", "dodgerblue"), drop = FALSE) +
-  scale_size_manual("", values = c(0.5, 0.5, 0.5, 0.5) + 0.5, drop = FALSE) +
-  facet_grid(pos ~ len_range) +
-  my_theme
+# sesp_plot <- ggplot(sesp_dat, aes(x = Spec_mean, y = Sens_mean, color = et)) +
+#   geom_bin2d(bins = 20, color = "black") + 
+#   scale_fill_gradient2("Number of encodings", low = "beige", mid = "orange3", 
+#                        high = "deeppink1", midpoint = 4500) +
+#   scale_y_continuous("Mean sensitivity") +
+#   scale_x_continuous("Mean specificity\n") +
+#   geom_point(data = droplevels(filter(sesp_dat, et != "Encoding")),
+#              aes(x = Spec_mean, y = Sens_mean, color = et2, shape = et2),
+#              fill = NA) +
+#   guides(color = guide_legend(nrow = 2), shape = guide_legend(nrow = 2), 
+#          fill = guide_colorbar(barwidth = unit(10, "line"))) +
+#   scale_shape_manual("", values = c(21, 23, 24, 25), drop = FALSE) +
+#   scale_color_manual("", values = c("firebrick1", "green3", "dodgerblue", "dodgerblue"), drop = FALSE) +
+#   scale_size_manual("", values = c(0.5, 0.5, 0.5, 0.5) + 0.5, drop = FALSE) +
+#   facet_grid(pos ~ len_range) +
+#   my_theme
+
+# sesp_plot <- ggplot(sesp_dat, aes(x = Spec_mean, y = Sens_mean, color = et)) +
+#   geom_bin2d(bins = 20, color = "black") + 
+#   scale_fill_gradient2("Number of encodings", low = "beige", mid = "orange3", 
+#                        high = "deeppink1", midpoint = 4500) +
+#   scale_y_continuous("Mean sensitivity") +
+#   scale_x_continuous("Mean specificity\n") +
+#   geom_point(data = droplevels(filter(sesp_dat, et != "Encoding")),
+#              aes(x = Spec_mean, y = Sens_mean, color = et2, shape = et2),
+#              fill = NA) +
+#   guides(color = guide_legend(nrow = 2), shape = guide_legend(nrow = 2), 
+#          fill = guide_colorbar(barwidth = unit(10, "line"))) +
+#   scale_shape_manual("", values = c(21, 23, 24, 25), drop = FALSE) +
+#   scale_color_manual("", values = c("firebrick1", "green3", "dodgerblue", "dodgerblue"), drop = FALSE) +
+#   scale_size_manual("", values = c(0.5, 0.5, 0.5, 0.5) + 0.5, drop = FALSE) +
+#   facet_grid(pos ~ len_range) +
+#   my_theme
+# 
+# 
+# #png("./publication/figures/sesp_plot.png", height = 4, width = 6.5, unit = "in", res = 200)
+# cairo_ps("./publication/figures/sesp_plot.eps", height = 4.5, width = 6.5)
+# # should be eps, but it's too big for overleaf
+# print(sesp_plot)
+# dev.off()
 
 
-#png("./publication/figures/sesp_plot.png", height = 4, width = 6.5, unit = "in", res = 200)
-cairo_ps("./publication/figures/sesp_plot.eps", height = 4.5, width = 6.5)
-# should be eps, but it's too big for overleaf
-print(sesp_plot)
-dev.off()
+sesp_plots_names <- unlist(lapply(levels(sesp_dat[["pos"]]), function(single_pos) 
+  lapply(levels(sesp_dat[["len_range"]]), function(single_len_range) {
+    paste0(single_pos, ", ", tolower(single_len_range))
+  })
+))
+
+cat(sapply(1L:length(sesp_plots_names), function(i) 
+  paste0("\\subsection{", sesp_plots_names[i], "}\n", 
+         "\\centerline{\\includegraphics{figures/sesp_plot", i, ".eps}}")
+), sep = "\n\n")
+
+sesp_plots <- lapply(levels(sesp_dat[["pos"]]), function(single_pos) 
+  lapply(levels(sesp_dat[["len_range"]]), function(single_len_range) {
+    subdat <- filter(sesp_dat, pos == single_pos, len_range == single_len_range)
+    ggplot(subdat,  aes(x = Spec_mean, y = Sens_mean, color = et)) +
+      geom_bin2d(bins = 20, color = "black") + 
+      scale_fill_gradient2("Number of encodings", low = "beige", mid = "orange3", 
+                           high = "deeppink1", midpoint = 750) +
+      scale_y_continuous("Mean sensitivity") +
+      scale_x_continuous("Mean specificity\n") +
+      geom_point(data = droplevels(filter(subdat, et != "Encoding")),
+                 aes(x = Spec_mean, y = Sens_mean, color = et2, shape = et2),
+                 fill = NA, stroke = 1, size = 4) +
+      guides(color = guide_legend(nrow = 2), shape = guide_legend(nrow = 2), 
+             fill = guide_colorbar(barwidth = unit(10, "line"))) +
+      scale_shape_manual("", values = c(21, 23, 24, 25), drop = FALSE) +
+      scale_color_manual("", values = c("firebrick1", "green3", "dodgerblue", "dodgerblue"), drop = FALSE) +
+      scale_size_manual("", values = c(0.5, 0.5, 0.5, 0.5) + 3.5, drop = FALSE) +
+      #ggtitle(paste0(single_pos, "\n", single_len_range)) +
+      my_theme
+  })
+) %>% unlist(recursive = FALSE)
+
+for(i in 1L:length(sesp_plots)) {
+  #png("./publication/figures/sesp_plot.png", height = 4, width = 6.5, unit = "in", res = 200)
+  cairo_ps(paste0("./supplements/figures/sesp_plot", i, ".eps"), height = 7.5, width = 6)
+  # should be eps, but it's too big for overleaf
+  print(sesp_plots[[i]])
+  dev.off()
+}
 
 # Fig 2 AUC boxplot  ----------------------------------------
 
@@ -174,7 +233,7 @@ ngram_plots <- lapply(1L:7, function(i) {
                        values = c(21, 16, NA)) +
     scale_y_continuous("Frequency") +
     scale_x_discrete("", labels = all_labels[[i]]) + 
-    theme(axis.text.y = element_text(size = 8, colour = labels_colors[i], family = "mono", face = "bold")) +
+    theme(axis.text.y = element_text(size = 6, colour = labels_colors[i], family = "mono", face = "bold")) +
     coord_flip() +
     my_theme
 })
@@ -197,7 +256,7 @@ ngrams_plots_final <- lapply(1L:length(ngram_plots), function(i)
 
 # combine plots
 
-cairo_ps("./publication/figures/ngrams.eps", height = 8.1, width = 2.7)
+cairo_ps("./publication/figures/ngrams.eps", height = 8.1, width = 3)
 for(i in 1L:7) {
   grid.draw(ngrams_plots_final[[i]])
 }
@@ -271,13 +330,13 @@ dev.off()
 # careful - check if similarity index is used instead of the encoding distance
 
 si_dat <- si_dat %>% 
-  mutate(et2 = ifelse(enc_adj == 1L, "Standard encoding (33)", as.character(et)),
-         et2 = ifelse(enc_adj == 2L, "Standard encoding (34)", as.character(et2)),
+  mutate(et2 = ifelse(enc_adj == 1L, "Standard encoding (Kosiol, et al., 2004)", as.character(et)),
+         et2 = ifelse(enc_adj == 2L, "Standard encoding (Melo and Marti-Renom, 2006)", as.character(et2)),
          et2 = factor(et2, levels = c("Encoding", 
                                       "Best-performing encoding", 
                                       "Full alphabet", 
-                                      "Standard encoding (33)", 
-                                      "Standard encoding (34)")),
+                                      "Standard encoding (Kosiol, et al., 2004)", 
+                                      "Standard encoding (Melo and Marti-Renom, 2006)")),
          et = et2)
 
 write.csv2(si_dat, row.names = FALSE, file = "./results/si_dat.csv")
@@ -304,7 +363,7 @@ si_AUC_plot <- ggplot(si_dat, aes(x=si, y=AUC_mean)) +
   ylab("AUC") +
   my_theme +
   geom_point(data = droplevels(filter(si_dat, et != "Encoding")),
-             aes(x = si, y = AUC_mean, color = et2, shape = et2),
+             aes(x = si, y = AUC_mean, color = et, shape = et),
              fill = NA) +
   guides(color = guide_legend(nrow = 4), shape = guide_legend(nrow = 4), 
          fill = guide_colorbar(barwidth = unit(6, "line"))) +
