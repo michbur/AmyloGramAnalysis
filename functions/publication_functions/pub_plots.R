@@ -197,7 +197,7 @@ ngrams_plots_final <- lapply(1L:length(ngram_plots), function(i)
 
 # combine plots
 
-cairo_ps("./publication/figures/ngrams.eps", height = 8.1, width = 2.7)
+cairo_ps("./publication/figures/ngrams.eps", height = 8.1, width = 3)
 for(i in 1L:7) {
   grid.draw(ngrams_plots_final[[i]])
 }
@@ -312,7 +312,7 @@ si_AUC_plot <- ggplot(si_dat, aes(x=si, y=AUC_mean)) +
   scale_color_manual("", values = c("firebrick1", "green3", "dodgerblue", "dodgerblue"), drop = FALSE) +
   scale_size_manual("", values = c(0.5, 0.5, 0.5, 0.5) + 0.5, drop = FALSE)
 
-cairo_ps("./publication/figures/ed_AUC.eps", height = 3.5, width = 2.7)
+cairo_ps("./publication/figures/ed_AUC.eps", height = 3.5, width = 3)
 print(si_AUC_plot)
 dev.off()
 
