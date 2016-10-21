@@ -22,7 +22,7 @@ require(e1071)
 amyloids <- read.csv("results/all_summaries.csv")
 trait_tab <- read.csv(file = "./results/trait_tab.csv")
 load("./results/enc_dupes.RData")
-load("aa_groups.RData")
+load("./data/aa_groups.RData")
 aa_groups <- string2list(aa_groups)
 
 best_positions <- amyloids %>% 

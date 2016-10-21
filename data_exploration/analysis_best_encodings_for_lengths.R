@@ -18,7 +18,7 @@ require(ggplot2)
 # read data ----------------------------------------
 
 amyloids <- read.csv("results/all_summaries.csv")
-load("aa_groups.RData")
+load("./data/aa_groups.RData")
 aa_groups <- string2list(aa_groups)
 
 
