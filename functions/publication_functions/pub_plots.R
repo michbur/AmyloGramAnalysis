@@ -192,66 +192,66 @@ for(i in 1L:7) {
 }
 dev.off()
 
-convert_factor <- function(x)
-  factor(x, levels = c(1L:6, "|", "_"))
-
-block_df <- unique(ngram_freq[["decoded_name"]]) %>% 
-  as.character() %>% 
-  strsplit(split = "") %>% 
-  lapply(function(i) c(rep("", 5 - length(i)), i)) %>% 
-  do.call(rbind, .) %>% 
-  data.frame() %>% 
-  mutate_each(funs(convert_factor)) %>% 
-  mutate(y = factor(1L:nrow(.))) %>% 
-  melt(measure.vars = paste0("X", 1L:5), variable.name = "x", value.name = "block") %>% 
-  mutate(block = factor(block))
-
-block_plot <- ggplot(droplevels(filter(block_df, block != "")), aes(x = x, y = y, fill = block)) +
-  geom_tile(color = "black") +
-  scale_fill_manual(values = c("lightgrey", "chartreuse3", "dodgerblue2", 
-                               "firebrick1", "darkorange", "darkseagreen4", "cyan3"), 
-                    labels = c("-", gr_aa[["gr"]])) +
-  scale_x_discrete("") +
-  scale_y_discrete("") +
-  #theme_void() +
-  my_theme +
-  theme(axis.text = element_blank(),
-        axis.ticks = element_blank(),
-        panel.grid.major = element_line(color= NA),
-        panel.grid.major = element_line(color= NA),
-        panel.background = element_rect(color = NA))
-
-ngram_plot <- ggplot(ngram_freq_plot, aes(x = decoded_name, y = value)) +
-  geom_bar(aes(fill = variable), position = "dodge", stat = "identity") +
-  geom_point(data = group_by(ngram_freq_plot, decoded_name)  %>% filter(value == max(value)),
-             aes(y = value + 0.007, shape = association), size = 2) +
-  scale_fill_manual("", values = c("firebrick1", "dodgerblue2")) +
-  scale_shape_manual("Experimentally tested motif:", 
-                     breaks = c("Amyloidogenic", "Non-amyloidogenic"), 
-                     values = c(16, 17, NA)) +
-  scale_y_continuous("Frequency") +
-  scale_x_discrete("") +
-  my_theme +
-  theme(axis.text.y = element_blank()) +
-  coord_flip() 
-
-block_plot_nol <- ggplot_gtable(ggplot_build(block_plot + theme(legend.position="none")))
-ngram_plot_nol <- ggplot_gtable(ggplot_build(ngram_plot + theme(legend.position="none")))
-
-max_par = unit.pmax(block_plot_nol$heights[3:4], ngram_plot_nol$heights[3:4])
-block_plot_nol$heights[3:4] <- max_par
-block_plot_nol$heights[3:4] <- max_par
-
-
-
-
-pdf("tmp.pdf", height = 8.5, width = 3.5)
-grid.draw(arrangeGrob(block_plot_nol,
-                      ngram_plot_nol,
-                      g_legend(block_plot),
-                      g_legend(ngram_plot), nrow = 2, ncol = 2, 
-                      heights=c(0.90, 0.1)))
-dev.off()
+# convert_factor <- function(x)
+#   factor(x, levels = c(1L:6, "|", "_"))
+# 
+# block_df <- unique(ngram_freq[["decoded_name"]]) %>% 
+#   as.character() %>% 
+#   strsplit(split = "") %>% 
+#   lapply(function(i) c(rep("", 5 - length(i)), i)) %>% 
+#   do.call(rbind, .) %>% 
+#   data.frame() %>% 
+#   mutate_each(funs(convert_factor)) %>% 
+#   mutate(y = factor(1L:nrow(.))) %>% 
+#   melt(measure.vars = paste0("X", 1L:5), variable.name = "x", value.name = "block") %>% 
+#   mutate(block = factor(block))
+# 
+# block_plot <- ggplot(droplevels(filter(block_df, block != "")), aes(x = x, y = y, fill = block)) +
+#   geom_tile(color = "black") +
+#   scale_fill_manual(values = c("lightgrey", "chartreuse3", "dodgerblue2", 
+#                                "firebrick1", "darkorange", "darkseagreen4", "cyan3"), 
+#                     labels = c("-", gr_aa[["gr"]])) +
+#   scale_x_discrete("") +
+#   scale_y_discrete("") +
+#   #theme_void() +
+#   my_theme +
+#   theme(axis.text = element_blank(),
+#         axis.ticks = element_blank(),
+#         panel.grid.major = element_line(color= NA),
+#         panel.grid.major = element_line(color= NA),
+#         panel.background = element_rect(color = NA))
+# 
+# ngram_plot <- ggplot(ngram_freq_plot, aes(x = decoded_name, y = value)) +
+#   geom_bar(aes(fill = variable), position = "dodge", stat = "identity") +
+#   geom_point(data = group_by(ngram_freq_plot, decoded_name)  %>% filter(value == max(value)),
+#              aes(y = value + 0.007, shape = association), size = 2) +
+#   scale_fill_manual("", values = c("firebrick1", "dodgerblue2")) +
+#   scale_shape_manual("Experimentally tested motif:", 
+#                      breaks = c("Amyloidogenic", "Non-amyloidogenic"), 
+#                      values = c(16, 17, NA)) +
+#   scale_y_continuous("Frequency") +
+#   scale_x_discrete("") +
+#   my_theme +
+#   theme(axis.text.y = element_blank()) +
+#   coord_flip() 
+# 
+# block_plot_nol <- ggplot_gtable(ggplot_build(block_plot + theme(legend.position="none")))
+# ngram_plot_nol <- ggplot_gtable(ggplot_build(ngram_plot + theme(legend.position="none")))
+# 
+# max_par = unit.pmax(block_plot_nol$heights[3:4], ngram_plot_nol$heights[3:4])
+# block_plot_nol$heights[3:4] <- max_par
+# block_plot_nol$heights[3:4] <- max_par
+# 
+# 
+# 
+# 
+# pdf("tmp.pdf", height = 8.5, width = 3.5)
+# grid.draw(arrangeGrob(block_plot_nol,
+#                       ngram_plot_nol,
+#                       g_legend(block_plot),
+#                       g_legend(ngram_plot), nrow = 2, ncol = 2, 
+#                       heights=c(0.90, 0.1)))
+# dev.off()
 
 
 # Fig 6 alternative (similarity index)  ----------------------------------------
