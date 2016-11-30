@@ -86,6 +86,8 @@ dat <- cbind(read.csv("./results/benchmark_otherpreds.csv"),
                single_preds_df
              })))
 
+write.csv(dat, "./results/benchmark_allpreds_raw.csv", row.names = FALSE)
+
 get_last <- function(x, what) {
   splitted <- strsplit(as.character(x), what)[[1]]
   splitted[length(splitted)]
