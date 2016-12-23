@@ -97,3 +97,8 @@ print("success")
 # cv_results_stand <- do_cv(all_folds, extracted_ngrams_stand, create_hv(seqs_m))
 # save(cv_results_stand, file = "./results/cv_results_stand.RData")
 
+# compute bootstrap significance for benchmark results
+source("functions/benchmark_significance.R")
+
+# compute pairwise identity between proteins
+source("functions/compute_pid.R")
