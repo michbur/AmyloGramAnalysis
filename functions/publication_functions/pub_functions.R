@@ -241,3 +241,55 @@ cor.test(~ AUC_mean + si, si_dat)
 
 bench_measures <- read.csv("./results/benchmark_allpreds.csv")
 
+# benchmark - statistical sigificance ------------------------------------------------
+
+b_dat <- read.csv("./results/predictor_boot.csv")
+
+levels(b_dat[["classifier"]]) <- sub("class14592", "AmyloGram", levels(b_dat[["classifier"]]))
+levels(b_dat[["classifier"]]) <- sub("raw_aa", "Full alphabet", levels(b_dat[["classifier"]]))
+levels(b_dat[["classifier"]]) <- sub("_", " (", levels(b_dat[["classifier"]]), fixed = TRUE)
+levels(b_dat[["classifier"]]) <- sub("6", "6)", levels(b_dat[["classifier"]]), fixed = TRUE)
+levels(b_dat[["classifier"]]) <- sub("10", "10)", levels(b_dat[["classifier"]]), fixed = TRUE)
+levels(b_dat[["classifier"]]) <- sub("15", "15)", levels(b_dat[["classifier"]]), fixed = TRUE)
+levels(b_dat[["classifier"]]) <- sub("PASTA2", "PASTA 2.0", levels(b_dat[["classifier"]]), fixed = TRUE)
+
+b_res <- lapply(colnames(b_dat)[-c(1L:2)], function(i) {
+  tmp_dat <- b_dat[, c(colnames(b_dat)[1L:2], i)]
+  colnames(tmp_dat)[3] <- "measure"
+  
+  #n_compar <- nlevels(b_dat[["classifier"]]) * (nlevels(b_dat[["classifier"]]) - 1)/2
+  n_compar <- 4
+  
+  group_by(tmp_dat, classifier) %>%
+    summarise(m = mean(measure), 
+              # l = quantile(measure, 1 - 0.95^(1/n_compar)),
+              # u = quantile(measure, 0.95^(1/n_compar))
+              l = mean(measure) - qt(1 - 0.975^(1/n_compar), df = length(measure) - 1)*sd(measure)/sqrt(length(measure)),
+              u = mean(measure) + qt(1 - 0.975^(1/n_compar), df = length(measure) - 1)*sd(measure)/sqrt(length(measure))
+    ) %>% 
+    data.frame(measure = i, .)
+}) %>%
+  do.call(rbind, .) %>% 
+  mutate(classifier = factor(classifier,
+                             levels = c("Full alphabet (6)", "Full alphabet (10)", "Full alphabet (15)", 
+                                        "AmyloGram (6)", "AmyloGram (10)", "AmyloGram (15)", 
+                                        "appnn", "FoldAmyloid", "PASTA 2.0")),
+         type = ifelse(grepl("alphabet", classifier), "Full alphabet", 
+                       ifelse(grepl("AmyloGram", classifier), "AmyloGram", "Other classifier")))
+
+levels(b_res[["measure"]]) <- c("AUC", "MCC", "Sensitivity", "Specificity")
+
+cairo_ps("./response/figures/signif.eps", height = 5.1, width = 5)
+ggplot(b_res, aes(y = m, x = classifier, ymin = l, ymax = u, color = type)) +
+  geom_point() +
+  geom_errorbar() +
+  facet_wrap(~ measure, ncol = 1, scales = "free_y") +
+  scale_color_discrete("") +
+  my_theme + 
+  theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
+  scale_x_discrete("") +
+  scale_y_continuous("Value")
+dev.off()
+
+rws <- seq(1, nrow(b_res) - 1, by = 2)
+col <- rep("\\rowcolor[gray]{0.85}", length(rws))

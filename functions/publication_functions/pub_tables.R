@@ -123,3 +123,13 @@ filter(test_sizes, len_group != "(15,25]") %>%
   rbind(., test_sizes) %>% 
   xtable(digits = 0) %>% 
   print(include.rownames = FALSE)
+
+# supplemental table, benchmark statistical significance
+
+rename(b_res[1L:5], Measure = measure, Classifier = classifier,
+       Mean = m, `Lower bound` = l, `Upper bound` = u) %>% 
+  xtable(digits = 4, 
+         caption = "The mean values of performance measures and their confidence intervals obtained in the bootstrap.",
+         label = "tab:meas") %>% 
+  print(include.rownames = FALSE, booktabs = TRUE,
+        add.to.row = list(pos = as.list(rws), command = col))
