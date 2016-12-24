@@ -279,17 +279,26 @@ b_res <- lapply(colnames(b_dat)[-c(1L:2)], function(i) {
 
 levels(b_res[["measure"]]) <- c("AUC", "MCC", "Sensitivity", "Specificity")
 
-cairo_ps("./response/figures/signif.eps", height = 5.1, width = 5)
-ggplot(b_res, aes(y = m, x = classifier, ymin = l, ymax = u, color = type)) +
-  geom_point() +
-  geom_errorbar() +
-  facet_wrap(~ measure, ncol = 1, scales = "free_y") +
-  scale_color_discrete("") +
-  my_theme + 
-  theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
-  scale_x_discrete("") +
-  scale_y_continuous("Value")
-dev.off()
+# pairwise identity ---------------------------
 
-rws <- seq(1, nrow(b_res) - 1, by = 2)
-col <- rep("\\rowcolor[gray]{0.85}", length(rws))
+load("./results/pep424_pid.RData")
+
+ets <- c(rep(1, length(read.fasta("./data/amyloid_pos_benchmark.fasta", seqtype = "AA"))),
+         rep(0, length(read.fasta("./data/amyloid_neg_benchmark.fasta", seqtype = "AA"))))
+
+pep424_ets <- read.csv("results/benchmark_allpreds_raw.csv")[[1]]
+
+pid100 <- lapply(1L:length(pep424_pid), function(i) {
+  single_pep_dat <- cut(pep424_pid[[i]], breaks = c(0, 99, 100), include.lowest = TRUE)
+  cbind(pep = i, et = pep424_ets[i], 
+        as.data.frame(table(PID = single_pep_dat, ets = ets), responseName = "nprot")[c(2, 4), 2L:3])
+}) %>% 
+  do.call(rbind, .) %>% 
+  inner_join(as.data.frame(table(ets), responseName = "count")) %>% 
+  mutate(fprot = nprot/count) %>% 
+  group_by(et, ets) %>% 
+  summarise(fprot = mean(fprot), nprot = sum(nprot)) %>% 
+  ungroup %>% 
+  mutate(et = factor(et, labels = c("Non-amyloidogenic (pep424)", "Amyloidogenic (pep424)")),
+         ets = factor(ets, labels = c("Non-amyloidogenic (training dataset)", "Amyloidogenic (training dataset)")))
+
