@@ -126,8 +126,12 @@ filter(test_sizes, len_group != "(15,25]") %>%
 
 # supplemental table, benchmark statistical significance
 
+rws <- seq(1, nrow(b_res) - 1, by = 2)
+col <- rep("\\rowcolor[gray]{0.85}", length(rws))
+
 rename(b_res[1L:5], Measure = measure, Classifier = classifier,
        Mean = m, `Lower bound` = l, `Upper bound` = u) %>% 
+  arrange(Measure, desc(Classifier)) %>% 
   xtable(digits = 4, 
          caption = "The mean values of performance measures and their confidence intervals obtained in the bootstrap.",
          label = "tab:meas") %>% 
