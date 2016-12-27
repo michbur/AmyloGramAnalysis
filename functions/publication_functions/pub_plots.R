@@ -402,11 +402,11 @@ dev.off()
 
 # supplemental figure: benchmark significance -----------------------
 
-cairo_ps("./supplements/figures/signif.eps", height = 5.1, width = 5)
+cairo_ps("./supplements/figures/signif.eps", height = 7.9, width = 6)
 ggplot(b_res, aes(y = m, x = classifier, ymin = l, ymax = u, color = type)) +
-  geom_point() +
+  #geom_point() +
   geom_errorbar() +
-  facet_wrap(~ measure, ncol = 1, scales = "free_y") +
+  facet_wrap(~ measure, ncol = 2, scales = "free_y") +
   scale_color_discrete("") +
   my_theme + 
   theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
