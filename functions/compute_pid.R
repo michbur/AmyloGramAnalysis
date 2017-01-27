@@ -1,24 +1,66 @@
-library(Biostrings)
+# library(Biostrings)
 
 remove_dash <- function(x)
   x[x != "-"]
 
 seq2bio <- function(x)
-  AAString(paste0(x, collapse = ""))
+  Biostrings::AAString(paste0(x, collapse = ""))
 
-all_prots <- c(read.fasta("/data/amyloid_neg_benchmark.fasta", seqtype = "AA"), 
-               read.fasta("/data/amyloid_pos_benchmark.fasta", seqtype = "AA")) %>% 
-  lapply(toupper) %>% 
-  lapply(remove_dash) %>% 
-  lapply(seq2bio)
+source("./functions/choose_properties.R")
+source("./functions/create_encodings.R")
+source("./functions/encode_amyloids.R")
+source("./functions/cv.R")
+source("./functions/cv_analysis.R")
+source("./functions/make_classifier.R")
 
-pep424 <- read.fasta("/benchmark/pep424_better_names.fasta", seqtype = "AA") %>% 
-  lapply(seq2bio)
+compare_seq <- function(shorter, longer) {
+  windows <- seq2ngrams(as.vector(longer), n = length(shorter), u = a()[-1]) %>% 
+    decode_ngrams %>% 
+    strsplit(split = "")
+  
+  sapply(windows, function(single_window) {
+    unname(mean(shorter == single_window))
+  }) %>% max
+}
 
-pep424_pid <- lapply(pep424, function(i) 
-  pbsapply(all_prots, function(j) 
-    pid(pairwiseAlignment(i, j, type="global"), type = "PID1")
+require(seqinr)
+require(dplyr)
+require(pbapply)
+require(biogram)
+require(ranger)
+require(hmeasure)
+require(pbapply)
+
+load("./data/aa_groups.RData")
+aa_groups <- string2list(aa_groups)
+
+raw_seqs_list <- c(read.fasta("./data/amyloid_pos_benchmark.fasta", seqtype = "AA"),
+                   read.fasta("./data/amyloid_neg_benchmark.fasta", seqtype = "AA"))
+#sequences longer than 5 aa and shorter than 26 aa
+purified_seqs_id <- lengths(raw_seqs_list) > 5 & lengths(raw_seqs_list) < 16
+seqs_list <- lapply(raw_seqs_list[purified_seqs_id], seq2bio)
+
+# all_prots <- c(read.fasta("data/amyloid_neg_benchmark.fasta", seqtype = "AA"), 
+#                read.fasta("data/amyloid_pos_benchmark.fasta", seqtype = "AA")) %>% 
+#   lapply(toupper) %>% 
+#   lapply(remove_dash) %>% 
+#   lapply(seq2bio)
+# 
+# pep424 <- read.fasta("benchmark/pep424_better_names.fasta", seqtype = "AA") %>% 
+#   lapply(seq2bio)
+# 
+# pep424_pid <- lapply(pep424, function(i) 
+#   pbsapply(all_prots, function(j) 
+#     Biostrings::pid(Biostrings::pairwiseAlignment(i, j, type="global"), type = "PID1")
+#   )
+# )
+# 
+# save(pep424_pid, file = "/results/pep424_pid.RData")
+
+alns <- pblapply(1L:length(seqs_list), function(i) 
+  lapply(seqs_list[-i], function(j) 
+    Biostrings::pairwiseAlignment(seqs_list[[i]], j, type="global", substitutionMatrix = NULL)
   )
 )
 
-save(pep424_pid, file = "/results/pep424_pid.RData")
+save(alns, file = "/results/alns.RData")

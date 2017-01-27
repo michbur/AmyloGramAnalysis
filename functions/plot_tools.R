@@ -1,6 +1,7 @@
 library(ggplot2)
 library(grid)
 library(gridExtra)
+library(gtable)
 
 size_mod <- -6
 
