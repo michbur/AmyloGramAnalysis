@@ -69,21 +69,16 @@ ggplot(filter(h1_dat_plot, et == "Amyloid peptides"),
        aes(x = prot, y = Freq, fill = Var1)) +
   geom_bar(position = "stack", stat = "identity") +
   coord_flip() +
-  scale_y_continuous("Fraction of peptides in Hamming distance 1") +
-  scale_x_discrete("Peptide sequence (number of peptides in Hamming distance 1)") +
-  scale_fill_manual("Status of peptidein Hamming distance 1", values = c("blue", "red")) +
+  scale_y_continuous("Fraction of peptides with Hamming distance 1") +
+  scale_x_discrete("Amyloid sequence (number of peptides with Hamming distance 1)") +
+  scale_fill_manual("Status of peptide with Hamming distance 1", values = c("blue", "red")) +
   my_theme +
   ggtitle("Amyloid peptides in training data set")
 dev.off()
 
-cairo_ps("hamming1_nonamyloids.eps", height = 8.1, width = 5.3)
-ggplot(filter(h1_dat_plot, et == "Amyloid peptides"), 
-       aes(x = prot, y = Freq, fill = Var1)) +
-  geom_bar(position = "stack", stat = "identity") +
-  coord_flip() +
-  scale_y_continuous("Fraction of peptides in Hamming distance 1") +
-  scale_x_discrete("Peptide sequence (number of peptides in Hamming distance 1)") +
-  scale_fill_manual("Status of peptidein Hamming distance 1", values = c("blue", "red")) +
-  my_theme +
-  ggtitle("Amyloid peptides in training data set")
-dev.off()
+
+
+filter(h1_dat_plot, et == "Amyloid peptides", Var1 == "Non-amyloid") %>% 
+  mutate(Freq = Freq > 0) %>% 
+  group_by(et) %>% 
+  summarise(count = sum(Freq), Freq = sum(Freq)/length(Freq))
