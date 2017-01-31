@@ -38,7 +38,7 @@ raw_seqs_list <- c(read.fasta("./data/amyloid_pos_benchmark.fasta", seqtype = "A
                    read.fasta("./data/amyloid_neg_benchmark.fasta", seqtype = "AA"))
 #sequences longer than 5 aa and shorter than 26 aa
 purified_seqs_id <- lengths(raw_seqs_list) > 5 & lengths(raw_seqs_list) < 16
-seqs_list <- lapply(raw_seqs_list[purified_seqs_id], seq2bio)
+seqs_list <- raw_seqs_list[purified_seqs_id]
 
 # all_prots <- c(read.fasta("data/amyloid_neg_benchmark.fasta", seqtype = "AA"), 
 #                read.fasta("data/amyloid_pos_benchmark.fasta", seqtype = "AA")) %>% 
@@ -57,10 +57,13 @@ seqs_list <- lapply(raw_seqs_list[purified_seqs_id], seq2bio)
 # 
 # save(pep424_pid, file = "/results/pep424_pid.RData")
 
-alns <- pblapply(1L:length(seqs_list), function(i) 
-  lapply(seqs_list[-i], function(j) 
-    Biostrings::pairwiseAlignment(seqs_list[[i]], j, type="global", substitutionMatrix = NULL)
-  )
-)
+#alns <- pblapply(1L:length(seqs_list), function(i) 
+alns <- pbsapply(combn(1L:length(seqs_list), 2, simplify = FALSE)[1L:5], function(i) {
+  seq1 <- seq2bio(seqs_list[[i[[1]]]])
+  seq2 <- seq2bio(seqs_list[[i[[2]]]])
+  aln <- Biostrings::pairwiseAlignment(seq1, seq2, type="global", substitutionMatrix = NULL)
+  slot(aln, "score")
+})
+
 
 save(alns, file = "/results/alns.RData")
