@@ -66,4 +66,4 @@ alns <- pbsapply(combn(1L:length(seqs_list), 2, simplify = FALSE)[1L:5], functio
 })
 
 
-save(alns, file = "/results/alns.RData")
+save(alns, file = "./results/alns.RData")
