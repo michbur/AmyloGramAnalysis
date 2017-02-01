@@ -57,13 +57,21 @@ seqs_list <- raw_seqs_list[purified_seqs_id]
 # 
 # save(pep424_pid, file = "/results/pep424_pid.RData")
 
-#alns <- pblapply(1L:length(seqs_list), function(i) 
-alns <- pbsapply(combn(1L:length(seqs_list), 2, simplify = FALSE), function(i) {
-  seq1 <- seq2bio(seqs_list[[i[[1]]]])
-  seq2 <- seq2bio(seqs_list[[i[[2]]]])
-  aln <- Biostrings::pairwiseAlignment(seq1, seq2, type="global", substitutionMatrix = NULL)
-  slot(aln, "score")
-})
+# alns <- pbsapply(combn(1L:length(seqs_list), 2, simplify = FALSE), function(i) {
+#   seq1 <- seq2bio(seqs_list[[i[[1]]]])
+#   seq2 <- seq2bio(seqs_list[[i[[2]]]])
+#   aln <- Biostrings::pairwiseAlignment(seq1, seq2, type="global", substitutionMatrix = NULL)
+#   slot(aln, "score")
+# })
+# 
+# save(alns, file = "./results/alns.RData")
 
-
-save(alns, file = "./results/alns.RData")
+for(i in 1L:5) {
+  perm_alns <- pbsapply(combn(1L:length(seqs_list), 2, simplify = FALSE), function(i) {
+    seq1 <- seq2bio(sample(seqs_list[[i[[1]]]]))
+    seq2 <- seq2bio(sample(seqs_list[[i[[2]]]]))
+    aln <- Biostrings::pairwiseAlignment(seq1, seq2, type="global", substitutionMatrix = NULL)
+    slot(aln, "score")
+  })
+  cat(c(perm_alns, "\n"), sep = ";", file = "./results/perm_alns.txt", append = TRUE)
+}
