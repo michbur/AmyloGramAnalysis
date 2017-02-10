@@ -66,7 +66,8 @@ seqs_list <- raw_seqs_list[purified_seqs_id]
 # 
 # save(alns, file = "./results/alns.RData")
 
-for(i in 1L:5) {
+set.seed(5)
+for(i in 1L:15) {
   perm_alns <- pbsapply(combn(1L:length(seqs_list), 2, simplify = FALSE), function(i) {
     seq1 <- seq2bio(sample(seqs_list[[i[[1]]]]))
     seq2 <- seq2bio(sample(seqs_list[[i[[2]]]]))
