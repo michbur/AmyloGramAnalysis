@@ -59,4 +59,17 @@ jackknife_res <- pblapply(1L:nrow(seqs_m), function(seq_id) {
   c(pred = class1, et = ets[seq_id])
 })
 
-save(jackknife_res, "./results/jackknife_res.RData")
+save(jackknife_res, file = "./results/jackknife_res.RData")
+
+
+class_full <- make_classifier(seqs_m, ets, seq_lengths, 10, aa_groups[14592], seqs_m)
+
+load("./results/jackknife_res.RData")
+
+jackknife_res
+jackknife_df <- data.frame(cbind(do.call(rbind, jackknife_res), normal = class_full))
+
+HMeasure(jackknife_df[, "et"], jackknife_df[, -2])[["metrics"]] %>% 
+  data.frame() %>% 
+  mutate(MCC = calc_mcc(as.numeric(TP), TN, FP, FN)) %>% 
+  select(AUC, MCC)
