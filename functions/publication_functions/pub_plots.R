@@ -18,7 +18,12 @@ amyloids_plot <- select(amyloids, AUC_mean, MCC_mean, Sens_mean, Spec_mean, pos,
                                       "Best-performing encoding", 
                                       "Full alphabet", 
                                       "Standard encoding (Kosiol, et al., 2004)", 
-                                      "Standard encoding (Melo and Marti-Renom, 2006)")),
+                                      "Standard encoding (Melo and Marti-Renom, 2006)"),
+                      labels = c("Encoding", 
+                                 "Best-performing encoding", 
+                                 "Full alphabet", 
+                                 "Standard encoding [21]", 
+                                 "Standard encoding [22]")),
          et = et2)
 
 # write.csv(amyloids_plot, file = "./results/amyloid_plot_data.csv")
@@ -133,14 +138,14 @@ for(i in 1L:length(sesp_plots)) {
 AUC_boxplot <- ggplot(amyloids_plot, aes(x = len_range, y = AUC_mean)) +
   geom_boxplot(outlier.color = "grey", outlier.shape = 1, outlier.size = 1) +
   geom_point(data = filter(amyloids_plot, et2 != "Encoding"), 
-             aes(x = len_range, y = AUC_mean, shape = et2, size = et2),
+             aes(x = len_range, y = AUC_mean, shape = et2, color = et2, size = et2),
              fill = NA) +
   scale_x_discrete("") +
   scale_y_continuous("Mean AUC") +
   guides(color = guide_legend(nrow = 3), shape = guide_legend(nrow = 3)) +
   scale_shape_manual("", values = c(1, 21, 23, 24, 25), drop = FALSE) +
-  #scale_color_manual("", values = c("grey", "firebrick1", "green3", "dodgerblue", "dodgerblue"), drop = FALSE) +
-  scale_color_manual("", values = c("grey", rep("black", 4)), drop = FALSE) +
+  scale_color_manual("", values = c("grey", "firebrick1", "green3", "dodgerblue", "dodgerblue"), drop = FALSE) +
+  #scale_color_manual("", values = c("grey", rep("black", 4)), drop = FALSE) +
   scale_size_manual("", values = c(1, 1.5, 1.5, 1.5, 1.5), drop = FALSE) +
   facet_wrap(~ pos, nrow = 3) +
   my_theme + 
@@ -234,30 +239,33 @@ ngram_plots <- lapply(1L:7, function(i) {
                        values = c(21, 16, NA)) +
     scale_y_continuous("Frequency") +
     scale_x_discrete("", labels = all_labels[[i]]) + 
-    theme(axis.text.y = element_text(size = 6, colour = labels_colors[i], family = "mono", face = "bold")) +
+    theme(axis.text.y = element_text(size = 6, colour = labels_colors[i], family = "mono", face = "bold"),
+          legend.box = "vertical",
+          axis.title.x = element_text(margin=margin(0,20,0,0))) +
     coord_flip() +
     my_theme
 })
 
+amyl_legend <- g_legend(ngram_plots[[1]])
 
 ngrams_plots_final <- lapply(1L:length(ngram_plots), function(i)
   if(i < 7) {
     arrangeGrob(ngram_plots[[i]] + 
-                  theme(legend.position="none") + 
-                  scale_y_continuous(""),
+                  theme(legend.position="none",
+                        axis.title.x = element_text(size=14 + size_mod, vjust = -1, color = "white")),
                 rectGrob(x = unit(0.5, "npc"), y = unit(0.5, "npc"), gp = gpar(col = "white")), 
-                nrow = 2, heights=c(0.96, 0.04))
+                nrow = 2, heights = c(0.96, 0.04))
   } else {
     arrangeGrob(ngram_plots[[i]] + theme(legend.position="none"),
-                g_legend(ngram_plots[[1]]), 
-                nrow = 2, heights=c(0.96, 0.04))
+                amyl_legend, 
+                nrow = 2, heights = c(0.96, 0.04))
     
   }
 )
 
 # combine plots
 
-cairo_ps("./publication/figures/ngrams.eps", height = 8.1, width = 3.3)
+cairo_ps("./publication/figures/ngrams.eps", height = 8.1, width = 5.3)
 for(i in 1L:7) {
   grid.draw(ngrams_plots_final[[i]])
 }
@@ -341,7 +349,12 @@ si_dat <- si_dat %>%
                                       "Best-performing encoding", 
                                       "Full alphabet", 
                                       "Standard encoding (Kosiol, et al., 2004)", 
-                                      "Standard encoding (Melo and Marti-Renom, 2006)")),
+                                      "Standard encoding (Melo and Marti-Renom, 2006)"),
+                      labels = c("Encoding", 
+                                 "Best-performing encoding", 
+                                 "Full alphabet", 
+                                 "Standard encoding [21]", 
+                                 "Standard encoding [22]")),
          et = et2)
 
 write.csv2(si_dat, row.names = FALSE, file = "./results/si_dat.csv")
@@ -362,7 +375,7 @@ write.csv2(si_dat, row.names = FALSE, file = "./results/si_dat.csv")
 
 si_AUC_plot <- ggplot(si_dat, aes(x=si, y=AUC_mean)) + 
   geom_bin2d(bins = 25, color = "black") + 
-  scale_fill_gradient2("Number of encodings", low = "white", high = "grey",
+  scale_fill_gradient2("Number of encodings", low = "white", high = "orange",
                        midpoint = 500) +
   xlab("Similarity to the best-performing encoding\n") +
   ylab("AUC") +
@@ -373,11 +386,11 @@ si_AUC_plot <- ggplot(si_dat, aes(x=si, y=AUC_mean)) +
   guides(color = guide_legend(nrow = 4), shape = guide_legend(nrow = 4), 
          fill = guide_colorbar(barwidth = unit(6, "line"))) +
   scale_shape_manual("", values = c(21, 23, 24, 25), drop = FALSE) +
-  #scale_color_manual("", values = c("firebrick1", "green3", "dodgerblue", "dodgerblue"), drop = FALSE) +
-  scale_color_manual("", values = rep("black", 4), drop = FALSE) +
+  scale_color_manual("", values = c("firebrick1", "green3", "dodgerblue", "dodgerblue"), drop = FALSE) +
+  #scale_color_manual("", values = rep("black", 4), drop = FALSE) +
   scale_size_manual("", values = c(0.5, 0.5, 0.5, 0.5) + 1.5, drop = FALSE) 
 
-cairo_ps("./publication/figures/ed_AUC.eps", height = 3.5, width = 3)
+cairo_ps("./publication/figures/ed_AUC.eps", height = 3.5, width = 5)
 print(si_AUC_plot)
 dev.off()
 

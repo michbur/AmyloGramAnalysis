@@ -16,7 +16,12 @@ make_classifier <- function(dat, ets, seq_lengths, max_len, aa_group, test_dat) 
   
   test_lengths <- apply(test_dat, 1, function(i) sum(!is.na(i))) - 5
   
-  preds <- cbind(predict(model, data.frame(as.matrix(test_ngrams)[, imp_bigrams]))[["predictions"]][, 2], 
+  raw_pred <- predict(model, data.frame(as.matrix(test_ngrams)[, imp_bigrams, drop = FALSE]))[["predictions"]]
+  if(!is.matrix(raw_pred)) {
+    raw_pred <- matrix(raw_pred, ncol = 2)
+  }
+  
+  preds <- cbind(raw_pred[, 2], 
                  unlist(lapply(1L:length(test_lengths), function(i) rep(i, test_lengths[i]))))
   
   preds %>% 

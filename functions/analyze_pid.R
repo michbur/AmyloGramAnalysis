@@ -27,8 +27,7 @@ ets <- ets[purified_seqs_id]
 load("./results/alns.RData")
 
 perm_alns <- do.call(cbind, unlist(lapply(c("./results/perm_alns5.txt",
-                        "./results/perm_alns5_2.txt",
-                        "./results/perm_alns5_3.txt"), function(i)
+                        "./results/perm_alns.txt"), function(i)
   lapply(strsplit(readLines(i), ";"), as.numeric)), recursive = FALSE))
 
 p_scores <- unlist(lapply(1L:length(alns), function(i)
@@ -45,24 +44,15 @@ mean(p_scores > 0.8)
 aln_type <- unlist(lapply(combn(1L:length(seqs_list), 2, simplify = FALSE), 
               function(single_combn) sum(ets[single_combn])))
 
-p_score_df <- do.call(rbind, lapply(0L:2, function(single_type)
-  cbind(type = single_type,
-        as.data.frame(table(p_score = p_scores[aln_type == single_type])))
-)) %>% 
-  mutate(type = factor(type, labels = c("Non-amyloid/non-amyloid", 
-                                        "Amyloid/non-amyloid", 
-                                        "Amyloid/amyloid"))) %>% 
-  group_by(type) %>% 
-  mutate(freq = Freq/sum(Freq)) %>% 
-  ungroup
+p_score_df <- data.frame(p_score = p_scores, type = aln_type)
 
 library(ggplot2)
 
-ggplot(p_score_df, aes(x = type, y = freq, fill = p_score, 
-                       label = formatC(freq, 4, format = "f"))) +
-  geom_bar(stat = "identity") +
-  geom_text(position = "stack") +
-  scale_y_continuous("Frequency") +
-  scale_fill_discrete("P-value") +
-  scale_x_discrete("Labels of sequences in the alignment")
+mutate(p_score_df, p_score = p_score == 0) %>% 
+  group_by(type) %>% 
+  summarise(mean(p_score))
+
+ggplot(p_score_df, aes(x = p_score, fill = factor(type))) +
+  geom_density() +
+  facet_wrap(~ type)
 
