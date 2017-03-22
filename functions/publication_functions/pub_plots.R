@@ -237,11 +237,10 @@ ngram_plots <- lapply(1L:7, function(i) {
     scale_fill_manual("", values = c("white", "black")) +
     scale_shape_manual("Experimentally validated motif:", breaks = c("Amyloidogenic", "Non-amyloidogenic"), 
                        values = c(21, 16, NA)) +
-    scale_y_continuous("Frequency") +
+    scale_y_continuous("Frequency\n") +
     scale_x_discrete("", labels = all_labels[[i]]) + 
     theme(axis.text.y = element_text(size = 6, colour = labels_colors[i], family = "mono", face = "bold"),
-          legend.box = "vertical",
-          axis.title.x = element_text(margin=margin(0,20,0,0))) +
+          legend.box = "vertical") +
     coord_flip() +
     my_theme
 })
