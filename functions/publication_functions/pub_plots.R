@@ -193,7 +193,7 @@ g_legend<-function(a.gplot) {
 gr_aa <- group_by(best_enc_aa, id) %>% 
   summarise(gr = paste0("{", paste0(aa, collapse = ""), "}")) 
 
-ngram_freq_plot <- mutate(ngram_freq, decoded_name = gsub("_", "-", decoded_name)) %>%
+ngram_freq_plot <- mutate(ngram_freq, decoded_name = gsub("_", "X", decoded_name)) %>%
   mutate(decoded_name = factor(decoded_name, levels = as.character(decoded_name)),
          amyloid = diff_freq > 0) %>%
   melt() %>%
