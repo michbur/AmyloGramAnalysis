@@ -220,7 +220,7 @@ gen_labels <- function(single_gr, x, gr_aa) {
 
 all_labels <- c(eval({
   new_lab <- ngram_freq_plot[["decoded_name"]]
-  levels(new_lab) <- gsub("[,A-Z\\{}]", " ", levels(new_lab))
+  levels(new_lab) <- gsub("(![X][,A-Z\\{}])", " ", levels(new_lab))
   list(new_lab)
 }),
 lapply(1L:6, function(i) gen_labels(i, ngram_freq_plot[["decoded_name"]], gr_aa)))
