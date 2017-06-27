@@ -193,7 +193,7 @@ g_legend<-function(a.gplot) {
 gr_aa <- group_by(best_enc_aa, id) %>% 
   summarise(gr = paste0("{", paste0(aa, collapse = ""), "}")) 
 
-ngram_freq_plot <- mutate(ngram_freq, decoded_name = gsub("_", "X", decoded_name)) %>%
+ngram_freq_plot <- mutate(ngram_freq, decoded_name = gsub("_", "-", decoded_name)) %>%
   mutate(decoded_name = factor(decoded_name, levels = as.character(decoded_name)),
          amyloid = diff_freq > 0) %>%
   melt() %>%
@@ -220,10 +220,12 @@ gen_labels <- function(single_gr, x, gr_aa) {
 
 all_labels <- c(eval({
   new_lab <- ngram_freq_plot[["decoded_name"]]
-  levels(new_lab) <- gsub("(![X][,A-Z\\{}])", " ", levels(new_lab))
+  levels(new_lab) <- gsub("[,A-Z\\{}]", " ", levels(new_lab))
   list(new_lab)
 }),
 lapply(1L:6, function(i) gen_labels(i, ngram_freq_plot[["decoded_name"]], gr_aa)))
+
+levels(all_labels[[1]]) <- gsub("-", "X", levels(all_labels[[1]]))
 
 # create series of plots where only one element (group of amino acids or dash) is plotted 
 
