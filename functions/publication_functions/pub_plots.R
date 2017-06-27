@@ -178,8 +178,42 @@ MCC_boxplot <- ggplot(amyloids_plot, aes(x = len_range, y = MCC_mean)) +
 # Fig 4 properties  ----------------------------------------
 
 ggplot(best_enc_props, aes(x = as.factor(id), y = value, label = aa)) +
-  geom_text(position = "dodge") +
+  geom_quasirandom() +
+  geom_text_repel() +
   facet_wrap(~ gr, ncol = 2)
+
+nice_prop_names <- data.frame(property = levels(best_enc_props[["gr"]]),
+                              nice_name = c("Hydrophobicity index (Argos et al., 1982)",
+                                            "Average flexibility indices (Bhaskaran-Ponnuswamy, 1988)",
+                                            "Polarizability parameter (Charton-Charton, 1982)",
+                                            "Thermodynamic beta sheet propensity (Kim-Berg, 1993)"))
+
+lapply(levels(best_enc_props[["gr"]]), function(single_prop) {
+  amyl_flex <- read.fasta("./data/amyloid_pos_full.fasta",seqtype = "AA") %>% 
+    sapply(function(i) {
+      i <- i[i %in% a()]
+      mean(aaprop[single_prop, as.vector(tolower(i))])
+    })
+  
+  nonamyl_flex <- read.fasta("./data/amyloid_neg_full.fasta",seqtype = "AA") %>% 
+    sapply(function(i) {
+      i <- i[i %in% a()]
+      mean(aaprop[single_prop, as.vector(tolower(i))])
+    })
+
+  rbind(data.frame(value = amyl_flex, status = "Amyloidogenic", property = single_prop),
+        data.frame(value = nonamyl_flex, status = "Non-amyloidogenic", property = single_prop))
+}) %>% 
+  do.call(rbind, .) %>% 
+  inner_join(nice_prop_names)
+
+  ggplot(aes(x = status, y = value)) +
+  #geom_boxplot() +
+  geom_violin() +
+  geom_boxplot(width = .1, outlier.shape = NA) +
+  facet_wrap(~ property) +
+  scale_x_discrete("") +
+  my_theme
 
 
 # Fig 5 n-grams  ----------------------------------------
