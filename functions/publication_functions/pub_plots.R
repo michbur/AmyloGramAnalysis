@@ -182,13 +182,14 @@ ggplot(best_enc_props, aes(x = as.factor(id), y = value, label = aa)) +
   geom_text_repel() +
   facet_wrap(~ gr, ncol = 2)
 
-nice_prop_names <- data.frame(property = levels(best_enc_props[["gr"]]),
+nice_prop_names <- data.frame(property = c(levels(best_enc_props[["gr"]]), "DAWD720101"),
                               nice_name = c("Hydrophobicity index (Argos et al., 1982)",
                                             "Average flexibility indices (Bhaskaran-Ponnuswamy, 1988)",
                                             "Polarizability parameter (Charton-Charton, 1982)",
-                                            "Thermodynamic beta sheet propensity (Kim-Berg, 1993)"))
+                                            "Thermodynamic beta sheet propensity (Kim-Berg, 1993)",
+                                            "Size (Dawson, 1972)"))
 
-lapply(levels(best_enc_props[["gr"]]), function(single_prop) {
+prop_plot_dat <- lapply(c(levels(best_enc_props[["gr"]]), "DAWD720101"), function(single_prop) {
   amyl_flex <- read.fasta("./data/amyloid_pos_full.fasta",seqtype = "AA") %>% 
     sapply(function(i) {
       i <- i[i %in% a()]
@@ -207,12 +208,28 @@ lapply(levels(best_enc_props[["gr"]]), function(single_prop) {
   do.call(rbind, .) %>% 
   inner_join(nice_prop_names)
 
-  ggplot(aes(x = status, y = value)) +
+
+filter(prop_plot_dat, property %in% c("BHAR880101", "DAWD720101")) %>% 
+  ggplot(aes(x = nice_name, y = value, color = status)) +
   #geom_boxplot() +
-  geom_violin() +
-  geom_boxplot(width = .1, outlier.shape = NA) +
-  facet_wrap(~ property) +
+  geom_violin(position = position_dodge(1)) +
+  geom_boxplot(width = .1, outlier.shape = NA, position = position_dodge(1)) +
   scale_x_discrete("") +
+  scale_y_continuous("Normalized value") +
+  coord_flip() +
+  my_theme
+
+data.frame(status = filter(prop_plot_dat, property == c("DAWD720101"))[["status"]],
+           flex = filter(prop_plot_dat, property == c("BHAR880101"))[["value"]],
+           size = filter(prop_plot_dat, property == c("DAWD720101"))[["value"]]) %>% 
+  ggplot(aes(x = flex, y = size)) +
+  stat_density2d(aes(fill=status, alpha=..level..), 
+                 color = "black",
+                 contour = TRUE, geom="polygon") +
+  scale_x_continuous("Average flexibility indices (Bhaskaran-Ponnuswamy, 1988)") +
+  scale_y_continuous("Size (Dawson, 1972)") +
+  scale_fill_discrete("") +
+  guides(alpha = FALSE) +
   my_theme
 
 
