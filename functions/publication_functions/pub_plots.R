@@ -182,55 +182,6 @@ ggplot(best_enc_props, aes(x = as.factor(id), y = value, label = aa)) +
   geom_text_repel() +
   facet_wrap(~ gr, ncol = 2)
 
-nice_prop_names <- data.frame(property = c(levels(best_enc_props[["gr"]]), "DAWD720101"),
-                              nice_name = c("Hydrophobicity index (Argos et al., 1982)",
-                                            "Average flexibility indices (Bhaskaran-Ponnuswamy, 1988)",
-                                            "Polarizability parameter (Charton-Charton, 1982)",
-                                            "Thermodynamic beta sheet propensity (Kim-Berg, 1993)",
-                                            "Size (Dawson, 1972)"))
-
-prop_plot_dat <- lapply(c(levels(best_enc_props[["gr"]]), "DAWD720101"), function(single_prop) {
-  amyl_flex <- read.fasta("./data/amyloid_pos_full.fasta",seqtype = "AA") %>% 
-    sapply(function(i) {
-      i <- i[i %in% a()]
-      mean(aaprop[single_prop, as.vector(tolower(i))])
-    })
-  
-  nonamyl_flex <- read.fasta("./data/amyloid_neg_full.fasta",seqtype = "AA") %>% 
-    sapply(function(i) {
-      i <- i[i %in% a()]
-      mean(aaprop[single_prop, as.vector(tolower(i))])
-    })
-
-  rbind(data.frame(value = amyl_flex, status = "Amyloidogenic", property = single_prop),
-        data.frame(value = nonamyl_flex, status = "Non-amyloidogenic", property = single_prop))
-}) %>% 
-  do.call(rbind, .) %>% 
-  inner_join(nice_prop_names)
-
-
-filter(prop_plot_dat, property %in% c("BHAR880101", "DAWD720101")) %>% 
-  ggplot(aes(x = nice_name, y = value, color = status)) +
-  #geom_boxplot() +
-  geom_violin(position = position_dodge(1)) +
-  geom_boxplot(width = .1, outlier.shape = NA, position = position_dodge(1)) +
-  scale_x_discrete("") +
-  scale_y_continuous("Normalized value") +
-  coord_flip() +
-  my_theme
-
-data.frame(status = filter(prop_plot_dat, property == c("DAWD720101"))[["status"]],
-           flex = filter(prop_plot_dat, property == c("BHAR880101"))[["value"]],
-           size = filter(prop_plot_dat, property == c("DAWD720101"))[["value"]]) %>% 
-  ggplot(aes(x = flex, y = size)) +
-  stat_density2d(aes(fill=status, alpha=..level..), 
-                 color = "black",
-                 contour = TRUE, geom="polygon") +
-  scale_x_continuous("Average flexibility indices (Bhaskaran-Ponnuswamy, 1988)") +
-  scale_y_continuous("Size (Dawson, 1972)") +
-  scale_fill_discrete("") +
-  guides(alpha = FALSE) +
-  my_theme
 
 
 # Fig 5 n-grams  ----------------------------------------
@@ -477,4 +428,84 @@ ggplot(b_res, aes(y = m, x = classifier, ymin = l, ymax = u, color = type)) +
   theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
   scale_x_discrete("") +
   scale_y_continuous("Value")
+dev.off()
+
+# supplemental figure: size and flexibility -----------------------
+
+
+nice_prop_names <- data.frame(property = c(levels(best_enc_props[["gr"]]), "ZIMJ680102"),
+                              nice_name = c("Hydrophobicity index (Argos et al., 1982)",
+                                            "Average flexibility indices (Bhaskaran-Ponnuswamy, 1988)",
+                                            "Polarizability parameter (Charton-Charton, 1982)",
+                                            "Thermodynamic beta sheet propensity (Kim-Berg, 1993)",
+                                            "Bulkiness (Zimmerman et al., 1968)"))
+
+prop_plot_dat <- lapply(c(levels(best_enc_props[["gr"]]), "ZIMJ680102"), function(single_prop) {
+  amyl_flex <- read.fasta("./data/amyloid_pos_full.fasta",seqtype = "AA") %>% 
+    sapply(function(i) {
+      i <- i[i %in% a()]
+      mean(aaprop[single_prop, as.vector(tolower(i))])
+    })
+  
+  nonamyl_flex <- read.fasta("./data/amyloid_neg_full.fasta",seqtype = "AA") %>% 
+    sapply(function(i) {
+      i <- i[i %in% a()]
+      mean(aaprop[single_prop, as.vector(tolower(i))])
+    })
+  
+  rbind(data.frame(value = amyl_flex, status = "Amyloidogenic", property = single_prop),
+        data.frame(value = nonamyl_flex, status = "Non-amyloidogenic", property = single_prop))
+}) %>% 
+  do.call(rbind, .) %>% 
+  inner_join(nice_prop_names)
+
+cairo_ps("./supplements/figures/flex_bulk.eps", height = 3.9, width = 6)
+data.frame(status = filter(prop_plot_dat, property == c("BHAR880101"))[["status"]],
+           flex = filter(prop_plot_dat, property == c("BHAR880101"))[["value"]],
+           size = filter(prop_plot_dat, property == c("ZIMJ680102"))[["value"]]) %>% 
+  ggplot(aes(x = flex, y = size)) +
+  stat_density2d(aes(fill=status, alpha=..level..), 
+                 color = "black",
+                 contour = TRUE, geom="polygon") +
+  scale_x_continuous("Average flexibility indices (Bhaskaran-Ponnuswamy, 1988)") +
+  scale_y_continuous("Bulkiness (Zimmerman et al., 1968)") +
+  scale_fill_discrete("") +
+  guides(alpha = FALSE) +
+  my_theme
+dev.off()
+
+two_prop <- aaprop[c("BHAR880101", "DAWD720101", "BIGC670101", "ZIMJ680102"), ] %>% 
+  t %>% 
+  data.frame %>% 
+  mutate(aa = rownames(.))
+
+size_prop_names <- data.frame(variable = c("DAWD720101", "BIGC670101", "ZIMJ680102"),
+                              nice_name = c("Size (Dawson, 1972)",
+                                            "Residue volume (Bigelow, 1967)",
+                                            "Bulkiness (Zimmerman et al., 1968)"))
+
+
+lapply(c("DAWD720101", "BIGC670101", "ZIMJ680102"), function(i) {
+  test_res <- cor.test(two_prop[, 1], two_prop[, i])
+  data.frame(p_val = test_res[["p.value"]],
+             est = unname(test_res[["estimate"]]),
+             variable = i)
+}) %>% 
+  do.call(rbind, .) %>% 
+  inner_join(size_prop_names) %>% 
+  select(Property = nice_name, `Pearson's correlation` = est, `p-value` = p_val) %>% 
+  xtable
+  
+
+cairo_ps("./supplements/figures/size_correlations.eps", height = 7.9, width = 6)
+melt(two_prop, id.vars = c("BHAR880101", "aa")) %>% 
+  inner_join(size_prop_names) %>% 
+  ggplot(aes(x = BHAR880101, y = value, label = toupper(aa))) +
+  geom_point() +
+  geom_text_repel(size = 5) +
+  theme_bw() +
+  scale_x_continuous("Average flexibility indices (Bhaskaran-Ponnuswamy, 1988)") +
+  scale_y_continuous("Normalize size") +
+  geom_smooth(se = FALSE, method = "lm", color = "red") +
+  facet_wrap(~ nice_name, nrow = 1)
 dev.off()

@@ -2,6 +2,7 @@ library(ggplot2)
 library(grid)
 library(gridExtra)
 library(gtable)
+library(ggrepel)
 
 size_mod <- -6
 
