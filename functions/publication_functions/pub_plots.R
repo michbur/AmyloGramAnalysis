@@ -480,9 +480,9 @@ two_prop <- aaprop[c("BHAR880101", "DAWD720101", "BIGC670101", "ZIMJ680102"), ] 
   mutate(aa = rownames(.))
 
 size_prop_names <- data.frame(variable = c("DAWD720101", "BIGC670101", "ZIMJ680102"),
-                              nice_name = c("Size (Dawson, 1972)",
-                                            "Residue volume (Bigelow, 1967)",
-                                            "Bulkiness (Zimmerman et al., 1968)"))
+                              nice_name = c("Size\n(Dawson, 1972)",
+                                            "Residue volume\n(Bigelow, 1967)",
+                                            "Bulkiness\n(Zimmerman et al., 1968)"))
 
 
 lapply(c("DAWD720101", "BIGC670101", "ZIMJ680102"), function(i) {
@@ -505,7 +505,7 @@ melt(two_prop, id.vars = c("BHAR880101", "aa")) %>%
   geom_text_repel(size = 5) +
   theme_bw() +
   scale_x_continuous("Average flexibility indices (Bhaskaran-Ponnuswamy, 1988)") +
-  scale_y_continuous("Normalize size") +
+  scale_y_continuous("Normalized value") +
   geom_smooth(se = FALSE, method = "lm", color = "red") +
   facet_wrap(~ nice_name, nrow = 1)
 dev.off()
