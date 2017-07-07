@@ -433,14 +433,18 @@ dev.off()
 # supplemental figure: size and flexibility -----------------------
 
 
-nice_prop_names <- data.frame(property = c(levels(best_enc_props[["gr"]]), "ZIMJ680102"),
-                              nice_name = c("Hydrophobicity index (Argos et al., 1982)",
-                                            "Average flexibility indices (Bhaskaran-Ponnuswamy, 1988)",
-                                            "Polarizability parameter (Charton-Charton, 1982)",
-                                            "Thermodynamic beta sheet propensity (Kim-Berg, 1993)",
-                                            "Bulkiness (Zimmerman et al., 1968)"))
+nice_prop_names <- data.frame(property = c(levels(best_enc_props[["gr"]]),
+                                           "DAWD720101", "BIGC670101", "ZIMJ680102"),
+                              nice_name = c("Hydrophobicity index\n(Argos et al., 1982)",
+                                            "Average flexibility indices\n(Bhaskaran-Ponnuswamy, 1988)",
+                                            "Polarizability parameter\n(Charton-Charton, 1982)",
+                                            "Thermodynamic beta sheet propensity\n(Kim-Berg, 1993)",
+                                            "Size\n(Dawson, 1972)",
+                                            "Residue volume\n(Bigelow, 1967)",
+                                            "Bulkiness\n(Zimmerman et al., 1968)"))
 
-prop_plot_dat <- lapply(c(levels(best_enc_props[["gr"]]), "ZIMJ680102"), function(single_prop) {
+prop_plot_dat <- lapply(c(levels(best_enc_props[["gr"]]), 
+                          "DAWD720101", "BIGC670101", "ZIMJ680102"), function(single_prop) {
   amyl_flex <- read.fasta("./data/amyloid_pos_full.fasta",seqtype = "AA") %>% 
     sapply(function(i) {
       i <- i[i %in% a()]
@@ -457,20 +461,39 @@ prop_plot_dat <- lapply(c(levels(best_enc_props[["gr"]]), "ZIMJ680102"), functio
         data.frame(value = nonamyl_flex, status = "Non-amyloidogenic", property = single_prop))
 }) %>% 
   do.call(rbind, .) %>% 
-  inner_join(nice_prop_names)
+  inner_join(nice_prop_names) %>% 
+  mutate(size_prop = property %in% c("DAWD720101", "BIGC670101", "ZIMJ680102"),
+         size_prop = ifelse(size_prop, "Size-related properties", "Properties chosen by AmyloGram"))
 
-cairo_ps("./supplements/figures/flex_bulk.eps", height = 3.9, width = 6)
-data.frame(status = filter(prop_plot_dat, property == c("BHAR880101"))[["status"]],
-           flex = filter(prop_plot_dat, property == c("BHAR880101"))[["value"]],
-           size = filter(prop_plot_dat, property == c("ZIMJ680102"))[["value"]]) %>% 
+cairo_ps("./supplements/figures/violins.eps", height = 6.9, width = 6)
+ggplot(prop_plot_dat, aes(x = nice_name, color = status, y = value)) +
+  geom_violin(fill = NA, position = position_dodge(1)) +
+  geom_boxplot(width = 0.25, position = position_dodge(1), outlier.shape = NA) +
+  facet_wrap(~ size_prop, ncol = 1, scales = "free_y") +
+  coord_flip() +
+  scale_color_discrete("") +
+  my_theme
+dev.off()
+
+
+
+
+cairo_ps("./supplements/figures/flex_bulk.eps", height = 7.9, width = 6)
+lapply(c("DAWD720101", "BIGC670101", "ZIMJ680102"), function(i) {
+  data.frame(status = filter(prop_plot_dat, property == c("BHAR880101"))[["status"]],
+             flex = filter(prop_plot_dat, property == c("BHAR880101"))[["value"]],
+             size = filter(prop_plot_dat, property == c(i))[["value"]],
+             nice = filter(prop_plot_dat, property == c(i))[["nice_name"]])
+}) %>% do.call(rbind, .) %>% 
   ggplot(aes(x = flex, y = size)) +
   stat_density2d(aes(fill=status, alpha=..level..), 
                  color = "black",
                  contour = TRUE, geom="polygon") +
   scale_x_continuous("Average flexibility indices (Bhaskaran-Ponnuswamy, 1988)") +
-  scale_y_continuous("Bulkiness (Zimmerman et al., 1968)") +
+  scale_y_continuous("Size-related property") +
   scale_fill_discrete("") +
   guides(alpha = FALSE) +
+  facet_wrap(~ nice, ncol = 1) +
   my_theme
 dev.off()
 
