@@ -470,6 +470,8 @@ ggplot(prop_plot_dat, aes(x = nice_name, color = status, y = value)) +
   geom_violin(fill = NA, position = position_dodge(1)) +
   geom_boxplot(width = 0.25, position = position_dodge(1), outlier.shape = NA) +
   facet_wrap(~ size_prop, ncol = 1, scales = "free_y") +
+  scale_x_discrete("") +
+  scale_y_continuous("Normalized value") +
   coord_flip() +
   scale_color_discrete("") +
   my_theme
@@ -493,6 +495,7 @@ lapply(c("DAWD720101", "BIGC670101", "ZIMJ680102"), function(i) {
   scale_y_continuous("Size-related property") +
   scale_fill_discrete("") +
   guides(alpha = FALSE) +
+  #facet_wrap(~ nice, ncol = 1, scales = "free_x") +
   facet_wrap(~ nice, ncol = 1) +
   my_theme
 dev.off()
