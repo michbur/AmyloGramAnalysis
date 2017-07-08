@@ -1,6 +1,6 @@
 # Read me
 
-This repository contains data and code necessary to reproduce analysis from the article: Burdukiewicz M, Sobczyk P, Rödiger S, Duda-Madej A, Mackiewicz P, Kotulska M. (2017) Amyloidogenic motifs revealed by n-gram analysis.
+This repository contains data and code necessary to reproduce analysis from the article: Burdukiewicz M, Sobczyk P, Rödiger S, Duda-Madej A, Mackiewicz P, Kotulska M. (2017) Amyloidogenic motifs revealed by n-gram analysis (submitted).
 
 The analysis conducted in this article resulted in a predictor of amyloidogenicity AmyloGram, available as a *R* package (https://cran.r-project.org/package=AmyloGram) and a web server (www.smorfland.uni.wroc.pl/shiny/AmyloGram/).
 
@@ -46,14 +46,59 @@ All scripts used in this study are compatible with following versions of R and n
 
 **Platform:** x86_64-pc-linux-gnu (64-bit) 
 
-**locale:**
-_LC_CTYPE=pl_PL.UTF-8_, _LC_NUMERIC=C_, _LC_TIME=pl_PL.UTF-8_, _LC_COLLATE=pl_PL.UTF-8_, _LC_MONETARY=pl_PL.UTF-8_, _LC_MESSAGES=pl_PL.UTF-8_, _LC_PAPER=pl_PL.UTF-8_, _LC_NAME=C_, _LC_ADDRESS=C_, _LC_TELEPHONE=C_, _LC_MEASUREMENT=pl_PL.UTF-8_ and _LC_IDENTIFICATION=C_
-
 **attached base packages:** 
-_grid_, _stats_, _graphics_, _grDevices_, _utils_, _datasets_, _methods_ and _base_
+
+* grid 
+* stats 
+* graphics 
+* grDevices 
+* utils 
+* datasets 
+* methods 
+* base 
+
 
 **other attached packages:** 
-_bindrcpp(v.0.2)_, _dplyr(v.0.7.1)_, _reshape2(v.1.4.2)_, _xtable(v.1.8-2)_, _seqinr(v.3.3-6)_, _biogram(v.1.5)_, _slam(v.0.1-40)_, _ggrepel(v.0.6.5)_, _gtable(v.0.2.0)_, _gridExtra(v.2.2.1)_, _ggplot2(v.2.2.1)_ and _pander(v.0.6.0)_
+
+* bindrcpp(v.0.2) 
+* dplyr(v.0.7.1) 
+* reshape2(v.1.4.2) 
+* xtable(v.1.8-2) 
+* seqinr(v.3.3-6) 
+* biogram(v.1.5) 
+* slam(v.0.1-40) 
+* ggrepel(v.0.6.5) 
+* gtable(v.0.2.0) 
+* gridExtra(v.2.2.1) 
+* ggplot2(v.2.2.1) 
+
 
 **loaded via a namespace (and not attached):** 
-_Rcpp(v.0.12.11)_, _bindr(v.0.1)_, _magrittr(v.1.5)_, _partitions(v.1.9-18)_, _munsell(v.0.4.3)_, _bit(v.1.1-12)_, _colorspace(v.1.3-2)_, _R6(v.2.2.2)_, _rlang(v.0.1.1)_, _stringr(v.1.2.0)_, _plyr(v.1.8.4)_, _tools(v.3.4.1)_, _assertthat(v.0.2.0)_, _ade4(v.1.7-6)_, _lazyeval(v.0.2.0)_, _digest(v.0.6.12)_, _tibble(v.1.3.3)_, _gmp(v.0.5-13.1)_, _glue(v.1.1.1)_, _stringi(v.1.1.5)_, _entropy(v.1.2.1)_, _compiler(v.3.4.1)_, _scales(v.0.4.1)_, _combinat(v.0.0-8)_, _polynom(v.1.3-9)_ and _pkgconfig(v.2.0.1)_
+
+* Rcpp(v.0.12.11) 
+* bindr(v.0.1) 
+* magrittr(v.1.5) 
+* partitions(v.1.9-18) 
+* bit(v.1.1-12) 
+* munsell(v.0.4.3) 
+* colorspace(v.1.3-2) 
+* R6(v.2.2.2) 
+* rlang(v.0.1.1) 
+* stringr(v.1.2.0) 
+* plyr(v.1.8.4) 
+* tools(v.3.4.1) 
+* digest(v.0.6.12) 
+* assertthat(v.0.2.0) 
+* ade4(v.1.7-6) 
+* lazyeval(v.0.2.0) 
+* tibble(v.1.3.3) 
+* gmp(v.0.5-13.1) 
+* glue(v.1.1.1) 
+* entropy(v.1.2.1) 
+* stringi(v.1.1.5) 
+* pander(v.0.6.0) 
+* compiler(v.3.4.1) 
+* scales(v.0.4.1) 
+* combinat(v.0.0-8) 
+* polynom(v.1.3-9) 
+* pkgconfig(v.2.0.1) 
