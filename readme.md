@@ -1,6 +1,6 @@
 # Read me
 
-This repository contains data and code necessary to reproduce analysis from the article: Burdukiewicz M, Sobczyk P, Rödiger S, Duda-Madej A, Mackiewicz P, Kotulska M. (2017) Amyloidogenic motifs revealed by n-gram analysis (submitted).
+This repository contains data and code necessary to reproduce analysis from the article: [Burdukiewicz M, Sobczyk P, Rödiger S, Duda-Madej A, Mackiewicz P, Kotulska M. (2017) Amyloidogenic motifs revealed by n-gram analysis (Scientific Reports 7 (1), 12961)](https://www.nature.com/articles/s41598-017-13210-9).
 
 The analysis conducted in this article resulted in a predictor of amyloidogenicity AmyloGram, available as a *R* package (https://cran.r-project.org/package=AmyloGram) and a web server (www.smorfland.uni.wroc.pl/shiny/AmyloGram/).
 
