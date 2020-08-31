@@ -48,6 +48,8 @@ raw_seqs_list <- c(read.fasta("./data/amyloid_pos_full.fasta",seqtype = "AA"),
 purified_seqs_id <- lengths(raw_seqs_list) > 5 & lengths(raw_seqs_list) < 26
 seqs_list <- raw_seqs_list[purified_seqs_id]
 
+save(purified_seqs_id, seqs_list, file = "./results/purified_seqs.RData")
+
 seqs_m <- tolower(t(sapply(seqs_list, function(i)
   c(i, rep(NA, max(lengths(seqs_list)) - length(i))))))
 
